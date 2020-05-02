@@ -15,6 +15,16 @@ Game_Player.prototype.getInputDirection = function() {
     return Input.dir8; // overwrite
 };
 
+const _Game_Player_centerX = Game_Player.prototype.centerX;
+Game_Player.prototype.centerX = function() {
+    return _Game_Player_centerX.call(this) + this.width / 2;
+};
+
+const _Game_Player_centerY = Game_Player.prototype.centerY;
+Game_Player.prototype.centerY = function() {
+    return _Game_Player_centerY.call(this) + this.height / 2;
+};
+
 Game_Player.prototype.updateScroll = function() {
     var x1 = this._lastScrolledX; // overwrite
     var y1 = this._lastScrolledY; // overwrite
