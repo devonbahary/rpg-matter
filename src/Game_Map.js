@@ -7,8 +7,6 @@
 import { Bodies, Engine, Render, World } from "matter-js";
 import { getTilemapCollisionObjects } from "./utils/tilemap";
 
-const MAP_BOUNDARY_THICKNESS = 20;
-
 const Game_Map_setup = Game_Map.prototype.setup;
 Game_Map.prototype.setup = function(mapId) {
   Game_Map_setup.call(this, mapId);
