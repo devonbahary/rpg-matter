@@ -15,13 +15,6 @@ Game_Player.prototype.getInputDirection = function() {
     return Input.dir8; // overwrite
 };
 
-const _Game_Player_update = Game_Player.prototype.update;
-Game_Player.prototype.update = function(sceneActive) {
-    _Game_Player_update.call(this, sceneActive);
-    this._lastScrolledX = this.scrolledX();
-    this._lastScrolledY = this.scrolledY();
-};
-
 Game_Player.prototype.updateScroll = function() {
     var x1 = this._lastScrolledX; // overwrite
     var y1 = this._lastScrolledY; // overwrite
@@ -39,4 +32,6 @@ Game_Player.prototype.updateScroll = function() {
     if (y2 < y1 && y2 < this.centerY()) {
         $gameMap.scrollUp(y1 - y2);
     }
+    this._lastScrolledX = this.scrolledX();
+    this._lastScrolledY = this.scrolledY();
 };
