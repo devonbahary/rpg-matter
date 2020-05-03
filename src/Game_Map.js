@@ -84,6 +84,11 @@ Game_Map.prototype.addEvents = function() {
   });
 };
 
+const _Game_Map_tileId = Game_Map.prototype.tileId;
+Game_Map.prototype.tileId = function(x, y, z) {
+  return _Game_Map_tileId.call(this, Math.floor(x), Math.floor(y), z);
+};
+
 const _Game_Map_update = Game_Map.prototype.update;
 Game_Map.prototype.update = function(sceneActive) {
   _Game_Map_update.call(this, sceneActive);
