@@ -132,9 +132,8 @@ Game_CharacterBase.prototype.updateJump = function() {
     }
 };
 
-// overwrite; all movement is done through Matter.js
 Game_CharacterBase.prototype.updateMove = function() {
-    this.refreshBushDepth();
+    // overwrite; all movement is done through Matter.js
 };
 
 Game_CharacterBase.prototype.refreshBushDepth = function() {
@@ -164,6 +163,8 @@ Game_CharacterBase.prototype.move = function(dir) {
 
     this.updateMovementDirection(dir);
     Body.applyForce(this.body, this.body.position, movementVector);
+
+    this.increaseSteps();
 };
 
 Game_CharacterBase.prototype.updateMovementDirection = function(dir) {
