@@ -11,6 +11,7 @@ import './rpg_core';
 import './Game_CharacterBase';
 import './Game_Event';
 import './Game_Player';
+import './Game_Party';
 import './Game_Map';
 
 const _Scene_Map_terminate = Scene_Map.prototype.terminate;

@@ -4,6 +4,10 @@
 // The game object class for the player. It contains event starting
 // determinants and map scrolling functions.
 
+import { Vector } from "matter-js";
+
+const TILE_WIDTH = Game_Map.prototype.tileWidth();
+
 Game_Player.prototype.moveByInput = function() {
     if (!this.canMove()) return;
 
@@ -23,6 +27,15 @@ Game_Player.prototype.centerX = function() {
 const _Game_Player_centerY = Game_Player.prototype.centerY;
 Game_Player.prototype.centerY = function() {
     return _Game_Player_centerY.call(this) + this.height / 2;
+};
+
+Game_Player.prototype.increaseSteps = function() {
+    Game_Character.prototype.increaseSteps.call(this);
+    if (this.isNormal()) {
+        const magnitude = Vector.magnitude(this.body.velocity);
+        const steps = magnitude / TILE_WIDTH;
+        $gameParty.increaseSteps(steps);
+    }
 };
 
 // overwrite (this.isMoving()) early return
