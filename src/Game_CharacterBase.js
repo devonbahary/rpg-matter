@@ -132,21 +132,17 @@ Game_CharacterBase.prototype.updateJump = function() {
     }
 };
 
+// overwrite; all movement is done through Matter.js
 Game_CharacterBase.prototype.updateMove = function() {
-    if (this._x < this._realX) {
-        this._realX = Math.max(this._realX - this.distancePerFrame(), this._x);
-    }
-    if (this._x > this._realX) {
-        this._realX = Math.min(this._realX + this.distancePerFrame(), this._x);
-    }
-    if (this._y < this._realY) {
-        this._realY = Math.max(this._realY - this.distancePerFrame(), this._y);
-    }
-    if (this._y > this._realY) {
-        this._realY = Math.min(this._realY + this.distancePerFrame(), this._y);
-    }
-    if (!this.isMoving()) {
-        this.refreshBushDepth(); // ! TODO
+    this.refreshBushDepth();
+};
+
+Game_CharacterBase.prototype.refreshBushDepth = function() {
+    if (this.isNormalPriority() && !this.isObjectCharacter() &&
+            this.isOnBush() && !this.isJumping()) {
+        this._bushDepth = 12; // overwrote if (!this.isMoving()) condition
+    } else {
+        this._bushDepth = 0;
     }
 };
 
