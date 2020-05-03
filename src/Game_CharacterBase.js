@@ -145,6 +145,10 @@ Game_CharacterBase.prototype.refreshBushDepth = function() {
     }
 };
 
+Game_CharacterBase.prototype.isOnBush = function() {
+    return $gameMap.isBush(this._x, this._y + this.height / 2);
+};
+
 Game_CharacterBase.prototype.move = function(dir) {
     if (!dir) return;
 
