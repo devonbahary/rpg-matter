@@ -25,6 +25,15 @@ Game_Player.prototype.centerY = function() {
     return _Game_Player_centerY.call(this) + this.height / 2;
 };
 
+// overwrite (this.isMoving()) early return
+Game_Player.prototype.updateDashing = function() {
+    if (this.canMove() && !this.isInVehicle() && !$gameMap.isDashDisabled()) {
+        this._dashing = this.isDashButtonPressed() || $gameTemp.isDestinationValid();
+    } else {
+        this._dashing = false;
+    }
+};
+
 Game_Player.prototype.updateScroll = function() {
     var x1 = this._lastScrolledX; // overwrite
     var y1 = this._lastScrolledY; // overwrite
