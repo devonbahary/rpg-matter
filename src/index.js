@@ -13,10 +13,10 @@
  * @min 1
  * @max 128
  * 
- * @param Movement
+ * @param Character
  * 
  * @param Base Move Speed
- * @parent Movement
+ * @parent Character
  * @desc 1: slowest, 6: fastest
  * @type number
  * @default 4
@@ -24,7 +24,7 @@
  * @max 6
  * 
  * @param Dash Speed Boost
- * @parent Movement
+ * @parent Character
  * @desc Bonus to movement speed while dashing (0-1.5)
  * @type number
  * @default 1
