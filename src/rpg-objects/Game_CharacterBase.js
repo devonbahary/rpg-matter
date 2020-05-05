@@ -4,7 +4,7 @@
 // The superclass of Game_Character. It handles basic information, such as
 // coordinates and images, shared by all characters.
 
-import { Body, Bodies, Vector } from "matter-js";
+import { Body, Bodies, Events, Vector } from "matter-js";
 import { isDown, isLeft, isRight, isUp } from "../utils/direction";
 import MATTER_PLUGIN from "../pluginParams";
 
@@ -18,25 +18,10 @@ Object.defineProperties(Game_CharacterBase.prototype, {
 
 Game_CharacterBase.prototype.initMembers = function() {
     this.initMembersOverwrite();
-    this.initMembersNew();
-};
-
-Game_CharacterBase.prototype.initMembersNew = function() {
-    this.width = 1;
-    this.height = 1;
-    
-    const radius = this.width * MATTER_PLUGIN.TILE_SIZE / 2;
-    this.body = Bodies.circle(0, 0, radius, this.bodyOptions());
+    this.initBody();
+    this.setupMatterEvents();
     this.setDirection(2);
     this._heading = 2;
-};
-
-Game_CharacterBase.prototype.bodyOptions = function() {
-    return {
-        frictionAir: 0.5, // 0-1
-        // inertia: Infinity, // prevents angular velocity 
-        restitution: 1, // 0-1
-    };
 };
 
 // overwrite to prevent writing of _realX, _realY
@@ -67,6 +52,32 @@ Game_CharacterBase.prototype.initMembersOverwrite = function() {
     this._jumpCount = 0;
     this._jumpPeak = 0;
     this._movementSuccess = true;
+};
+
+Game_CharacterBase.prototype.initBody = function() {
+    this.width = 1;
+    this.height = 1;
+    const radius = this.width * MATTER_PLUGIN.TILE_SIZE / 2;
+    this.body = Bodies.circle(0, 0, radius, this.bodyOptions());
+};
+
+Game_CharacterBase.prototype.bodyOptions = function() {
+    return {
+        frictionAir: 0.5, // 0-1
+        // inertia: Infinity, // prevents angular velocity 
+        restitution: 1, // 0-1
+    };
+};
+
+Game_CharacterBase.prototype.setupMatterEvents = function() {
+    Events.on(this.body, 'collisionStart', this.onCollisionStart);
+    Events.on(this.body, 'collisionActive', this.onCollisionActive);
+};
+
+Game_CharacterBase.prototype.onCollisionStart = function(event) {
+};
+
+Game_CharacterBase.prototype.onCollisionActive = function(event) {
 };
 
 Game_CharacterBase.prototype.isMoving = function() {

@@ -4,7 +4,7 @@
 // The game object class for a map. It contains scrolling and passage
 // determination functions.
 
-import { Bodies, Engine, Render, World } from "matter-js";
+import { Bodies, Engine, Events, Render, World } from "matter-js";
 import { getTilemapCollisionObjects } from "../utils/tilemap";
 import MATTER_PLUGIN from "../pluginParams";
 
@@ -16,6 +16,7 @@ Game_Map.prototype.setup = function(mapId) {
 
 Game_Map.prototype.setupMatter = function() {
   this.setupMatterEngine();
+  this.setupMatterEvents();
   this.setupMatterRender();
   this.setupMatterBodies();
 };
@@ -32,6 +33,19 @@ Game_Map.prototype.setupMatterEngine = function() {
 
   this.engine.world.gravity.scale = 0;
 };
+
+Game_Map.prototype.setupMatterEvents = function() {
+  const collisionEvents = [ 'collisionStart', 'collisionActive' ];
+  for (const eventName of collisionEvents) {
+    Events.on(this.engine, eventName, event => {
+      for (const pair of event.pairs) {
+        const { bodyA, bodyB } = pair;
+        Events.trigger(bodyA, eventName);
+        Events.trigger(bodyB, eventName);
+      }
+    });
+  }
+}; 
 
 Game_Map.prototype.setupMatterRender = function() {
   if (!MATTER_PLUGIN.RENDER_IS_DISPLAY) return;
