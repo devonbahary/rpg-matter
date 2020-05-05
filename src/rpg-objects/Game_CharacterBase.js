@@ -75,6 +75,12 @@ Game_CharacterBase.prototype.isMoving = function() {
     return this.body.speed.round();
 };
 
+const _Game_CharacterBase_distancePerFrame = Game_CharacterBase.prototype.distancePerFrame;
+Game_CharacterBase.prototype.distancePerFrame = function() {
+    // arbitrary throttle on movement speed
+    return _Game_CharacterBase_distancePerFrame.call(this) / 6; 
+};
+
 Game_CharacterBase.prototype.setPosition = function(x, y) {
     const worldX = x * TILE_WIDTH + (this.width * TILE_WIDTH / 2);
     const worldY = y * TILE_HEIGHT + (this.height * TILE_HEIGHT / 2);
@@ -142,7 +148,7 @@ Game_CharacterBase.prototype.isOnBush = function() {
 Game_CharacterBase.prototype.move = function(dir) {
     if (!dir) return;
 
-    const magnitude = this.isDashing() ? 0.01 * 2 : 0.01;
+    const magnitude = this.distancePerFrame();
     const vector = { x: 0, y: 0 };
     const scalar = 1; // arbitrary, will be normalized
 
