@@ -13,6 +13,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     _y: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
     _realX: { get: function() { return this.body.position.x / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
     _realY: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
+    bodyId: { get: function() { return this.body.id; }, configurable: false },
 });
 
 
