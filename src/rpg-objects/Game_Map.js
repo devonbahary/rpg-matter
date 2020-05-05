@@ -63,15 +63,18 @@ Game_Map.prototype.setupMatterBodies = function() {
 };
 
 Game_Map.prototype.addEnvironment = function() {
-  getTilemapCollisionObjects(this).forEach(({ x1, x2, y1, y2 }) => {
+  for (const collisionObject of getTilemapCollisionObjects(this)) {
+    const { x1, x2, y1, y2 } = collisionObject;
+    
     const tileSize = MATTER_PLUGIN.TILE_SIZE;
     const width = (x2 - x1) * tileSize;
     const height = (y2 - y1) * tileSize;
     const x = x1 * tileSize + width / 2;
     const y = y1 * tileSize + height / 2;
+
     const body = Bodies.rectangle(x, y, width, height, { isStatic: true });
     this.addBody(body);
-  });
+  };
 };
 
 Game_Map.prototype.addPlayer = function() {
@@ -79,9 +82,9 @@ Game_Map.prototype.addPlayer = function() {
 };
 
 Game_Map.prototype.addEvents = function() {
-  this.events().forEach(e => {
-    this.addBody(e.body);
-  });
+  for (const event of this.events()) {
+    this.addBody(event.body)
+  }
 };
 
 const _Game_Map_tileId = Game_Map.prototype.tileId;
