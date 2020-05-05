@@ -32,7 +32,7 @@ Game_Event.prototype.setupMatterEvents = function() {
 
 Game_Event.prototype.onCollisionStart = function(event) {
     Game_Character.prototype.onCollisionStart.call(this, event);
-    if (event.pair.label == BODY_LABELS.PLAYER) Events.trigger(this.body, BODY_EVENTS.PLAYER_TOUCH)
+    if (event.pair.label == BODY_LABELS.PLAYER) Events.trigger(this.body, BODY_EVENTS.PLAYER_TOUCH, event)
 };
 
 Game_Event.prototype.onPlayerTouch = function(event) {
