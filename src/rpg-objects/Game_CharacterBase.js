@@ -86,6 +86,10 @@ Game_Character.prototype.initCharacterBodyOptions = function() {
     return {};
 };
 
+/*
+    set up collision events on the individual parts of the body, because this is where the collisions register
+    set up unique handlers through listeners and triggers on the body
+*/
 Game_CharacterBase.prototype.setupMatterEvents = function() {
     for (const part of this.body.parts) {
         Events.on(part, 'collisionStart', this.onCollisionStart.bind(this));
