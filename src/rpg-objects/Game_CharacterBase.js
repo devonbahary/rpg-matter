@@ -20,6 +20,8 @@ Object.defineProperties(Game_CharacterBase.prototype, {
 
 Game_CharacterBase.prototype.initMembers = function() {
     this.initMembersOverwrite();
+    this.width = 1;
+    this.height = 1;
     this.initBody();
     this.setupMatterEvents();
     this.setDirection(2);
@@ -57,12 +59,23 @@ Game_CharacterBase.prototype.initMembersOverwrite = function() {
 };
 
 Game_CharacterBase.prototype.initBody = function() {
-    this.width = 1;
-    this.height = 1;
-    this.body = Bodies.circle(0, 0, this.radius, this.bodyOptions());
+    this.body = Body.create({
+        parts: this.initBodyParts(),
+        ...this.initBodyOptions(),
+    });
 };
 
-Game_CharacterBase.prototype.bodyOptions = function() {
+Game_Character.prototype.initBodyParts = function() {
+    return [ 
+        this.initCharacterBody(),
+    ];
+};
+
+Game_Character.prototype.initCharacterBody = function() {
+    return Bodies.circle(0, 0, this.radius, this.initCharacterBodyOptions());
+};
+
+Game_CharacterBase.prototype.initBodyOptions = function() {
     return {
         frictionAir: 0.5, // 0-1
         // inertia: Infinity, // prevents angular velocity 
@@ -70,10 +83,16 @@ Game_CharacterBase.prototype.bodyOptions = function() {
     };
 };
 
+Game_Character.prototype.initCharacterBodyOptions = function() {
+    return {};
+};
+
 Game_CharacterBase.prototype.setupMatterEvents = function() {
-    Events.on(this.body, 'collisionStart', this.onCollisionStart.bind(this));
-    Events.on(this.body, 'collisionActive', this.onCollisionActive.bind(this));
-    Events.on(this.body, 'collisionEnd', this.onCollisionEnd.bind(this));
+    for (const part of this.body.parts) {
+        Events.on(part, 'collisionStart', this.onCollisionStart.bind(this));
+        Events.on(part, 'collisionActive', this.onCollisionActive.bind(this));
+        Events.on(part, 'collisionEnd', this.onCollisionEnd.bind(this));
+    }  
 };
 
 Game_CharacterBase.prototype.onCollisionStart = function(event) {
@@ -81,6 +100,7 @@ Game_CharacterBase.prototype.onCollisionStart = function(event) {
 
 Game_CharacterBase.prototype.onCollisionActive = function(event) {
 };
+
 Game_CharacterBase.prototype.onCollisionEnd = function(event) {
 };
 

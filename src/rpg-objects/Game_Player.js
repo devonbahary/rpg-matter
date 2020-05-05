@@ -4,8 +4,39 @@
 // The game object class for the player. It contains event starting
 // determinants and map scrolling functions.
 
-import { Vector } from "matter-js";
+import { Bodies, Vector } from "matter-js";
 import MATTER_PLUGIN from "../pluginParams";
+
+Game_Player.prototype.initBodyParts = function() {
+    return [ 
+        ...Game_Character.prototype.initBodyParts.call(this),
+        this.initSensorBody(),
+    ];
+};
+
+Game_Player.prototype.initCharacterBodyOptions = function() {
+    return {
+        ...Game_Character.prototype.initCharacterBodyOptions.call(this),
+        label: 'player',
+    };
+};
+
+Game_Player.prototype.initSensorBody = function() {
+    return Bodies.circle(0, 0, this.radius * 3, {
+        density: 0.00001,
+        isSensor: true,
+        label: 'player-sensor',
+    });
+};
+
+Game_Player.prototype.onCollisionStart = function(event) {
+};
+
+Game_Player.prototype.onCollisionActive = function(event) {
+};
+
+Game_Player.prototype.onCollisionEnd = function(event) {
+};
 
 Game_Player.prototype.moveByInput = function() {
     if (!this.canMove()) return;

@@ -12,14 +12,6 @@ const EVENT_TRIGGERS = {
     parallel: 4,
 };
 
-Game_Event.prototype.bodyOptions = function() {
-    const bodyOptions = Game_Character.prototype.bodyOptions.call(this);
-    return {
-        ...bodyOptions,
-        // isStatic: true,
-    };
-};
-
 Game_Event.prototype.onCollisionStart = function(event) {
     if (event.bodyId !== $gamePlayer.bodyId) return;
         
