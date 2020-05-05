@@ -71,8 +71,8 @@ Game_CharacterBase.prototype.bodyOptions = function() {
 };
 
 Game_CharacterBase.prototype.setupMatterEvents = function() {
-    Events.on(this.body, 'collisionStart', this.onCollisionStart);
-    Events.on(this.body, 'collisionActive', this.onCollisionActive);
+    Events.on(this.body, 'collisionStart', this.onCollisionStart.bind(this));
+    Events.on(this.body, 'collisionActive', this.onCollisionActive.bind(this));
 };
 
 Game_CharacterBase.prototype.onCollisionStart = function(event) {
