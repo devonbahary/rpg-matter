@@ -7,6 +7,11 @@
 import { Bodies, Engine, Render, World } from "matter-js";
 import { getTilemapCollisionObjects } from "../utils/tilemap";
 
+const MATTER_PLUGIN = {};
+MATTER_PLUGIN.RENDER_IS_DISPLAY = JSON.parse(PluginManager.parameters('Matter')["Display Render"]);
+MATTER_PLUGIN.RENDER_WIDTH = parseInt(PluginManager.parameters('Matter')["Render Width"]);
+MATTER_PLUGIN.RENDER_HEIGHT = parseInt(PluginManager.parameters('Matter')["Render Height"]);
+
 const Game_Map_setup = Game_Map.prototype.setup;
 Game_Map.prototype.setup = function(mapId) {
   Game_Map_setup.call(this, mapId);
@@ -33,12 +38,13 @@ Game_Map.prototype.setupMatterEngine = function() {
 };
 
 Game_Map.prototype.setupMatterRender = function() {
+  if (!MATTER_PLUGIN.RENDER_IS_DISPLAY) return;
   const render = Render.create({
     element: document.querySelector('#matter-render'),
     engine: this.engine,
     options: {
-      width: 200,
-      height: 200,
+      width: MATTER_PLUGIN.RENDER_WIDTH,
+      height: MATTER_PLUGIN.RENDER_HEIGHT,
       showCollisions: true,
       showAngleIndicator: true,
       showVelocity: true,

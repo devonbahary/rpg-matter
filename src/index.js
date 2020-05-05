@@ -5,6 +5,29 @@
 /*:
  * @plugindesc Matter.
  * 
+ * 
+ * @param Matter Render
+ * 
+ * @param Display Render
+ * @parent Matter Render
+ * @desc Display Matter.js world Render
+ * @type boolean
+ * @default false
+ * 
+ * @param Render Width
+ * @parent Matter Render
+ * @type number
+ * @default 200
+ * @min 50
+ * @max 1000
+ * 
+ * @param Render Height
+ * @parent Matter Render
+ * @type number
+ * @default 200
+ * @min 50
+ * @max 1000
+ * 
 */
 
 import './rpg_core';
