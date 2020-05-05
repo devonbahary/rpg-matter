@@ -5,9 +5,7 @@
 // determinants and map scrolling functions.
 
 import { Vector } from "matter-js";
-
-const MATTER_PLUGIN = {};
-MATTER_PLUGIN.TILE_SIZE = parseInt(PluginManager.parameters('Matter')["Tile Size"]);
+import MATTER_PLUGIN from "../pluginParams";
 
 Game_Player.prototype.moveByInput = function() {
     if (!this.canMove()) return;

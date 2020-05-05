@@ -6,11 +6,7 @@
 
 import { Body, Bodies, Vector } from "matter-js";
 import { isDown, isLeft, isRight, isUp } from "../utils/direction";
-
-
-const MATTER_PLUGIN = {};
-MATTER_PLUGIN.BASE_MOVE_SPEED = 1 / (8 - parseInt(PluginManager.parameters('Matter')["Base Move Speed"]));
-MATTER_PLUGIN.TILE_SIZE = parseInt(PluginManager.parameters('Matter')["Tile Size"]);
+import MATTER_PLUGIN from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
     _x: { get: function() { return this.body.position.x / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
