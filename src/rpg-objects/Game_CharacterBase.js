@@ -13,6 +13,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     _y: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
     _realX: { get: function() { return this.body.position.x / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
     _realY: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
+    radius: { get: function() { return this.width * MATTER_PLUGIN.TILE_SIZE / 2; }, configurable: false },
     bodyId: { get: function() { return this.body.id; }, configurable: false },
 });
 
@@ -58,8 +59,7 @@ Game_CharacterBase.prototype.initMembersOverwrite = function() {
 Game_CharacterBase.prototype.initBody = function() {
     this.width = 1;
     this.height = 1;
-    const radius = this.width * MATTER_PLUGIN.TILE_SIZE / 2;
-    this.body = Bodies.circle(0, 0, radius, this.bodyOptions());
+    this.body = Bodies.circle(0, 0, this.radius, this.bodyOptions());
 };
 
 Game_CharacterBase.prototype.bodyOptions = function() {
