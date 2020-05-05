@@ -112,6 +112,16 @@ Game_CharacterBase.prototype.setDirection = function(d) {
     this.updateBodyAngle();
 };
 
+Game_CharacterBase.prototype.screenX = function() {
+    var tw = $gameMap.tileWidth();
+    return Math.round(this.scrolledX() * tw);
+};
+
+Game_CharacterBase.prototype.screenY = function() {
+    var th = $gameMap.tileHeight();
+    return Math.round(this.scrolledY() * th + (th / 2) - this.shiftY() - this.jumpHeight());
+};
+
 Game_CharacterBase.prototype.updateBodyAngle = function () {
     let angle = this.body.angle;
     switch (this._direction) {
