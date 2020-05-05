@@ -4,9 +4,19 @@
 // The game object class for the player. It contains event starting
 // determinants and map scrolling functions.
 
-import { Bodies, Vector } from "matter-js";
+import { Bodies, Events, Vector } from "matter-js";
 import MATTER_PLUGIN from "../pluginParams";
 import { BODY_LABELS } from "../constants";
+const BODY_EVENTS = {
+    EVENT_ENTER_PLAYER_SENSOR: 'eventEnterPlayerSensor',
+    EVENT_EXIT_PLAYER_SENSOR: 'eventExitPlayerSensor',
+};
+
+const _Game_Player_initMembers = Game_Player.prototype.initMembers;
+Game_Player.prototype.initMembers = function() {
+    _Game_Player_initMembers.call(this);
+    this._actionButtonEventsInRange = [];
+};
 
 Game_Player.prototype.initBodyParts = function() {
     return [ 
@@ -30,13 +40,38 @@ Game_Player.prototype.initSensorBody = function() {
     });
 };
 
-Game_Player.prototype.onCollisionStart = function(event) {
+Game_Player.prototype.setupMatterEvents = function() {
+    Game_Character.prototype.setupMatterEvents.call(this);
+    Events.on(this.body, BODY_EVENTS.EVENT_ENTER_PLAYER_SENSOR, this.onEventEnterPlayerSensor.bind(this));  
+    Events.on(this.body, BODY_EVENTS.EVENT_EXIT_PLAYER_SENSOR, this.onEventExitPlayerSensor.bind(this));  
 };
 
-Game_Player.prototype.onCollisionActive = function(event) {
+Game_Player.prototype.onCollisionStart = function(event) {
+    Game_Character.prototype.onCollisionStart.call(this, event);
+    if (this.isEventOnSensorCollision(event)) Events.trigger(this.body, BODY_EVENTS.EVENT_ENTER_PLAYER_SENSOR, event);
 };
 
 Game_Player.prototype.onCollisionEnd = function(event) {
+    Game_Character.prototype.onCollisionEnd.call(this, event);
+    if (this.isEventOnSensorCollision(event)) Events.trigger(this.body, BODY_EVENTS.EVENT_EXIT_PLAYER_SENSOR, event);
+};
+
+Game_Player.prototype.isEventOnSensorCollision = function(event) {
+    return event.source.label === BODY_LABELS.PLAYER_SENSOR && event.pair.label === BODY_LABELS.EVENT;
+};
+
+Game_Player.prototype.onEventEnterPlayerSensor = function(event) {
+    const gameEvent = event.pair.character;
+    if (gameEvent.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ])) {
+        this._actionButtonEventsInRange.push(gameEvent);
+    }
+};
+
+Game_Player.prototype.onEventExitPlayerSensor = function(event) {
+    const gameEvent = event.pair.character;
+    if (gameEvent.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ])) {
+        this._actionButtonEventsInRange = this._actionButtonEventsInRange.filter(event => event !== gameEvent);
+    }
 };
 
 Game_Player.prototype.moveByInput = function() {
