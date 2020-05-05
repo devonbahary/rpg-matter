@@ -6,7 +6,8 @@
 
 import { Vector } from "matter-js";
 
-const TILE_WIDTH = Game_Map.prototype.tileWidth();
+const MATTER_PLUGIN = {};
+MATTER_PLUGIN.TILE_SIZE = parseInt(PluginManager.parameters('Matter')["Tile Size"]);
 
 Game_Player.prototype.moveByInput = function() {
     if (!this.canMove()) return;
@@ -33,7 +34,7 @@ Game_Player.prototype.increaseSteps = function() {
     Game_Character.prototype.increaseSteps.call(this);
     if (this.isNormal()) {
         const magnitude = Vector.magnitude(this.body.velocity);
-        const steps = magnitude / TILE_WIDTH;
+        const steps = magnitude / MATTER_PLUGIN.TILE_SIZE;
         $gameParty.increaseSteps(steps);
     }
 };

@@ -6,6 +6,13 @@
  * @plugindesc Matter.
  * 
  * 
+ * @param Tile Size
+ * @desc Length of square tile in pixels
+ * @type number
+ * @default 48
+ * @min 1
+ * @max 128
+ * 
  * @param Base Move Speed
  * @desc 1: slowest, 6: fastest
  * @type number

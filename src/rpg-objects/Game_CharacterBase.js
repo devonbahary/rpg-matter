@@ -10,15 +10,13 @@ import { isDown, isLeft, isRight, isUp } from "../utils/direction";
 
 const MATTER_PLUGIN = {};
 MATTER_PLUGIN.BASE_MOVE_SPEED = 1 / (8 - parseInt(PluginManager.parameters('Matter')["Base Move Speed"]));
-
-const TILE_WIDTH = Game_Map.prototype.tileWidth();
-const TILE_HEIGHT = Game_Map.prototype.tileHeight();
+MATTER_PLUGIN.TILE_SIZE = parseInt(PluginManager.parameters('Matter')["Tile Size"]);
 
 Object.defineProperties(Game_CharacterBase.prototype, {
-    _x: { get: function() { return this.body.position.x / TILE_WIDTH; }, configurable: false },
-    _y: { get: function() { return this.body.position.y / TILE_HEIGHT; }, configurable: false },
-    _realX: { get: function() { return this.body.position.x / TILE_WIDTH; }, configurable: false },
-    _realY: { get: function() { return this.body.position.y / TILE_HEIGHT; }, configurable: false },
+    _x: { get: function() { return this.body.position.x / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
+    _y: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
+    _realX: { get: function() { return this.body.position.x / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
+    _realY: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
 });
 
 
@@ -31,7 +29,7 @@ Game_CharacterBase.prototype.initMembersNew = function() {
     this.width = 1;
     this.height = 1;
     
-    const radius = this.width * TILE_WIDTH / 2;
+    const radius = this.width * MATTER_PLUGIN.TILE_SIZE / 2;
     this.body = Bodies.circle(0, 0, radius, this.bodyOptions());
     this.setDirection(2);
     this._heading = 2;
@@ -86,8 +84,9 @@ Game_CharacterBase.prototype.distancePerFrame = function() {
 };
 
 Game_CharacterBase.prototype.setPosition = function(x, y) {
-    const worldX = x * TILE_WIDTH + (this.width * TILE_WIDTH / 2);
-    const worldY = y * TILE_HEIGHT + (this.height * TILE_HEIGHT / 2);
+    const tileSize = MATTER_PLUGIN.TILE_SIZE;
+    const worldX = x * tileSize + (this.width * tileSize / 2);
+    const worldY = y * tileSize + (this.height * tileSize / 2);
     Body.setPosition(this.body, { x: worldX, y: worldY });
 };
 

@@ -11,6 +11,7 @@ const MATTER_PLUGIN = {};
 MATTER_PLUGIN.RENDER_IS_DISPLAY = JSON.parse(PluginManager.parameters('Matter')["Display Render"]);
 MATTER_PLUGIN.RENDER_WIDTH = parseInt(PluginManager.parameters('Matter')["Render Width"]);
 MATTER_PLUGIN.RENDER_HEIGHT = parseInt(PluginManager.parameters('Matter')["Render Height"]);
+MATTER_PLUGIN.TILE_SIZE = parseInt(PluginManager.parameters('Matter')["Tile Size"]);
 
 const Game_Map_setup = Game_Map.prototype.setup;
 Game_Map.prototype.setup = function(mapId) {
@@ -67,14 +68,12 @@ Game_Map.prototype.setupMatterBodies = function() {
 };
 
 Game_Map.prototype.addEnvironment = function() {
-  const tw = this.tileWidth();
-  const th = this.tileHeight();
-  
   getTilemapCollisionObjects(this).forEach(({ x1, x2, y1, y2 }) => {
-    const width = (x2 - x1) * tw;
-    const height = (y2 - y1) * th;
-    const x = x1 * tw + width / 2;
-    const y = y1 * th + height / 2;
+    const tileSize = MATTER_PLUGIN.TILE_SIZE;
+    const width = (x2 - x1) * tileSize;
+    const height = (y2 - y1) * tileSize;
+    const x = x1 * tileSize + width / 2;
+    const y = y1 * tileSize + height / 2;
     const body = Bodies.rectangle(x, y, width, height, { isStatic: true });
     this.addBody(body);
   });
