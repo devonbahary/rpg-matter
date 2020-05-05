@@ -21,6 +21,10 @@ Game_Event.prototype.initCharacterBodyOptions = function() {
 };
 
 Game_Event.prototype.onCollisionStart = function(event) {
+    this.triggerPlayerTouch(event);
+};
+
+Game_Event.prototype.triggerPlayerTouch = function(event) {
     if (event.pair.label !== BODY_LABELS.PLAYER) return;
         
     if (this.isTriggerIn([ EVENT_TRIGGERS.PLAYER_TOUCH, EVENT_TRIGGERS.EVENT_TOUCH ])) {
