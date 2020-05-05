@@ -111,16 +111,6 @@ Game_CharacterBase.prototype.updateBodyAngle = function () {
     Body.setAngle(this.body, angle);
 };
 
-Game_CharacterBase.prototype.screenX = function() {
-    var tw = $gameMap.tileWidth();
-    return Math.round(this.scrolledX() * tw);
-};
-
-Game_CharacterBase.prototype.screenY = function() {
-    var th = $gameMap.tileHeight();
-    return Math.round(this.scrolledY() * th + (th / 2) - this.shiftY() - this.jumpHeight());
-};
-
 Game_CharacterBase.prototype.updateJump = function() {
     this._jumpCount--;
     this._realX = (this._realX * this._jumpCount + this._x) / (this._jumpCount + 1.0);
