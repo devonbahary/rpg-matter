@@ -72,7 +72,7 @@ Game_CharacterBase.prototype.initMembersOverwrite = function() {
 };
 
 Game_CharacterBase.prototype.isMoving = function() {
-    return Vector.magnitude(this.body.velocity).round();
+    return this.body.speed.round();
 };
 
 Game_CharacterBase.prototype.setPosition = function(x, y) {
