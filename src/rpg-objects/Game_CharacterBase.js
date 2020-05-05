@@ -73,12 +73,15 @@ Game_CharacterBase.prototype.bodyOptions = function() {
 Game_CharacterBase.prototype.setupMatterEvents = function() {
     Events.on(this.body, 'collisionStart', this.onCollisionStart.bind(this));
     Events.on(this.body, 'collisionActive', this.onCollisionActive.bind(this));
+    Events.on(this.body, 'collisionEnd', this.onCollisionEnd.bind(this));
 };
 
 Game_CharacterBase.prototype.onCollisionStart = function(event) {
 };
 
 Game_CharacterBase.prototype.onCollisionActive = function(event) {
+};
+Game_CharacterBase.prototype.onCollisionEnd = function(event) {
 };
 
 Game_CharacterBase.prototype.isMoving = function() {

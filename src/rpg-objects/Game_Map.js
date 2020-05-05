@@ -35,7 +35,7 @@ Game_Map.prototype.setupMatterEngine = function() {
 };
 
 Game_Map.prototype.setupMatterEvents = function() {
-    const collisionEvents = [ 'collisionStart', 'collisionActive' ];
+    const collisionEvents = [ 'collisionStart', 'collisionActive', 'collisionEnd' ];
     for (const eventName of collisionEvents) {
         Events.on(this.engine, eventName, event => {
             for (const pair of event.pairs) {
