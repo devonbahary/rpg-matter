@@ -66,7 +66,7 @@ Game_CharacterBase.prototype.bodyOptions = function() {
     return {
         frictionAir: 0.5, // 0-1
         // inertia: Infinity, // prevents angular velocity 
-        restitution: 1, // 0-1
+        restitution: 1, // 0-1 (inelastic and no bouncing may occur -> elastic and bounces back with ~100% of its kinetic energy)
     };
 };
 
