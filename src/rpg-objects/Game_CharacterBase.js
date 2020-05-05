@@ -59,7 +59,7 @@ Game_CharacterBase.prototype.initMembersOverwrite = function() {
 
 Game_CharacterBase.prototype.initBody = function() {
     this.body = Body.create({
-        parts: this.initBodyParts(),
+        parts: this.initBodyParts().map(part => Object.assign(part, { character: this })),
         ...this.initBodyOptions(),
     });
 };
