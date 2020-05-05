@@ -7,7 +7,7 @@
  * 
  * 
  * @param Tile Size
- * @desc Length of square tile in pixels
+ * @desc Length of square tile in pixels (1-128)
  * @type number
  * @default 48
  * @min 1
@@ -30,6 +30,7 @@
  * 
  * @param Render Width
  * @parent Matter Render
+ * @desc Window width in pixels (50-1000)
  * @type number
  * @default 200
  * @min 50
@@ -37,6 +38,7 @@
  * 
  * @param Render Height
  * @parent Matter Render
+ * @desc Window height in pixels (50-1000)
  * @type number
  * @default 200
  * @min 50
