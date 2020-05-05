@@ -8,11 +8,11 @@
 */
 
 import './rpg_core';
-import './Game_CharacterBase';
-import './Game_Event';
-import './Game_Player';
-import './Game_Party';
-import './Game_Map';
+import './rpg-objects/Game_CharacterBase';
+import './rpg-objects/Game_Event';
+import './rpg-objects/Game_Player';
+import './rpg-objects/Game_Party';
+import './rpg-objects/Game_Map';
 
 const _Scene_Map_terminate = Scene_Map.prototype.terminate;
 Scene_Map.prototype.terminate = function() {

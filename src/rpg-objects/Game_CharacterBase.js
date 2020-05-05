@@ -5,7 +5,7 @@
 // coordinates and images, shared by all characters.
 
 import { Body, Bodies, Vector } from "matter-js";
-import { isDown, isLeft, isRight, isUp } from "./utils/direction";
+import { isDown, isLeft, isRight, isUp } from "../utils/direction";
 
 const TILE_WIDTH = Game_Map.prototype.tileWidth();
 const TILE_HEIGHT = Game_Map.prototype.tileHeight();

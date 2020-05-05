@@ -5,7 +5,7 @@
 // determination functions.
 
 import { Bodies, Engine, Render, World } from "matter-js";
-import { getTilemapCollisionObjects } from "./utils/tilemap";
+import { getTilemapCollisionObjects } from "../utils/tilemap";
 
 const Game_Map_setup = Game_Map.prototype.setup;
 Game_Map.prototype.setup = function(mapId) {
