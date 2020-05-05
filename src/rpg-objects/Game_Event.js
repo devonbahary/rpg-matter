@@ -14,6 +14,12 @@ const EVENT_TRIGGERS = {
     PARALLEL: 4,
 };
 
+Game_Event.prototype.initCharacterBodyOptions = function() {
+    return {
+        label: BODY_LABELS.EVENT,
+    };
+};
+
 Game_Event.prototype.onCollisionStart = function(event) {
     if (event.pair.label !== BODY_LABELS.PLAYER) return;
         
