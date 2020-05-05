@@ -68,7 +68,7 @@ import './rpg-objects/Game_Map';
 const _Scene_Map_terminate = Scene_Map.prototype.terminate;
 Scene_Map.prototype.terminate = function() {
   _Scene_Map_terminate.call(this);
-  $gameMap.clearEngine();
+  $gameMap.terminate();
 };
 
 //-----------------------------------------------------------------------------

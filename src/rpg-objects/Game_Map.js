@@ -116,6 +116,7 @@ Game_Map.prototype.addBody = function(body) {
   World.add(this.engine.world, body);
 };
 
-Game_Map.prototype.clearEngine = function() {
+Game_Map.prototype.terminate = function() {
   Engine.clear(this.engine);
+  Events.off(this.engine);
 };
