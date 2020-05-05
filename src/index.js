@@ -6,6 +6,13 @@
  * @plugindesc Matter.
  * 
  * 
+ * @param Base Move Speed
+ * @desc 1: slowest, 6: fastest
+ * @type number
+ * @default 4
+ * @min 1
+ * @max 6
+ * 
  * @param Matter Render
  * 
  * @param Display Render

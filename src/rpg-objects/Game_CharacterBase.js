@@ -7,6 +7,10 @@
 import { Body, Bodies, Vector } from "matter-js";
 import { isDown, isLeft, isRight, isUp } from "../utils/direction";
 
+
+const MATTER_PLUGIN = {};
+MATTER_PLUGIN.BASE_MOVE_SPEED = 1 / (8 - parseInt(PluginManager.parameters('Matter')["Base Move Speed"]));
+
 const TILE_WIDTH = Game_Map.prototype.tileWidth();
 const TILE_HEIGHT = Game_Map.prototype.tileHeight();
 
@@ -78,7 +82,7 @@ Game_CharacterBase.prototype.isMoving = function() {
 const _Game_CharacterBase_distancePerFrame = Game_CharacterBase.prototype.distancePerFrame;
 Game_CharacterBase.prototype.distancePerFrame = function() {
     // arbitrary throttle on movement speed
-    return _Game_CharacterBase_distancePerFrame.call(this) / 6; 
+    return _Game_CharacterBase_distancePerFrame.call(this) * MATTER_PLUGIN.BASE_MOVE_SPEED; 
 };
 
 Game_CharacterBase.prototype.setPosition = function(x, y) {
