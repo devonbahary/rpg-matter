@@ -73,6 +73,10 @@ Game_CharacterBase.prototype.isMoving = function() {
     return this.body.speed.round();
 };
 
+Game_CharacterBase.prototype.realMoveSpeed = function() {
+    return this._moveSpeed + (this.isDashing() ? MATTER_PLUGIN.DASH_SPEED_BOOST : 0);
+};
+
 const _Game_CharacterBase_distancePerFrame = Game_CharacterBase.prototype.distancePerFrame;
 Game_CharacterBase.prototype.distancePerFrame = function() {
     // arbitrary throttle on movement speed

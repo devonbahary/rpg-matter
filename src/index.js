@@ -13,12 +13,24 @@
  * @min 1
  * @max 128
  * 
+ * @param Movement
+ * 
  * @param Base Move Speed
+ * @parent Movement
  * @desc 1: slowest, 6: fastest
  * @type number
  * @default 4
  * @min 1
  * @max 6
+ * 
+ * @param Dash Speed Boost
+ * @parent Movement
+ * @desc Bonus to movement speed while dashing (0-1.5)
+ * @type number
+ * @default 1
+ * @decimals 2
+ * @min 0
+ * @max 1.5
  * 
  * @param Matter Render
  * 
