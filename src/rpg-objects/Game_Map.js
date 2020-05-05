@@ -40,8 +40,8 @@ Game_Map.prototype.setupMatterEvents = function() {
     Events.on(this.engine, eventName, event => {
       for (const pair of event.pairs) {
         const { bodyA, bodyB } = pair;
-        Events.trigger(bodyA, eventName);
-        Events.trigger(bodyB, eventName);
+        Events.trigger(bodyA, eventName, { bodyId: bodyB.id });
+        Events.trigger(bodyB, eventName, { bodyId: bodyA.id });
       }
     });
   }
