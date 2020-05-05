@@ -4,6 +4,8 @@
 // The game object class for an event. It contains functionality for event page
 // switching and running parallel process events.
 
+import { BODY_LABELS } from "../constants";
+
 const EVENT_TRIGGERS = {
     actionButton: 0,
     playerTouch: 1,
@@ -13,7 +15,7 @@ const EVENT_TRIGGERS = {
 };
 
 Game_Event.prototype.onCollisionStart = function(event) {
-    if (event.bodyId !== $gamePlayer.bodyId) return;
+    if (event.pair.label !== BODY_LABELS.PLAYER) return;
         
     if (this.isTriggerIn([ EVENT_TRIGGERS.playerTouch, EVENT_TRIGGERS.eventTouch ])) {
         this.start();

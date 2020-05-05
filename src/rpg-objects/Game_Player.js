@@ -6,6 +6,7 @@
 
 import { Bodies, Vector } from "matter-js";
 import MATTER_PLUGIN from "../pluginParams";
+import { BODY_LABELS } from "../constants";
 
 Game_Player.prototype.initBodyParts = function() {
     return [ 
@@ -17,7 +18,7 @@ Game_Player.prototype.initBodyParts = function() {
 Game_Player.prototype.initCharacterBodyOptions = function() {
     return {
         ...Game_Character.prototype.initCharacterBodyOptions.call(this),
-        label: 'player',
+        label: BODY_LABELS.PLAYER,
     };
 };
 
@@ -25,7 +26,7 @@ Game_Player.prototype.initSensorBody = function() {
     return Bodies.circle(0, 0, this.radius * 3, {
         density: 0.00001,
         isSensor: true,
-        label: 'player-sensor',
+        label: BODY_LABELS.PLAYER_SENSOR,
     });
 };
 

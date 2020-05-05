@@ -14,7 +14,6 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     _realX: { get: function() { return this.body.position.x / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
     _realY: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
     radius: { get: function() { return this.width * MATTER_PLUGIN.TILE_SIZE / 2; }, configurable: false },
-    bodyId: { get: function() { return this.body.id; }, configurable: false },
 });
 
 
