@@ -7,17 +7,17 @@
 import { BODY_LABELS } from "../constants";
 
 const EVENT_TRIGGERS = {
-    actionButton: 0,
-    playerTouch: 1,
-    eventTouch: 2,
-    autoRun: 3,
-    parallel: 4,
+    ACTION_BUTTON: 0,
+    PLAYER_TOUCH: 1,
+    EVENT_TOUCH: 2,
+    AUTO_RUN: 3,
+    PARALLEL: 4,
 };
 
 Game_Event.prototype.onCollisionStart = function(event) {
     if (event.pair.label !== BODY_LABELS.PLAYER) return;
         
-    if (this.isTriggerIn([ EVENT_TRIGGERS.playerTouch, EVENT_TRIGGERS.eventTouch ])) {
+    if (this.isTriggerIn([ EVENT_TRIGGERS.PLAYER_TOUCH, EVENT_TRIGGERS.EVENT_TOUCH ])) {
         this.start();
     }
 };
