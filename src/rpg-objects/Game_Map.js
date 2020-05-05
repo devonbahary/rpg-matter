@@ -59,7 +59,6 @@ Game_Map.prototype.setupMatterRender = function() {
             showAngleIndicator: true,
             showVelocity: true,
             showSeparations: true,
-            showPositions: true,
             showIds: true,
             showShadows: true,
         },
