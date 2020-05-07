@@ -3,8 +3,12 @@
 //=============================================================================
 
 /*:
- * @plugindesc Adds sprite visualization for action button Game_Events.
+ * @plugindesc Adds sprite visualization for action button Game_Events
  * Requires MatterCore.js plugin.
+ * 
+ * @help
+ * Adds a hovering icon above Game_Events with an action button trigger and event 
+ * commands to indicate interaction.
  * 
  * @param Icon Index
  * @desc Icon index to display above events.
