@@ -3,8 +3,8 @@
 //=============================================================================
 
 /*:
- * @plugindesc MatterCore.
- * 
+ * @plugindesc The core plugin for the RPG Maker MV Matter.js "game engine".
+ * https://brm.io/matter-js/
  * 
  * @param Tile Size
  * @desc Length of square tile in pixels (1-128)
