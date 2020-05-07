@@ -5,7 +5,7 @@
 // determinants and map scrolling functions.
 
 import { Bodies, Events, Vector } from "matter-js";
-import MATTER_PLUGIN from "../pluginParams";
+import MATTER_CORE from "../pluginParams";
 import { BODY_LABELS, EVENT_TRIGGERS } from "../constants";
 
 const BODY_EVENTS = {
@@ -39,7 +39,7 @@ Game_Player.prototype.initCharacterBodyOptions = function() {
 };
 
 Game_Player.prototype.initSensorBody = function() {
-    const length = this.radius * 2 * MATTER_PLUGIN.INTERACTION_RADIUS;
+    const length = this.radius * 2 * MATTER_CORE.INTERACTION_RADIUS;
     const options = {
         density: 0.00001,
         isSensor: true,
@@ -107,7 +107,7 @@ Game_Player.prototype.stepsThisFrame = function() {
     if (!this.isNormal()) return 0;
 
     const magnitude = Vector.magnitude(this.body.velocity);
-    const steps = magnitude / MATTER_PLUGIN.TILE_SIZE;
+    const steps = magnitude / MATTER_CORE.TILE_SIZE;
     return steps;
 };  
 

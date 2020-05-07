@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'rpgmakermv', 'js', 'plugins'),
-    filename: 'Matter.js',
+    filename: 'MatterCore.js',
   },
   devtool: 'inline-source-map',
   target: 'web',

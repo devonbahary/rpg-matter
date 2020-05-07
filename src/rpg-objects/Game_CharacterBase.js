@@ -6,14 +6,14 @@
 
 import { Body, Bodies, Events, Vector } from "matter-js";
 import { isDown, isLeft, isRight, isUp } from "../utils/direction";
-import MATTER_PLUGIN from "../pluginParams";
+import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
-    _x: { get: function() { return this.body.position.x / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
-    _y: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
-    _realX: { get: function() { return this.body.position.x / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
-    _realY: { get: function() { return this.body.position.y / MATTER_PLUGIN.TILE_SIZE; }, configurable: false },
-    radius: { get: function() { return this.width * MATTER_PLUGIN.TILE_SIZE / 2; }, configurable: false },
+    _x: { get: function() { return this.body.position.x / MATTER_CORE.TILE_SIZE; }, configurable: false },
+    _y: { get: function() { return this.body.position.y / MATTER_CORE.TILE_SIZE; }, configurable: false },
+    _realX: { get: function() { return this.body.position.x / MATTER_CORE.TILE_SIZE; }, configurable: false },
+    _realY: { get: function() { return this.body.position.y / MATTER_CORE.TILE_SIZE; }, configurable: false },
+    radius: { get: function() { return this.width * MATTER_CORE.TILE_SIZE / 2; }, configurable: false },
 });
 
 
@@ -117,17 +117,17 @@ Game_CharacterBase.prototype.isMoving = function() {
 };
 
 Game_CharacterBase.prototype.realMoveSpeed = function() {
-    return this._moveSpeed + (this.isDashing() ? MATTER_PLUGIN.DASH_SPEED_BOOST : 0);
+    return this._moveSpeed + (this.isDashing() ? MATTER_CORE.DASH_SPEED_BOOST : 0);
 };
 
 const _Game_CharacterBase_distancePerFrame = Game_CharacterBase.prototype.distancePerFrame;
 Game_CharacterBase.prototype.distancePerFrame = function() {
     // arbitrary throttle on movement speed
-    return _Game_CharacterBase_distancePerFrame.call(this) * MATTER_PLUGIN.BASE_MOVE_SPEED; 
+    return _Game_CharacterBase_distancePerFrame.call(this) * MATTER_CORE.BASE_MOVE_SPEED; 
 };
 
 Game_CharacterBase.prototype.setPosition = function(x, y) {
-    const tileSize = MATTER_PLUGIN.TILE_SIZE;
+    const tileSize = MATTER_CORE.TILE_SIZE;
     const worldX = x * tileSize + (this.width * tileSize / 2);
     const worldY = y * tileSize + (this.height * tileSize / 2);
     Body.setPosition(this.body, { x: worldX, y: worldY });

@@ -1,11 +1,11 @@
-const MATTER_PLUGIN = {};
+const MATTER_CORE = {};
 
-MATTER_PLUGIN.BASE_MOVE_SPEED = 1 / (8 - parseInt(PluginManager.parameters('Matter')["Base Move Speed"]));
-MATTER_PLUGIN.DASH_SPEED_BOOST = Number(PluginManager.parameters('Matter')["Dash Speed Boost"]);
-MATTER_PLUGIN.INTERACTION_RADIUS = Number(PluginManager.parameters('Matter')["Interaction Radius"]);
-MATTER_PLUGIN.RENDER_IS_DISPLAY = JSON.parse(PluginManager.parameters('Matter')["Display Render"]);
-MATTER_PLUGIN.RENDER_WIDTH = parseInt(PluginManager.parameters('Matter')["Render Width"]);
-MATTER_PLUGIN.RENDER_HEIGHT = parseInt(PluginManager.parameters('Matter')["Render Height"]);
-MATTER_PLUGIN.TILE_SIZE = parseInt(PluginManager.parameters('Matter')["Tile Size"]);
+MATTER_CORE.BASE_MOVE_SPEED = 1 / (8 - parseInt(PluginManager.parameters('MatterCore')["Base Move Speed"]));
+MATTER_CORE.DASH_SPEED_BOOST = Number(PluginManager.parameters('MatterCore')["Dash Speed Boost"]);
+MATTER_CORE.INTERACTION_RADIUS = Number(PluginManager.parameters('MatterCore')["Interaction Radius"]);
+MATTER_CORE.RENDER_IS_DISPLAY = JSON.parse(PluginManager.parameters('MatterCore')["Display Render"]);
+MATTER_CORE.RENDER_WIDTH = parseInt(PluginManager.parameters('MatterCore')["Render Width"]);
+MATTER_CORE.RENDER_HEIGHT = parseInt(PluginManager.parameters('MatterCore')["Render Height"]);
+MATTER_CORE.TILE_SIZE = parseInt(PluginManager.parameters('MatterCore')["Tile Size"]);
 
-export default MATTER_PLUGIN;
+export default MATTER_CORE;

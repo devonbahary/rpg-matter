@@ -6,7 +6,7 @@
 
 import { Bodies, Engine, Events, Render, World } from "matter-js";
 import { getTilemapCollisionObjects } from "../utils/tilemap";
-import MATTER_PLUGIN from "../pluginParams";
+import MATTER_CORE from "../pluginParams";
 
 const Game_Map_setup = Game_Map.prototype.setup;
 Game_Map.prototype.setup = function(mapId) {
@@ -48,13 +48,13 @@ Game_Map.prototype.setupMatterEvents = function() {
 }; 
 
 Game_Map.prototype.setupMatterRender = function() {
-    if (!MATTER_PLUGIN.RENDER_IS_DISPLAY) return;
+    if (!MATTER_CORE.RENDER_IS_DISPLAY) return;
     const render = Render.create({
         element: document.querySelector('#matter-render'),
         engine: this.engine,
         options: {
-            width: MATTER_PLUGIN.RENDER_WIDTH,
-            height: MATTER_PLUGIN.RENDER_HEIGHT,
+            width: MATTER_CORE.RENDER_WIDTH,
+            height: MATTER_CORE.RENDER_HEIGHT,
             showCollisions: true,
             showAngleIndicator: true,
             showVelocity: true,
@@ -79,7 +79,7 @@ Game_Map.prototype.addEnvironment = function() {
     for (const collisionObject of getTilemapCollisionObjects(this)) {
         const { x1, x2, y1, y2 } = collisionObject;
         
-        const tileSize = MATTER_PLUGIN.TILE_SIZE;
+        const tileSize = MATTER_CORE.TILE_SIZE;
         const width = (x2 - x1) * tileSize;
         const height = (y2 - y1) * tileSize;
         const x = x1 * tileSize + width / 2;
