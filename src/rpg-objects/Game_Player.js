@@ -19,6 +19,11 @@ Game_Player.prototype.initMembers = function() {
     this._actionButtonEventsInRange = [];
 };
 
+Game_Player.prototype.closestActionButtonEventInRange = function() {
+    if (!this._actionButtonEventsInRange.length) return null;
+    return this._actionButtonEventsInRange.sort((a, b) => this.distanceFrom(a) - this.distanceFrom(b))[0];
+};
+
 Game_Player.prototype.initBodyParts = function() {
     return [ 
         ...Game_Character.prototype.initBodyParts.call(this),
@@ -120,6 +125,13 @@ Game_Player.prototype.updateDashing = function() {
     }
 };
 
+const _Game_Player_update = Game_Player.prototype.update;
+Game_Player.prototype.update = function(sceneActive) {
+    _Game_Player_update.call(this, sceneActive);
+    this.triggerAction();
+    this.updateOnMoving();
+};
+
 Game_Player.prototype.updateScroll = function() {
     var x1 = this._lastScrolledX; // overwrite
     var y1 = this._lastScrolledY; // overwrite
@@ -139,4 +151,49 @@ Game_Player.prototype.updateScroll = function() {
     }
     this._lastScrolledX = this.scrolledX();
     this._lastScrolledY = this.scrolledY();
+};
+
+Game_Player.prototype.updateNonmoving = function(wasMoving) {
+    /* note: 
+        - used to $gameParty.onPlayerWalk() here, but is now handled in $gameParty.increaseSteps()
+        - used to check event trigger, but that's handled through Matter Events
+        - used to triggerAction(), but that happens every frame now
+        - used to update encounter count here, but that's handled through updateOnMoving() 
+    */
+    return; // overwrite; nothing happening here should not occur while in motion 
+};
+
+Game_Player.prototype.updateOnMoving = function() {
+    if (this.isMoving() && !$gameMap.isEventRunning()) {
+        this.updateEncounterCount();
+    }
+};
+
+// overwrite to remove non-collision based event checks, triggerTouchAction(), and odd return boolean
+Game_Player.prototype.triggerAction = function() {
+    if (this.canMove()) this.triggerButtonAction();
+};
+
+// overwrite to remove non-collision based event checks and odd return boolean
+Game_Player.prototype.triggerButtonAction = function() {
+    if (!Input.isTriggered('ok')) return;
+    
+    if (this.getOnOffVehicle()) return;
+    
+    const closestActionButtonEventInRange = this.closestActionButtonEventInRange();
+    if (closestActionButtonEventInRange && this.canStartLocalEvents()) {
+        closestActionButtonEventInRange.start();
+    }
+};
+
+Game_Player.prototype.encounterProgressValue = function() {
+    const baseValue = this.stepsThisFrame();
+    var value = $gameMap.isBush(this.x, this.y) ? 2 * baseValue : baseValue; // used to be only 2 or 1
+    if ($gameParty.hasEncounterHalf()) {
+        value *= 0.5;
+    }
+    if (this.isInShip()) {
+        value *= 0.5;
+    }
+    return value;
 };
