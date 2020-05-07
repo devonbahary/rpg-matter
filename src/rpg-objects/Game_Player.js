@@ -6,7 +6,8 @@
 
 import { Bodies, Events, Vector } from "matter-js";
 import MATTER_PLUGIN from "../pluginParams";
-import { BODY_LABELS } from "../constants";
+import { BODY_LABELS, EVENT_TRIGGERS } from "../constants";
+
 const BODY_EVENTS = {
     EVENT_ENTER_PLAYER_SENSOR: 'eventEnterPlayerSensor',
     EVENT_EXIT_PLAYER_SENSOR: 'eventExitPlayerSensor',
