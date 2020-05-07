@@ -19,7 +19,7 @@
  * @parent Character
  * @desc 1: slowest, 6: fastest
  * @type number
- * @default 4
+ * @default 3
  * @min 1
  * @max 6
  * 
