@@ -97,13 +97,17 @@ Game_Player.prototype.centerY = function() {
     return _Game_Player_centerY.call(this) + this.height / 2;
 };
 
+Game_Player.prototype.stepsThisFrame = function() {
+    if (!this.isNormal()) return 0;
+
+    const magnitude = Vector.magnitude(this.body.velocity);
+    const steps = magnitude / MATTER_PLUGIN.TILE_SIZE;
+    return steps;
+};  
+
 Game_Player.prototype.increaseSteps = function() {
     Game_Character.prototype.increaseSteps.call(this);
-    if (this.isNormal()) {
-        const magnitude = Vector.magnitude(this.body.velocity);
-        const steps = magnitude / MATTER_PLUGIN.TILE_SIZE;
-        $gameParty.increaseSteps(steps);
-    }
+    $gameParty.increaseSteps(this.stepsThisFrame());
 };
 
 // overwrite (this.isMoving()) early return
