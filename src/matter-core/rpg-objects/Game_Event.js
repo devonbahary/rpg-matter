@@ -5,7 +5,7 @@
 // switching and running parallel process events.
 
 import { Events } from "matter-js";
-import { BODY_LABELS, EVENT_TRIGGERS } from "../../constants";
+import { BODY_LABELS, EVENT_TRIGGERS } from "../constants";
 
 const BODY_EVENTS = {
     PLAYER_TOUCH: 'playerTouch',
