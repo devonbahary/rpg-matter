@@ -54,6 +54,13 @@ const MATTER_ACTION_EVENT = {
     OPACITY_UNTARGETED: parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Untargeted"]),
 };
 
+/*
+    TODO:
+        - slow opacity fade when should no longer display
+        - Event-specific icons
+            - parse for number -> use icon_index
+            - if string -> use as category (perhaps where category:icon_index map is defined in plugin param?)
+*/
 
 //-----------------------------------------------------------------------------
 // Game_Event
