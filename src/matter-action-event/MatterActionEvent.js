@@ -6,9 +6,49 @@
  * @plugindesc Adds sprite visualization for action button Game_Events.
  * Requires MatterCore.js plugin.
  * 
+ * @param Icon Index
+ * @desc Icon index to display above events.
+ * @type number
+ * @min 0
+ * @default 4
+ * 
+ * @param Animation Duration
+ * @desc Duration (in frames) for the icon hovering to cycle once (1-600). 
+ * @type number
+ * @min 1
+ * @max 600
+ * @default 60
+ * 
+ * @param Animation Peak Height
+ * @desc Peak height (in pixels) of the icon hover animation above the Sprite_Character.
+ * @type number
+ * @min 0
+ * @default 10
+ * 
+ * @param Opacity Targeted
+ * @desc Opacity of the icon when it's Game_Event is the target of an action button (0-255).
+ * @type number
+ * @min 0
+ * @max 255
+ * @default 255
+ * 
+ * @param Opacity Untargeted
+ * @desc Opacity of the icon when it's Game_Event is not the target of an action button (0-255).
+ * @type number
+ * @min 0
+ * @max 255
+ * @default 100
 */
 
 import { EVENT_TRIGGERS } from "../common/constants";
+
+const MATTER_ACTION_EVENT = {
+    ICON_INDEX: parseInt(PluginManager.parameters('MatterActionEvent')["Icon Index"]),
+    ANIMATION_DURATION: parseInt(PluginManager.parameters('MatterActionEvent')["Animation Duration"]),
+    PEAK_HEIGHT: parseInt(PluginManager.parameters('MatterActionEvent')["Animation Peak Height"]),
+    OPACITY_TARGETED: parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Targeted"]),
+    OPACITY_UNTARGETED: parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Untargeted"]),
+};
 
 
 //-----------------------------------------------------------------------------
@@ -40,14 +80,8 @@ Sprite_ActionEvent.prototype.initialize = function(character) {
     this.setCharacter(character);
 };
 
-Sprite_ActionEvent._defaultIconIndex = 1;
-Sprite_ActionEvent._framesInAnimation = 60;
-Sprite_ActionEvent._peakHeightInAnimation = 10;
-Sprite_ActionEvent._actionEventTargetOpacity = 255;
-Sprite_ActionEvent._actionEventNonTargetOpacity = 100;
-
 Sprite_ActionEvent.prototype.initMembers = function() {
-    this._iconIndex = Sprite_ActionEvent._defaultIconIndex;
+    this._iconIndex = MATTER_ACTION_EVENT.ICON_INDEX;
     this._animationCount = 0;
     this.anchor.x = 0.5;
     this.anchor.y = 1;
@@ -103,22 +137,22 @@ Sprite_ActionEvent.prototype.updateForNonActionButtonEvent = function() {
 
 Sprite_ActionEvent.prototype.updateAnimationCount = function() {
     this._animationCount++;
-    if (this._animationCount >= Sprite_ActionEvent._framesInAnimation) {
+    if (this._animationCount >= MATTER_ACTION_EVENT.ANIMATION_DURATION) {
         this._animationCount = 0;
     }
 };
 
 Sprite_ActionEvent.prototype.updatePosition = function() {
-    const animationY = this.progressTowardsAnimation() * Sprite_ActionEvent._peakHeightInAnimation;
+    const animationY = this.progressTowardsAnimation() * MATTER_ACTION_EVENT.PEAK_HEIGHT;
     this.y = -(this.parent.height + animationY);
 };
 
 Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
-    const framesInOneDirection = Sprite_ActionEvent._framesInAnimation / 2;
+    const framesInOneDirection = MATTER_ACTION_EVENT.ANIMATION_DURATION / 2;
     if (this._animationCount <= Math.floor(framesInOneDirection)) {
         return this._animationCount / framesInOneDirection;
     } else {
-        return (Sprite_ActionEvent._framesInAnimation - this._animationCount) / framesInOneDirection;
+        return (MATTER_ACTION_EVENT.ANIMATION_DURATION - this._animationCount) / framesInOneDirection;
     }
 };
 
@@ -127,7 +161,7 @@ Sprite_ActionEvent.prototype.updateOpacity = function() {
         this.opacity = 0;
     } else {
         const isClosestActionButtonEvent = $gamePlayer.closestActionButtonEventInRange() === this._character;
-        this.opacity = isClosestActionButtonEvent ? Sprite_ActionEvent._actionEventTargetOpacity : Sprite_ActionEvent._actionEventNonTargetOpacity;
+        this.opacity = isClosestActionButtonEvent ? MATTER_ACTION_EVENT.OPACITY_TARGETED : MATTER_ACTION_EVENT.OPACITY_UNTARGETED;
     }
 };
 
