@@ -46,13 +46,11 @@
 
 import { EVENT_TRIGGERS } from "../common/constants";
 
-const MATTER_ACTION_EVENT = {
-    ICON_INDEX: parseInt(PluginManager.parameters('MatterActionEvent')["Icon Index"]),
-    ANIMATION_DURATION: parseInt(PluginManager.parameters('MatterActionEvent')["Animation Duration"]),
-    PEAK_HEIGHT: parseInt(PluginManager.parameters('MatterActionEvent')["Animation Peak Height"]),
-    OPACITY_TARGETED: parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Targeted"]),
-    OPACITY_UNTARGETED: parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Untargeted"]),
-};
+const ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Index"]);
+const ANIMATION_DURATION = parseInt(PluginManager.parameters('MatterActionEvent')["Animation Duration"]);
+const PEAK_HEIGHT = parseInt(PluginManager.parameters('MatterActionEvent')["Animation Peak Height"]);
+const OPACITY_TARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Targeted"]);
+const OPACITY_UNTARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Untargeted"]);
 
 /*
     TODO:
@@ -92,7 +90,7 @@ Sprite_ActionEvent.prototype.initialize = function(character) {
 };
 
 Sprite_ActionEvent.prototype.initMembers = function() {
-    this._iconIndex = MATTER_ACTION_EVENT.ICON_INDEX;
+    this._iconIndex = ICON_INDEX;
     this._animationCount = 0;
     this.anchor.x = 0.5;
     this.anchor.y = 1;
@@ -148,28 +146,28 @@ Sprite_ActionEvent.prototype.updateForNonActionButtonEvent = function() {
 
 Sprite_ActionEvent.prototype.updateAnimationCount = function() {
     this._animationCount++;
-    if (this._animationCount >= MATTER_ACTION_EVENT.ANIMATION_DURATION) {
+    if (this._animationCount >= ANIMATION_DURATION) {
         this._animationCount = 0;
     }
 };
 
 Sprite_ActionEvent.prototype.updatePosition = function() {
-    const animationY = this.progressTowardsAnimation() * MATTER_ACTION_EVENT.PEAK_HEIGHT;
+    const animationY = this.progressTowardsAnimation() * PEAK_HEIGHT;
     this.y = -(this.parent.height + animationY);
 };
 
 Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
-    const framesInOneDirection = MATTER_ACTION_EVENT.ANIMATION_DURATION / 2;
+    const framesInOneDirection = ANIMATION_DURATION / 2;
     if (this._animationCount <= Math.floor(framesInOneDirection)) {
         return this._animationCount / framesInOneDirection;
     } else {
-        return (MATTER_ACTION_EVENT.ANIMATION_DURATION - this._animationCount) / framesInOneDirection;
+        return (ANIMATION_DURATION - this._animationCount) / framesInOneDirection;
     }
 };
 
 Sprite_ActionEvent.prototype.opacityThisFrame = function() {
-    if (this.isCharacterTargeted()) return MATTER_ACTION_EVENT.OPACITY_TARGETED;
-    return MATTER_ACTION_EVENT.OPACITY_UNTARGETED;
+    if (this.isCharacterTargeted()) return OPACITY_TARGETED;
+    return OPACITY_UNTARGETED;
 };
 
 Sprite_ActionEvent.prototype.isCharacterTargeted = function() {
