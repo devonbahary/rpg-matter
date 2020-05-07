@@ -2,10 +2,12 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: {
+    MatterCore: './src/MatterCore.js',
+  },
   output: {
     path: path.join(__dirname, 'rpgmakermv', 'js', 'plugins'),
-    filename: 'MatterCore.js',
+    filename: '[name].js',
   },
   devtool: 'inline-source-map',
   target: 'web',
