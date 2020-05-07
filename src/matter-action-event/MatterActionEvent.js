@@ -168,7 +168,6 @@ Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
 };
 
 Sprite_ActionEvent.prototype.opacityThisFrame = function() {
-    if ($gameMap.isEventRunning()) return 0;
     if ($gamePlayer.closestActionButtonEventInRange() === this._character) return MATTER_ACTION_EVENT.OPACITY_TARGETED;
     return MATTER_ACTION_EVENT.OPACITY_UNTARGETED;
 };
