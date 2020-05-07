@@ -33,11 +33,13 @@ Game_Player.prototype.initCharacterBodyOptions = function() {
 };
 
 Game_Player.prototype.initSensorBody = function() {
-    return Bodies.circle(0, 0, this.radius * 3, {
+    const length = this.radius * 2 * MATTER_PLUGIN.INTERACTION_RADIUS;
+    const options = {
         density: 0.00001,
         isSensor: true,
         label: BODY_LABELS.PLAYER_SENSOR,
-    });
+    };
+    return Bodies.polygon(length, 0, 3, length, options);
 };
 
 Game_Player.prototype.setupMatterEvents = function() {

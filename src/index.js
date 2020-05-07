@@ -32,6 +32,15 @@
  * @min 0
  * @max 1.5
  * 
+ * @param Interaction Radius
+ * @parent Character
+ * @desc The distance (in units of player length) the player can interact with action button events in front of it.
+ * @type number
+ * @default 1
+ * @decimals 2
+ * @min 0.1
+ * @max 3
+ * 
  * @param Matter Render
  * 
  * @param Display Render
