@@ -4,6 +4,7 @@ module.exports = {
   mode: 'development',
   entry: {
     MatterCore: './src/matter-core/MatterCore.js',
+    MatterActionEvent: './src/matter-action-event/MatterActionEvent.js',
   },
   output: {
     path: path.join(__dirname, 'rpgmakermv', 'js', 'plugins'),
