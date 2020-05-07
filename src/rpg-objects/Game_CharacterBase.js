@@ -302,3 +302,7 @@ Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
     this.resetStopCount();
     this.straighten();
 };
+
+Game_CharacterBase.prototype.distanceFrom = function(char) {
+    return Vector.magnitude(Vector.add(this.body.position, Vector.neg(char.body.position)));
+};
