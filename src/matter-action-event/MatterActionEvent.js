@@ -129,7 +129,7 @@ Sprite_ActionEvent.prototype.updateForActionButtonEvent = function() {
         this._isShowing = true;
     }
     this.updatePosition();
-    this.updateOpacity();
+    this.opacity = this.opacityThisFrame();
 };
 
 Sprite_ActionEvent.prototype.updateForNonActionButtonEvent = function() {
@@ -160,13 +160,10 @@ Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
     }
 };
 
-Sprite_ActionEvent.prototype.updateOpacity = function() {
-    if ($gameMap.isEventRunning()) {
-        this.opacity = 0;
-    } else {
-        const isClosestActionButtonEvent = $gamePlayer.closestActionButtonEventInRange() === this._character;
-        this.opacity = isClosestActionButtonEvent ? MATTER_ACTION_EVENT.OPACITY_TARGETED : MATTER_ACTION_EVENT.OPACITY_UNTARGETED;
-    }
+Sprite_ActionEvent.prototype.opacityThisFrame = function() {
+    if ($gameMap.isEventRunning()) return 0;
+    if ($gamePlayer.closestActionButtonEventInRange() === this._character) return MATTER_ACTION_EVENT.OPACITY_TARGETED;
+    return MATTER_ACTION_EVENT.OPACITY_UNTARGETED;
 };
 
 //-----------------------------------------------------------------------------
