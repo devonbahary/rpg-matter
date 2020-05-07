@@ -17,6 +17,13 @@ Game_Event.prototype.initCharacterBodyOptions = function() {
     };
 };
 
+Game_Event.prototype.initBodyOptions = function() {
+    return {
+        ...Game_Character.prototype.initBodyOptions(),
+        isStatic: true,
+    };
+};
+
 Game_Event.prototype.setupMatterEvents = function() {
     Game_Character.prototype.setupMatterEvents.call(this);
     Events.on(this.body, BODY_EVENTS.PLAYER_TOUCH, this.onPlayerTouch.bind(this));  
