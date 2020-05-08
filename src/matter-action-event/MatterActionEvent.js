@@ -16,6 +16,18 @@
  * @min 0
  * @default 4
  * 
+ * @param Icon Width
+ * @desc Width (in pixels) of the icon.
+ * @type number
+ * @min 1
+ * @default 32
+ * 
+ * @param Icon Height
+ * @desc Height (in pixels) of the icon.
+ * @type number
+ * @min 1
+ * @default 32
+ * 
  * @param Animation Duration
  * @desc Duration (in frames) for the icon hovering to cycle once (1-600). 
  * @type number
@@ -47,6 +59,8 @@
 import { EVENT_TRIGGERS } from "../common/constants";
 
 const ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Index"]);
+const ICON_WIDTH = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Width"]);
+const ICON_HEIGHT = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Height"]);
 const ANIMATION_DURATION = parseInt(PluginManager.parameters('MatterActionEvent')["Animation Duration"]);
 const PEAK_HEIGHT = parseInt(PluginManager.parameters('MatterActionEvent')["Animation Peak Height"]);
 const OPACITY_TARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Targeted"]);
@@ -116,8 +130,8 @@ Sprite_ActionEvent.prototype.setCharacter = function(character) {
 
 Sprite_ActionEvent.prototype.loadBitmap = function() {
     this.bitmap = ImageManager.loadSystem('IconSet');
-    var pw = Sprite_StateIcon._iconWidth;
-    var ph = Sprite_StateIcon._iconHeight;
+    var pw = ICON_WIDTH;
+    var ph = ICON_HEIGHT;
     var sx = this._iconIndex % 16 * pw;
     var sy = Math.floor(this._iconIndex / 16) * ph;
     this.setFrame(sx, sy, pw, ph);
