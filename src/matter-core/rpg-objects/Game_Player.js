@@ -120,7 +120,7 @@ Game_Player.prototype.increaseSteps = function() {
 // overwrite (this.isMoving()) early return
 Game_Player.prototype.updateDashing = function() {
     if (this.canMove() && !this.isInVehicle() && !$gameMap.isDashDisabled()) {
-        this._dashing = this.isDashButtonPressed() || $gameTemp.isDestinationValid();
+        this._dashing = this.isDashButtonPressed() || (MATTER_CORE.IS_CLICK_TO_MOVE_DASH && $gameTemp.isDestinationValid());
     } else {
         this._dashing = false;
     }

@@ -65,6 +65,10 @@
  * @min 50
  * @max 1000
  * 
+ * @param Click To Move Dash
+ * @desc Toggle whether the player will dash during click to move.
+ * @type boolean
+ * @default true
 */
 
 import './rpg_core';
