@@ -10,8 +10,11 @@
  * Adds a hovering icon above Game_Events with an action button trigger and event 
  * commands to indicate interaction.
  * 
- * @param Icon Index
- * @desc Icon index to display above events.
+ * EVENT_TAG (add this to a Comment command)
+ *      SpriteActionEventIconIndex <icon index>
+ * 
+ * @param Default Icon Index
+ * @desc Default icon index to display above events for those that do not have an EVENT_TAG.
  * @type number
  * @min 0
  * @default 4
@@ -59,7 +62,7 @@
 import { EVENT_TRIGGERS } from "../common/constants";
 import { EVENT_COMMAND_CODES } from "./constants";
 
-const ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Index"]);
+const DEFAULT_ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Default Icon Index"]);
 const ICON_WIDTH = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Width"]);
 const ICON_HEIGHT = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Height"]);
 const ANIMATION_DURATION = parseInt(PluginManager.parameters('MatterActionEvent')["Animation Duration"]);
@@ -75,6 +78,8 @@ const EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX = /SpriteActionEventIconInd
         - Event-specific icons
             - parse for number -> use icon_index
             - if string -> use as category (perhaps where category:icon_index map is defined in plugin param?)
+        - use plugin param @type variable to flag sprites ON/OFF
+        - should apply to more than action buttons? maybe calls for an entire change of name?
 */
 
 //-----------------------------------------------------------------------------
@@ -113,7 +118,7 @@ Game_Event.prototype.spriteActionEventIconIndex = function() {
         const match = comment.match(EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX);
         if (match) return parseInt(match[1]);
         return acc;
-    }, ICON_INDEX);
+    }, DEFAULT_ICON_INDEX);
 };
 
 Game_Event.prototype.hasActionButtonContent = function() {
