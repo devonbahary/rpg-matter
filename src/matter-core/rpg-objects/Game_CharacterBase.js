@@ -5,7 +5,7 @@
 // coordinates and images, shared by all characters.
 
 import { Body, Bodies, Events, Vector } from "matter-js";
-import { isDown, isLeft, isRight, isUp } from "../utils/direction";
+import { isDown, isLeft, isRight, isUp, get8DirFromHorzVert } from "../utils/direction";
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -252,36 +252,15 @@ Game_CharacterBase.prototype.updateMovementDirection = function(dir) {
       this._heading = dir;
 };
 
+// overwrite
 Game_CharacterBase.prototype.moveStraight = function(d) {
-    this.setMovementSuccess(this.canPass(this._x, this._y, d));
-    if (this.isMovementSucceeded()) {
-        this.setDirection(d);
-        this._x = $gameMap.roundXWithDirection(this._x, d);
-        this._y = $gameMap.roundYWithDirection(this._y, d);
-        this._realX = $gameMap.xWithDirection(this._x, this.reverseDir(d));
-        this._realY = $gameMap.yWithDirection(this._y, this.reverseDir(d));
-        this.increaseSteps();
-    } else {
-        this.setDirection(d);
-        this.checkEventTriggerTouchFront(d);
-    }
+    this.move(d); 
 };
 
+// overwrite
 Game_CharacterBase.prototype.moveDiagonally = function(horz, vert) {
-    this.setMovementSuccess(this.canPassDiagonally(this._x, this._y, horz, vert));
-    if (this.isMovementSucceeded()) {
-        this._x = $gameMap.roundXWithDirection(this._x, horz);
-        this._y = $gameMap.roundYWithDirection(this._y, vert);
-        this._realX = $gameMap.xWithDirection(this._x, this.reverseDir(horz));
-        this._realY = $gameMap.yWithDirection(this._y, this.reverseDir(vert));
-        this.increaseSteps();
-    }
-    if (this._direction === this.reverseDir(horz)) {
-        this.setDirection(horz);
-    }
-    if (this._direction === this.reverseDir(vert)) {
-        this.setDirection(vert);
-    }
+    const d = get8DirFromHorzVert(horz, vert);
+    this.move(d); 
 };
 
 Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
