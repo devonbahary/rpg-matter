@@ -5,7 +5,7 @@
 // coordinates and images, shared by all characters.
 
 import { Body, Bodies, Events, Vector } from "matter-js";
-import { isDown, isLeft, isRight, isUp, get8DirFromHorzVert } from "../utils/direction";
+import { isDown, isLeft, isRight, isUp, get8DirFromHorzVert, get8DirFromVector } from "../utils/direction";
 import { mapXYToWorldPos } from "../utils/tilemap";
 import { vectorFromAToB } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
@@ -222,6 +222,8 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
         this.clearDestination();
     } else {
         Body.applyForce(this.body, this.body.position, movementVector);
+        const dir = get8DirFromVector(movementVector);
+        this.updateMovementDirection(dir);
     }
 
     this.increaseSteps();
