@@ -29,6 +29,7 @@ Game_CharacterBase.prototype.initMembers = function() {
     this.setupMatterEvents();
     this.setDirection(2);
     this._heading = 2;
+    this.clearDestination();
 };
 
 // overwrite to prevent writing of _realX, _realY
@@ -116,8 +117,16 @@ Game_CharacterBase.prototype.onCollisionActive = function(event) {
 Game_CharacterBase.prototype.onCollisionEnd = function(event) {
 };
 
+Game_CharacterBase.prototype.clearDestination = function() {
+    this._destinationX = this._destinationY = null;
+};
+
 Game_CharacterBase.prototype.isMoving = function() {
     return this.body.speed.round();
+};
+
+Game_CharacterBase.prototype.hasDestination = function() {
+    return this._destinationX !== null && this._destinationY !== null;
 };
 
 Game_CharacterBase.prototype.realMoveSpeed = function() {
@@ -185,8 +194,31 @@ Game_CharacterBase.prototype.updateJump = function() {
     }
 };
 
+const _Game_CharacterBase_update = Game_CharacterBase.prototype.update;
+Game_CharacterBase.prototype.update = function() {
+    this.updateMove();
+    _Game_CharacterBase_update.call(this);
+};
+
 Game_CharacterBase.prototype.updateMove = function() {
-    // overwrite; all movement is done through Matter.js
+    // overwrite; only used to auto-move through destination
+    if (!this.hasDestination()) return;
+
+    const destinationWorldPosVector = mapXYToWorldPos(this._destinationX, this._destinationY);
+    const vectorToDestination = vectorFromAToB(this.body.position, destinationWorldPosVector);
+    
+    const normalizedVector = Vector.normalise(vectorToDestination);
+    const movementVector = Vector.mult(normalizedVector, this.distancePerFrame());
+
+    const worldDistancePerFrame = this.distancePerFrame() * MATTER_CORE.TILE_SIZE;
+    if (Vector.magnitude(vectorToDestination) < worldDistancePerFrame) {
+        Body.setPosition(this.body, destinationWorldPosVector);
+        this.clearDestination();
+    } else {
+        Body.applyForce(this.body, this.body.position, movementVector);
+    }
+
+    this.increaseSteps();
 };
 
 Game_CharacterBase.prototype.refreshBushDepth = function() {
@@ -262,6 +294,13 @@ Game_CharacterBase.prototype.moveStraight = function(d) {
 Game_CharacterBase.prototype.moveDiagonally = function(horz, vert) {
     const d = get8DirFromHorzVert(horz, vert);
     this.move(d); 
+};
+
+Game_CharacterBase.prototype.moveTo = function(x, y) {
+    // TODO: add clearance check
+    if (!$gameMap.isValid(x, y)) return;
+    this._destinationX = x;
+    this._destinationY = y;
 };
 
 Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
