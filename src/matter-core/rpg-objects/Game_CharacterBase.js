@@ -6,6 +6,7 @@
 
 import { Body, Bodies, Events, Vector } from "matter-js";
 import { isDown, isLeft, isRight, isUp, get8DirFromHorzVert } from "../utils/direction";
+import { vectorFromAToB } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -283,5 +284,5 @@ Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
 };
 
 Game_CharacterBase.prototype.distanceFrom = function(char) {
-    return Vector.magnitude(Vector.add(this.body.position, Vector.neg(char.body.position)));
+    return Vector.magnitude(vectorFromAToB(this.body.position, char.body.position));
 };
