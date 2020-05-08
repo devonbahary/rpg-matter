@@ -126,7 +126,6 @@ Game_CharacterBase.prototype.realMoveSpeed = function() {
 
 const _Game_CharacterBase_distancePerFrame = Game_CharacterBase.prototype.distancePerFrame;
 Game_CharacterBase.prototype.distancePerFrame = function() {
-    // arbitrary throttle on movement speed
     return _Game_CharacterBase_distancePerFrame.call(this) * MATTER_CORE.BASE_MOVE_SPEED; 
 };
 
