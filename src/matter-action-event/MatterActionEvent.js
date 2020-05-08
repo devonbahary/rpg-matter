@@ -61,6 +61,15 @@ const OPACITY_UNTARGETED = parseInt(PluginManager.parameters('MatterActionEvent'
 */
 
 //-----------------------------------------------------------------------------
+// Game_Character
+//
+// The superclass of Game_Player, Game_Follower, GameVehicle, and Game_Event.
+
+Game_Character.prototype.spriteActionEventIconIndex = function() {
+    return 0;
+};
+
+//-----------------------------------------------------------------------------
 // Game_Event
 //
 // The game object class for an event. It contains functionality for event page
@@ -69,6 +78,10 @@ const OPACITY_UNTARGETED = parseInt(PluginManager.parameters('MatterActionEvent'
 Game_Event.prototype.hasListContent = function() {
     var list = this.list();
     return list && list.length > 1;
+};
+
+Game_Event.prototype.spriteActionEventIconIndex = function() {
+    return ICON_INDEX; // TODO: read from event page
 };
 
 //-----------------------------------------------------------------------------
@@ -90,7 +103,7 @@ Sprite_ActionEvent.prototype.initialize = function(character) {
 };
 
 Sprite_ActionEvent.prototype.initMembers = function() {
-    this._iconIndex = ICON_INDEX;
+    this._iconIndex = 0;
     this._animationCount = 0;
     this.anchor.x = 0.5;
     this.anchor.y = 1;
@@ -118,6 +131,7 @@ Sprite_ActionEvent.prototype.update = function() {
     } else {
         this.updateForNonActionButtonEvent();
     }
+    this.updateIconIndex();
 };
 
 Sprite_ActionEvent.prototype.isCharacterActionButtonEvent = function() {
@@ -154,6 +168,14 @@ Sprite_ActionEvent.prototype.updateAnimationCount = function() {
 Sprite_ActionEvent.prototype.updatePosition = function() {
     const animationY = this.progressTowardsAnimation() * PEAK_HEIGHT;
     this.y = -(this.parent.height + animationY);
+};
+
+Sprite_ActionEvent.prototype.updateIconIndex = function() {
+    const characterIconIndex = this._character.spriteActionEventIconIndex();
+    if (this._iconIndex !== characterIconIndex) {
+        this._iconIndex = characterIconIndex;
+        this.loadBitmap();
+    }
 };
 
 Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
