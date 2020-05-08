@@ -70,13 +70,13 @@ Game_CharacterBase.prototype.initBody = function() {
     });
 };
 
-Game_Character.prototype.initBodyParts = function() {
+Game_CharacterBase.prototype.initBodyParts = function() {
     return [ 
         this.initCharacterBody(),
     ];
 };
 
-Game_Character.prototype.initCharacterBody = function() {
+Game_CharacterBase.prototype.initCharacterBody = function() {
     return Bodies.circle(0, 0, this.radius, this.initCharacterBodyOptions());
 };
 
@@ -88,7 +88,7 @@ Game_CharacterBase.prototype.initBodyOptions = function() {
     };
 };
 
-Game_Character.prototype.initCharacterBodyOptions = function() {
+Game_CharacterBase.prototype.initCharacterBodyOptions = function() {
     return {};
 };
 
