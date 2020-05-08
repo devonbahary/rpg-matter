@@ -1,3 +1,5 @@
+import MATTER_CORE from "../pluginParams";
+
 const TILE_BORDER_THICKNESS = 0.01; // the smaller, the more realistic but more prone to collision error
 
 const getTilemapProperty2DArray = gameMap => {
@@ -227,3 +229,13 @@ export const getTilemapCollisionObjects = gameMap => {
     ...trimmedTileBorderCollisionObjects 
   ];
 };
+
+// (0, 0) refers to the top-left tile on the map, but when we say to move to (0, 0), we mean to
+// move a character to (0.5, 0.5)
+export const mapXYToWorldPos = (x, y) => {
+    const ts = MATTER_CORE.TILE_SIZE;
+    return { 
+        x: x * ts + ts / 2, 
+        y: y * ts + ts / 2,
+    };
+};  
