@@ -57,6 +57,7 @@
 */
 
 import { EVENT_TRIGGERS } from "../common/constants";
+import { EVENT_COMMAND_CODES } from "./constants";
 
 const ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Index"]);
 const ICON_WIDTH = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Width"]);
@@ -65,6 +66,8 @@ const ANIMATION_DURATION = parseInt(PluginManager.parameters('MatterActionEvent'
 const PEAK_HEIGHT = parseInt(PluginManager.parameters('MatterActionEvent')["Animation Peak Height"]);
 const OPACITY_TARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Targeted"]);
 const OPACITY_UNTARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Untargeted"]);
+
+const EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX = /SpriteActionEventIconIndex (\d+)/i;
 
 /*
     TODO:
@@ -94,8 +97,27 @@ Game_Event.prototype.hasListContent = function() {
     return list && list.length > 1;
 };
 
+Game_Event.prototype.pageComments = function() {
+    return this.list().reduce((acc, { code, parameters }) => {
+        if ([ EVENT_COMMAND_CODES.COMMENT, EVENT_COMMAND_CODES.COMMENT_CTD ].includes(code)) {
+            acc.push(parameters[0]);
+        }
+        return acc;
+    }, []);
+};
+
 Game_Event.prototype.spriteActionEventIconIndex = function() {
-    return ICON_INDEX; // TODO: read from event page
+    if (!this.hasActionButtonContent()) return 0;
+    
+    return this.pageComments().reduce((acc, comment) => {
+        const match = comment.match(EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX);
+        if (match) return parseInt(match[1]);
+        return acc;
+    }, ICON_INDEX);
+};
+
+Game_Event.prototype.hasActionButtonContent = function() {
+    return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]) && this.hasListContent();
 };
 
 //-----------------------------------------------------------------------------
@@ -139,37 +161,23 @@ Sprite_ActionEvent.prototype.loadBitmap = function() {
 
 Sprite_ActionEvent.prototype.update = function() {
     Sprite_Base.prototype.update.call(this);
-    this.updateAnimationCount();
-    if (this.isCharacterActionButtonEvent()) {
-        this.updateForActionButtonEvent();
-    } else {
-        this.updateForNonActionButtonEvent();
-    }
     this.updateIconIndex();
-};
-
-Sprite_ActionEvent.prototype.isCharacterActionButtonEvent = function() {
-    return (
-        this._character instanceof Game_Event && 
-        this._character.hasListContent() && 
-        this._character.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ])
-    );
-};
-
-Sprite_ActionEvent.prototype.updateForActionButtonEvent = function() {
-    if (!this._isShowing) {
-        this.loadBitmap();
-        this._isShowing = true;
-    }
+    this.updateAnimationCount();
     this.updatePosition();
     this.opacity = this.opacityThisFrame();
 };
 
-Sprite_ActionEvent.prototype.updateForNonActionButtonEvent = function() {
-    if (this._isShowing) {
-        this.bitmap.clear();
-        this._isShowing = false;
+Sprite_ActionEvent.prototype.updateIconIndex = function() {
+    const charIconIndex = this.characterIconIndex();
+    if (this._iconIndex !== charIconIndex) {
+        this._iconIndex = charIconIndex;
+        this.loadBitmap();
     }
+};
+
+Sprite_ActionEvent.prototype.characterIconIndex = function() {
+    if (!this._character) return 0;
+    return this._character.spriteActionEventIconIndex();
 };
 
 Sprite_ActionEvent.prototype.updateAnimationCount = function() {
@@ -184,14 +192,6 @@ Sprite_ActionEvent.prototype.updatePosition = function() {
     this.y = -(this.parent.height + animationY);
 };
 
-Sprite_ActionEvent.prototype.updateIconIndex = function() {
-    const characterIconIndex = this._character.spriteActionEventIconIndex();
-    if (this._iconIndex !== characterIconIndex) {
-        this._iconIndex = characterIconIndex;
-        this.loadBitmap();
-    }
-};
-
 Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
     const framesInOneDirection = ANIMATION_DURATION / 2;
     if (this._animationCount <= Math.floor(framesInOneDirection)) {
@@ -202,12 +202,10 @@ Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
 };
 
 Sprite_ActionEvent.prototype.opacityThisFrame = function() {
-    if (this.isCharacterTargeted()) return OPACITY_TARGETED;
-    return OPACITY_UNTARGETED;
-};
+    if (!this._iconIndex) return 0;
 
-Sprite_ActionEvent.prototype.isCharacterTargeted = function() {
-    return $gamePlayer.closestActionButtonEventInRange() === this._character;
+    const isCharacterTargeted = $gamePlayer.closestActionButtonEventInRange() === this._character;
+    return isCharacterTargeted ? OPACITY_TARGETED : OPACITY_UNTARGETED;
 };
 
 //-----------------------------------------------------------------------------
