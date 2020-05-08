@@ -194,18 +194,20 @@ Game_CharacterBase.prototype.updateJump = function() {
         this._realY = this._y = $gameMap.roundY(this._y);
     }
 };
-
 const _Game_CharacterBase_update = Game_CharacterBase.prototype.update;
 Game_CharacterBase.prototype.update = function() {
-    this.updateMove();
     _Game_CharacterBase_update.call(this);
+    this.updateMoveToDestination();
 };
 
 Game_CharacterBase.prototype.updateMove = function() {
+    // overwrite; all movement is done through Matter
+};
+
+Game_CharacterBase.prototype.updateMoveToDestination = function() {
     // TODO: use pathfinding if can't move to destination without collision; clearDestination() if
     // can't reach
     // this might be complicated because $gameTemp would at least take you to the collision before clearing
-    // overwrite; only used to auto-move through destination
     if (!this.hasDestination()) return;
 
     const destinationWorldPosVector = mapXYToWorldPos(this._destinationX, this._destinationY);
