@@ -119,6 +119,7 @@ Game_CharacterBase.prototype.onCollisionEnd = function(event) {
 
 Game_CharacterBase.prototype.clearDestination = function() {
     this._destinationX = this._destinationY = null;
+    $gameTemp.clearDestination();
 };
 
 Game_CharacterBase.prototype.isMoving = function() {
@@ -201,6 +202,9 @@ Game_CharacterBase.prototype.update = function() {
 };
 
 Game_CharacterBase.prototype.updateMove = function() {
+    // TODO: use pathfinding if can't move to destination without collision; clearDestination() if
+    // can't reach
+    // this might be complicated because $gameTemp would at least take you to the collision before clearing
     // overwrite; only used to auto-move through destination
     if (!this.hasDestination()) return;
 
