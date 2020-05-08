@@ -217,7 +217,7 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
     const movementVector = Vector.mult(normalizedVector, this.distancePerFrame());
 
     const worldDistancePerFrame = this.distancePerFrame() * MATTER_CORE.TILE_SIZE;
-    if (Vector.magnitude(vectorToDestination) < worldDistancePerFrame) {
+    if (Vector.magnitude(vectorToDestination) <= worldDistancePerFrame) {
         Body.setPosition(this.body, destinationWorldPosVector);
         this.clearDestination();
     } else {
