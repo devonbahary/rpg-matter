@@ -6,6 +6,7 @@
 
 import { Body, Bodies, Events, Vector } from "matter-js";
 import { isDown, isLeft, isRight, isUp, get8DirFromHorzVert } from "../utils/direction";
+import { mapXYToWorldPos } from "../utils/tilemap";
 import { vectorFromAToB } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
 
