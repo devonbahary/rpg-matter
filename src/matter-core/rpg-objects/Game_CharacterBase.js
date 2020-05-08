@@ -130,10 +130,8 @@ Game_CharacterBase.prototype.distancePerFrame = function() {
 };
 
 Game_CharacterBase.prototype.setPosition = function(x, y) {
-    const tileSize = MATTER_CORE.TILE_SIZE;
-    const worldX = x * tileSize + (this.width * tileSize / 2);
-    const worldY = y * tileSize + (this.height * tileSize / 2);
-    Body.setPosition(this.body, { x: worldX, y: worldY });
+    const worldPos = mapXYToWorldPos(x, y);
+    Body.setPosition(this.body, worldPos);
 };
 
 Game_CharacterBase.prototype.copyPosition = function(character) {
