@@ -22,3 +22,15 @@ export const get8DirFromHorzVert = (horz, vert) => {
         return horz;
     }
 };
+
+export const get8DirFromVector = ({ x, y }) => {
+    // ignore x or y component when its less than half its counterpart
+    if (Math.abs(x) > Math.abs(y) * 2) {
+        y = 0;
+    } else if (Math.abs(y) > Math.abs(x) * 2) {
+        x = 0;
+    }
+    const horz = x > 0 ? 6 : x < 0 ? 4 : 0;
+    const vert = y > 0 ? 2 : y < 0 ? 8 : 0;
+    return get8DirFromHorzVert(horz, vert);
+};
