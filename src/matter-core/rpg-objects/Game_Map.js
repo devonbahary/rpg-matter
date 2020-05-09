@@ -49,7 +49,8 @@ Game_Map.prototype.setupMatterEvents = function() {
 
 Game_Map.prototype.setupMatterRender = function() {
     if (!MATTER_CORE.RENDER_IS_DISPLAY) return;
-    const render = Render.create({
+    if (this.render) this.disposeMatterRender();
+    this.render = Render.create({
         element: document.querySelector('#matter-render'),
         engine: this.engine,
         options: {
@@ -64,9 +65,15 @@ Game_Map.prototype.setupMatterRender = function() {
         },
     });
 
-    Render.lookAt(render, this.engine.world.bounds);
+    Render.lookAt(this.render, this.engine.world.bounds);
 
-    Render.run(render);
+    Render.run(this.render);
+};
+
+Game_Map.prototype.disposeMatterRender = function() {
+    if (!MATTER_CORE.RENDER_IS_DISPLAY) return;
+    Render.stop(this.render);
+    this.render.canvas.remove();
 };
 
 Game_Map.prototype.setupMatterBodies = function() {
@@ -118,4 +125,5 @@ Game_Map.prototype.addBody = function(body) {
 Game_Map.prototype.terminate = function() {
     Engine.clear(this.engine);
     Events.off(this.engine);
+    this.disposeMatterRender();
 };
