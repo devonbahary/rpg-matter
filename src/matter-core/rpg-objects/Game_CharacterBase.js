@@ -5,7 +5,16 @@
 // coordinates and images, shared by all characters.
 
 import { Body, Bodies, Events, Vector } from "matter-js";
-import { isDown, isLeft, isRight, isUp, get8DirFromHorzVert, get8DirFromVector } from "../utils/direction";
+import { 
+    isDown, 
+    isLeft, 
+    isRight, 
+    isUp, 
+    getAngleFromDirection, 
+    get8DirFromAngle,
+    get8DirFromHorzVert, 
+    get8DirFromVector, 
+} from "../utils/direction";
 import { mapXYToWorldPos } from "../utils/tilemap";
 import { vectorFromAToB } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
@@ -18,6 +27,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     radius: { get: function() { return this.width * MATTER_CORE.TILE_SIZE / 2; }, configurable: false },
     worldX: { get: function() { return this.body.position.x; }, configurable: false },
     worldY: { get: function() { return this.body.position.y; }, configurable: false },
+    _direction: { get: function() { return get8DirFromAngle(this.body.angle); }, configurable: false },
 });
 
 
@@ -32,13 +42,12 @@ Game_CharacterBase.prototype.initMembers = function() {
     this.clearDestination();
 };
 
-// overwrite to prevent writing of _realX, _realY
+// overwrite to prevent writing of _realX, _realY, _direction, which are now getters
 Game_CharacterBase.prototype.initMembersOverwrite = function() {
     this._moveSpeed = 4;
     this._moveFrequency = 6;
     this._opacity = 255;
     this._blendMode = 0;
-    this._direction = 2;
     this._pattern = 1;
     this._priorityType = 1;
     this._tileId = 0;
@@ -149,10 +158,10 @@ Game_CharacterBase.prototype.copyPosition = function(character) {
     this.setDirection(character._direction);
 };
 
-const _Game_CharacterBase_setDirection = Game_CharacterBase.prototype.setDirection;
 Game_CharacterBase.prototype.setDirection = function(d) {
-    _Game_CharacterBase_setDirection.call(this, d);
-    this.updateBodyAngle();
+    if (this.isDirectionFixed() || !d) return; // overwrite; used to set _direction
+    this.resetStopCount();
+    Body.setAngle(this.body, getAngleFromDirection(d));
 };
 
 Game_CharacterBase.prototype.screenX = function() {
@@ -163,25 +172,6 @@ Game_CharacterBase.prototype.screenX = function() {
 Game_CharacterBase.prototype.screenY = function() {
     var th = $gameMap.tileHeight();
     return Math.round(this.scrolledY() * th + (th / 2) - this.shiftY() - this.jumpHeight());
-};
-
-Game_CharacterBase.prototype.updateBodyAngle = function () {
-    let angle = this.body.angle;
-    switch (this._direction) {
-        case 2: // down
-            angle = 90 * Math.PI / 180;
-            break;
-        case 4: // left
-            angle = 180 * Math.PI / 180;
-            break;
-        case 6: // right
-            angle = 0;
-            break;
-        case 8: // up
-            angle = -90 * Math.PI / 180;
-            break;
-    }
-    Body.setAngle(this.body, angle);
 };
 
 Game_CharacterBase.prototype.updateJump = function() {
