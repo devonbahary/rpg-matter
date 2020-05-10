@@ -56,7 +56,7 @@
  * @type number
  * @min 0
  * @max 255
- * @default 100
+ * @default 150
 */
 
 import { EVENT_TRIGGERS } from "../common/constants";
