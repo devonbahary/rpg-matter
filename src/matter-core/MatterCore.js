@@ -69,6 +69,29 @@
  * @desc Toggle whether the player will dash during click to move.
  * @type boolean
  * @default true
+ * 
+ * @param Playtest Engine Timing
+ 
+ * @param Playtest Timescale On Button Press
+ * @parent Playtest Engine Timing
+ * @desc Toggle playtest timescaling through button press
+ * @type boolean
+ * @default false
+ * 
+ * @param Playtest Timescale Key Code
+ * @parent Playtest Engine Timing
+ * @desc Key code to press for timescale adjustment
+ * @type number
+ * @default 17
+ * @min 0
+ * @max 255
+ * 
+ * @param Playtest Timescale
+ * @parent Playtest Engine Timing
+ * @desc 0 freezes the simulation, 0.1 gives a slow-motion effect, 1.2 gives a speed-up effect
+ * @default 0.5
+ * @min 0
+ * @max 5
 */
 
 import './rpg_core';

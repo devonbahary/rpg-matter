@@ -118,7 +118,22 @@ Game_Map.prototype.tileId = function(x, y, z) {
 const _Game_Map_update = Game_Map.prototype.update;
 Game_Map.prototype.update = function(sceneActive) {
     _Game_Map_update.call(this, sceneActive);
+    this.updateEngine();
+};
+
+Game_Map.prototype.updateEngine = function() {
+    this.updateEngineTiming();
     Engine.update(this.engine);
+};
+
+Game_Map.prototype.updateEngineTiming = function() {
+    if (Input.isPlaytestTimescalePressed()) {
+        if (this.engine.timing.timeScale !== MATTER_CORE.PLAYTEST_TIMESCALE) {
+            this.engine.timing.timeScale = MATTER_CORE.PLAYTEST_TIMESCALE;
+        }
+    } else if (this.engine.timing.timeScale !== 1) {
+        this.engine.timing.timeScale = 1;
+    }
 };
 
 Game_Map.prototype.addBody = function(body) {
