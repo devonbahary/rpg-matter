@@ -6,5 +6,5 @@
 const _Game_Temp_setDestination = Game_Temp.prototype.setDestination;
 Game_Temp.prototype.setDestination = function(x, y) {
     _Game_Temp_setDestination.call(this, x, y);
-    $gamePlayer.moveTo(x, y); 
+    $gamePlayer.pathfindTo({ x, y });
 };
