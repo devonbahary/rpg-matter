@@ -170,6 +170,11 @@ Game_Player.prototype.updateOnMoving = function() {
     }
 };
 
+Game_Player.prototype.clearDestination = function() {
+    Game_Character.prototype.clearDestination.call(this);
+    $gameTemp.clearDestination(); // TODO: how to get blinking effect to persist
+};
+
 // overwrite to remove non-collision based event checks, triggerTouchAction(), and odd return boolean
 Game_Player.prototype.triggerAction = function() {
     if (this.canMove()) this.triggerButtonAction();

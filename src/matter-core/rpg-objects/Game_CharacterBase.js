@@ -129,7 +129,6 @@ Game_CharacterBase.prototype.onCollisionEnd = function(event) {
 
 Game_CharacterBase.prototype.clearDestination = function() {
     this._destinationX = this._destinationY = null;
-    $gameTemp.clearDestination();
 };
 
 Game_CharacterBase.prototype.isMoving = function() {
