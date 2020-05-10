@@ -25,6 +25,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     _y: { get: function() { return this.worldY / MATTER_CORE.TILE_SIZE; }, configurable: false },
     _realX: { get: function() { return this._x; }, configurable: false },
     _realY: { get: function() { return this._y; }, configurable: false },
+    mapPos: { get: function() { return { x: this.x, y: this.y }; }, configurable: false },
     radius: { get: function() { return this.width * MATTER_CORE.TILE_SIZE / 2; }, configurable: false },
     worldX: { get: function() { return this.body.position.x; }, configurable: false },
     worldY: { get: function() { return this.body.position.y; }, configurable: false },
