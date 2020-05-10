@@ -76,7 +76,8 @@ Game_CharacterBase.prototype.initBody = function() {
         ...part, 
         character: this,
     }));
-    
+
+    // every Game_CharacterBase.body is a compound body made up of potentially multiple parts
     this.body = Body.create({
         parts,
         ...this.initBodyOptions(),
