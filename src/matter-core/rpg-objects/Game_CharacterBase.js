@@ -41,6 +41,7 @@ Game_CharacterBase.prototype.initMembers = function() {
     this.setDirection(2);
     this._heading = 2;
     this.clearDestination();
+    this.pathFindingQueue = [];
 };
 
 // overwrite to prevent writing of _realX, _realY, _direction, which are now getters
@@ -211,6 +212,7 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
     if (Vector.magnitude(vectorToDestination) <= worldDistancePerFrame) {
         Body.setPosition(this.body, destinationWorldPosVector);
         this.clearDestination();
+        this.shiftPathfindingQueue();
     } else {
         Body.applyForce(this.body, this.body.position, movementVector);
         const dir = get8DirFromVector(movementVector);
@@ -323,4 +325,14 @@ Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
 
 Game_CharacterBase.prototype.distanceFrom = function(char) {
     return vectorLengthFromAToB(this.body.position, char.body.position);
+};
+
+Game_CharacterBase.prototype.pathfindTo = function(pos) {
+    this.pathFindingQueue = $gameMap.findPath(this.mapPos, pos);
+    this.shiftPathfindingQueue();
+};
+
+Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
+    const nextDestination = this.pathFindingQueue.shift();
+    if (nextDestination) this.moveTo(nextDestination.x, nextDestination.y);
 };

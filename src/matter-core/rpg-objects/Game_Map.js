@@ -6,6 +6,7 @@
 
 import { Bodies, Engine, Events, Render, World } from "matter-js";
 import { getTilemapCollisionObjects, getTilemapPropertyMatrix } from "../utils/tilemap";
+import { getPathTo } from "../utils/pathfinding";
 import MATTER_CORE from "../pluginParams";
 
 const Game_Map_setup = Game_Map.prototype.setup;
@@ -128,4 +129,8 @@ Game_Map.prototype.terminate = function() {
     Engine.clear(this.engine);
     Events.off(this.engine);
     this.disposeMatterRender();
+};
+
+Game_Map.prototype.findPath = function(startPos, endPos) {
+    return getPathTo.call(this, startPos, endPos);
 };
