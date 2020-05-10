@@ -16,7 +16,7 @@ import {
     get8DirFromVector, 
 } from "../utils/direction";
 import { mapXYToWorldPos } from "../utils/tilemap";
-import { vectorFromAToB } from "../utils/vector";
+import { vectorFromAToB, vectorLengthFromAToB } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -322,5 +322,5 @@ Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
 };
 
 Game_CharacterBase.prototype.distanceFrom = function(char) {
-    return Vector.magnitude(vectorFromAToB(this.body.position, char.body.position));
+    return vectorLengthFromAToB(this.body.position, char.body.position);
 };
