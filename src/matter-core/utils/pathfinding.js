@@ -1,5 +1,11 @@
 // A* pathfinding
 
+
+/*
+    TODO:
+        - introduce higher cost to tiles occupied by characters
+*/
+
 import { get8DirFromXyPairs } from "./direction";
 
 class Node {
