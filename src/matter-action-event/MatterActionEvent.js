@@ -80,6 +80,7 @@ const EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX = /SpriteActionEventIconInd
             - if string -> use as category (perhaps where category:icon_index map is defined in plugin param?)
         - use plugin param @type variable to flag sprites ON/OFF
         - should apply to more than action buttons? maybe calls for an entire change of name?
+        - specify different targeted icon
 */
 
 //-----------------------------------------------------------------------------
