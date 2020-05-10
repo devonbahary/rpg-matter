@@ -34,7 +34,7 @@
  * 
  * @param Interaction Radius
  * @parent Character
- * @desc The distance (in units of player length) the player can interact with action button events in front of it.
+ * @desc The distance (in units of player length) the player can interact with action button events in front of it
  * @type number
  * @default 1
  * @decimals 2
@@ -66,7 +66,7 @@
  * @max 1000
  * 
  * @param Click To Move Dash
- * @desc Toggle whether the player will dash during click to move.
+ * @desc Toggle whether the player will dash during click to move
  * @type boolean
  * @default true
  * 
