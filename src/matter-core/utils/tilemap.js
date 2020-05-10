@@ -2,19 +2,19 @@ import MATTER_CORE from "../pluginParams";
 
 const TILE_BORDER_THICKNESS = 0.01; // the smaller, the more realistic but more prone to collision error
 
-const getTilemapPropertyMatrix = gameMap => {
+export function getTilemapPropertyMatrix() {
   const tilemapPropertyMatrix = {};
 
-  for (let y = 0; y < gameMap.height(); y++) {
+  for (let y = 0; y < this.height(); y++) {
     tilemapPropertyMatrix[y] = {};
 
     // record passability in each direction for this tile
-    for (let x = 0; x <= gameMap.width(); x++) {
+    for (let x = 0; x <= this.width(); x++) {
       const tile = {
-        2: gameMap.isValid(x, y + 1) && gameMap.isPassable(x, y, 2),
-        4: gameMap.isValid(x - 1, y) && gameMap.isPassable(x, y, 4),
-        6: gameMap.isValid(x + 1, y) && gameMap.isPassable(x, y, 6),
-        8: gameMap.isValid(x, y - 1) && gameMap.isPassable(x, y, 8)
+        2: this.isValid(x, y + 1) && this.isPassable(x, y, 2),
+        4: this.isValid(x - 1, y) && this.isPassable(x, y, 4),
+        6: this.isValid(x + 1, y) && this.isPassable(x, y, 6),
+        8: this.isValid(x, y - 1) && this.isPassable(x, y, 8)
       };
       tilemapPropertyMatrix[y][x] = tile;
     }
@@ -25,11 +25,11 @@ const getTilemapPropertyMatrix = gameMap => {
 };
 
 // get tilemap collision objects from tiles that are wholly impassable
-const getTileCollisionObjects = (collisionTiles2DArray, gameMap) => {
+function getTileCollisionObjects(collisionTiles2DArray) {
   const tilemapCollisonObjects = [];
   
-  for (let y = 0; y < gameMap.height(); y++) {
-    for (let x = 0; x < gameMap.width(); x++) {
+  for (let y = 0; y < this.height(); y++) {
+    for (let x = 0; x < this.width(); x++) {
       if (!collisionTiles2DArray[y][x]) continue;
 
       const potentialObject = {
@@ -40,11 +40,11 @@ const getTileCollisionObjects = (collisionTiles2DArray, gameMap) => {
       };
 
       spanObject:
-        for (let spanY = y; spanY < gameMap.height(); spanY++) {
+        for (let spanY = y; spanY < this.height(); spanY++) {
           // span right 
-          for (let spanX = x; spanX <= gameMap.width(); spanX++) {
+          for (let spanX = x; spanX <= this.width(); spanX++) {
             if (potentialObject.x2 && spanX > potentialObject.x2) break spanObject;
-            if (!gameMap.isValid(spanX, spanY) || !collisionTiles2DArray[spanY][spanX]) {
+            if (!this.isValid(spanX, spanY) || !collisionTiles2DArray[spanY][spanX]) {
               if (!potentialObject.x2) potentialObject.x2 = spanX;
               if (potentialObject.x2 === spanX) potentialObject.y2 = spanY + 1;
               if (spanX < potentialObject.x2) break spanObject;
@@ -111,11 +111,11 @@ const getTrimmedTileCollisionObjects = collisionObjects => collisionObjects.redu
 }, []);
 
 // get tile border collision objects (one-way impassability)
-const getTileBorderCollisionObjects = (tilemapPropertyMatrix, gameMap) => {
+function getTileBorderCollisionObjects() {
   const tileBorderCollisionObjects = [];
-  for (let y = 0; y < gameMap.height(); y++) {
-    for (let x = 0; x < gameMap.width(); x++) {
-      const tileProperties = tilemapPropertyMatrix[y][x];
+  for (let y = 0; y < this.height(); y++) {
+    for (let x = 0; x < this.width(); x++) {
+      const tileProperties = this.tilemapPropertyMatrix[y][x];
 
       // is not a tile border collision object if no border is passable (already covered by 
       // regular tilemap collision objects)
@@ -160,13 +160,13 @@ const getTileBorderCollisionObjects = (tilemapPropertyMatrix, gameMap) => {
   return tileBorderCollisionObjects;
 };
 
-const getTrimmedTileBorderCollisionObjects = (tileBorderCollisionObjects, gameMap) => {
+function getTrimmedTileBorderCollisionObjects(tileBorderCollisionObjects) {
   const trimmedTileBorderCollisionObjects = [];
 
-  for (let x = 0; x <= gameMap.width(); x++) {
+  for (let x = 0; x <= this.width(); x++) {
     const tileBorderObjectsInX = tileBorderCollisionObjects.filter(tileBorder => tileBorder.x1 === x);
     let spanY = 0, spanningTileBorderObject = null;
-    while (spanY <= gameMap.height()) {
+    while (spanY <= this.height()) {
       const tileBorderObjectAtY = tileBorderObjectsInX.find(tileBorder => tileBorder.y1 === spanY && tileBorder.y2 - tileBorder.y1 === 1);
       if (tileBorderObjectAtY) {
         if (spanningTileBorderObject) {
@@ -182,10 +182,10 @@ const getTrimmedTileBorderCollisionObjects = (tileBorderCollisionObjects, gameMa
     }
   }
 
-  for (let y = 0; y <= gameMap.height(); y++) {
+  for (let y = 0; y <= this.height(); y++) {
     const tileBorderObjectsInY = tileBorderCollisionObjects.filter(tileBorder => tileBorder.y1 === y);
     let spanX = 0, spanningTileBorderObject = null;
-    while (spanX <= gameMap.width()) {
+    while (spanX <= this.width()) {
       const tileBorderObjectAtX = tileBorderObjectsInY.find(tileBorder => tileBorder.x1 === spanX && tileBorder.x2 - tileBorder.x1 === 1);
       if (tileBorderObjectAtX) {
         if (spanningTileBorderObject) {
@@ -204,25 +204,23 @@ const getTrimmedTileBorderCollisionObjects = (tileBorderCollisionObjects, gameMa
   return trimmedTileBorderCollisionObjects;
 };
 
-export const getTilemapCollisionObjects = gameMap => {
-  const tilemapPropertyMatrix = getTilemapPropertyMatrix(gameMap);
-
+export function getTilemapCollisionObjects() {
   // find entirely impassable tiles
   const collisionTiles2DArray = [];
-  for (let y = 0; y < gameMap.height(); y++) {
+  for (let y = 0; y < this.height(); y++) {
     collisionTiles2DArray.push([]);
-    for (let x = 0; x <= gameMap.width(); x++) {
-      const tileProperties = tilemapPropertyMatrix[y][x]
+    for (let x = 0; x <= this.width(); x++) {
+      const tileProperties = this.tilemapPropertyMatrix[y][x]
       const hasPassabilityInSomeDirection = Object.values(tileProperties).some(isPassable => isPassable);
       // 1 is a collision tile, 0 is a passable tile
       collisionTiles2DArray[y].push(hasPassabilityInSomeDirection ? 0 : 1);
     }
   }
 
-  const tileCollisionObjects = getTileCollisionObjects(collisionTiles2DArray, gameMap);
+  const tileCollisionObjects = getTileCollisionObjects.call(this, collisionTiles2DArray);
   const trimmedTileCollisionObjects = getTrimmedTileCollisionObjects(tileCollisionObjects);
-  const tileBorderCollisionObjects = getTileBorderCollisionObjects(tilemapPropertyMatrix, gameMap);
-  const trimmedTileBorderCollisionObjects = getTrimmedTileBorderCollisionObjects(tileBorderCollisionObjects, gameMap);
+  const tileBorderCollisionObjects = getTileBorderCollisionObjects.call(this);
+  const trimmedTileBorderCollisionObjects = getTrimmedTileBorderCollisionObjects.call(this, tileBorderCollisionObjects);
   
   return [ 
     ...trimmedTileCollisionObjects, 

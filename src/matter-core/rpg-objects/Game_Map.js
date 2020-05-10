@@ -5,12 +5,13 @@
 // determination functions.
 
 import { Bodies, Engine, Events, Render, World } from "matter-js";
-import { getTilemapCollisionObjects } from "../utils/tilemap";
+import { getTilemapCollisionObjects, getTilemapPropertyMatrix } from "../utils/tilemap";
 import MATTER_CORE from "../pluginParams";
 
 const Game_Map_setup = Game_Map.prototype.setup;
 Game_Map.prototype.setup = function(mapId) {
     Game_Map_setup.call(this, mapId);
+    this.tilemapPropertyMatrix = getTilemapPropertyMatrix.call(this);
     this.setupMatter();
 };
 
@@ -83,7 +84,8 @@ Game_Map.prototype.setupMatterBodies = function() {
 };
 
 Game_Map.prototype.addEnvironment = function() {
-    for (const collisionObject of getTilemapCollisionObjects(this)) {
+    const tilemapCollisionObjects = getTilemapCollisionObjects.call(this);
+    for (const collisionObject of tilemapCollisionObjects) {
         const { x1, x2, y1, y2 } = collisionObject;
         
         const tileSize = MATTER_CORE.TILE_SIZE;
