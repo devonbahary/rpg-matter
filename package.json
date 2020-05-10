@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "watch": "concurrently \"npm run start\" \"npm run build -- --watch\"",
-    "start": "node -r esm server.js"
+    "build": "webpack --env.ENV=production",
+    "build:dev": "webpack --env.ENV=development",
+    "watch": "concurrently \"npm run server\" \"npm run build:dev -- --watch\"",
+    "server": "node -r esm server.js",
+    "start": "npm run build && node -r esm server.js"
   },
   "author": "",
   "license": "ISC",
