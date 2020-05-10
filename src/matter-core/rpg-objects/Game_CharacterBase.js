@@ -20,6 +20,7 @@ import { vectorFromAToB, vectorLengthFromAToB } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
+    _direction: { get: function() { return get8DirFromAngle(this.body.angle); }, configurable: false },
     _x: { get: function() { return this.worldX / MATTER_CORE.TILE_SIZE; }, configurable: false },
     _y: { get: function() { return this.worldY / MATTER_CORE.TILE_SIZE; }, configurable: false },
     _realX: { get: function() { return this._x; }, configurable: false },
@@ -27,7 +28,6 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     radius: { get: function() { return this.width * MATTER_CORE.TILE_SIZE / 2; }, configurable: false },
     worldX: { get: function() { return this.body.position.x; }, configurable: false },
     worldY: { get: function() { return this.body.position.y; }, configurable: false },
-    _direction: { get: function() { return get8DirFromAngle(this.body.angle); }, configurable: false },
 });
 
 
