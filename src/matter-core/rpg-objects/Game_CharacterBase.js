@@ -197,27 +197,25 @@ Game_CharacterBase.prototype.updateMove = function() {
 };
 
 Game_CharacterBase.prototype.updateMoveToDestination = function() {
-    // TODO: use pathfinding if can't move to destination without collision; clearDestination() if
-    // can't reach
-    // this might be complicated because $gameTemp would at least take you to the collision before clearing
     if (!this.hasDestination()) return;
 
     const destinationWorldPosVector = mapXYToWorldPos(this._destinationX, this._destinationY);
     const vectorToDestination = vectorFromAToB(this.body.position, destinationWorldPosVector);
     
     const normalizedVector = Vector.normalise(vectorToDestination);
-    const movementVector = Vector.mult(normalizedVector, this.distancePerFrame());
+    const forceVector = Vector.mult(normalizedVector, this.distancePerFrame());
 
-    const worldDistancePerFrame = this.distancePerFrame() * MATTER_CORE.TILE_SIZE;
-    if (Vector.magnitude(vectorToDestination) <= worldDistancePerFrame) {
+    Body.applyForce(this.body, this.body.position, forceVector);
+
+    if (Vector.magnitude(this.body.velocity) >= Vector.magnitude(vectorToDestination)) {
         Body.setPosition(this.body, destinationWorldPosVector);
+        Body.setVelocity(this.body, { x: 0, y: 0 });
         this.clearDestination();
         this.shiftPathfindingQueue();
-    } else {
-        Body.applyForce(this.body, this.body.position, movementVector);
-        const dir = get8DirFromVector(movementVector);
-        this.updateMovementDirection(dir);
-    }
+    } 
+    
+    const dir = get8DirFromVector(this.body.velocity);
+    this.updateMovementDirection(dir);  
 
     this.increaseSteps();
 };
