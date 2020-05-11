@@ -214,7 +214,7 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
         this.shiftPathfindingQueue();
     } 
     
-    const dir = get8DirFromVector(this.body.velocity);
+    const dir = get8DirFromVector(vectorToDestination);
     this.updateMovementDirection(dir);  
 
     this.increaseSteps();
