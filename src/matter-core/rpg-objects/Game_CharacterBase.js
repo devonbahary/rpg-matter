@@ -33,7 +33,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
 
 Game_CharacterBase.prototype.initMembers = function() {
     this.initMembersOverwrite();
-    this._pathfindingQueue = [];
+    this.clearPathfinding();
     this.width = 1;
     this.height = 1;
     this.initBody();
@@ -343,4 +343,10 @@ Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
         this.setDirection(get8DirFromVector(vectorToDestination));
         this._pathfindingDestinationPos = null;
     }
+};
+
+Game_CharacterBase.prototype.clearPathfinding = function() {
+    this._pathfindingQueue = [];
+    this._pathfindingDestinationPos = null;
+    this.clearDestination();
 };

@@ -87,7 +87,10 @@ Game_Player.prototype.moveByInput = function() {
     if (!this.canMove()) return;
 
     const direction = this.getInputDirection();
-    if (direction) this.move(direction);
+    if (direction) {
+        if (this.hasDestination()) this.clearPathfinding();
+        this.move(direction);
+    }
 };
 
 Game_Player.prototype.getInputDirection = function() {
