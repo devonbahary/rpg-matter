@@ -87,11 +87,17 @@ Game_Player.prototype.onPathfindingDestination = function(pathfindingDestination
     Game_Character.prototype.onPathfindingDestination.call(this, pathfindingDestinationPos);
     if (!this.canStartLocalEvents()) return;
 
-    const characterBodiesAtDestination = getPartsFromBodies($gameMap.characterBodiesAtPoint(pathfindingDestinationPos));
-    const actionEventBodiesAtDestination = characterBodiesAtDestination.filter(charBody => {
-        return charBody.label === BODY_LABELS.EVENT && charBody.character.isActionEvent;
-    });
-    if (actionEventBodiesAtDestination.length) actionEventBodiesAtDestination[0].character.start();
+    setTimeout(() => {
+        const characterBodiesAtDestination = getPartsFromBodies($gameMap.characterBodiesAtPoint(pathfindingDestinationPos));
+        const actionEventBodiesAtDestination = characterBodiesAtDestination.filter(charBody => {
+            return (
+                charBody.label === BODY_LABELS.EVENT && 
+                charBody.character.isActionEvent &&
+                this._actionButtonEventsInRange.includes(charBody.character)
+            );
+        });
+        if (actionEventBodiesAtDestination.length) actionEventBodiesAtDestination[0].character.start();
+    }, 25); // allow time for pathfinding to conclude (specifically, character direction and event triggering)
 };
 
 Game_Player.prototype.moveByInput = function() {
