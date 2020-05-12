@@ -5,6 +5,7 @@
 // determinants and map scrolling functions.
 
 import { Bodies, Events, Vector } from "matter-js";
+import { getPartsFromBodies } from "../utils/bodies";
 import { BODY_LABELS } from "../constants";
 import { EVENT_TRIGGERS } from "../../common/constants";
 import MATTER_CORE from "../pluginParams";
@@ -81,6 +82,17 @@ Game_Player.prototype.onEventExitPlayerSensor = function(event) {
     if (gameEvent.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ])) {
         this._actionButtonEventsInRange = this._actionButtonEventsInRange.filter(event => event !== gameEvent);
     }
+};
+
+Game_Player.prototype.onPathfindingDestination = function(pathfindingDestinationPos) {
+    Game_Character.prototype.onPathfindingDestination.call(this, pathfindingDestinationPos);
+    if (!this.canStartLocalEvents()) return;
+
+    const characterBodiesAtDestination = getPartsFromBodies($gameMap.characterBodiesAtPoint(pathfindingDestinationPos));
+    const actionEventBodiesAtDestination = characterBodiesAtDestination.filter(charBody => {
+        return charBody.label === BODY_LABELS.EVENT && charBody.character.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]);
+    });
+    if (actionEventBodiesAtDestination.length) actionEventBodiesAtDestination[0].character.start();
 };
 
 Game_Player.prototype.moveByInput = function() {

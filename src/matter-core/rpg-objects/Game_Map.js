@@ -159,3 +159,7 @@ Game_Map.prototype.characterBodiesInBoundingBox = function(mapBounds) {
     };
     return Query.region(this._characterBodies, worldBounds);
 };
+
+Game_Map.prototype.characterBodiesAtPoint = function(pos) {
+    return Query.point(this._characterBodies, pos);
+};

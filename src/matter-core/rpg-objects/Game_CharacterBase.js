@@ -348,6 +348,7 @@ Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
     } else {
         const vectorToDestination = vectorFromAToB(this.body.position, this._pathfindingDestinationPos);
         this.setDirection(get8DirFromVector(vectorToDestination));
+        this.onPathfindingDestination(this._pathfindingDestinationPos);
         this.clearPathfinding();
     }
 };
@@ -356,4 +357,7 @@ Game_CharacterBase.prototype.clearPathfinding = function() {
     this._pathfindingQueue = [];
     this._pathfindingDestinationPos = null;
     this.clearDestination();
+};
+
+Game_CharacterBase.prototype.onPathfindingDestination = function(pathfindingDestinationPos) {
 };
