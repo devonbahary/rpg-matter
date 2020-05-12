@@ -137,7 +137,10 @@ Game_CharacterBase.prototype.isMoving = function() {
 };
 
 Game_CharacterBase.prototype.hasDestination = function() {
-    return this._destinationX !== null && this._destinationY !== null;
+    return (
+        this._pathfindingQueue.length || 
+        (this._destinationX !== null && this._destinationY !== null)
+    );
 };
 
 Game_CharacterBase.prototype.realMoveSpeed = function() {
