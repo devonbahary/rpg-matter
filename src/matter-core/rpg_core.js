@@ -5,6 +5,10 @@ Number.prototype.round = function() {
     return Math.round(this * 1000) / 1000;
 };
 
+Number.prototype.isInRange = function(min, max) {
+    return min <= this && this <= max;
+};
+
 //-----------------------------------------------------------------------------
 /**
  * The static class that handles input data from the keyboard and gamepads.

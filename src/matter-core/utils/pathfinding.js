@@ -167,8 +167,8 @@ export function getPathTo(startPos, endPos, forCharacter) {
             const yRangeMax = Math.max(firstStep.y, secondStep.y) + 1;
             
             const isCharInBetweenFirstAndSecondStep = (
-                (xRangeMin <= forCharacter.x && xRangeMax >= forCharacter.x) ||
-                (yRangeMin <= forCharacter.y && yRangeMax >= forCharacter.y)
+                forCharacter.x.isInRange(xRangeMin, xRangeMax) ||
+                forCharacter.y.isInRange(yRangeMin, yRangeMax)
             );
 
             if (isCharInBetweenFirstAndSecondStep) {
