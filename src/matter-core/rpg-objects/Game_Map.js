@@ -7,6 +7,8 @@
 import { Bodies, Engine, Events, Query, Render, World } from "matter-js";
 import { getTilemapCollisionObjects, getTilemapPropertyMatrix } from "../utils/tilemap";
 import { getPathTo } from "../utils/pathfinding";
+import { createBounds } from "../utils/bounds";
+import { toWorldVector } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
 
 const Game_Map_setup = Game_Map.prototype.setup;
@@ -25,14 +27,9 @@ Game_Map.prototype.setupMatter = function() {
 
 Game_Map.prototype.setupMatterEngine = function() {
     this.engine = Engine.create();
-
-    const maxWidth = this.width() * this.tileWidth();
-    const maxHeight = this.height() * this.tileHeight();
-    this.engine.world.bounds = { // TODO: wanted?
-        min: { x: 0, y: 0 },
-        max: { x: maxWidth, y: maxHeight },
-    };
-
+    const maxX = this.width() * MATTER_CORE.TILE_SIZE;
+    const maxY = this.height() * MATTER_CORE.TILE_SIZE;
+    this.engine.world.bounds = createBounds(0, maxX, 0, maxY);
     this.engine.world.gravity.scale = 0;
 };
 
@@ -90,11 +87,10 @@ Game_Map.prototype.addEnvironment = function() {
     for (const collisionObject of tilemapCollisionObjects) {
         const { x1, x2, y1, y2 } = collisionObject;
         
-        const tileSize = MATTER_CORE.TILE_SIZE;
-        const width = (x2 - x1) * tileSize;
-        const height = (y2 - y1) * tileSize;
-        const x = x1 * tileSize + width / 2;
-        const y = y1 * tileSize + height / 2;
+        const width = (x2 - x1) * MATTER_CORE.TILE_SIZE;
+        const height = (y2 - y1) * MATTER_CORE.TILE_SIZE;
+        const x = x1 * MATTER_CORE.TILE_SIZE + width / 2;
+        const y = y1 * MATTER_CORE.TILE_SIZE + height / 2;
 
         const body = Bodies.rectangle(x, y, width, height, { isStatic: true });
         this.addBody(body);
@@ -158,13 +154,8 @@ Game_Map.prototype.findPath = function(startPos, endPos, forCharacter) {
 
 Game_Map.prototype.characterBodiesInBoundingBox = function(mapBounds) {
     const worldBounds = {
-        min: this.toWorldVector(mapBounds.min),
-        max: this.toWorldVector(mapBounds.max),
+        min: toWorldVector(mapBounds.min),
+        max: toWorldVector(mapBounds.max),
     };
     return Query.region(this._characterBodies, worldBounds);
 };
-
-Game_Map.prototype.toWorldVector = ({ x, y }) => ({
-    x: x * MATTER_CORE.TILE_SIZE,
-    y: y * MATTER_CORE.TILE_SIZE,
-});

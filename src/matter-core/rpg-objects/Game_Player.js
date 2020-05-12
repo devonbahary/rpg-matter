@@ -5,9 +5,9 @@
 // determinants and map scrolling functions.
 
 import { Bodies, Events, Vector } from "matter-js";
-import MATTER_CORE from "../pluginParams";
 import { BODY_LABELS } from "../constants";
 import { EVENT_TRIGGERS } from "../../common/constants";
+import MATTER_CORE from "../pluginParams";
 
 const BODY_EVENTS = {
     EVENT_ENTER_PLAYER_SENSOR: 'eventEnterPlayerSensor',
@@ -106,10 +106,7 @@ Game_Player.prototype.centerY = function() {
 
 Game_Player.prototype.stepsThisFrame = function() {
     if (!this.isNormal()) return 0;
-
-    const magnitude = Vector.magnitude(this.body.velocity);
-    const steps = magnitude / MATTER_CORE.TILE_SIZE;
-    return steps;
+    return Vector.magnitude(this.body.velocity) / MATTER_CORE.TILE_SIZE;
 };  
 
 Game_Player.prototype.increaseSteps = function() {

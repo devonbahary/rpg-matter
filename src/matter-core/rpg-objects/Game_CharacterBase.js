@@ -15,8 +15,7 @@ import {
     get8DirFromHorzVert, 
     get8DirFromVector, 
 } from "../utils/direction";
-import { mapXYToWorldPos } from "../utils/tilemap";
-import { vectorFromAToB, vectorLengthFromAToB } from "../utils/vector";
+import { toWorldVectorCentered, vectorFromAToB, vectorLengthFromAToB } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -151,8 +150,7 @@ Game_CharacterBase.prototype.distancePerFrame = function() {
 };
 
 Game_CharacterBase.prototype.setPosition = function(x, y) {
-    const worldPos = mapXYToWorldPos(x, y);
-    Body.setPosition(this.body, worldPos);
+    Body.setPosition(this.body, toWorldVectorCentered({ x, y }));
 };
 
 Game_CharacterBase.prototype.copyPosition = function(character) {
@@ -186,6 +184,7 @@ Game_CharacterBase.prototype.updateJump = function() {
         this._realY = this._y = $gameMap.roundY(this._y);
     }
 };
+
 const _Game_CharacterBase_update = Game_CharacterBase.prototype.update;
 Game_CharacterBase.prototype.update = function() {
     _Game_CharacterBase_update.call(this);
@@ -199,7 +198,7 @@ Game_CharacterBase.prototype.updateMove = function() {
 Game_CharacterBase.prototype.updateMoveToDestination = function() {
     if (!this.hasDestination()) return;
 
-    const destinationWorldPosVector = mapXYToWorldPos(this._destinationX, this._destinationY);
+    const destinationWorldPosVector = toWorldVectorCentered({ x: this._destinationX, y: this._destinationY });
     const vectorToDestination = vectorFromAToB(this.body.position, destinationWorldPosVector);
     
     const normalizedVector = Vector.normalise(vectorToDestination);
@@ -210,7 +209,6 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
     if (Vector.magnitude(this.body.velocity) >= Vector.magnitude(vectorToDestination)) {
         Body.setPosition(this.body, destinationWorldPosVector);
         Body.setVelocity(this.body, { x: 0, y: 0 });
-        this.clearDestination();
         this.shiftPathfindingQueue();
     } 
     
@@ -331,6 +329,7 @@ Game_CharacterBase.prototype.pathfindTo = function(pos) {
 };
 
 Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
+    this.clearDestination();
     const nextDestination = this.pathFindingQueue.shift();
     if (nextDestination) this.moveTo(nextDestination.x, nextDestination.y);
 };
