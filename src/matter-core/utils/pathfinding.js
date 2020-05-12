@@ -13,8 +13,8 @@ class Node {
     constructor({ x, y }, parent = null) {
         this.x = Math.floor(x);
         this.y = Math.floor(y);
-        this.g = 0;
-        this.h = 0;
+        this.g = 0; // movement cost from start
+        this.h = 0; // estimated movement cost to end
         this.parent = parent;
     };
 
@@ -95,10 +95,12 @@ export function getPathTo(startPos, endPos, forCharacter) {
 
     const startNode = new Node(startPos);
     const endNode = new Node(endPos);
+    
+    startNode.h = getPathfindingDistance(startNode, endNode);
 
     openList.push(startNode);
 
-    let endNodeWithPath;
+    let closestNodeEncountered = startNode;
     while (openList.length) {
         // find node with lowest F cost
         const currentNode = openList.reduce((acc, node) => {
@@ -114,7 +116,7 @@ export function getPathTo(startPos, endPos, forCharacter) {
 
         // goal condition
         if (currentNode.id === endNode.id) {
-            endNodeWithPath = currentNode;
+            closestNodeEncountered = currentNode;
             break;
         };
 
@@ -132,6 +134,9 @@ export function getPathTo(startPos, endPos, forCharacter) {
             if (!existingNodeAtPositionInOpenList) {
                 adjacentNode.g = g;
                 adjacentNode.h = getPathfindingDistance(adjacentNode, endNode);
+                
+                if (closestNodeEncountered.h > adjacentNode.h) closestNodeEncountered = adjacentNode;
+                
                 openList.push(adjacentNode);
             } else if (existingNodeAtPositionInOpenList.g > g) {
                 existingNodeAtPositionInOpenList.g = g;
@@ -140,10 +145,10 @@ export function getPathTo(startPos, endPos, forCharacter) {
         }
     };
 
-    if (endNodeWithPath) {
+    if (closestNodeEncountered) {
         // construct path working backwards
-        let path = [ endNodeWithPath ];
-        let head = endNodeWithPath;
+        let path = [ closestNodeEncountered ];
+        let head = closestNodeEncountered;
         while (head.parent) {
             path.push(head.parent);
             head = head.parent;
