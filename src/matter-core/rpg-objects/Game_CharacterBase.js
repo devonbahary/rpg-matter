@@ -213,10 +213,10 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
         Body.setPosition(this.body, destinationWorldPosVector);
         Body.setVelocity(this.body, { x: 0, y: 0 });
         this.shiftPathfindingQueue();
-    } 
-    
-    const dir = get8DirFromVector(vectorToDestination);
-    this.updateMovementDirection(dir);  
+    } else {
+        const dir = get8DirFromVector(vectorToDestination);
+        this.updateMovementDirection(dir);  
+    }
 
     this.increaseSteps();
 };
@@ -329,11 +329,18 @@ Game_CharacterBase.prototype.distanceFrom = function(char) {
 Game_CharacterBase.prototype.pathfindTo = function(pos) {
     if (!$gameMap.isValid(pos.x, pos.y)) return;
     this._pathfindingQueue = $gameMap.findPath(this.mapPos, pos, this);
+    this._pathfindingDestinationPos = toWorldVectorCentered(pos);
     this.shiftPathfindingQueue();
 };
 
 Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
     this.clearDestination();
     const nextDestination = this._pathfindingQueue.shift();
-    if (nextDestination) this.moveTo(nextDestination.x, nextDestination.y);
+    if (nextDestination) {
+        this.moveTo(nextDestination.x, nextDestination.y);
+    } else {
+        const vectorToDestination = vectorFromAToB(this.body.position, this._pathfindingDestinationPos);
+        this.setDirection(get8DirFromVector(vectorToDestination));
+        this._pathfindingDestinationPos = null;
+    }
 };
