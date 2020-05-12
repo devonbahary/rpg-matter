@@ -34,13 +34,11 @@ Object.defineProperties(Game_CharacterBase.prototype, {
 Game_CharacterBase.prototype.initMembers = function() {
     this.initMembersOverwrite();
     this.clearPathfinding();
-    this.width = 1;
-    this.height = 1;
+    this.setDimensions();
     this.initBody();
     this.setupMatterEvents();
     this.setDirection(2);
     this._heading = 2;
-    this.clearDestination();
 };
 
 // overwrite to prevent writing of _realX, _realY, _direction, which are now getters
@@ -70,6 +68,11 @@ Game_CharacterBase.prototype.initMembersOverwrite = function() {
     this._jumpCount = 0;
     this._jumpPeak = 0;
     this._movementSuccess = true;
+};
+
+Game_CharacterBase.prototype.setDimensions = function(width = 1, height = 1) {
+    this.width = width;
+    this.height = height;
 };
 
 Game_CharacterBase.prototype.initBody = function() {
