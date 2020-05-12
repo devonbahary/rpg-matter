@@ -4,7 +4,7 @@
 // The game object class for a map. It contains scrolling and passage
 // determination functions.
 
-import { Bodies, Engine, Events, Render, World } from "matter-js";
+import { Bodies, Engine, Events, Query, Render, World } from "matter-js";
 import { getTilemapCollisionObjects, getTilemapPropertyMatrix } from "../utils/tilemap";
 import { getPathTo } from "../utils/pathfinding";
 import MATTER_CORE from "../pluginParams";
@@ -79,6 +79,7 @@ Game_Map.prototype.disposeMatterRender = function() {
 };
 
 Game_Map.prototype.setupMatterBodies = function() {
+    this._characterBodies = [];
     this.addEnvironment();
     this.addPlayer();
     this.addEvents();  
@@ -101,14 +102,19 @@ Game_Map.prototype.addEnvironment = function() {
 };
 
 Game_Map.prototype.addPlayer = function() {
-    this.addBody($gamePlayer.body);
+    this.addCharacterBody($gamePlayer);
 };
 
 Game_Map.prototype.addEvents = function() {
     for (const event of this.events()) {
-        this.addBody(event.body)
+        this.addCharacterBody(event);
     }
 };
+
+Game_Map.prototype.addCharacterBody = function({ body }) {
+    this._characterBodies.push(body);
+    this.addBody(body);
+}
 
 const _Game_Map_tileId = Game_Map.prototype.tileId;
 Game_Map.prototype.tileId = function(x, y, z) {
@@ -146,6 +152,19 @@ Game_Map.prototype.terminate = function() {
     this.disposeMatterRender();
 };
 
-Game_Map.prototype.findPath = function(startPos, endPos) {
-    return getPathTo.call(this, startPos, endPos);
+Game_Map.prototype.findPath = function(startPos, endPos, forCharacter) {
+    return getPathTo.call(this, startPos, endPos, forCharacter);
 };
+
+Game_Map.prototype.characterBodiesInBoundingBox = function(mapBounds) {
+    const worldBounds = {
+        min: this.toWorldVector(mapBounds.min),
+        max: this.toWorldVector(mapBounds.max),
+    };
+    return Query.region(this._characterBodies, worldBounds);
+};
+
+Game_Map.prototype.toWorldVector = ({ x, y }) => ({
+    x: x * MATTER_CORE.TILE_SIZE,
+    y: y * MATTER_CORE.TILE_SIZE,
+});

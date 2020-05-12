@@ -7,6 +7,7 @@
 */
 
 import { get8DirFromXyPairs } from "./direction";
+import { createBounds } from "./bounds";
 
 class Node {
     constructor({ x, y }, parent = null) {
@@ -38,12 +39,21 @@ const getAdjacentNodes = currentNode => {
     return nodes;
 };
 
-function canMoveToAndFromXyPairs([ x1, y1 ], [ x2, y2 ], dir) {
+function canMoveToAndFromXyPairs([ x1, y1 ], [ x2, y2 ], dir, forCharacter) {
+    const minX = Math.min(x1, x2);
+    const maxX = Math.max(x1, x2) + 1;
+    const minY = Math.min(y1, y2);
+    const maxY = Math.max(y1, y2) + 1;
+    const bounds = createBounds(minX, maxX, minY, maxY);
+
+    const otherCharsInBoundingBox = this.characterBodiesInBoundingBox(bounds).filter(c => c !== forCharacter.body);
+    if (otherCharsInBoundingBox.length) return false;
+
     const reverseDir = 10 - dir;
     return this.tilemapPropertyMatrix[y1][x1][dir] && this.tilemapPropertyMatrix[y2][x2][reverseDir];
 };
 
-function canMoveToNode(currentNode, adjacentNode) {
+function canMoveToNode(currentNode, adjacentNode, forCharacter) {
     const x1 = currentNode.x;
     const y1 = currentNode.y;
     const x2 = adjacentNode.x;
@@ -57,15 +67,15 @@ function canMoveToNode(currentNode, adjacentNode) {
         const pivotA = [ x1, y2 ];
         const pivotB = [ x2, y1 ];
 
-        if (!canMoveToAndFromXyPairs.call(this, startPair, pivotA, get8DirFromXyPairs(startPair, pivotA))) return false;
-        if (!canMoveToAndFromXyPairs.call(this, pivotA, endPair, get8DirFromXyPairs(pivotA, endPair))) return false;
+        if (!canMoveToAndFromXyPairs.call(this, startPair, pivotA, get8DirFromXyPairs(startPair, pivotA), forCharacter)) return false;
+        if (!canMoveToAndFromXyPairs.call(this, pivotA, endPair, get8DirFromXyPairs(pivotA, endPair), forCharacter)) return false;
 
-        if (!canMoveToAndFromXyPairs.call(this, startPair, pivotB, get8DirFromXyPairs(startPair, pivotB))) return false;
-        if (!canMoveToAndFromXyPairs.call(this, pivotB, endPair, get8DirFromXyPairs(pivotB, endPair))) return false;
+        if (!canMoveToAndFromXyPairs.call(this, startPair, pivotB, get8DirFromXyPairs(startPair, pivotB), forCharacter)) return false;
+        if (!canMoveToAndFromXyPairs.call(this, pivotB, endPair, get8DirFromXyPairs(pivotB, endPair), forCharacter)) return false;
         
         return true;
     } else {
-        return canMoveToAndFromXyPairs.call(this, startPair, endPair, get8DirFromXyPairs(startPair, endPair));
+        return canMoveToAndFromXyPairs.call(this, startPair, endPair, get8DirFromXyPairs(startPair, endPair), forCharacter);
     }
 };
 
@@ -79,7 +89,7 @@ const getPathfindingDistance = (node1, node2) => {
     return diagonalCost + straightCost;
 };
 
-export function getPathTo(startPos, endPos) {
+export function getPathTo(startPos, endPos, forCharacter) {
     let openList = [];
     const closedList = [];
 
@@ -112,7 +122,7 @@ export function getPathTo(startPos, endPos) {
         const adjacentNodes = getAdjacentNodes(currentNode);
         for (const adjacentNode of adjacentNodes) {
             // skip adjacent node if inaccessible or in closed
-            if (closedList.some(node => node.id === adjacentNode.id) || !canMoveToNode.call(this, currentNode, adjacentNode)) {
+            if (closedList.some(node => node.id === adjacentNode.id) || !canMoveToNode.call(this, currentNode, adjacentNode, forCharacter)) {
                 continue;
             }
             
