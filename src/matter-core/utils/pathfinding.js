@@ -89,7 +89,7 @@ const getPathfindingDistance = (node1, node2) => {
     return diagonalCost + straightCost;
 };
 
-export function getPathTo(startPos, endPos, forCharacter) {
+export function getPathTo(startPos, endPos, forCharacter, limit = null) {
     let openList = [];
     const closedList = [];
 
@@ -108,6 +108,8 @@ export function getPathTo(startPos, endPos, forCharacter) {
             if (node.f < acc.f) return node;
             return acc;
         });
+        
+        if (limit && currentNode.g > limit * 10) break;
 
         // remove current from open
         openList = openList.filter(node => node.id !== currentNode.id);

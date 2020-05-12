@@ -333,9 +333,9 @@ Game_CharacterBase.prototype.distanceFrom = function(char) {
     return vectorLengthFromAToB(this.body.position, char.body.position);
 };
 
-Game_CharacterBase.prototype.pathfindTo = function(pos) {
+Game_CharacterBase.prototype.pathfindTo = function(pos, limit) {
     if (!$gameMap.isValid(pos.x, pos.y)) return;
-    this._pathfindingQueue = $gameMap.findPath(this.mapPos, pos, this);
+    this._pathfindingQueue = $gameMap.findPath(this.mapPos, pos, this, limit);
     this._pathfindingDestinationPos = toWorldVectorCentered(pos);
     this.shiftPathfindingQueue();
 };

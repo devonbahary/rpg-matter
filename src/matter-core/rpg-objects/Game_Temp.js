@@ -13,5 +13,6 @@ Game_Temp.prototype.isPlaytest = function() {
 const _Game_Temp_setDestination = Game_Temp.prototype.setDestination;
 Game_Temp.prototype.setDestination = function(x, y) {
     _Game_Temp_setDestination.call(this, x, y);
-    $gamePlayer.pathfindTo({ x, y });
+    const pathfindingLimit = Math.max($gamePlayer.centerX(), $gamePlayer.centerY());
+    $gamePlayer.pathfindTo({ x, y }, pathfindingLimit);
 };

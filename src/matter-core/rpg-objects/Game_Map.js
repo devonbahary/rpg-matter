@@ -148,8 +148,8 @@ Game_Map.prototype.terminate = function() {
     this.disposeMatterRender();
 };
 
-Game_Map.prototype.findPath = function(startPos, endPos, forCharacter) {
-    return getPathTo.call(this, startPos, endPos, forCharacter);
+Game_Map.prototype.findPath = function(startPos, endPos, forCharacter, limit) {
+    return getPathTo.call(this, startPos, endPos, forCharacter, limit);
 };
 
 Game_Map.prototype.characterBodiesInBoundingBox = function(mapBounds) {
