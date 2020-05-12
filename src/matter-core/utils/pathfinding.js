@@ -141,6 +141,7 @@ export function getPathTo(startPos, endPos, forCharacter) {
     };
 
     if (endNodeWithPath) {
+        // construct path working backwards
         let path = [ endNodeWithPath ];
         let head = endNodeWithPath;
         while (head.parent) {
@@ -148,7 +149,29 @@ export function getPathTo(startPos, endPos, forCharacter) {
             head = head.parent;
         }
 
-        return path.reverse();
+        path = path.reverse();
+
+        // remove first step to closest tile if doing so would be backtracking
+        if (path.length >= 2) {
+            const firstStep = path[0];
+            const secondStep = path[1];
+
+            const xRangeMin = Math.min(firstStep.x, secondStep.x);
+            const xRangeMax = Math.max(firstStep.x, secondStep.x) + 1;
+            const yRangeMin = Math.min(firstStep.y, secondStep.y);
+            const yRangeMax = Math.max(firstStep.y, secondStep.y) + 1;
+            
+            const isCharInBetweenFirstAndSecondStep = (
+                (xRangeMin <= forCharacter.x && xRangeMax >= forCharacter.x) ||
+                (yRangeMin <= forCharacter.y && yRangeMax >= forCharacter.y)
+            );
+
+            if (isCharInBetweenFirstAndSecondStep) {
+                path.shift();
+            }
+        }
+
+        return path;
     }
 
     return [];
