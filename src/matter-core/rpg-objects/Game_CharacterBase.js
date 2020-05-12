@@ -324,6 +324,7 @@ Game_CharacterBase.prototype.distanceFrom = function(char) {
 };
 
 Game_CharacterBase.prototype.pathfindTo = function(pos) {
+    if (!$gameMap.isValid(pos.x, pos.y)) return;
     this.pathFindingQueue = $gameMap.findPath(this.mapPos, pos, this);
     this.shiftPathfindingQueue();
 };
