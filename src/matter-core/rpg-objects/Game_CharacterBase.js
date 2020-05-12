@@ -33,6 +33,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
 
 Game_CharacterBase.prototype.initMembers = function() {
     this.initMembersOverwrite();
+    this._pathfindingQueue = [];
     this.width = 1;
     this.height = 1;
     this.initBody();
@@ -40,7 +41,6 @@ Game_CharacterBase.prototype.initMembers = function() {
     this.setDirection(2);
     this._heading = 2;
     this.clearDestination();
-    this.pathFindingQueue = [];
 };
 
 // overwrite to prevent writing of _realX, _realY, _direction, which are now getters
@@ -325,12 +325,12 @@ Game_CharacterBase.prototype.distanceFrom = function(char) {
 
 Game_CharacterBase.prototype.pathfindTo = function(pos) {
     if (!$gameMap.isValid(pos.x, pos.y)) return;
-    this.pathFindingQueue = $gameMap.findPath(this.mapPos, pos, this);
+    this._pathfindingQueue = $gameMap.findPath(this.mapPos, pos, this);
     this.shiftPathfindingQueue();
 };
 
 Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
     this.clearDestination();
-    const nextDestination = this.pathFindingQueue.shift();
+    const nextDestination = this._pathfindingQueue.shift();
     if (nextDestination) this.moveTo(nextDestination.x, nextDestination.y);
 };
