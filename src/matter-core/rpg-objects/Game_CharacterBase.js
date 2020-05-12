@@ -70,6 +70,10 @@ Game_CharacterBase.prototype.initMembersOverwrite = function() {
     this._movementSuccess = true;
 };
 
+Game_CharacterBase.prototype.pos = function(x, y) {
+    return this._x.isInRange(x, x + 1) && this._y.isInRange(y, y + 1); // overwrite
+};
+
 Game_CharacterBase.prototype.setDimensions = function(width = 1, height = 1) {
     this.width = width;
     this.height = height;
