@@ -12,6 +12,10 @@ const BODY_EVENTS = {
     PLAYER_TOUCH: 'playerTouch',
 };
 
+Object.defineProperties(Game_CharacterBase.prototype, {
+    isActionEvent: { get: function() { return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]); }, configurable: false },
+});
+
 Game_Event.prototype.initCharacterBodyOptions = function() {
     return {
         label: BODY_LABELS.EVENT,

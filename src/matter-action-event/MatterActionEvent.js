@@ -123,7 +123,7 @@ Game_Event.prototype.spriteActionEventIconIndex = function() {
 };
 
 Game_Event.prototype.hasActionButtonContent = function() {
-    return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]) && this.hasListContent();
+    return this.isActionEvent && this.hasListContent();
 };
 
 //-----------------------------------------------------------------------------

@@ -7,7 +7,6 @@
 import { Bodies, Events, Vector } from "matter-js";
 import { getPartsFromBodies } from "../utils/bodies";
 import { BODY_LABELS } from "../constants";
-import { EVENT_TRIGGERS } from "../../common/constants";
 import MATTER_CORE from "../pluginParams";
 
 const BODY_EVENTS = {
@@ -72,14 +71,14 @@ Game_Player.prototype.isEventOnSensorCollision = function(event) {
 
 Game_Player.prototype.onEventEnterPlayerSensor = function(event) {
     const gameEvent = event.pair.character;
-    if (gameEvent.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ])) {
+    if (gameEvent.isActionEvent) {
         this._actionButtonEventsInRange.push(gameEvent);
     }
 };
 
 Game_Player.prototype.onEventExitPlayerSensor = function(event) {
     const gameEvent = event.pair.character;
-    if (gameEvent.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ])) {
+    if (gameEvent.isActionEvent) {
         this._actionButtonEventsInRange = this._actionButtonEventsInRange.filter(event => event !== gameEvent);
     }
 };
@@ -90,7 +89,7 @@ Game_Player.prototype.onPathfindingDestination = function(pathfindingDestination
 
     const characterBodiesAtDestination = getPartsFromBodies($gameMap.characterBodiesAtPoint(pathfindingDestinationPos));
     const actionEventBodiesAtDestination = characterBodiesAtDestination.filter(charBody => {
-        return charBody.label === BODY_LABELS.EVENT && charBody.character.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]);
+        return charBody.label === BODY_LABELS.EVENT && charBody.character.isActionEvent;
     });
     if (actionEventBodiesAtDestination.length) actionEventBodiesAtDestination[0].character.start();
 };
