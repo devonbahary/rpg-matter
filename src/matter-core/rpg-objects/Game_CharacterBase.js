@@ -163,6 +163,7 @@ Game_CharacterBase.prototype.setPosition = function(x, y) {
     Body.setPosition(this.body, toWorldVectorCentered({ x, y }));
 };
 
+// overwrite
 Game_CharacterBase.prototype.copyPosition = function(character) {
     Body.setPosition(this.body, character.body.position);
     this.setDirection(character._direction);
