@@ -13,8 +13,12 @@ Game_CharacterBase.prototype.setDirection = function(d) {
     this.body.isTurning = true;
 };
 
-const _Game_CharacterBase_update = Game_CharacterBase.prototype.update;
-Game_CharacterBase.prototype.update = function() {
-    if (this.body.isTurning) this.body.isTurning = false;
-    _Game_CharacterBase_update.call(this);
+const _Scene_Map_updateMain = Scene_Map.prototype.updateMain;
+Scene_Map.prototype.updateMain = function() {
+  [
+    $gamePlayer.body,
+    ...$gameMap.events().map(e => e.body),
+    ...$gameMap.vehicles().map(v => v.body),
+  ].forEach(b => { b.isTurning = false; });
+  _Scene_Map_updateMain.call(this);
 };
