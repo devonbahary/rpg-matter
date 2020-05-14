@@ -120,12 +120,12 @@ Game_Map.prototype.tileId = function(x, y, z) {
 const _Game_Map_update = Game_Map.prototype.update;
 Game_Map.prototype.update = function(sceneActive) {
     _Game_Map_update.call(this, sceneActive);
-    this.updateEngine();
+    this.updateEngine(sceneActive);
 };
 
-Game_Map.prototype.updateEngine = function() {
+Game_Map.prototype.updateEngine = function(sceneActive) {
     this.updateEngineTiming();
-    Engine.update(this.engine);
+    if (sceneActive) Engine.update(this.engine);
 };
 
 Game_Map.prototype.updateEngineTiming = function() {
