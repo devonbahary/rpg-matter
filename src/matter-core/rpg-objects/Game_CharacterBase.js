@@ -140,7 +140,7 @@ Game_CharacterBase.prototype.clearDestination = function() {
 };
 
 Game_CharacterBase.prototype.isMoving = function() {
-    return this.body.speed.round();
+    return this.body.speed.round() || this.hasDestination();
 };
 
 Game_CharacterBase.prototype.hasDestination = function() {
