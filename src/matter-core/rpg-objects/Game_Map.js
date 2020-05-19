@@ -9,6 +9,7 @@ import { getTilemapCollisionObjects, getTilemapPropertyMatrix } from "../utils/t
 import { getPathTo } from "../utils/pathfinding";
 import { createBounds } from "../utils/bounds";
 import { toWorldVector } from "../utils/vector";
+import { COLLISION_BITFIELDS } from "../constants";
 import MATTER_CORE from "../pluginParams";
 
 const Game_Map_setup = Game_Map.prototype.setup;
@@ -92,7 +93,19 @@ Game_Map.prototype.addEnvironment = function() {
         const x = x1 * MATTER_CORE.TILE_SIZE + width / 2;
         const y = y1 * MATTER_CORE.TILE_SIZE + height / 2;
 
-        const body = Bodies.rectangle(x, y, width, height, { isStatic: true });
+        const body = Bodies.rectangle(
+            x, 
+            y, 
+            width, 
+            height, 
+            { 
+                isStatic: true,
+                collisionFilter: {
+                    category: COLLISION_BITFIELDS.TILE,
+                    mask: COLLISION_BITFIELDS.TILE,
+                },
+            },
+        );
         this.addBody(body);
     };
 };
