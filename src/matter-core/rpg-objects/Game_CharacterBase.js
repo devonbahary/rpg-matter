@@ -328,6 +328,12 @@ Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
     this.straighten();
 };
 
+const _Game_CharacterBase_setThrough = Game_CharacterBase.prototype.setThrough;
+Game_CharacterBase.prototype.setThrough = function(through) {
+    _Game_CharacterBase_setThrough.call(this, through);
+    this._characterBody.isSensor = through;
+};
+
 Game_CharacterBase.prototype.distanceFrom = function(char) {
     return vectorLengthFromAToB(this.body.position, char.body.position);
 };
