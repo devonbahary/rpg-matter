@@ -350,7 +350,7 @@ Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
     const nextDestination = this._pathfindingQueue.shift();
     if (nextDestination) {
         this.moveTo(nextDestination.x, nextDestination.y);
-    } else {
+    } else if (this._pathfindingDestinationPos) {
         const vectorToDestination = vectorFromAToB(this.body.position, this._pathfindingDestinationPos);
         this.setDirection(get8DirFromVector(vectorToDestination));
         this.onPathfindingDestination(this._pathfindingDestinationPos);
