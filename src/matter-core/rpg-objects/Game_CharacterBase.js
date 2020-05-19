@@ -80,14 +80,9 @@ Game_CharacterBase.prototype.setDimensions = function(width = 1, height = 1) {
 };
 
 Game_CharacterBase.prototype.initBody = function() {
-    const parts = this.initBodyParts().map(part => ({ 
-        ...part, 
-        character: this,
-    }));
-
     // every Game_CharacterBase.body is a compound body made up of potentially multiple parts
     this.body = Body.create({
-        parts,
+        parts: this.initBodyParts(),
         ...this.initBodyOptions(),
     });
 };
@@ -99,7 +94,10 @@ Game_CharacterBase.prototype.initBodyParts = function() {
 };
 
 Game_CharacterBase.prototype.initCharacterBody = function() {
-    return Bodies.circle(0, 0, this.radius, this.initCharacterBodyOptions());
+    const body = Bodies.circle(0, 0, this.radius, this.initCharacterBodyOptions());
+    body.character = this;
+    this._characterBody = body;
+    return body;
 };
 
 Game_CharacterBase.prototype.initBodyOptions = function() {
