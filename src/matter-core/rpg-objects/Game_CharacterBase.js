@@ -16,7 +16,6 @@ import {
     get8DirFromVector, 
 } from "../utils/direction";
 import { toWorldVectorCentered, vectorFromAToB, vectorLengthFromAToB } from "../utils/vector";
-import { PRIORITY_TYPE_TO_COLLISION_BITFIELD } from "../constants";
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -39,7 +38,6 @@ Game_CharacterBase.prototype.initMembers = function() {
     this.initBody();
     this.setupMatterEvents();
     this.setDirection(2);
-    this.setPriorityType(1);
     this._heading = 2;
 };
 
@@ -137,14 +135,6 @@ Game_CharacterBase.prototype.onCollisionEnd = function(event) {
 
 Game_CharacterBase.prototype.clearDestination = function() {
     this._destinationX = this._destinationY = null;
-};
-
-const _Game_CharacterBase_setPriorityType = Game_CharacterBase.prototype.setPriorityType;
-Game_CharacterBase.prototype.setPriorityType = function(priorityType) {
-    _Game_CharacterBase_setPriorityType.call(this, priorityType);
-    const priorityTypeAsBitfield = PRIORITY_TYPE_TO_COLLISION_BITFIELD[priorityType];
-    this.body.collisionFilter.category = priorityTypeAsBitfield;
-    this.body.collisionFilter.mask = priorityTypeAsBitfield;
 };
 
 Game_CharacterBase.prototype.isMoving = function() {
