@@ -59,7 +59,6 @@
  * @default 150
 */
 
-import { EVENT_TRIGGERS } from "../common/constants";
 import { EVENT_COMMAND_CODES } from "./constants";
 import MATTER_CORE from "../matter-core/pluginParams";
 
