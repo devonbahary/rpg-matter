@@ -61,6 +61,7 @@
 
 import { EVENT_TRIGGERS } from "../common/constants";
 import { EVENT_COMMAND_CODES } from "./constants";
+import MATTER_CORE from "../matter-core/pluginParams";
 
 const DEFAULT_ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Default Icon Index"]);
 const ICON_WIDTH = parseInt(PluginManager.parameters('MatterActionEvent')["Icon Width"]);
@@ -195,7 +196,8 @@ Sprite_ActionEvent.prototype.updateAnimationCount = function() {
 
 Sprite_ActionEvent.prototype.updatePosition = function() {
     const animationY = this.progressTowardsAnimation() * PEAK_HEIGHT;
-    this.y = -(this.parent.height + animationY);
+    const baseHeight = this.parent.height >= 1 ? this.parent.height : MATTER_CORE.TILE_SIZE;
+    this.y = -(baseHeight + animationY);
 };
 
 Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
