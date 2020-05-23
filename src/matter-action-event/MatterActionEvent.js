@@ -123,7 +123,7 @@ Game_Event.prototype.spriteActionEventIconIndex = function() {
 };
 
 Game_Event.prototype.hasActionButtonContent = function() {
-    return this.isActionEvent && this.hasListContent();
+    return this.isActionEvent && this.hasListContent(); // don't display action icon if no content to trigger
 };
 
 //-----------------------------------------------------------------------------
