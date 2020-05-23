@@ -85,6 +85,7 @@ Game_CharacterBase.prototype.initBody = function() {
         parts: this.initBodyParts(),
         ...this.initBodyOptions(),
     });
+    this.body.character = this;
 };
 
 Game_CharacterBase.prototype.initBodyParts = function() {
