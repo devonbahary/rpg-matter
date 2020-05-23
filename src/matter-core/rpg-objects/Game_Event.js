@@ -7,6 +7,7 @@
 import { Events } from "matter-js";
 import { BODY_LABELS } from "../constants";
 import { EVENT_TRIGGERS } from "../../common/constants";
+import MATTER_CORE from "../pluginParams";
 
 const BODY_EVENTS = {
     PLAYER_TOUCH: 'playerTouch',
@@ -48,7 +49,7 @@ Game_Event.prototype.onCollisionStart = function(event) {
 Game_Event.prototype.onPlayerTouch = function(event) {
     if (this.isTouchEvent() && this.isTouchEventCooldownReady()) {
         this.start();
-        this._touchEventCooldown = 60;
+        this._touchEventCooldown = MATTER_CORE.EVENT_TOUCH_COOLDOWN;
     }
 };
 

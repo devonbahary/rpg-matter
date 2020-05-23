@@ -41,6 +41,16 @@
  * @min 0.1
  * @max 3
  * 
+ * @param Event
+ * 
+ * @param Touch Event Cooldown
+ * @parent Event
+ * @desc The time (in frames) before an Event with trigger Player Touch or Event Touch can be triggered again
+ * @type number
+ * @default 60
+ * @min 1
+ * @max 3600
+ * 
  * @param Matter Render
  * 
  * @param Display Render
