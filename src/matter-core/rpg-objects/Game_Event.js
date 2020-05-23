@@ -16,6 +16,12 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     isActionEvent: { get: function() { return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]); }, configurable: false },
 });
 
+const _Game_Event_initMembers = Game_Event.prototype.initMembers;
+Game_Event.prototype.initMembers = function() {
+    _Game_Event_initMembers.call(this);
+    this._touchEventCooldown = 0;
+};
+
 Game_Event.prototype.initCharacterBodyOptions = function() {
     return {
         label: BODY_LABELS.EVENT,
@@ -40,7 +46,22 @@ Game_Event.prototype.onCollisionStart = function(event) {
 };
 
 Game_Event.prototype.onPlayerTouch = function(event) {
-    if (this.isTriggerIn([ EVENT_TRIGGERS.PLAYER_TOUCH, EVENT_TRIGGERS.EVENT_TOUCH ])) {
+    if (this.isTouchEvent() && this.isTouchEventCooldownReady()) {
         this.start();
+        this._touchEventCooldown = 60;
     }
+};
+
+Game_Event.prototype.isTouchEvent = function() {
+    return this.isTriggerIn([ EVENT_TRIGGERS.PLAYER_TOUCH, EVENT_TRIGGERS.EVENT_TOUCH ]);
+};
+
+Game_Event.prototype.isTouchEventCooldownReady = function() {
+    return this._touchEventCooldown <= 0;
+};
+
+const _Game_Event_update = Game_Event.prototype.update;
+Game_Event.prototype.update = function() {
+    _Game_Event_update.call(this);
+    if (this._touchEventCooldown) this._touchEventCooldown--;
 };
