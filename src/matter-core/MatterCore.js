@@ -101,7 +101,7 @@ import './rpg-objects/Game_Player';
 import './rpg-objects/Game_Party';
 import './rpg-objects/Game_Map';
 import './rpg-objects/Game_Temp';
-import './matter/collision-on-rotate-bugfix';
+import './matter/Pair';
 
 const _Scene_Map_terminate = Scene_Map.prototype.terminate;
 Scene_Map.prototype.terminate = function() {
