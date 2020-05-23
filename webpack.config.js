@@ -6,6 +6,7 @@ module.exports = env => {
     mode: 'development',
     entry: {
       MatterCore: './src/matter-core/MatterCore.js',
+      MatterActionBattleSystem: './src/matter-abs/MatterActionBattleSystem.js',
       MatterActionEvent: './src/matter-action-event/MatterActionEvent.js',
     },
     output: {
