@@ -20,7 +20,7 @@ Pair.update = (pair, collision, timestamp) => {
     const { character: characterB } = bodyB;
 
     const isSensor = (bodyA.isSensor || bodyB.isSensor); // update sensor throughout life cycle of Pair, don't just set on creation
-    const isDifferentPriorityTypes = characterA && characterB && characterA._priorityType !== characterB._priorityType;
+    const isDifferentPriorityTypes = characterA && characterB && !characterA.canCollideWith(characterB);
 
     if (isSensor || isDifferentPriorityTypes) {
         pair.isSensor = true;

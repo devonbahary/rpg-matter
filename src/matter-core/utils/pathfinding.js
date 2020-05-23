@@ -46,7 +46,10 @@ function canMoveToAndFromXyPairs([ x1, y1 ], [ x2, y2 ], dir, forCharacter) {
     const maxY = Math.max(y1, y2) + 1;
     const bounds = createBounds(minX, maxX, minY, maxY);
 
-    const otherCharsInBoundingBox = this.characterBodiesInBoundingBox(bounds).filter(c => c !== forCharacter.body);
+    const otherCharsInBoundingBox = this.characterBodiesInBoundingBox(bounds).filter(characterBody => (
+        characterBody !== forCharacter.body &&
+        forCharacter.canCollideWith(characterBody.character)
+    ));
     if (otherCharsInBoundingBox.length) return false;
 
     const reverseDir = 10 - dir;

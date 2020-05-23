@@ -367,3 +367,9 @@ Game_CharacterBase.prototype.clearPathfinding = function() {
 
 Game_CharacterBase.prototype.onPathfindingDestination = function(pathfindingDestinationPos) {
 };
+
+Game_CharacterBase.prototype.canCollideWith = function(char) {
+    if (this.isThrough() || char.isThrough()) return false;
+    if (this._priorityType !== char._priorityType) return false;
+    return true;
+};
