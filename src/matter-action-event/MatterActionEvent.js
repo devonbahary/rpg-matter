@@ -59,6 +59,7 @@
  * @default 150
 */
 
+import { EVENT_COMMAND_CODES } from "../matter-core/constants";
 import MATTER_CORE from "../matter-core/pluginParams";
 
 const DEFAULT_ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Default Icon Index"]);
@@ -70,6 +71,12 @@ const OPACITY_TARGETED = parseInt(PluginManager.parameters('MatterActionEvent')[
 const OPACITY_UNTARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Untargeted"]);
 
 const EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX = /\<SpriteActionEventIconIndex (\d+)\>/i;
+
+const UNACTIONABLE_EVENT_COMMAND_CODES = [ 
+    EVENT_COMMAND_CODES.NULL,
+    EVENT_COMMAND_CODES.COMMENT,
+    EVENT_COMMAND_CODES.COMMENT_CTD,
+];
 
 /*
     TODO:
@@ -99,7 +106,7 @@ Game_Character.prototype.spriteActionEventIconIndex = function() {
 
 Game_Event.prototype.hasListContent = function() {
     var list = this.list();
-    return list && list.length > 1;
+    return list && list.filter(command => !UNACTIONABLE_EVENT_COMMAND_CODES.includes(command.code)).length > 0;
 };
 
 Game_Event.prototype.spriteActionEventIconIndex = function() {
