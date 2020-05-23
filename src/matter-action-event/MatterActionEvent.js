@@ -102,15 +102,6 @@ Game_Event.prototype.hasListContent = function() {
     return list && list.length > 1;
 };
 
-Game_Event.prototype.pageComments = function() {
-    return this.list().reduce((acc, { code, parameters }) => {
-        if ([ EVENT_COMMAND_CODES.COMMENT, EVENT_COMMAND_CODES.COMMENT_CTD ].includes(code)) {
-            acc.push(parameters[0]);
-        }
-        return acc;
-    }, []);
-};
-
 Game_Event.prototype.spriteActionEventIconIndex = function() {
     if (!this.hasActionButtonContent()) return 0;
     
