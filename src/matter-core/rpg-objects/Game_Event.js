@@ -5,8 +5,7 @@
 // switching and running parallel process events.
 
 import { Events } from "matter-js";
-import { BODY_LABELS } from "../constants";
-import { EVENT_TRIGGERS } from "../../common/constants";
+import { BODY_LABELS, EVENT_COMMAND_CODES, EVENT_TRIGGERS } from "../constants";
 import MATTER_CORE from "../pluginParams";
 
 const BODY_EVENTS = {

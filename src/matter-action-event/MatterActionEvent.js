@@ -59,7 +59,6 @@
  * @default 150
 */
 
-import { EVENT_COMMAND_CODES } from "./constants";
 import MATTER_CORE from "../matter-core/pluginParams";
 
 const DEFAULT_ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Default Icon Index"]);
