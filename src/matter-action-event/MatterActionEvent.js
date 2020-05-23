@@ -11,7 +11,7 @@
  * commands to indicate interaction.
  * 
  * EVENT_TAG (add this to a Comment command)
- *      SpriteActionEventIconIndex <icon index>
+ *      <SpriteActionEventIconIndex icon_index>
  * 
  * @param Default Icon Index
  * @desc Default icon index to display above events for those that do not have an EVENT_TAG.
@@ -71,7 +71,7 @@ const PEAK_HEIGHT = parseInt(PluginManager.parameters('MatterActionEvent')["Anim
 const OPACITY_TARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Targeted"]);
 const OPACITY_UNTARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Untargeted"]);
 
-const EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX = /SpriteActionEventIconIndex (\d+)/i;
+const EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX = /\<SpriteActionEventIconIndex (\d+)\>/i;
 
 /*
     TODO:
