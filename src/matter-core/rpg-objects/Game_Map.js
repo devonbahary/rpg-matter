@@ -76,7 +76,7 @@ Game_Map.prototype.disposeMatterRender = function() {
 };
 
 Game_Map.prototype.setupMatterBodies = function() {
-    this._characterBodies = [];
+    this.characterBodies = [];
     this.addEnvironment();
     this.addPlayer();
     this.addEvents();  
@@ -108,7 +108,7 @@ Game_Map.prototype.addEvents = function() {
 };
 
 Game_Map.prototype.addCharacterBody = function({ body }) {
-    this._characterBodies.push(body);
+    this.characterBodies.push(body);
     this.addBody(body);
 }
 
@@ -157,9 +157,9 @@ Game_Map.prototype.characterBodiesInBoundingBox = function(mapBounds) {
         min: toWorldVector(mapBounds.min),
         max: toWorldVector(mapBounds.max),
     };
-    return Query.region(this._characterBodies, worldBounds);
+    return Query.region(this.characterBodies, worldBounds);
 };
 
 Game_Map.prototype.characterBodiesAtPoint = function(pos) {
-    return Query.point(this._characterBodies, pos);
+    return Query.point(this.characterBodies, pos);
 };
