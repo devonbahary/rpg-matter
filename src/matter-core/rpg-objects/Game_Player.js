@@ -87,6 +87,7 @@ Game_Player.prototype.onPathfindingDestination = function(pathfindingDestination
     Game_Character.prototype.onPathfindingDestination.call(this, pathfindingDestinationPos);
     if (!this.canStartLocalEvents()) return;
 
+    // TODO: not good
     setTimeout(() => {
         const characterBodiesAtDestination = getPartsFromBodies($gameMap.characterBodiesAtPoint(pathfindingDestinationPos));
         const actionEventBodiesAtDestination = characterBodiesAtDestination.filter(charBody => {
