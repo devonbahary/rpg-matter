@@ -14,16 +14,14 @@ export const EVENT_TAG_REGEX_ENEMY_ID = /\<Enemy (\d+)\>/i;
 
 
 //-----------------------------------------------------------------------------
-// Game_CharacterBase
+// Game_Player
 //
-// The superclass of Game_Character. It handles basic information, such as
-// coordinates and images, shared by all characters.
+// The game object class for the player. It contains event starting
+// determinants and map scrolling functions.
 
-const _Game_CharacterBase_initMembers = Game_CharacterBase.prototype.initMembers;
-Game_CharacterBase.prototype.initMembers = function() {
-    _Game_CharacterBase_initMembers.call(this);
-    this.battler = null;
-};
+Object.defineProperties(Game_Player.prototype, {
+    battler: { get: function() { return $gameParty.leader(); }, configurable: false },
+});
 
 //-----------------------------------------------------------------------------
 // Game_Event
