@@ -5,9 +5,24 @@
 /*:
  * @plugindesc Action Battle System
  * Requires MatterCore.js plugin.
+ * 
+ * @param Battler HUD
+ * 
+ * @param Gauge Height
+ * @parent Battler HUD
+ * @desc Height (in pixels) of battler HUD gauge
+ * @type number
+ * @min 4
+ * @max 20
+ * @default 6
+ * 
 */
 
 import { battlerFromPage } from "./utils";
+
+const MATTER_ABS = {
+    GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
+};
 
 export const EVENT_TAG_REGEX_ACTOR_ID = /\<Actor (\d+)\>/i;
 export const EVENT_TAG_REGEX_ENEMY_ID = /\<Enemy (\d+)\>/i;
@@ -98,8 +113,6 @@ Object.defineProperties(Sprite_BattlerParameters.prototype, {
     _battler: { get: function() { return this._character ? this._character.battler : null; }, configurable: false },
 });
 
-Sprite_BattlerParameters.GAUGE_HEIGHT = 4;
-
 Sprite_BattlerParameters.prototype.initialize = function(character) {
     Sprite_Base.prototype.initialize.call(this);
     Window_Base.prototype.loadWindowskin.call(this);
@@ -114,7 +127,7 @@ Sprite_BattlerParameters.prototype.initMembers = function() {
 
 Sprite_BattlerParameters.prototype.createBitmap = function() {
     var tileWidth = $gameMap.tileWidth();
-    this.bitmap = new Bitmap(tileWidth - 4, Sprite_BattlerParameters.GAUGE_HEIGHT);
+    this.bitmap = new Bitmap(tileWidth - 4, MATTER_ABS.GAUGE_HEIGHT);
     this.anchor.x = 0.5;
 };
 
@@ -149,7 +162,7 @@ Sprite_BattlerParameters.prototype.updateGauge = function() {
         const fillW = (this.width - 2) * this._battler.hpRate();
         this.bitmap.clear();
         this.bitmap.fillAll(Window_Base.prototype.gaugeBackColor.call(this));
-        this.bitmap.gradientFillRect(1, 1, fillW, Sprite_BattlerParameters.GAUGE_HEIGHT - 2, color1, color2)
+        this.bitmap.gradientFillRect(1, 1, fillW, MATTER_ABS.GAUGE_HEIGHT - 2, color1, color2)
     }
 };
 
