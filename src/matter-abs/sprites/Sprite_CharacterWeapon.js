@@ -72,8 +72,8 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
         rotation, 
         scaleX,
         scaleY,
-        x, 
-        y,
+        x: dx, 
+        y: dy,
      } = getWeaponSpritePosition(this._character.weaponPose, direction, this._character.pattern(), this._iconIndex);
 
     this.anchor.x = anchorX;
@@ -83,9 +83,11 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
     this.scale.x = scaleX;
     this.scale.y = scaleY;
 
-    this.x = this._character.screenX() + x;
-    this.y = this._character.screenY() + y;
-    this.z = this._character.screenZ() + (this.shouldShowBehindCharacter() ? -1 : 1);
+    const dz = this.shouldShowBehindCharacter() ? -1 : 1;
+
+    this.x = this._character.screenX() + dx; 
+    this.y = this._character.screenY() + dy;
+    this.z = this._character.screenZ() + dz;
 };
 
 Sprite_CharacterWeapon.prototype.shouldShowBehindCharacter = function() {
