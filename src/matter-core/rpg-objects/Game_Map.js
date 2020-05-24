@@ -152,12 +152,12 @@ Game_Map.prototype.findPath = function(startPos, endPos, forCharacter, limit) {
     return getPathTo.call(this, startPos, endPos, forCharacter, limit);
 };
 
-Game_Map.prototype.characterBodiesInBoundingBox = function(mapBounds) {
+Game_Map.prototype.characterBodiesInBoundingBox = function(mapBounds, filterChar) {
     const worldBounds = {
         min: toWorldVector(mapBounds.min),
         max: toWorldVector(mapBounds.max),
     };
-    return Query.region(this.characterBodies, worldBounds);
+    return Query.region(this.characterBodies, worldBounds).filter(body => body.character !== filterChar);
 };
 
 Game_Map.prototype.characterBodiesAtPoint = function(pos) {
