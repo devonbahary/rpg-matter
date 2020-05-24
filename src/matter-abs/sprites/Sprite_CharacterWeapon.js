@@ -65,6 +65,7 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
     // - pattern
 
     // TODO: account for bushDepth, character currently goes partially opaque while weapon shows through
+    // TODO: jitterfix
     const direction = this._character.direction();
     const { 
         anchorX, 
