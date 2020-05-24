@@ -94,12 +94,15 @@ const WEAPON_POSE_TO_POSITION = {
             rotation: -(Math.PI / 4 + Math.PI / 2),
         },
         4: {
-            x: -12,
-            y: -2,
+            x: -8,
+            y: 4,
+            rotation: -Math.PI / 4,
         }, 
         6: {
-            x: 8,
-            y: -2,
+            x: 1,
+            y: 6,
+            rotation: Math.PI / 4,
+            scaleX: -1,
         },
         8: {
             x: 0,
