@@ -72,12 +72,6 @@ const OPACITY_UNTARGETED = parseInt(PluginManager.parameters('MatterActionEvent'
 
 const EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX = /\<SpriteActionEventIconIndex (\d+)\>/i;
 
-const UNACTIONABLE_EVENT_COMMAND_CODES = [ 
-    EVENT_COMMAND_CODES.NULL,
-    EVENT_COMMAND_CODES.COMMENT,
-    EVENT_COMMAND_CODES.COMMENT_CTD,
-];
-
 /*
     TODO:
         - slow opacity fade when should no longer display
@@ -103,11 +97,6 @@ Game_Character.prototype.spriteActionEventIconIndex = function() {
 //
 // The game object class for an event. It contains functionality for event page
 // switching and running parallel process events.
-
-Game_Event.prototype.hasListContent = function() {
-    var list = this.list();
-    return list && list.filter(command => !UNACTIONABLE_EVENT_COMMAND_CODES.includes(command.code)).length > 0;
-};
 
 Game_Event.prototype.spriteActionEventIconIndex = function() {
     if (!this.hasActionButtonContent()) return 0;

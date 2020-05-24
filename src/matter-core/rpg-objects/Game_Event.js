@@ -12,6 +12,13 @@ const BODY_EVENTS = {
     PLAYER_TOUCH: 'playerTouch',
 };
 
+const UNACTIONABLE_EVENT_COMMAND_CODES = [ 
+    EVENT_COMMAND_CODES.NULL,
+    EVENT_COMMAND_CODES.COMMENT,
+    EVENT_COMMAND_CODES.COMMENT_CTD,
+];
+
+
 Object.defineProperties(Game_CharacterBase.prototype, {
     isActionEvent: { get: function() { return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]); }, configurable: false },
 });
@@ -64,6 +71,17 @@ const _Game_Event_update = Game_Event.prototype.update;
 Game_Event.prototype.update = function() {
     _Game_Event_update.call(this);
     if (this._touchEventCooldown) this._touchEventCooldown--;
+};
+
+Game_Event.prototype.hasListContent = function() {
+    var list = this.list();
+    return list && list.filter(command => !UNACTIONABLE_EVENT_COMMAND_CODES.includes(command.code)).length > 0;
+};
+
+const _Game_Event_start = Game_Event.prototype.start;
+Game_Event.prototype.start = function() {
+    if (!this.hasListContent()) return;
+    _Game_Event_start.call(this);
 };
 
 Game_Event.prototype.pageComments = function() {
