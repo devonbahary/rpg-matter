@@ -1,4 +1,4 @@
-import { EVENT_TAG_REGEX_ACTOR_ID, EVENT_TAG_REGEX_ENEMY_ID } from "./MatterActionBattleSystem";
+import { MATTER_ABS } from "./MatterActionBattleSystem";
 
 function battlerSetupError(msg) {
     throw new Error(msg + ` for event ID ${this.eventId()}`);
@@ -23,11 +23,11 @@ export function battlerFromPage(battlerType) {
         switch (battlerType) {
             case 'actor':
                 dataset = $dataActors;
-                regex = EVENT_TAG_REGEX_ACTOR_ID;
+                regex = MATTER_ABS.EVENT_TAG_REGEX_ACTOR_ID;
                 break;
             case 'enemy':
                 dataset = $dataEnemies;
-                regex = EVENT_TAG_REGEX_ENEMY_ID;
+                regex = MATTER_ABS.EVENT_TAG_REGEX_ENEMY_ID;
                 break;
             default:
                 throw new Error(`invalid argument ${battlerType} for battlerType; must be 'actor' or 'enemy'`);
