@@ -86,14 +86,14 @@ Game_Event.prototype.setupBattler = function() {
 const _Sprite_Character_initMembers = Sprite_Character.prototype.initMembers;
 Sprite_Character.prototype.initMembers = function() {
     _Sprite_Character_initMembers.call(this);
-    this._spriteBattlerParameters = new Sprite_BattlerParameters(this._character);
-    this.addChild(this._spriteBattlerParameters);
+    this._battlerParametersSprite = new Sprite_BattlerParameters(this._character);
+    this.addChild(this._battlerParametersSprite);
 };
 
 const _Sprite_Character_setCharacter = Sprite_Character.prototype.setCharacter;
 Sprite_Character.prototype.setCharacter = function(character) {
     _Sprite_Character_setCharacter.call(this, character);
-    this._spriteBattlerParameters.setCharacter(character);
+    this._battlerParametersSprite.setCharacter(character);
 };
 
 //-----------------------------------------------------------------------------
