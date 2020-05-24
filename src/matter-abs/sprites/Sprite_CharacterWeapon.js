@@ -74,6 +74,7 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
         scaleY,
         x: dx, 
         y: dy,
+        z: dz,
      } = getWeaponSpritePosition(this._character.weaponPose, direction, this._character.pattern(), this._iconIndex);
 
     this.anchor.x = anchorX;
@@ -83,16 +84,11 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
     this.scale.x = scaleX;
     this.scale.y = scaleY;
 
-    const dz = this.shouldShowBehindCharacter() ? -1 : 1;
-
     this.x = this._character.screenX() + dx; 
     this.y = this._character.screenY() + dy;
     this.z = this._character.screenZ() + dz;
 };
 
-Sprite_CharacterWeapon.prototype.shouldShowBehindCharacter = function() {
-    return [ 4, 8 ].includes(this._character.direction());
-};
 
 //-----------------------------------------------------------------------------
 // Spriteset_Map

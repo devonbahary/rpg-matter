@@ -20,6 +20,7 @@ export const getWeaponSpritePosition = (weaponPose, direction, pattern, iconInde
         ...position,
         x: position.x + patternDx,
         y: position.y + patternDy,
+        z: position.z || 1,
     }
 };
 
@@ -75,6 +76,7 @@ const WEAPON_POSE_TO_POSITION = {
         4: {
             x: -12,
             y: -2,
+            z: -1,
         }, 
         6: {
             x: 8,
@@ -84,6 +86,7 @@ const WEAPON_POSE_TO_POSITION = {
         8: {
             x: 24,
             y: -1,
+            z: -1,
             scaleX: -1,
         },
     },
@@ -96,6 +99,7 @@ const WEAPON_POSE_TO_POSITION = {
         4: {
             x: -8,
             y: 4,
+            z: -1,
             rotation: -Math.PI / 4,
         }, 
         6: {
@@ -107,6 +111,7 @@ const WEAPON_POSE_TO_POSITION = {
         8: {
             x: 0,
             y: -14,
+            z: -1,
             rotation: Math.PI / 4,
         },
     },
