@@ -18,9 +18,9 @@
  * 
 */
 
-import "./sprites/Sprite_BattlerParameters";
 import "./characters/Game_Player";
 import "./characters/Game_Event";
+import "./sprites/Sprite_BattlerParameters";
 
 export const MATTER_ABS = {
     EVENT_TAG_REGEX_ACTOR_ID: /\<Actor (\d+)\>/i,
