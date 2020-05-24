@@ -121,8 +121,8 @@ Sprite_BattlerParameters.prototype.initialize = function(character) {
 };
 
 Sprite_BattlerParameters.prototype.initMembers = function() {
-    this._hpMem = 0;
-    this._mhpMem = 0;
+    this._hp = 0;
+    this._mhp = 0;
 };
 
 Sprite_BattlerParameters.prototype.createBitmap = function() {
@@ -153,9 +153,9 @@ Sprite_BattlerParameters.prototype.shouldShow = function() {
 };
 
 Sprite_BattlerParameters.prototype.updateGauge = function() {
-    if (this._battler.hp !== this._hpMem || this._battler.mhp !== this._mhpMem) {
-        this._hpMem = this._battler.hp;
-        this._mhpMem = this._battler.mhp;
+    if (this._battler.hp !== this._hp || this._battler.mhp !== this._mhp) {
+        this._hp = this._battler.hp;
+        this._mhp = this._battler.mhp;
         
         const color1 = this.hpGaugeColor1();
         const color2 = this.hpGaugeColor2();
