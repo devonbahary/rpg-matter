@@ -4,7 +4,7 @@
 // The superclass of Game_Character. It handles basic information, such as
 // coordinates and images, shared by all characters.
 
-import { WEAPON_POSES } from "../weaponPoses";
+import { WEAPON_POSES } from "../weapon-poses";
 
 
 Object.defineProperties(Game_CharacterBase.prototype, {

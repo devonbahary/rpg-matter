@@ -1,5 +1,5 @@
 import { get } from "lodash";
-import { getWeaponSpritePosition } from "../weaponPoses";
+import { getWeaponSpritePosition } from "../weapon-poses";
 
 //-----------------------------------------------------------------------------
 // Sprite_CharacterWeapon
