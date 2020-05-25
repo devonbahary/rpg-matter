@@ -22,8 +22,8 @@ Sprite_CharacterWeapon.prototype.initialize = function(character) {
     Sprite_Base.prototype.initialize.call(this);
     this.loadBitmap();
     this.setCharacter(character);
-    this._iconIndex = 0;
     this.z = character.screenZ(); // important; z-ordering wasn't working immediately while z began undefined
+    this._iconIndex = 0;
 };
 
 Sprite_CharacterWeapon._iconWidth  = 32;
