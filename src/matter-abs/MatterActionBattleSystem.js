@@ -6,6 +6,11 @@
  * @plugindesc Action Battle System
  * Requires MatterCore.js plugin.
  * 
+ * @help
+ * 
+ * DATA_SKILLS (add this to the note property of skills)
+ *      <actionSeq: ACTION_KEY>
+ * 
  * @param Battler HUD
  * 
  * @param Gauge Height
