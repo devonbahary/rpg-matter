@@ -34,6 +34,7 @@ import "./characters/Game_CharacterBase";
 import "./characters/Game_Character";
 import "./characters/Game_Player";
 import "./characters/Game_Event";
+import "./Game_Map";
 import "./sprites/Sprite_BattlerParameters";
 import "./sprites/Sprite_CharacterWeapon";
 import "./action-sequences/action-sequences";
