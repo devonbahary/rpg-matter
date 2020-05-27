@@ -4,10 +4,10 @@ import "./characters/Game_Character";
 
 const { 
     ROUTE_PLAY_SE, 
-    STEP_LOCK, 
-    STEP_FORWARD, 
-    STEP_NEUTRAL, 
     STEP_BACKWARD,
+    STEP_FORWARD, 
+    STEP_LOCK, 
+    STEP_NEUTRAL, 
     WEAPON_POSE,
 } = Game_Character;
 
