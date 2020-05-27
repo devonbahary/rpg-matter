@@ -26,6 +26,7 @@
  * 
 */
 
+import "./battlers/Game_Item";
 import "./battlers/Game_BattlerBase";
 import "./battlers/Game_Battler";
 import "./battlers/Game_Actor";
