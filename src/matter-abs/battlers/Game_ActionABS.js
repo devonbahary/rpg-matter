@@ -16,7 +16,12 @@ Game_ActionABS.prototype.initialize = function(subject, action) {
 
 Game_ActionABS.prototype.actionSequence = function() {
     const actionSeq = this._action.meta.actionSeq;
-    if (actionSeq && ACTION_SEQUENCES[actionSeq]) return ACTION_SEQUENCES[actionSeq];
+    if (actionSeq && ACTION_SEQUENCES[actionSeq]) {
+        return ACTION_SEQUENCES[actionSeq];
+    } else if (actionSeq && !ACTION_SEQUENCES[actionSeq]) {
+        const isSkill = DataManager.isSkill(this._action);
+        throw new Error(`could not find action sequence key '${actionSeq}' for ${isSkill ? 'skill' : 'item'} ID ${this._action.id}`);
+    }
     return null;
 };
 
