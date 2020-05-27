@@ -20,4 +20,12 @@ Game_ActionABS.prototype.actionSequence = function() {
     return null;
 };
 
+Game_ActionABS.prototype.actionSequenceLength = function() {
+    if (!this.actionSequence()) return 0;
+    return Object.keys(this.actionSequence()).reduce((len, key) => {
+        if (parseInt(key) > len) return parseInt(key);
+        return len;
+    }, 0);
+};
+
 export default Game_ActionABS;

@@ -43,6 +43,11 @@ Game_Battler.prototype.updateActionSeq = function() {
     this._actionFrame += this.actionFrameProgressRate(); 
 };
 
+Game_Battler.prototype.actionSequenceProgressRate = function() {
+    if (!this.action) return 0;
+    return this._actionFrame / this.action.actionSequenceLength();
+};
+
 Game_Battler.prototype.actionFrameProgressRate = function() {
     return 1; // TODO: apply speed to this
 };

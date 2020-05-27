@@ -37,8 +37,12 @@ Game_Character.prototype.update = function() {
     if (this.battler) this.battler.update(); // TEMPORARY
     if (this.hasActionSequence()) {
         const commands = this.battler.actionSequenceCommandsThisFrame();
-        for (const command of commands) {
-            this.processMoveCommand(command);
+        if (commands.length) {
+            for (const command of commands) {
+                this.processMoveCommand(command);
+            }
+        } else if (!this.isMoving() && this.battler.actionSequenceProgressRate() >= 1) {
+            this.battler.clearAction();
         }
     }
     _Game_Character_update.call(this);
