@@ -1,6 +1,6 @@
-import { WEAPON_POSES } from "./weapon-poses";
-import { convertActionSequencesToCommands } from "./action-sequences/utils";
-import "./characters/Game_Character";
+import { WEAPON_POSES } from "../weapon-poses";
+import { convertActionSequencesToCommands } from "./utils";
+import "../characters/Game_Character";
 
 const { 
     ROUTE_PLAY_SE, 

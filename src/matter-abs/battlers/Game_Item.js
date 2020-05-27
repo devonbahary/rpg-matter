@@ -4,7 +4,7 @@
 // The game object class for handling skills, items, weapons, and armor. It is
 // required because save data should not include the database object itself.
 
-import ACTION_SEQUENCES from "../action-sequences";
+import ACTION_SEQUENCES from "../action-sequences/action-sequences";
 
 Game_Item.prototype.actionSequence = function() {
     const actionKey = this.object().meta.actionSeq;
