@@ -8,8 +8,11 @@
  * 
  * @help
  * 
- * DATA_SKILLS (add this to the note property of skills)
+ * Database > Skills 
  *      <actionSeq: ACTION_KEY>
+ *          sets the action sequence ACTION_KEY defined in the plugin files for 
+ *          the skill
+ * 
  * 
  * @param Battler HUD
  * 
