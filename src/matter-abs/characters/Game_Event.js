@@ -4,7 +4,7 @@
 // The game object class for an event. It contains functionality for event page
 // switching and running parallel process events.
 
-import { battlerFromPage } from "../utils";
+import { battlerFromPage } from "./utils";
 
 const _Game_Event_clearPageSettings = Game_Event.prototype.clearPageSettings;
 Game_Event.prototype.clearPageSettings = function() {

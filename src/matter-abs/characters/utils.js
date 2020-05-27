@@ -1,4 +1,4 @@
-import { MATTER_ABS } from "./MatterActionBattleSystem";
+import { MATTER_ABS } from "../MatterActionBattleSystem";
 
 function battlerSetupError(msg) {
     throw new Error(msg + ` for event ID ${this.eventId()}`);
