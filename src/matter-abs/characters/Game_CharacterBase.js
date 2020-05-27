@@ -5,6 +5,7 @@
 // coordinates and images, shared by all characters.
 
 import { WEAPON_POSES } from "../weapon-poses";
+import { squareInFrontOf } from "./utils";
 
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -16,3 +17,7 @@ Game_CharacterBase.prototype.initMembers = function() {
     _Game_CharacterBase_initMembers.call(this);
     this.weaponPose = WEAPON_POSES.IDLE;
 }; 
+
+Game_CharacterBase.prototype.squareInFrontOf = function(range) {
+    return squareInFrontOf.call(this, range);
+};
