@@ -3,6 +3,7 @@ import { convertActionSequencesToCommands } from "./utils";
 import "../characters/Game_Character";
 
 const { 
+    APPLY_EFFECT,
     ROUTE_PLAY_SE, 
     STEP_BACKWARD,
     STEP_FORWARD, 
@@ -19,7 +20,7 @@ const weaponPose = pose => command(WEAPON_POSE, pose);
 const ACTION_SEQUENCES = {
     SWING: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE), playSe("Wind7") ],
-        15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND) ],
+        15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         20: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
         25: stepLock(false),
     },

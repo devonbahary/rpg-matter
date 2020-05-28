@@ -3,11 +3,16 @@
 //
 // The superclass of Game_Player, Game_Follower, GameVehicle, and Game_Event.
 
+// MOVEMENT
 Game_Character.STEP_LOCK               = 400;
 Game_Character.STEP_FORWARD            = 401;
 Game_Character.STEP_NEUTRAL            = 402;
 Game_Character.STEP_BACKWARD           = 403;
+// WEAPON POSE
 Game_Character.WEAPON_POSE             = 501;
+// ANIMATIONS
+// BATTLE EFFECTS
+Game_Character.APPLY_EFFECT            = 700;
 
 Game_Character.prototype.stepForward = function() {
     if (this.hasWalkAnime()) {
@@ -25,6 +30,11 @@ Game_Character.prototype.stepBackward = function() {
 
 Game_Character.prototype.stepLock = function(lock) {
     this._stepLock = lock;
+};
+
+Game_Character.prototype.applyEffect = function() {
+    if (!this.battler) return;
+    this.battler.action.apply();
 };
 
 const _Game_Character_updatePattern = Game_Character.prototype.updatePattern;
@@ -68,6 +78,9 @@ Game_Character.prototype.processMoveCommand = function(command) {
         break;
     case gc.WEAPON_POSE:
         this.weaponPose = params[0];
+        break;
+    case gc.APPLY_EFFECT:
+        this.applyEffect(params[0]);
         break;
     }
 };
