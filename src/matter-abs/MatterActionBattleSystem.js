@@ -34,12 +34,35 @@
  * 
  * @param Force Base
  * @parent Battler
- * @desc Base force that is multiplied by each action's specified force. 
+ * @desc Base force that is multiplied by each action's specified force
  * @type number
  * @decimals 2
  * @min 0.1
  * @max 5
  * @default 0.2
+ * 
+ * @param Normal Attack Miss SE
+ * @parent Battler
+ * @desc Audio file played when normal attacks hit nothing
+ * @type file
+ * @dir audio/se
+ * @default Wind7
+ * 
+ * @param Normal Attack Miss Volume
+ * @parent Battler
+ * @desc Audio volume when normal attacks hit nothing
+ * @type number
+ * @min 0
+ * @max 100
+ * @default 90
+ * 
+ * @param Normal Attack Miss Pitch
+ * @parent Battler
+ * @desc Audio pitch when normal attacks hit nothing
+ * @type number
+ * @min 50
+ * @max 150
+ * @default 100
 */
 
 import "./battlers/Game_Item";
@@ -60,4 +83,9 @@ export default {
     EVENT_TAG_REGEX_ENEMY_ID: /\<enemy:(\d+)\>/i,
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
     BASE_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Force Base"]),
+    NORMAL_ATTACK_MISS_SE: {
+        name: PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss SE"],
+        volume: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Volume"]),
+        pitch: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Pitch"]),
+    },
 };

@@ -5,6 +5,7 @@
 
 import { Body, Vector } from "matter-js";
 import { vectorFromAToB } from "../../matter-core/utils/vector";
+import MATTER_ABS from "../MatterActionBattleSystem";
 
 function Game_ActionABS() {
     this.initialize.apply(this, arguments);
@@ -34,13 +35,14 @@ Game_ActionABS.prototype.actionSequenceLength = function() {
 
 Game_ActionABS.prototype.apply = function() {
     const targets = this.determineTargets();
-    if (!targets.length) return;
+    if (!targets.length && this.isAttack()) return this.playMissSe();
 
     if (this.item().damage.type > 0) {
         for (const target of targets) {
             const critical = (Math.random() < this.itemCri(target));
             const value = this.makeDamageValue(target, critical);
             this.executeDamage(target, value);
+            target.character.requestAnimation(this.animationId());
             this.applyForce(target);
         }
     }
@@ -49,6 +51,16 @@ Game_ActionABS.prototype.apply = function() {
     //     this.applyItemEffect(target, effect);
     // }, this);
     // this.applyItemUserEffect(target);
+};
+
+Game_ActionABS.prototype.playMissSe = function() {
+    AudioManager.playSe(MATTER_ABS.NORMAL_ATTACK_MISS_SE);
+};
+
+Game_ActionABS.prototype.animationId = function() {
+    const animationId = this._item.object().animationId;
+    if (animationId < 0) return this._subject.attackAnimationId1();
+    return animationId;
 };
 
 Game_ActionABS.prototype.applyForce = function(target) {

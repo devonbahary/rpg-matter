@@ -19,10 +19,9 @@ const weaponPose = pose => command(WEAPON_POSE, pose);
 
 const ACTION_SEQUENCES = {
     SWING: {
-        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE), playSe("Wind7") ],
-        15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
-        20: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
-        25: stepLock(false),
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+        15: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), stepLock(false) ],
     },
 };
 
