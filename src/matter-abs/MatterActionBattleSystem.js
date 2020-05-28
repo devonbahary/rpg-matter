@@ -39,7 +39,7 @@ import "./sprites/Sprite_BattlerParameters";
 import "./sprites/Sprite_CharacterWeapon";
 import "./action-sequences/action-sequences";
 
-export const MATTER_ABS = {
+export default {
     EVENT_TAG_REGEX_ACTOR_ID: /\<Actor (\d+)\>/i,
     EVENT_TAG_REGEX_ENEMY_ID: /\<Enemy (\d+)\>/i,
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),

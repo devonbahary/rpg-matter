@@ -1,4 +1,4 @@
-import { MATTER_ABS } from "../MatterActionBattleSystem";
+import MATTER_ABS from "../MatterActionBattleSystem";
 
 //-----------------------------------------------------------------------------
 // Sprite_Character
