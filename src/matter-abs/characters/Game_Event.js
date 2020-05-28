@@ -4,6 +4,7 @@
 // The game object class for an event. It contains functionality for event page
 // switching and running parallel process events.
 
+import { Body } from "matter-js";
 import { battlerFromPage } from "./utils";
 
 const _Game_Event_clearPageSettings = Game_Event.prototype.clearPageSettings;
@@ -37,4 +38,7 @@ Game_Event.prototype.setupPageSettings = function() {
 Game_Event.prototype.setupBattler = function() {
     const battler = battlerFromPage.call(this);
     this.setBattler(battler);
+    
+    const isStatic = !battler;
+    Body.setStatic(this.body, isStatic);
 };
