@@ -57,10 +57,20 @@ Game_ActionABS.prototype.applyForce = function(target) {
 
     const directionalVector = vectorFromAToB(subjectPosition, targetBody.position);
     const normalDirectionalVector = Vector.normalise(directionalVector);
-    const forceMagnitude = this._item.forceMagnitude();
-    const forceVector = Vector.mult(normalDirectionalVector, forceMagnitude);
+    const forceVector = Vector.mult(normalDirectionalVector, this.forceMagnitude());
     
     Body.applyForce(targetBody, subjectPosition, forceVector);
+};
+
+Game_ActionABS.prototype.forceMagnitude = function() {
+    // TODO: replace when Game_Battler has weapon property too
+    if (
+        this.isAttack() && 
+        this._subject.isActor() && 
+        this._subject.weapon && 
+        this._subject.weapon.forceMagnitude()
+    ) return this._subject.weapon.forceMagnitude();
+    return this._item.forceMagnitude();
 };
 
 Game_ActionABS.prototype.determineTargets = function() {
@@ -153,6 +163,18 @@ Game_ActionABS.prototype.isPhysical = function() {
 
 Game_ActionABS.prototype.isMagical = function() {
     return Game_Action.prototype.isPhysical.call(this);
+};
+
+Game_ActionABS.prototype.isAttack = function() {
+    return Game_Action.prototype.isAttack.call(this);
+};
+
+Game_ActionABS.prototype.isGuard = function() {
+    return Game_Action.prototype.isGuard.call(this);
+};
+
+Game_ActionABS.prototype.isMagicSkill = function() {
+    return Game_Action.prototype.isMagicSkill.call(this);
 };
 
 Game_ActionABS.prototype.itemCri = function(target) {
