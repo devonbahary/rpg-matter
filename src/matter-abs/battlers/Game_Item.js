@@ -6,8 +6,12 @@
 
 import ACTION_SEQUENCES from "../action-sequences/action-sequences";
 
+Object.defineProperties(Game_Item.prototype, {
+    meta: { get: function() { return this.object().meta; }, configurable: false },
+});
+
 Game_Item.prototype.actionSequence = function() {
-    const actionKey = this.object().meta.actionSeq;
+    const actionKey = this.meta.actionSeq;
     if (actionKey && ACTION_SEQUENCES[actionKey]) {
         return ACTION_SEQUENCES[actionKey];
     } else if (actionKey && !ACTION_SEQUENCES[actionKey]) {
