@@ -35,11 +35,10 @@ Game_ActionABS.prototype.apply = function() {
 
     if (this.item().damage.type > 0) {
         for (const target of targets) {
-            // result.critical = (Math.random() < this.itemCri(target));
             const critical = (Math.random() < this.itemCri(target));
-            // var value = this.makeDamageValue(target, result.critical);
-            var value = this.makeDamageValue(target, critical);
+            const value = this.makeDamageValue(target, critical);
             this.executeDamage(target, value);
+            this.applyForce(target);
         }
     }
     // TODO
@@ -47,6 +46,17 @@ Game_ActionABS.prototype.apply = function() {
     //     this.applyItemEffect(target, effect);
     // }, this);
     // this.applyItemUserEffect(target);
+};
+
+Game_ActionABS.prototype.applyForce = function(target) {
+    const subjectPosition = this._subject.character.body.position;
+    const targetBody = target.character.body;
+
+    const directionalVector = vectorFromAToB(subjectPosition, targetBody.position);
+    const normalDirectionalVector = Vector.normalise(directionalVector);
+    const forceVector = Vector.mult(normalDirectionalVector, 0.2);
+
+    Body.applyForce(targetBody, subjectPosition, forceVector);
 };
 
 Game_ActionABS.prototype.determineTargets = function() {
