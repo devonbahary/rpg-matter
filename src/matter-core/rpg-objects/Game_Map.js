@@ -83,6 +83,25 @@ Game_Map.prototype.setupMatterBodies = function() {
 };
 
 Game_Map.prototype.addEnvironment = function() {
+    // map boundaries
+    const thickness = MATTER_CORE.TILE_SIZE;
+    const worldWidth = this.width() * this.tileWidth();
+    const worldHeight = this.height() * this.tileHeight();
+    
+    const mapBoundaries = [
+        { x: worldWidth / 2, y: -thickness / 2, width: worldWidth, height: thickness },
+        { x: worldWidth + thickness / 2, y: worldHeight / 2, width: thickness, height: worldHeight },
+        { x: worldWidth / 2, y: worldHeight + thickness / 2, width: worldWidth, height: thickness },
+        { x: -thickness / 2, y: worldHeight / 2, width: thickness, height: worldHeight },
+    ];
+
+    for (const mapBoundary of mapBoundaries) {
+        const { x, y, width, height } = mapBoundary;
+        const body = Bodies.rectangle(x, y, width, height, { isStatic: true });
+        this.addBody(body);
+    }
+
+    // impassable tiles within map
     const tilemapCollisionObjects = getTilemapCollisionObjects.call(this);
     for (const collisionObject of tilemapCollisionObjects) {
         const { x1, x2, y1, y2 } = collisionObject;
