@@ -9,7 +9,7 @@
  * @help
  * 
  * Database > Skills 
- *      <actionSeq: ACTION_KEY>
+ *      <actionSeq:ACTION_KEY>
  *          sets the action sequence ACTION_KEY defined in the plugin files for 
  *          the skill
  * 
