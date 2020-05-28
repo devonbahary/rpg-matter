@@ -21,6 +21,7 @@ const UNACTIONABLE_EVENT_COMMAND_CODES = [
 
 Object.defineProperties(Game_CharacterBase.prototype, {
     isActionEvent: { get: function() { return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]); }, configurable: false },
+    isErased: { get: function() { return this._erased; }, configurable: false },
 });
 
 const _Game_Event_initMembers = Game_Event.prototype.initMembers;

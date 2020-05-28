@@ -204,10 +204,16 @@ Game_Player.prototype.triggerButtonAction = function() {
     
     if (this.getOnOffVehicle()) return;
     
+    this.cleanUpActionButtonEventsInRange();
+
     const closestActionButtonEventInRange = this.closestActionButtonEventInRange();
     if (closestActionButtonEventInRange && this.canStartLocalEvents()) {
         closestActionButtonEventInRange.start();
     }
+
+Game_Player.prototype.cleanUpActionButtonEventsInRange = function() {
+    // events can be erased between their entering action button range and their attempted triggering
+    this._actionButtonEventsInRange = this._actionButtonEventsInRange.filter(event => !event.isErased);
 };
 
 Game_Player.prototype.encounterProgressValue = function() {
