@@ -85,6 +85,12 @@ Game_Character.prototype.processMoveCommand = function(command) {
     }
 };
 
+Game_Character.prototype.setBattler = function(battler) {
+    if (!battler && this.battler) this.battler.character = null;
+    this.battler = battler;
+    if (battler) battler.character = this;
+};
+
 Game_Character.prototype.hasActionSequence = function() {
     return this.battler && this.battler.hasAction() && this.battler.actionSequence;
 };

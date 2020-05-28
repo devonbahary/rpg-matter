@@ -36,5 +36,5 @@ Game_Event.prototype.setupPageSettings = function() {
 
 Game_Event.prototype.setupBattler = function() {
     const battler = battlerFromPage.call(this);
-    if (battler) this.battler = battler;
+    this.setBattler(battler);
 };
