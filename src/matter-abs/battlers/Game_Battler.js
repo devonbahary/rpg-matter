@@ -15,6 +15,7 @@ const _Game_Battler_initMembers = Game_Battler.prototype.initMembers;
 Game_Battler.prototype.initMembers = function() {
     _Game_Battler_initMembers.call(this);
     this.clearAction();
+    this.character = null;
 };
 
 Game_Battler.prototype.clearAction = function() {
