@@ -15,6 +15,10 @@
  *      <force:Number>
  *          sets the force for the skill (multiplied by Force Base)
  * 
+ * Event
+ *      <enemy:id>, <actor:id>
+ *          add this in an Event "comment" command to specify the enemy / actor
+ * 
  * 
  * @param Battler HUD
  * 
@@ -52,8 +56,8 @@ import "./sprites/Sprite_CharacterWeapon";
 import "./action-sequences/action-sequences";
 
 export default {
-    EVENT_TAG_REGEX_ACTOR_ID: /\<Actor (\d+)\>/i,
-    EVENT_TAG_REGEX_ENEMY_ID: /\<Enemy (\d+)\>/i,
+    EVENT_TAG_REGEX_ACTOR_ID: /\<actor:(\d+)\>/i,
+    EVENT_TAG_REGEX_ENEMY_ID: /\<enemy:(\d+)\>/i,
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
     BASE_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Force Base"]),
 };
