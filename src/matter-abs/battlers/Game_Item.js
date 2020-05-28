@@ -6,6 +6,10 @@
 
 import ACTION_SEQUENCES from "../action-sequences/action-sequences";
 
+function noteMetaError(msg) {
+    throw new Error(`${msg} for ${this.isSkill() ? 'skill' : 'item'} ID ${this._itemId}`);
+};
+
 Object.defineProperties(Game_Item.prototype, {
     meta: { get: function() { return this.object().meta; }, configurable: false },
 });
@@ -15,7 +19,7 @@ Game_Item.prototype.actionSequence = function() {
     if (actionKey && ACTION_SEQUENCES[actionKey]) {
         return ACTION_SEQUENCES[actionKey];
     } else if (actionKey && !ACTION_SEQUENCES[actionKey]) {
-        throw new Error(`could not find action sequence key '${actionKey}' for ${this.isSkill() ? 'skill' : 'item'} ID ${this._action.id}`);
+        return noteMetaError.call(this, `could not find action sequence key '${actionKey}'`);
     }
     return null;
 };
