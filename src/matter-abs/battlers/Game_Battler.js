@@ -14,8 +14,19 @@ Object.defineProperties(Game_Battler.prototype, {
 const _Game_Battler_initMembers = Game_Battler.prototype.initMembers;
 Game_Battler.prototype.initMembers = function() {
     _Game_Battler_initMembers.call(this);
+    this._effectTypeFulfilled = true;
     this.clearAction();
     this.character = null;
+};
+
+const _Game_Battler_requestEffect = Game_Battler.prototype.requestEffect;
+Game_Battler.prototype.requestEffect = function(effectType) {
+    _Game_Battler_requestEffect.call(this, effectType);
+    this._effectTypeFulfilled = false;
+};
+
+Game_Battler.prototype.fulfillEffect = function() {
+    this._effectTypeFulfilled = true;
 };
 
 Game_Battler.prototype.clearAction = function() {

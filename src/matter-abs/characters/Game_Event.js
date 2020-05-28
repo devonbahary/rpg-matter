@@ -42,3 +42,13 @@ Game_Event.prototype.setupBattler = function() {
     const isStatic = !battler;
     Body.setStatic(this.body, isStatic);
 };
+
+const _Game_Event_update = Game_Event.prototype.update;
+Game_Event.prototype.update = function() {
+    this.updateEraseOnBattlerDeath();
+    _Game_Event_update.call(this);
+};
+
+Game_Event.prototype.updateEraseOnBattlerDeath = function() {
+    if (this.battler && this.battler.isDead() && this.battler.isEventErasable()) this.erase();
+};
