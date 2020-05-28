@@ -4,6 +4,7 @@
 // The game object class for handling skills, items, weapons, and armor. It is
 // required because save data should not include the database object itself.
 
+import MATTER_ABS from "../MatterActionBattleSystem";
 import ACTION_SEQUENCES from "../action-sequences/action-sequences";
 
 function noteMetaError(msg) {
@@ -22,4 +23,13 @@ Game_Item.prototype.actionSequence = function() {
         return noteMetaError.call(this, `could not find action sequence key '${actionKey}'`);
     }
     return null;
+};
+
+Game_Item.prototype.forceMagnitude = function() {
+    const force = this.meta.force;
+    if (force) {
+        if (isNaN(Number(force))) return noteMetaError.call(this, `force '${force}' must be a number`);
+        return Number(force) * MATTER_ABS.BASE_FORCE;
+    }
+    return 0;
 };

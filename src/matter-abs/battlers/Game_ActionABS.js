@@ -3,6 +3,9 @@
 //
 // The game object class for a battle action in the ABS context.
 
+import { Body, Vector } from "matter-js";
+import { vectorFromAToB } from "../../matter-core/utils/vector";
+
 function Game_ActionABS() {
     this.initialize.apply(this, arguments);
 }
@@ -54,8 +57,9 @@ Game_ActionABS.prototype.applyForce = function(target) {
 
     const directionalVector = vectorFromAToB(subjectPosition, targetBody.position);
     const normalDirectionalVector = Vector.normalise(directionalVector);
-    const forceVector = Vector.mult(normalDirectionalVector, 0.2);
-
+    const forceMagnitude = this._item.forceMagnitude();
+    const forceVector = Vector.mult(normalDirectionalVector, forceMagnitude);
+    
     Body.applyForce(targetBody, subjectPosition, forceVector);
 };
 

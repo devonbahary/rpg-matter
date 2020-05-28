@@ -12,6 +12,8 @@
  *      <actionSeq:ACTION_KEY>
  *          sets the action sequence ACTION_KEY defined in the plugin files for 
  *          the skill
+ *      <force:Number>
+ *          sets the force for the skill (multiplied by Force Base)
  * 
  * 
  * @param Battler HUD
@@ -24,6 +26,16 @@
  * @max 20
  * @default 6
  * 
+ * @param Battler
+ * 
+ * @param Force Base
+ * @parent Battler
+ * @desc Base force that is multiplied by each action's specified force. 
+ * @type number
+ * @decimals 2
+ * @min 0.1
+ * @max 5
+ * @default 0.2
 */
 
 import "./battlers/Game_Item";
@@ -43,4 +55,5 @@ export default {
     EVENT_TAG_REGEX_ACTOR_ID: /\<Actor (\d+)\>/i,
     EVENT_TAG_REGEX_ENEMY_ID: /\<Enemy (\d+)\>/i,
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
+    BASE_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Force Base"]),
 };
