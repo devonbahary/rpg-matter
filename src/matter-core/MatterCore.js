@@ -23,6 +23,26 @@
  * @min 1
  * @max 6
  * 
+ * @param Character Masses
+ * @parent Character
+ * @type struct<CharacterMasses>
+ * 
+ * @param Default Character Mass
+ * @parent Character
+ * @type select
+ *    @option Very Light
+ *    @value Very Light
+ *    @option Light
+ *    @value Light
+ *    @option Normal
+ *    @value Normal
+ *    @option Heavy
+ *    @value Heavy
+ *    @option Very Heavy
+ *    @value Very Heavy
+ * @default Normal
+ * 
+ * 
  * @param Player
  * 
  * @param Dash Speed Boost
@@ -104,6 +124,29 @@
  * @default 0.5
  * @min 0
  * @max 5
+*/
+
+/*~struct~CharacterMasses:
+ * @param Very Light
+ * @type number
+ * @default 25
+ * 
+ * @param Light
+ * @type number
+ * @default 50
+ * 
+ * @param Normal
+ * @type number
+ * @default 100
+ * 
+ * @param Heavy
+ * @type number
+ * @default 500
+ * 
+ * @param Very Heavy
+ * @type number
+ * @default 1000
+ * 
 */
 
 import './rpg_core';

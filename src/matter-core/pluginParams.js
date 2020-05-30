@@ -13,4 +13,14 @@ MATTER_CORE.RENDER_HEIGHT = parseInt(PluginManager.parameters('MatterCore')["Ren
 MATTER_CORE.RENDER_WIDTH = parseInt(PluginManager.parameters('MatterCore')["Render Width"]);
 MATTER_CORE.TILE_SIZE = parseInt(PluginManager.parameters('MatterCore')["Tile Size"]);
 
+const CHARACTER_MASSES = JSON.parse(PluginManager.parameters('MatterCore')["Character Masses"]);
+const formattedCharacterMasses = Object.entries(CHARACTER_MASSES).reduce((acc, [ key, val ]) => {
+    acc[key] = parseInt(val);
+    return acc;
+}, {});;
+MATTER_CORE.CHARACTER_MASSES = formattedCharacterMasses;
+
+const CHARACTER_DEFAULT_MASS = PluginManager.parameters('MatterCore')["Default Character Mass"];
+MATTER_CORE.CHARACTER_DEFAULT_MASS = formattedCharacterMasses[CHARACTER_DEFAULT_MASS];
+
 export default MATTER_CORE;

@@ -105,6 +105,7 @@ Game_CharacterBase.prototype.initCharacterBody = function() {
 Game_CharacterBase.prototype.initBodyOptions = function() {
     return {
         frictionAir: 0.35, // 0-1; keep below 0.5 for Matter to properly reflect differences in collisions by mass
+        mass: MATTER_CORE.CHARACTER_DEFAULT_MASS,
     };
 };
 
