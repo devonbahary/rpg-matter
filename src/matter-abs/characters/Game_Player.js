@@ -12,5 +12,5 @@ Game_Player.prototype.refresh = function() {
 
 const _Game_Player_canMove = Game_Player.prototype.canMove;
 Game_Player.prototype.canMove = function() {
-    return _Game_Player_canMove && !this.hasActionSequence();
+    return _Game_Player_canMove.call(this) && !this.hasActionSequence();
 };
