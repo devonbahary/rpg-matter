@@ -1,6 +1,5 @@
 const MATTER_CORE = {};
 
-MATTER_CORE.BASE_MOVE_SPEED = 0.25 / (8 - parseInt(PluginManager.parameters('MatterCore')["Base Move Speed"]));
 MATTER_CORE.DASH_SPEED_BOOST = Number(PluginManager.parameters('MatterCore')["Dash Speed Boost"]);
 MATTER_CORE.EVENT_TOUCH_COOLDOWN = Number(PluginManager.parameters('MatterCore')["Touch Event Cooldown"]);
 MATTER_CORE.INTERACTION_RADIUS = Number(PluginManager.parameters('MatterCore')["Interaction Radius"]);

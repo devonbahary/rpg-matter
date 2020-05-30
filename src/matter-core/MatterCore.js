@@ -15,14 +15,6 @@
  * 
  * @param Character
  * 
- * @param Base Move Speed
- * @parent Character
- * @desc 1: slowest, 6: fastest
- * @type number
- * @default 3
- * @min 1
- * @max 6
- * 
  * @param Character Masses
  * @parent Character
  * @type struct<CharacterMasses>

@@ -165,7 +165,7 @@ Game_CharacterBase.prototype.realMoveSpeed = function() {
 
 const _Game_CharacterBase_distancePerFrame = Game_CharacterBase.prototype.distancePerFrame;
 Game_CharacterBase.prototype.distancePerFrame = function() {
-    return this.mass * _Game_CharacterBase_distancePerFrame.call(this) * MATTER_CORE.BASE_MOVE_SPEED; 
+    return 1 / 16 * this.mass * _Game_CharacterBase_distancePerFrame.call(this); 
 };
 
 Game_CharacterBase.prototype.setPosition = function(x, y) {
