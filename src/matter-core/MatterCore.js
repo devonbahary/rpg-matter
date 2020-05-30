@@ -23,8 +23,10 @@
  * @min 1
  * @max 6
  * 
+ * @param Player
+ * 
  * @param Dash Speed Boost
- * @parent Character
+ * @parent Player
  * @desc Bonus to movement speed while dashing (0-1.5)
  * @type number
  * @default 1
@@ -33,7 +35,7 @@
  * @max 1.5
  * 
  * @param Interaction Radius
- * @parent Character
+ * @parent Player
  * @desc The distance (in units of player length) the player can interact with action button events in front of it
  * @type number
  * @default 1
