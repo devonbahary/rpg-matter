@@ -108,6 +108,16 @@ Game_CharacterBase.prototype.initBodyOptions = function() {
     };
 };
 
+Game_CharacterBase.prototype.setMass = function(mass) {
+    this.setStatic(false);
+    Body.setMass(this.body, mass);
+    Body.setMass(this._characterBody, mass);
+};
+
+Game_CharacterBase.prototype.setStatic = function(isStatic) {
+    Body.setStatic(this.body, isStatic);
+};
+
 Game_CharacterBase.prototype.initCharacterBodyOptions = function() {
     return {};
 };

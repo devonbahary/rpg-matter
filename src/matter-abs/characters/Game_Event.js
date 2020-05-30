@@ -40,7 +40,7 @@ Game_Event.prototype.setupBattler = function() {
     this.setBattler(battler);
     
     const isStatic = !battler;
-    Body.setStatic(this.body, isStatic);
+    this.setStatic(isStatic);
 };
 
 const _Game_Event_update = Game_Event.prototype.update;
