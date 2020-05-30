@@ -25,6 +25,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     _realX: { get: function() { return this._x; }, configurable: false },
     _realY: { get: function() { return this._y; }, configurable: false },
     mapPos: { get: function() { return { x: this.x, y: this.y }; }, configurable: false },
+    mass: { get: function() { return this.body.mass; }, configurable: false },
     radius: { get: function() { return this.width * MATTER_CORE.TILE_SIZE / 2; }, configurable: false },
     worldX: { get: function() { return this.body.position.x; }, configurable: false },
     worldY: { get: function() { return this.body.position.y; }, configurable: false },
@@ -103,9 +104,7 @@ Game_CharacterBase.prototype.initCharacterBody = function() {
 
 Game_CharacterBase.prototype.initBodyOptions = function() {
     return {
-        frictionAir: 0.5, // 0-1
-        // inertia: Infinity, // prevents angular velocity 
-        restitution: 1, // 0-1 (inelastic and no bouncing may occur -> elastic and bounces back with ~100% of its kinetic energy)
+        frictionAir: 0.35, // 0-1; keep below 0.5 for Matter to properly reflect differences in collisions by mass
     };
 };
 
@@ -155,7 +154,7 @@ Game_CharacterBase.prototype.realMoveSpeed = function() {
 
 const _Game_CharacterBase_distancePerFrame = Game_CharacterBase.prototype.distancePerFrame;
 Game_CharacterBase.prototype.distancePerFrame = function() {
-    return _Game_CharacterBase_distancePerFrame.call(this) * MATTER_CORE.BASE_MOVE_SPEED; 
+    return this.mass * _Game_CharacterBase_distancePerFrame.call(this) * MATTER_CORE.BASE_MOVE_SPEED; 
 };
 
 Game_CharacterBase.prototype.setPosition = function(x, y) {
