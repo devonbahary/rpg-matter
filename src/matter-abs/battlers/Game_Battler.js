@@ -5,9 +5,11 @@
 // and actions.
 
 import Game_ActionABS from "./Game_ActionABS";
+import MATTER_CORE from "../../matter-core/pluginParams";
 
 Object.defineProperties(Game_Battler.prototype, {
     actionSequence: { get: function() { return this.action.actionSequence(); }, configurable: false },
+    mass: { get: function() { return MATTER_CORE.CHARACTER_DEFAULT_MASS; }, configurable: false },
     weaponIconIndex: { get: function() { return 0; }, configurable: false },
 });
 

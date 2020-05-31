@@ -6,6 +6,7 @@
 
 import { Events } from "matter-js";
 import { BODY_LABELS, EVENT_COMMAND_CODES, EVENT_TRIGGERS } from "../constants";
+import { getMassFromMeta } from "../../utils";
 import MATTER_CORE from "../pluginParams";
 
 const BODY_EVENTS = {
@@ -20,11 +21,7 @@ const UNACTIONABLE_EVENT_COMMAND_CODES = [
 
 
 Object.defineProperties(Game_CharacterBase.prototype, {
-    _pageMass: { get: function() { 
-        if (parseInt(this._pageMeta.mass)) return parseInt(this._pageMeta.mass);
-        else if (this._pageMeta.mass) return MATTER_CORE.CHARACTER_MASSES[this._pageMeta.mass.trim()];
-        return null;
-    }, configurable: false },
+    _pageMass: { get: function() { return getMassFromMeta(this._pageMeta.mass); }, configurable: false },
     isActionEvent: { get: function() { return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]); }, configurable: false },
     isErased: { get: function() { return this._erased; }, configurable: false },
 });

@@ -3,6 +3,16 @@
 //
 // The game object class for an enemy.
 
+import { getMassFromMeta } from "../../utils";
+
+Object.defineProperties(Game_Enemy.prototype, {
+    mass: { get: function() { 
+        const enemyMass = getMassFromMeta(this.enemy().meta.mass);
+        if (enemyMass) return enemyMass;
+        return Game_Battler.prototype.mass;
+    }, configurable: false },
+});
+
 Game_Enemy.prototype.isFriendWith = function(battler) {
     return battler.isEnemy();
 };

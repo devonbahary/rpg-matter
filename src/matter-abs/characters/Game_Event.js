@@ -55,7 +55,8 @@ Game_Event.prototype.battlerFromPage = function() {
 };
 
 Game_Event.prototype.setupBattlerSettings = function() {
-    if (this.battler) this.setMass(Game_CharacterBase.DEFAULT_MASS);
+    // event-specific properties will overide broad battler meta 
+    if (this.battler && !this._pageMass) this.setMass(this.battler.mass);
 };
 
 const _Game_Event_update = Game_Event.prototype.update;

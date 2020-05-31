@@ -3,7 +3,14 @@
 //
 // The game object class for an actor.
 
+import { getMassFromMeta } from "../../utils";
+
 Object.defineProperties(Game_Actor.prototype, {
+    mass: { get: function() { 
+        const actorMass = getMassFromMeta(this.actor().meta.mass);
+        if (actorMass) return actorMass;
+        return Game_Battler.prototype.mass;
+    }, configurable: false },
     weapon: { get: function() { 
         return this._equips.reduce((weapon, item) => {
             if (weapon) return weapon;
