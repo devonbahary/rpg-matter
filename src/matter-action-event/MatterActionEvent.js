@@ -7,12 +7,19 @@
  * Requires MatterCore.js plugin.
  * 
  * @help
- * Adds a hovering icon above Game_Events with an action button trigger and event 
- * commands to indicate interaction.
+ * Adds a hovering icon above Events with an action button trigger.
  * 
- * <actionIconIndex: icon_index>
- *      add this tag to a comment on an Event's page with trigger Action Button
- *      and actionable event commands to specify a unique icon index
+ * Note: An Event needs "actionable" content in addition to an Action Button
+ * trigger in order for the icon to appear.
+ * 
+ * Events
+ *    You can specify properties of an Event specific to its page by including
+ *    any of the following tags in a Comment command.
+ *    
+ * 
+ *   <actionIconIndex:icon_index>
+ *      Sets the icon index for the action sprite for the Event. Events not
+ *      specified will default to the param "Default Icon Index".
  * 
  * @param Default Icon Index
  * @desc Default icon index to display above events for those that do not have an EVENT_TAG.
@@ -96,10 +103,15 @@ Game_Character.prototype.spriteActionEventIconIndex = function() {
 // The game object class for an event. It contains functionality for event page
 // switching and running parallel process events.
 
+Object.defineProperties(Game_Event.prototype, {
+    _pageActionIconIndex: { get: function() { 
+        return parseInt(this._pageMeta.actionIconIndex) || DEFAULT_ICON_INDEX; 
+    }, configurable: false },
+});
+
 Game_Event.prototype.spriteActionEventIconIndex = function() {
     if (!this.hasActionButtonContent()) return 0;
-    
-    return parseInt(this._pageMeta.actionIconIndex) || DEFAULT_ICON_INDEX;
+    return this._pageActionIconIndex;
 };
 
 Game_Event.prototype.hasActionButtonContent = function() {
