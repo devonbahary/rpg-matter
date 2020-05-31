@@ -61,6 +61,7 @@ Game_Event.prototype.setupBattlerSettings = function() {
     if (!this._characterName && this.battler.imageName) {
         this.setImage(this.battler.imageName, this.battler.imageIndex);
         this.setPriorityType(this.battler.priorityType);
+        this.setPattern(1);
     }
 };
 
