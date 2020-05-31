@@ -81,8 +81,6 @@ import "./sprites/Sprite_Character";
 import "./action-sequences/action-sequences";
 
 export default {
-    EVENT_TAG_REGEX_ACTOR_ID: /\<actor:(\d+)\>/i,
-    EVENT_TAG_REGEX_ENEMY_ID: /\<enemy:(\d+)\>/i,
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
     BASE_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Force Base"]),
     NORMAL_ATTACK_MISS_SE: {

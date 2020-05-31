@@ -4,9 +4,6 @@
 // The game object class for an event. It contains functionality for event page
 // switching and running parallel process events.
 
-import { Body } from "matter-js";
-import { battlerFromPage } from "./utils";
-
 const _Game_Event_clearPageSettings = Game_Event.prototype.clearPageSettings;
 Game_Event.prototype.clearPageSettings = function() {
     _Game_Event_clearPageSettings.call(this);
@@ -37,11 +34,21 @@ Game_Event.prototype.setupPageSettings = function() {
 };
 
 Game_Event.prototype.setupBattler = function() {
-    const battler = battlerFromPage.call(this);
+    const battler = this.battlerFromPage();
     this.setBattler(battler);
+};
+
+Game_Event.prototype.battlerFromPage = function() {
+    const actorId = this._pageMeta.actorId;
+    const enemyId = this._pageMeta.enemyId;
     
-    const isStatic = !battler;
-    this.setStatic(isStatic);
+    if (actorId && enemyId) {
+        throw new Error(`found both actorId ${actorId} and enemyId ${enemyId} on single page for eventId ${this.eventId()}`);
+    }
+    
+    if (actorId) return new Game_Actor(actorId);
+    if (enemyId) return new Game_Enemy(enemyId);
+    return null;
 };
 
 const _Game_Event_update = Game_Event.prototype.update;
