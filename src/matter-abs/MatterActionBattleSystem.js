@@ -8,6 +8,19 @@
  * 
  * @help
  * 
+ * Database > Actors / Enemies
+ *      An Event's page can take on the identity of an Actor or an Enemy by 
+ *      placing the <actorId:id> / <enemyId:id> tag in a Comment command.
+ * 
+ *      The inheritable character properties of an Event from its battler can be
+ *      specified through the database Note meta:
+ * 
+ *      <characterName:string>
+ *          Sets the characterName property (character file name).
+ *      <characterIndex:number>
+ *          Sets the characterIndex property (0-7, character set from left to 
+ *          right, top to bottom)
+ * 
  * Events
  *      You can specify properties of an Event specific to its page by including
  *      any of the following tags in a Comment command.
