@@ -77,7 +77,3 @@ Game_Battler.prototype.actionSequenceCommandsThisFrame = function() {
     }
     return commands;
 }; 
-
-Game_Battler.prototype.isFriendWith = function(battler) {
-    return false;
-};

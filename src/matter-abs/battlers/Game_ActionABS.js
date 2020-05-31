@@ -224,7 +224,8 @@ Game_ActionABS.prototype.applyGuard = function(damage, target) {
 };
 
 Game_ActionABS.prototype.executeDamage = function(target, value) {
-    return Game_Action.prototype.executeDamage.call(this, target, value);
+    Game_Action.prototype.executeDamage.call(this, target, value);
+    target.gainAggro(this._subject, value);
 };
 
 Game_ActionABS.prototype.executeHpDamage = function(target, value) {

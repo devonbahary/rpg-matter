@@ -19,6 +19,10 @@ Game_Enemy.prototype.isFriendWith = function(battler) {
     return battler.isEnemy();
 };
 
+Game_Enemy.prototype.isEnemyWith = function(battler) {
+    return battler.isActor();
+};
+
 Game_Enemy.prototype.die = function() {
     Game_Battler.prototype.die.call(this);
     this.performCollapse();

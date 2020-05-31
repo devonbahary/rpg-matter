@@ -26,3 +26,7 @@ Object.defineProperties(Game_Actor.prototype, {
 Game_Actor.prototype.isFriendWith = function(battler) {
     return battler.isActor();
 };
+
+Game_Actor.prototype.isEnemyWith = function(battler) {
+    return battler.isEnemy();
+};
