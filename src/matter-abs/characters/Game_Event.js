@@ -41,6 +41,7 @@ Game_Event.prototype.setupPageSettings = function() {
 Game_Event.prototype.setupBattler = function() {
     const battler = this.battlerFromPage();
     this.setBattler(battler);
+    this.setupBattlerSettings();
 };
 
 Game_Event.prototype.battlerFromPage = function() {
@@ -51,6 +52,10 @@ Game_Event.prototype.battlerFromPage = function() {
     if (this._pageActorId) return new Game_Actor(this._pageActorId);
     if (this._pageEnemyId) return new Game_Enemy(this._pageEnemyId);
     return null;
+};
+
+Game_Event.prototype.setupBattlerSettings = function() {
+    if (this.battler) this.setMass(Game_CharacterBase.DEFAULT_MASS);
 };
 
 const _Game_Event_update = Game_Event.prototype.update;
