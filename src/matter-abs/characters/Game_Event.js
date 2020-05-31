@@ -44,6 +44,19 @@ Game_Event.prototype.setupBattler = function() {
     this.setupBattlerSettings();
 };
 
+const _Game_Event_setBattler = Game_Event.prototype.setBattler;
+Game_Event.prototype.setBattler = function(battler) {
+    if (!battler && this.battler) {
+        if (this.battler.isActor()) $gameParty.removeBattler(this.battler);
+        else if (this.battler.isEnemy()) $gameTroop.removeEnemy(this.battler);
+    }
+    _Game_Event_setBattler.call(this, battler);
+    if (battler) {
+        if (battler.isActor()) $gameParty.addBattler(battler);
+        else if (battler.isEnemy()) $gameTroop.addEnemy(battler);
+    }
+};
+
 Game_Event.prototype.battlerFromPage = function() {
     if (this._pageActorId && this._pageEnemyId) {
         throw new Error(`found both actorId ${this._pageActorId} and enemyId ${this._pageEnemyId} on single page for eventId ${this.eventId()}`);

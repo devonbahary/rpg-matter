@@ -7,7 +7,11 @@
 const _Game_Player_refresh = Game_Player.prototype.refresh;
 Game_Player.prototype.refresh = function() {
     _Game_Player_refresh.call(this);
-    this.setBattler($gameParty.leader());
+    // TODO: revisit
+    $gameParty.members().forEach(actor => { delete $gameParty._idToBattlerMap[actor.id]; });
+    const leader = $gameParty.leader();
+    this.setBattler(leader);
+    if (leader) $gameParty.addBattler(leader);
 };
 
 const _Game_Player_canMove = Game_Player.prototype.canMove;

@@ -88,6 +88,8 @@ import "./battlers/Game_BattlerBase";
 import "./battlers/Game_Battler";
 import "./battlers/Game_Actor";
 import "./battlers/Game_Enemy";
+import "./units/Game_Unit";
+import "./units/Game_TroopABS";
 import "./characters/Game_CharacterBase";
 import "./characters/Game_Character";
 import "./characters/Game_Player";
