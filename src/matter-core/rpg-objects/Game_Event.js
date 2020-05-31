@@ -108,7 +108,7 @@ Game_Event.prototype.pageComments = function() {
 
 Game_Event.prototype.setupPageMeta = function() {
     this._pageMeta = this.pageComments().reduce((meta, comment) => {
-        const metaMatch = comment.match(/<(\w+):\s*(\w+)/i);
+        const metaMatch = comment.match(/<(\w+):\s*([\w\s\.]+)/i);
         if (metaMatch) {
             const prop = metaMatch[1];
             const value = metaMatch[2];
