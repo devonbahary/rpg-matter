@@ -12,7 +12,7 @@
  *    You can specify properties of an Event specific to its page by including
  *    any of the following tags in a Comment command.
  * 
- *    <mass: number|character mass>
+ *    <mass:number|character mass>
  *      Sets the mass for an Event, either a specific number or any of the below
  *      options defined in param "Character Masses". Events not specified to have
  *      a mass will default to static.
