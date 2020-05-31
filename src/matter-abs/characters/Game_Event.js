@@ -4,6 +4,11 @@
 // The game object class for an event. It contains functionality for event page
 // switching and running parallel process events.
 
+Object.defineProperties(Game_Event.prototype, {
+    _pageActorId: { get: function() { return parseInt(this._pageMeta.actorId); }, configurable: false },
+    _pageEnemyId: { get: function() { return parseInt(this._pageMeta.enemyId); }, configurable: false },
+});
+
 const _Game_Event_clearPageSettings = Game_Event.prototype.clearPageSettings;
 Game_Event.prototype.clearPageSettings = function() {
     _Game_Event_clearPageSettings.call(this);
@@ -39,15 +44,12 @@ Game_Event.prototype.setupBattler = function() {
 };
 
 Game_Event.prototype.battlerFromPage = function() {
-    const actorId = this._pageMeta.actorId;
-    const enemyId = this._pageMeta.enemyId;
-    
-    if (actorId && enemyId) {
-        throw new Error(`found both actorId ${actorId} and enemyId ${enemyId} on single page for eventId ${this.eventId()}`);
+    if (this._pageActorId && this._pageEnemyId) {
+        throw new Error(`found both actorId ${this._pageActorId} and enemyId ${this._pageEnemyId} on single page for eventId ${this.eventId()}`);
     }
     
-    if (actorId) return new Game_Actor(actorId);
-    if (enemyId) return new Game_Enemy(enemyId);
+    if (this._pageActorId) return new Game_Actor(this._pageActorId);
+    if (this._pageEnemyId) return new Game_Enemy(this._pageEnemyId);
     return null;
 };
 

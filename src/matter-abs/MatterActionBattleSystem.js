@@ -8,16 +8,21 @@
  * 
  * @help
  * 
+ * Events
+ *    You can specify properties of an Event specific to its page by including
+ *    any of the following tags in a Comment command.
+ * 
+ *    <actorId: id>
+ *      Sets this Event's battler to be Actor with id.
+ *    <enemyId: id>
+ *      Sets this Event's battler to be Enemy with id.
+ * 
  * Database > Skills 
  *      <actionSeq:ACTION_KEY>
  *          sets the action sequence ACTION_KEY defined in the plugin files for 
  *          the skill
  *      <force:Number>
  *          sets the force for the skill (multiplied by Force Base)
- * 
- * Event
- *      <enemy:id>, <actor:id>
- *          add this in an Event "comment" command to specify the enemy / actor
  * 
  * 
  * @param Battler HUD
