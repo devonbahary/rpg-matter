@@ -6,6 +6,8 @@
 import { getMassFromMeta } from "../../utils";
 
 Object.defineProperties(Game_Enemy.prototype, {
+    imageName: { get: function() { return this.enemy().meta.characterName; }, configurable: false },
+    imageIndex: { get: function() { return parseInt(this.enemy().meta.characterIndex); }, configurable: false },
     mass: { get: function() { 
         const enemyMass = getMassFromMeta(this.enemy().meta.mass);
         if (enemyMass) return enemyMass;

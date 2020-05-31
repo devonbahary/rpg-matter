@@ -55,8 +55,13 @@ Game_Event.prototype.battlerFromPage = function() {
 };
 
 Game_Event.prototype.setupBattlerSettings = function() {
+    if (!this.battler) return;
     // event-specific properties will overide broad battler meta 
-    if (this.battler && !this._pageMass) this.setMass(this.battler.mass);
+    if (!this._pageMass) this.setMass(this.battler.mass);
+    if (!this._characterName && this.battler.imageName) {
+        this.setImage(this.battler.imageName, this.battler.imageIndex);
+        this.setPriorityType(this.battler.priorityType);
+    }
 };
 
 const _Game_Event_update = Game_Event.prototype.update;
