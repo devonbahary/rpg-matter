@@ -20,6 +20,11 @@ const UNACTIONABLE_EVENT_COMMAND_CODES = [
 
 
 Object.defineProperties(Game_CharacterBase.prototype, {
+    _pageMass: { get: function() { 
+        if (parseInt(this._pageMeta.mass)) return parseInt(this._pageMeta.mass);
+        else if (this._pageMeta.mass) return MATTER_CORE.CHARACTER_MASSES[this._pageMeta.mass.trim()];
+        return null;
+    }, configurable: false },
     isActionEvent: { get: function() { return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]); }, configurable: false },
     isErased: { get: function() { return this._erased; }, configurable: false },
 });
@@ -33,13 +38,6 @@ Game_Event.prototype.initMembers = function() {
 Game_Event.prototype.initCharacterBodyOptions = function() {
     return {
         label: BODY_LABELS.EVENT,
-    };
-};
-
-Game_Event.prototype.initBodyOptions = function() {
-    return {
-        ...Game_Character.prototype.initBodyOptions(),
-        isStatic: true,
     };
 };
 
@@ -78,6 +76,12 @@ const _Game_Event_setupPageSettings = Game_Event.prototype.setupPageSettings;
 Game_Event.prototype.setupPageSettings = function() {
     _Game_Event_setupPageSettings.call(this);
     this.setupPageMeta();
+    this.setupPageProperties();
+};
+
+Game_Event.prototype.setupPageProperties = function() {
+    if (this._pageMass) this.setMass(this._pageMass);
+    else this.setStatic(true);
 };
 
 const _Game_Event_update = Game_Event.prototype.update;
