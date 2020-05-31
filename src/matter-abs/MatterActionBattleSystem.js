@@ -9,13 +9,13 @@
  * @help
  * 
  * Events
- *    You can specify properties of an Event specific to its page by including
- *    any of the following tags in a Comment command.
+ *      You can specify properties of an Event specific to its page by including
+ *      any of the following tags in a Comment command.
  * 
- *    <actorId:id>
- *      Sets this Event's battler to be Actor with id.
- *    <enemyId:id>
- *      Sets this Event's battler to be Enemy with id.
+ *      <actorId:id>
+ *          Sets this Event's battler to be Actor with id.
+ *      <enemyId:id>
+ *          Sets this Event's battler to be Enemy with id.
  * 
  * Database > Skills 
  *      <actionSeq:ACTION_KEY>
