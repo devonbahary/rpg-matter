@@ -18,6 +18,7 @@ Game_Event.prototype.setupPageSettings = function() {
     _Game_Event_setupPageSettings.call(this);
     this.setupBattler();
     /*
+        page settings that could be overridden by battler settings
         - setImage
         - setDirection
         - setPattern
