@@ -10,8 +10,9 @@
  * Adds a hovering icon above Game_Events with an action button trigger and event 
  * commands to indicate interaction.
  * 
- * EVENT_TAG (add this to a Comment command)
- *      <SpriteActionEventIconIndex icon_index>
+ * <actionIconIndex: icon_index>
+ *      add this tag to a comment on an Event's page with trigger Action Button
+ *      and actionable event commands to specify a unique icon index
  * 
  * @param Default Icon Index
  * @desc Default icon index to display above events for those that do not have an EVENT_TAG.
@@ -59,7 +60,6 @@
  * @default 150
 */
 
-import { EVENT_COMMAND_CODES } from "../matter-core/constants";
 import MATTER_CORE from "../matter-core/pluginParams";
 
 const DEFAULT_ICON_INDEX = parseInt(PluginManager.parameters('MatterActionEvent')["Default Icon Index"]);
@@ -69,8 +69,6 @@ const ANIMATION_DURATION = parseInt(PluginManager.parameters('MatterActionEvent'
 const PEAK_HEIGHT = parseInt(PluginManager.parameters('MatterActionEvent')["Animation Peak Height"]);
 const OPACITY_TARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Targeted"]);
 const OPACITY_UNTARGETED = parseInt(PluginManager.parameters('MatterActionEvent')["Opacity Untargeted"]);
-
-const EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX = /\<SpriteActionEventIconIndex (\d+)\>/i;
 
 /*
     TODO:
@@ -101,11 +99,7 @@ Game_Character.prototype.spriteActionEventIconIndex = function() {
 Game_Event.prototype.spriteActionEventIconIndex = function() {
     if (!this.hasActionButtonContent()) return 0;
     
-    return this.pageComments().reduce((acc, comment) => {
-        const match = comment.match(EVENT_TAG_REGEX_SPRITE_ACTION_EVENT_ICON_INDEX);
-        if (match) return parseInt(match[1]);
-        return acc;
-    }, DEFAULT_ICON_INDEX);
+    return parseInt(this._pageMeta.actionIconIndex) || DEFAULT_ICON_INDEX;
 };
 
 Game_Event.prototype.hasActionButtonContent = function() {

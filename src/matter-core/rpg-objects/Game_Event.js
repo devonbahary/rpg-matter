@@ -68,6 +68,18 @@ Game_Event.prototype.isTouchEventCooldownReady = function() {
     return this._touchEventCooldown <= 0;
 };
 
+const _Game_Event_clearPageSettings = Game_Event.prototype.clearPageSettings;
+Game_Event.prototype.clearPageSettings = function() {
+    _Game_Event_clearPageSettings.call(this);
+    this.clearPageMeta();
+};
+
+const _Game_Event_setupPageSettings = Game_Event.prototype.setupPageSettings;
+Game_Event.prototype.setupPageSettings = function() {
+    _Game_Event_setupPageSettings.call(this);
+    this.setupPageMeta();
+};
+
 const _Game_Event_update = Game_Event.prototype.update;
 Game_Event.prototype.update = function() {
     _Game_Event_update.call(this);
@@ -92,4 +104,20 @@ Game_Event.prototype.pageComments = function() {
         }
         return acc;
     }, []);
+};
+
+Game_Event.prototype.setupPageMeta = function() {
+    this._pageMeta = this.pageComments().reduce((meta, comment) => {
+        const metaMatch = comment.match(/<(\w+):\s*(\w+)/i);
+        if (metaMatch) {
+            const prop = metaMatch[1];
+            const value = metaMatch[2];
+            meta[prop] = value;
+        }
+        return meta;
+    }, {});
+};
+
+Game_Event.prototype.clearPageMeta = function() {
+    this._pageMeta = {};
 };
