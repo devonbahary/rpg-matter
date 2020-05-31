@@ -24,6 +24,7 @@ Sprite_CharacterWeapon.prototype.initialize = function(character) {
     this.setCharacter(character);
     this.z = character.screenZ(); // important; z-ordering wasn't working immediately while z began undefined
     this._iconIndex = 0;
+    this._isCharacterWeapon = true;
 };
 
 Sprite_CharacterWeapon._iconWidth  = 32;
@@ -87,7 +88,8 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
 
     this.x = this._character.screenX() + dx; 
     this.y = this._character.screenY() + dy;
-    this.z = this._character.screenZ() + dz;
+    this.z = this._character.screenZ();
+    this.dz = dz; // influence placement above or below -only- its associated Sprite_Character
 };
 
 
@@ -112,4 +114,28 @@ Spriteset_Map.prototype.createCharacters = function() {
     const playerWeaponSprite = new Sprite_CharacterWeapon($gamePlayer);
     this._characterSprites.push(playerWeaponSprite);
     this._tilemap.addChild(playerWeaponSprite);
+};
+
+/**
+ * @method _compareChildOrder
+ * @param {Object} a
+ * @param {Object} b
+ * @private
+ */
+Tilemap.prototype._compareChildOrder = function(a, b) {
+    let { z: aZ } = a;
+    let { z: bZ } = b;
+
+    if (a._character === b._character && (a._isCharacterWeapon || b._isCharacterWeapon)) {
+        if (a._isCharacterWeapon) aZ += a.dz;
+        if (b._isCharacterWeapon) bZ += b.dz;
+    }
+
+    if (aZ !== bZ) {
+        return aZ - bZ;
+    } else if (a.y !== b.y) {
+        return a.y - b.y;
+    } else {
+        return a.spriteId - b.spriteId;
+    }
 };
