@@ -31,6 +31,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     worldY: { get: function() { return this.body.position.y; }, configurable: false },
 });
 
+Game_CharacterBase.DEFAULT_MASS = MATTER_CORE.CHARACTER_DEFAULT_MASS;
 
 Game_CharacterBase.prototype.initMembers = function() {
     this.initMembersOverwrite();
@@ -105,7 +106,7 @@ Game_CharacterBase.prototype.initCharacterBody = function() {
 Game_CharacterBase.prototype.initBodyOptions = function() {
     return {
         frictionAir: 0.35, // 0-1; keep below 0.5 for Matter to properly reflect differences in collisions by mass
-        mass: MATTER_CORE.CHARACTER_DEFAULT_MASS,
+        mass: Game_CharacterBase.DEFAULT_MASS,
     };
 };
 
