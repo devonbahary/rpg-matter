@@ -3,6 +3,13 @@
 //
 // The superclass of Game_Player, Game_Follower, GameVehicle, and Game_Event.
 
+import { WEAPON_POSES } from "../weapon-poses";
+
+
+Object.defineProperties(Game_CharacterBase.prototype, {
+    weaponIconIndex: { get: function() { return this.battler ? this.battler.weaponIconIndex : 0; }, configurable: false },
+});
+
 // MOVEMENT
 Game_Character.STEP_LOCK               = 400;
 Game_Character.STEP_FORWARD            = 401;
@@ -13,6 +20,14 @@ Game_Character.WEAPON_POSE             = 501;
 // ANIMATIONS
 // BATTLE EFFECTS
 Game_Character.APPLY_EFFECT            = 700;
+
+const _Game_Character_initMembers = Game_Character.prototype.initMembers;
+Game_Character.prototype.initMembers = function() {
+    _Game_Character_initMembers.call(this);
+    this.weaponPose = WEAPON_POSES.IDLE;
+    this._originalWeaponPose = WEAPON_POSES.IDLE;
+    this._isInActionSequenceMem = false;
+};
 
 Game_Character.prototype.stepForward = function() {
     if (this.hasWalkAnime()) {
@@ -46,10 +61,13 @@ const _Game_Character_update = Game_Character.prototype.update;
 Game_Character.prototype.update = function() {
     this.updateActionSequence();
     _Game_Character_update.call(this);
+    this._isInActionSequenceMem = this.hasActionSequence();
 };
 
 Game_Character.prototype.updateActionSequence = function() {
     if (!this.hasActionSequence()) return;
+
+    if (!this._isInActionSequenceMem) this.onActionSequenceStart();
     
     const commands = this.battler.actionSequenceCommandsThisFrame();
     if (commands.length) {
@@ -57,8 +75,19 @@ Game_Character.prototype.updateActionSequence = function() {
             this.processMoveCommand(command);
         }
     } else if (this.battler.actionSequenceProgressRate() >= 1) {
-        this.battler.clearAction();
+        this.onActionSequenceEnd();
     }
+};
+
+Game_Character.prototype.onActionSequenceStart = function() {
+    // remember mutable properties of action sequence to restore at end
+    this._originalWeaponPose = this.weaponPose;
+};
+
+Game_Character.prototype.onActionSequenceEnd = function() {
+    if (this.battler) this.battler.clearAction();
+    // restore mutable properties of action sequence
+    this.weaponPose = this._originalWeaponPose;
 };
 
 const _Game_Character_processMoveCommand = Game_Character.prototype.processMoveCommand;
