@@ -26,10 +26,10 @@ Game_Item.prototype.actionSequence = function() {
 };
 
 Game_Item.prototype.forceMagnitude = function() {
-    const force = this.meta.force;
+    const force = Number(this.meta.force);
     if (force) {
-        if (isNaN(Number(force))) return noteMetaError.call(this, `force '${force}' must be a number`);
-        return Number(force);
+        if (isNaN(force)) return noteMetaError.call(this, `force '${force}' must be a number`);
+        return force;
     }
     if (this.isWeapon()) return MATTER_ABS.DEFAULT_WEAPON_FORCE;
     return 0;
