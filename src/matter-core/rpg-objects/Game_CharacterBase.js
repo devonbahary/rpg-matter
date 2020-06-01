@@ -26,7 +26,8 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     _realY: { get: function() { return this._y; }, configurable: false },
     mapPos: { get: function() { return { x: this.x, y: this.y }; }, configurable: false },
     mass: { get: function() { return this.body.mass; }, configurable: false },
-    radius: { get: function() { return this.width * MATTER_CORE.TILE_SIZE / 2; }, configurable: false },
+    radius: { get: function() { return this.width / 2; }, configurable: false },
+    worldRadius: { get: function() { return this.radius * MATTER_CORE.TILE_SIZE; }, configurable: false },
     worldX: { get: function() { return this.body.position.x; }, configurable: false },
     worldY: { get: function() { return this.body.position.y; }, configurable: false },
 });
@@ -97,7 +98,7 @@ Game_CharacterBase.prototype.initBodyParts = function() {
 };
 
 Game_CharacterBase.prototype.initCharacterBody = function() {
-    const body = Bodies.circle(0, 0, this.radius, this.initCharacterBodyOptions());
+    const body = Bodies.circle(0, 0, this.worldRadius, this.initCharacterBodyOptions());
     body.character = this;
     this._characterBody = body;
     return body;
@@ -340,7 +341,11 @@ Game_CharacterBase.prototype.setThrough = function(through) {
 };
 
 Game_CharacterBase.prototype.distanceFrom = function(char) {
-    return vectorLengthFromAToB(this.body.position, char.body.position);
+    return vectorLengthFromAToB(this.mapPos, char.mapPos);
+};
+
+Game_CharacterBase.prototype.distanceBetween = function(char) {
+    return this.distanceFrom(char) - this.radius - char.radius;
 };
 
 Game_CharacterBase.prototype.pathfindTo = function(pos, limit) {
