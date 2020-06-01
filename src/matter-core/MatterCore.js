@@ -159,6 +159,7 @@
 
 import './rpg_core';
 import './rpg-objects/Game_CharacterBase';
+import './rpg-objects/Game_Character';
 import './rpg-objects/Game_Event';
 import './rpg-objects/Game_Player';
 import './rpg-objects/Game_Party';
