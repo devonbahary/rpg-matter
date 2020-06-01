@@ -14,7 +14,7 @@ Game_Unit.prototype.battlerById = function(battlerId) {
 };
 
 Game_Unit.prototype.update = function() {
-    this.members().forEach(battler => battler.update());
+    this.aliveMembers().forEach(battler => battler.update());
 };
 
 Game_Unit.prototype.addBattler = function(battler) {
