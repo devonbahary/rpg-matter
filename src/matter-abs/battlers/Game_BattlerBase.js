@@ -27,6 +27,10 @@ Game_BattlerBase.prototype.gainAggro = function(battler, value) {
     this._aggro[battler.id] += val;
 };
 
+Game_BattlerBase.prototype.clearBattlerAggro = function(battler) {
+    delete this._aggro[battler.id];
+};
+
 Game_BattlerBase.prototype.topAggroBattler = function() {
     const topAggroBattlerId = Object.entries(this._aggro).reduce((topAggroBattlerId, [ battlerId, aggro ]) => {
         if (!topAggroBattlerId || !topAggroBaggro > this._aggro[topAggroBattlerId]) return battlerId;
@@ -41,4 +45,12 @@ Game_BattlerBase.prototype.isFriendWith = function(battler) {
 
 Game_BattlerBase.prototype.isEnemyWith = function(battler) {
     return false;
+};
+
+const _Game_BattlerBase_die = Game_BattlerBase.prototype.die;
+Game_BattlerBase.prototype.die = function() {
+    _Game_BattlerBase_die.call(this);
+    this.opponentsUnit().members().forEach(battler => {
+        battler.clearBattlerAggro(this);
+    });
 };
