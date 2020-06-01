@@ -89,6 +89,10 @@ Game_Battler.prototype.actionSequenceCommandsThisFrame = function() {
     return commands;
 }; 
 
+Game_Battler.prototype.hasActionSequence = function() {
+    return this.hasAction() && this.actionSequence;
+};
+
 Game_Battler.prototype.updateBehavior = function() {
     const target = this.topAggroBattler();
     if (!target) return;

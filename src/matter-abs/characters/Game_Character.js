@@ -138,7 +138,7 @@ Game_Character.prototype.setBattler = function(battler) {
 };
 
 Game_Character.prototype.hasActionSequence = function() {
-    return this.battler && this.battler.hasAction() && this.battler.actionSequence;
+    return this.battler && this.battler.hasActionSequence();
 };
 
 Game_Character.prototype.isHitStunned = function() {
