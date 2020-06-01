@@ -61,6 +61,7 @@ Game_Battler.prototype.update = function() {
 };
 
 Game_Battler.prototype.updateActionSeq = function() {
+    if (!this.action) return;
     this._lastActionFrame = Math.floor(this._actionFrame);
     this._actionFrame += this.actionFrameProgressRate(); 
 };
