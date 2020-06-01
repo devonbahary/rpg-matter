@@ -50,7 +50,7 @@ Game_Character.prototype.update = function() {
             for (const command of commands) {
                 this.processMoveCommand(command);
             }
-        } else if (!this.isMoving() && this.battler.actionSequenceProgressRate() >= 1) {
+        } else if (this.battler.actionSequenceProgressRate() >= 1) {
             this.battler.clearAction();
         }
     }
