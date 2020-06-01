@@ -88,11 +88,11 @@
  * @param Default Ranges
  * @parent Actions
  * @desc The default range of actions (in tiles).
- * @type struct<Ranges>
+ * @type struct<ActionNumbers>
  * 
 */
 
-/*~struct~Ranges:
+/*~struct~ActionNumbers:
  * @param Weapons
  * @type number
  * @decimals 2
@@ -121,16 +121,11 @@ import "./sprites/Sprite_BattlerParameters";
 import "./sprites/Sprite_CharacterWeapon";
 import "./sprites/Sprite_Character";
 import "./action-sequences/action-sequences";
-
-const defaultRanges = JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Default Ranges"]);
-const formattedDefaultRanges = Object.entries(defaultRanges).reduce((acc, [ key, val ]) => {
-    acc[key.toUpperCase()] = Number(val);
-    return acc;
-}, {});
+import { transformPluginStruct } from "../utils";
 
 export default {
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
-    DEFAULT_RANGES: formattedDefaultRanges,
+    DEFAULT_RANGES: transformPluginStruct(PluginManager.parameters('MatterActionBattleSystem')["Default Ranges"]),
     DEFAULT_ACTION_RANGE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Action Range"]),
     DEFAULT_WEAPON_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Force"]),
     DEFAULT_WEAPON_RANGE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Range"]),
