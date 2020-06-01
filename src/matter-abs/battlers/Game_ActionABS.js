@@ -81,10 +81,7 @@ Game_ActionABS.prototype.applyForce = function(target) {
 Game_ActionABS.prototype.forceMagnitude = function() {
     // TODO: isPhysical to use subjectMass multiplier, isMagical to use fixed forces?
     const subjectMass = this._subject.character.body.mass;
-    // TODO: replace when Game_Battler has weapon property too
-    if (this.shouldUseWeaponProperty() && this.weapon.forceMagnitude()) {
-        return subjectMass * this.weapon.forceMagnitude() / 5;
-    }
+    if (this.shouldUseWeaponProperty()) return subjectMass * this.weapon.forceMagnitude() / 5;
     return subjectMass * this._item.forceMagnitude() / 5;
 };
 
