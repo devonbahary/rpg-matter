@@ -88,16 +88,16 @@
  * @param Default Ranges
  * @parent Actions
  * @desc The default range of actions (in tiles).
- * @type struct<ActionNumbers>
+ * @type struct<ActionRanges>
  * 
  * @param Default Hit Stun
  * @parent Actions
  * @desc The default hit stun value for actions (in frames).
- * @type struct<ActionNumbers>
+ * @type struct<ActionHitStuns>
  * 
 */
 
-/*~struct~ActionNumbers:
+/*~struct~ActionRanges:
  * @param Weapons
  * @type number
  * @decimals 2
@@ -107,6 +107,17 @@
  * @type number
  * @decimals 2
  * @default 1
+ * 
+*/
+
+/*~struct~ActionHitStuns:
+ * @param Weapons
+ * @type number
+ * @default 10
+ * 
+ * @param Skills
+ * @type number
+ * @default 0
  * 
 */
 
