@@ -61,8 +61,11 @@ Game_Battler.prototype.hasAction = function() {
 
 Game_Battler.prototype.update = function() {
     Game_BattlerBase.prototype.update.call(this);
-    this.updateActionSeq();
-    this.updateBehavior();
+    if (this.hasActionSequence()) {
+        this.updateActionSeq();
+    } else {
+        this.updateBehavior();
+    }
 };
 
 Game_Battler.prototype.updateActionSeq = function() {
@@ -97,7 +100,26 @@ Game_Battler.prototype.updateBehavior = function() {
     const target = this.topAggroBattler();
     if (!target) return;
 
-    this.character.pathfindTo(target.character.mapPos);
+    const action = this.determineAction();
+    if (this.moveTowardsTarget(target, action)) this.setAction($dataSkills[this.attackSkillId()]);
+};
+
+Game_Battler.prototype.determineAction = function() {
+    const normalAttack = $dataSkills[this.attackSkillId()];
+    return new Game_ActionABS(this, normalAttack);
+};
+
+Game_Battler.prototype.moveTowardsTarget = function(target, action) {
+    if (this.character.distanceBetween(target.character) <= action.range()) {
+        const battlers = action.determineTargets();
+        if (battlers.includes(target)) return true;
+    }
+    this.character.moveTowardCharacter(target.character);
+    return false;
+};
+
+Game_Battler.prototype.attackAnimationId1 = function() {
+    return 1;
 };
 
 Game_Battler.prototype.die = function() {
