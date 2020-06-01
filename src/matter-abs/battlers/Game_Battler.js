@@ -5,13 +5,16 @@
 // and actions.
 
 import Game_ActionABS from "./Game_ActionABS";
+import { getMassFromMeta } from "../../utils";
 import MATTER_CORE from "../../matter-core/pluginParams";
 
 Object.defineProperties(Game_Battler.prototype, {
     actionSequence: { get: function() { return this.action.actionSequence(); }, configurable: false },
     imageName: { get: function() { return ''; }, configurable: false },
     imageIndex: { get: function() { return 0; }, configurable: false },
-    mass: { get: function() { return MATTER_CORE.CHARACTER_DEFAULT_MASS; }, configurable: false },
+    mass: { get: function() { 
+        return getMassFromMeta(this.data.meta.mass) || MATTER_CORE.CHARACTER_DEFAULT_MASS; 
+    }, configurable: false },
     priorityType: { get: function() { return 1; }, configurable: false }, // same as characters
     weaponIconIndex: { get: function() { return 0; }, configurable: false },
 });

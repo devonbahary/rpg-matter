@@ -6,13 +6,9 @@
 import { getMassFromMeta } from "../../utils";
 
 Object.defineProperties(Game_Actor.prototype, {
+    data: { get: function() { return this.actor(); }, configurable: false },
     imageName: { get: function() { return this._characterName; }, configurable: false },
     imageIndex: { get: function() { return this._characterIndex; }, configurable: false },
-    mass: { get: function() { 
-        const actorMass = getMassFromMeta(this.actor().meta.mass);
-        if (actorMass) return actorMass;
-        return Game_Battler.prototype.mass;
-    }, configurable: false },
     weapon: { get: function() { 
         return this._equips.reduce((weapon, item) => {
             if (weapon) return weapon;
