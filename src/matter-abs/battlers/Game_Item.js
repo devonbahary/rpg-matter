@@ -29,7 +29,7 @@ Game_Item.prototype.forceMagnitude = function() {
     const force = this.meta.force;
     if (force) {
         if (isNaN(Number(force))) return noteMetaError.call(this, `force '${force}' must be a number`);
-        return Number(force) * MATTER_ABS.BASE_FORCE;
+        return Number(force);
     }
     return 0;
 };

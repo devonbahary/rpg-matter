@@ -21,6 +21,8 @@ Game_ActionABS.prototype.initialize = function(subject, action) {
     this._item.setObject(action);
 };
 
+Game_ActionABS.BASE_FORCE_MULT = 1 / 16; 
+
 Game_ActionABS.prototype.subject = function() {
     return this._subject;
 };
@@ -73,7 +75,7 @@ Game_ActionABS.prototype.applyForce = function(target) {
 
     const directionalVector = vectorFromAToB(subjectPosition, targetBody.position);
     const normalDirectionalVector = Vector.normalise(directionalVector);
-    const forceVector = Vector.mult(normalDirectionalVector, this.forceMagnitude());
+    const forceVector = Vector.mult(normalDirectionalVector, this.forceMagnitude() * Game_ActionABS.BASE_FORCE_MULT);
     
     Body.applyForce(targetBody, subjectPosition, forceVector);
 };
@@ -81,8 +83,9 @@ Game_ActionABS.prototype.applyForce = function(target) {
 Game_ActionABS.prototype.forceMagnitude = function() {
     // TODO: isPhysical to use subjectMass multiplier, isMagical to use fixed forces?
     const subjectMass = this._subject.character.body.mass;
-    if (this.shouldUseWeaponProperty()) return subjectMass * this.weapon.forceMagnitude() / 5;
-    return subjectMass * this._item.forceMagnitude() / 5;
+    if (this.shouldUseWeaponProperty()) return subjectMass * this.weapon.forceMagnitude();
+    return subjectMass * this._item.forceMagnitude();
+};
 };
 
 Game_ActionABS.prototype.shouldUseWeaponProperty = function() {

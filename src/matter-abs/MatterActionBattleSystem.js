@@ -35,7 +35,8 @@
  *          sets the action sequence ACTION_KEY defined in the plugin files for 
  *          the skill
  *      <force:Number>
- *          sets the force for the skill (multiplied by Force Base)
+ *          sets the force for the skill; a value of 1 will knock back a target 
+ *          of equal mass about 1 tile
  * 
  * 
  * @param Battler HUD
@@ -49,15 +50,6 @@
  * @default 6
  * 
  * @param Battler
- * 
- * @param Force Base
- * @parent Battler
- * @desc Base force that is multiplied by each action's specified force
- * @type number
- * @decimals 2
- * @min 0.1
- * @max 5
- * @default 0.2
  * 
  * @param Normal Attack Miss SE
  * @parent Battler
@@ -102,7 +94,6 @@ import "./action-sequences/action-sequences";
 
 export default {
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
-    BASE_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Force Base"]),
     NORMAL_ATTACK_MISS_SE: {
         name: PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss SE"],
         volume: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Volume"]),
