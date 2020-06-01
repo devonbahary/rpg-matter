@@ -44,17 +44,21 @@ Game_Character.prototype.updatePattern = function() {
 
 const _Game_Character_update = Game_Character.prototype.update;
 Game_Character.prototype.update = function() {
-    if (this.hasActionSequence()) {
-        const commands = this.battler.actionSequenceCommandsThisFrame();
-        if (commands.length) {
-            for (const command of commands) {
-                this.processMoveCommand(command);
-            }
-        } else if (this.battler.actionSequenceProgressRate() >= 1) {
-            this.battler.clearAction();
-        }
-    }
+    this.updateActionSequence();
     _Game_Character_update.call(this);
+};
+
+Game_Character.prototype.updateActionSequence = function() {
+    if (!this.hasActionSequence()) return;
+    
+    const commands = this.battler.actionSequenceCommandsThisFrame();
+    if (commands.length) {
+        for (const command of commands) {
+            this.processMoveCommand(command);
+        }
+    } else if (this.battler.actionSequenceProgressRate() >= 1) {
+        this.battler.clearAction();
+    }
 };
 
 const _Game_Character_processMoveCommand = Game_Character.prototype.processMoveCommand;
