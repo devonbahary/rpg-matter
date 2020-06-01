@@ -90,3 +90,9 @@ Game_Battler.prototype.updateBehavior = function() {
 
     this.character.pathfindTo(target.character.mapPos);
 };
+
+Game_Battler.prototype.die = function() {
+    Game_BattlerBase.prototype.die.call(this);
+    this.clearAction();
+    this.resetAggro();
+};

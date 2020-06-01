@@ -14,10 +14,14 @@ const _Game_BattlerBase_initMembers = Game_BattlerBase.prototype.initMembers;
 Game_BattlerBase.prototype.initMembers = function() {
     _Game_BattlerBase_initMembers.call(this);
     this.id = uuidv4();
-    this._aggro = {};
+    this.resetAggro();
 };
 
 Game_BattlerBase.prototype.update = function() {
+};
+
+Game_BattlerBase.prototype.resetAggro = function() {
+    this._aggro = {};
 };
 
 Game_BattlerBase.prototype.gainAggro = function(battler, value) {
