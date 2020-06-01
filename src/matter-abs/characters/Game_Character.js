@@ -54,14 +54,28 @@ Game_Character.prototype.applyEffect = function() {
 
 const _Game_Character_updatePattern = Game_Character.prototype.updatePattern;
 Game_Character.prototype.updatePattern = function() {
-    if (!this._stepLock) _Game_Character_updatePattern.call(this);
+    if (this.shouldUpdatePattern()) _Game_Character_updatePattern.call(this);
+};
+
+Game_Character.prototype.shouldUpdatePattern = function() {
+    return !this._stepLock && !this.isHitStunned();
 };
 
 const _Game_Character_update = Game_Character.prototype.update;
 Game_Character.prototype.update = function() {
+    this.updateHitStun();
     this.updateActionSequence();
     _Game_Character_update.call(this);
     this._isInActionSequenceMem = this.hasActionSequence();
+};
+
+const _Game_Character_move = Game_Character.prototype.move;
+Game_Character.prototype.move = function(vector) {
+    if (!this.isHitStunned()) _Game_Character_move.call(this, vector);
+};
+
+Game_Character.prototype.updateHitStun = function() {
+    if (this.isHitStunned()) this.stepBackward();
 };
 
 Game_Character.prototype.updateActionSequence = function() {
@@ -125,4 +139,8 @@ Game_Character.prototype.setBattler = function(battler) {
 
 Game_Character.prototype.hasActionSequence = function() {
     return this.battler && this.battler.hasAction() && this.battler.actionSequence;
+};
+
+Game_Character.prototype.isHitStunned = function() {
+    return this.battler && this.battler.isHitStunned();
 };

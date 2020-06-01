@@ -234,9 +234,9 @@ Game_ActionABS.prototype.applyGuard = function(damage, target) {
 };
 
 Game_ActionABS.prototype.executeDamage = function(target, value) {
-    // important that gainAggro() happens before executeDamage() so that aggro 
-    // isn't added after death
+    // important to apply effects that reset after death prior to executeDamage()
     target.gainAggro(this._subject, value); 
+    target.applyHitStun(15);
     Game_Action.prototype.executeDamage.call(this, target, value);
 };
 
