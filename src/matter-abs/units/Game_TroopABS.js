@@ -26,6 +26,10 @@ Game_TroopABS.prototype.initialize = function() {
     this.clear();
 };
 
+Game_TroopABS.prototype.members = function() {
+    return this._enemies;
+};
+
 Game_TroopABS.prototype.clear = function() {
     this._idToBattlerMap = {};
     this._enemies = [];

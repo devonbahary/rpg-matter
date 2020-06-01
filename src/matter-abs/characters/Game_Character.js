@@ -44,7 +44,6 @@ Game_Character.prototype.updatePattern = function() {
 
 const _Game_Character_update = Game_Character.prototype.update;
 Game_Character.prototype.update = function() {
-    if (this.battler) this.battler.update(); // TEMPORARY
     if (this.hasActionSequence()) {
         const commands = this.battler.actionSequenceCommandsThisFrame();
         if (commands.length) {
