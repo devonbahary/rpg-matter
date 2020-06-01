@@ -132,9 +132,7 @@ export default {
             return acc;
         },
     ),
-    DEFAULT_ACTION_RANGE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Action Range"]),
     DEFAULT_WEAPON_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Force"]),
-    DEFAULT_WEAPON_RANGE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Range"]),
     NORMAL_ATTACK_MISS_SE: {
         name: PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss SE"],
         volume: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Volume"]),
