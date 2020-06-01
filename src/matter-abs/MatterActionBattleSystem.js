@@ -125,7 +125,13 @@ import { transformPluginStruct } from "../utils";
 
 export default {
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
-    DEFAULT_RANGES: transformPluginStruct(PluginManager.parameters('MatterActionBattleSystem')["Default Ranges"]),
+    DEFAULT_RANGES: transformPluginStruct(
+        PluginManager.parameters('MatterActionBattleSystem')["Default Ranges"],
+        (acc, key, val) => {
+            acc[key.toUpperCase()] = Number(val);
+            return acc;
+        },
+    ),
     DEFAULT_ACTION_RANGE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Action Range"]),
     DEFAULT_WEAPON_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Force"]),
     DEFAULT_WEAPON_RANGE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Range"]),

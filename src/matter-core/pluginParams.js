@@ -1,3 +1,5 @@
+import { convertStructToNumbers } from "../utils";
+
 const MATTER_CORE = {};
 
 MATTER_CORE.DASH_SPEED_BOOST = Number(PluginManager.parameters('MatterCore')["Dash Speed Boost"]);
@@ -11,15 +13,7 @@ MATTER_CORE.RENDER_IS_DISPLAY = JSON.parse(PluginManager.parameters('MatterCore'
 MATTER_CORE.RENDER_HEIGHT = parseInt(PluginManager.parameters('MatterCore')["Render Height"]);
 MATTER_CORE.RENDER_WIDTH = parseInt(PluginManager.parameters('MatterCore')["Render Width"]);
 MATTER_CORE.TILE_SIZE = parseInt(PluginManager.parameters('MatterCore')["Tile Size"]);
-
-const CHARACTER_MASSES = JSON.parse(PluginManager.parameters('MatterCore')["Character Masses"]);
-const formattedCharacterMasses = Object.entries(CHARACTER_MASSES).reduce((acc, [ key, val ]) => {
-    acc[key] = parseInt(val);
-    return acc;
-}, {});;
-MATTER_CORE.CHARACTER_MASSES = formattedCharacterMasses;
-
-const CHARACTER_DEFAULT_MASS = PluginManager.parameters('MatterCore')["Default Character Mass"];
-MATTER_CORE.CHARACTER_DEFAULT_MASS = formattedCharacterMasses[CHARACTER_DEFAULT_MASS];
+MATTER_CORE.CHARACTER_MASSES = convertStructToNumbers(PluginManager.parameters('MatterCore')["Character Masses"]);
+MATTER_CORE.CHARACTER_DEFAULT_MASS = MATTER_CORE.CHARACTER_MASSES[PluginManager.parameters('MatterCore')["Default Character Mass"]];
 
 export default MATTER_CORE;
