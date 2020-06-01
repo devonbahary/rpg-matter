@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 Object.defineProperties(Game_BattlerBase.prototype, {
     // AGgro Rate
     agr: { get: function() { return 1; }, configurable: false },
+    weapon: { get: function() { return null; }, configurable: false },
 });
 
 const _Game_BattlerBase_initMembers = Game_BattlerBase.prototype.initMembers;

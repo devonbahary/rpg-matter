@@ -11,6 +11,10 @@ function Game_ActionABS() {
     this.initialize.apply(this, arguments);
 }
 
+Object.defineProperties(Game_ActionABS.prototype, {
+    weapon: { get: function() { return this._subject.weapon; }, configurable: false },
+});
+
 Game_ActionABS.prototype.initialize = function(subject, action) {
     this._subject = subject;
     this._item = new Game_Item();
@@ -78,13 +82,14 @@ Game_ActionABS.prototype.forceMagnitude = function() {
     // TODO: isPhysical to use subjectMass multiplier, isMagical to use fixed forces?
     const subjectMass = this._subject.character.body.mass;
     // TODO: replace when Game_Battler has weapon property too
-    if (
-        this.isAttack() && 
-        this._subject.isActor() && 
-        this._subject.weapon && 
-        this._subject.weapon.forceMagnitude()
-    ) return subjectMass * this._subject.weapon.forceMagnitude() / 5;
+    if (this.shouldUseWeaponProperty() && this.weapon.forceMagnitude()) {
+        return subjectMass * this.weapon.forceMagnitude() / 5;
+    }
     return subjectMass * this._item.forceMagnitude() / 5;
+};
+
+Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
+    return this.isAttack() && this.weapon;
 };
 
 Game_ActionABS.prototype.determineTargets = function() {
