@@ -86,6 +86,10 @@ Game_ActionABS.prototype.forceMagnitude = function() {
     if (this.shouldUseWeaponProperty()) return subjectMass * this.weapon.forceMagnitude();
     return subjectMass * this._item.forceMagnitude();
 };
+
+Game_ActionABS.prototype.range = function() {
+    if (this.shouldUseWeaponProperty()) return this.weapon.range();
+    return this._item.range();
 };
 
 Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
@@ -93,7 +97,7 @@ Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
 };
 
 Game_ActionABS.prototype.determineTargets = function() {
-    const bounds = $gamePlayer.squareInFrontOf();
+    const bounds = $gamePlayer.squareInFrontOf(this.range());
     const battlersInRange = $gameMap.battlersInBoundingBox(bounds);
 
     if (this.isForOpponent()) {

@@ -85,6 +85,23 @@
  * @decimals 2
  * @default 1
  * 
+ * @param Default Weapon Range
+ * @parent Actions
+ * @type number
+ * @desc The default range (in tiles) of a weapon.
+ * @decimals 2
+ * @min 0.1
+ * @max 50
+ * @default 1
+ * 
+ * @param Default Action Range
+ * @parent Actions
+ * @type number
+ * @desc The default range (in tiles) of an action.
+ * @decimals 2
+ * @min 0.1
+ * @max 50
+ * @default 1
 */
 
 import "./battlers/Game_Item";
@@ -106,7 +123,9 @@ import "./action-sequences/action-sequences";
 
 export default {
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
+    DEFAULT_ACTION_RANGE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Action Range"]),
     DEFAULT_WEAPON_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Force"]),
+    DEFAULT_WEAPON_RANGE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Range"]),
     NORMAL_ATTACK_MISS_SE: {
         name: PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss SE"],
         volume: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Volume"]),
