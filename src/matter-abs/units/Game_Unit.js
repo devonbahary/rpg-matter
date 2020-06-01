@@ -9,6 +9,10 @@ Game_Unit.prototype.initialize = function() {
     this._idToBattlerMap = {};
 };
 
+Game_Unit.prototype.battlerById = function(battlerId) {
+    return this._idToBattlerMap[battlerId];
+};
+
 Game_Unit.prototype.update = function() {
     this.members().forEach(battler => battler.update());
 };

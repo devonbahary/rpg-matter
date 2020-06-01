@@ -30,3 +30,8 @@ Game_Actor.prototype.isFriendWith = function(battler) {
 Game_Actor.prototype.isEnemyWith = function(battler) {
     return battler.isEnemy();
 };
+
+Game_Actor.prototype.updateBehavior = function() {
+    if (this.character === $gamePlayer) return;
+    Game_Battler.prototype.updateBehavior.call(this);
+};

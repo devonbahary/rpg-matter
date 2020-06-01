@@ -53,6 +53,7 @@ Game_Battler.prototype.hasAction = function() {
 Game_Battler.prototype.update = function() {
     Game_BattlerBase.prototype.update.call(this);
     this.updateActionSeq();
+    this.updateBehavior();
 };
 
 Game_Battler.prototype.updateActionSeq = function() {
@@ -77,3 +78,10 @@ Game_Battler.prototype.actionSequenceCommandsThisFrame = function() {
     }
     return commands;
 }; 
+
+Game_Battler.prototype.updateBehavior = function() {
+    const target = this.topAggroBattler();
+    if (!target) return;
+
+    this.character.pathfindTo(target.character.mapPos);
+};
