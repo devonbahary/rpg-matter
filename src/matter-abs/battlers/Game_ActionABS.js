@@ -101,10 +101,11 @@ Game_ActionABS.prototype.determineTargets = function() {
     const battlersInRange = $gameMap.battlersInBoundingBox(bounds);
 
     if (this.isForOpponent()) {
-        return battlersInRange.filter(battler => !this._subject.isFriendWith(battler));
+        return battlersInRange.filter(battler => !this._subject.isFriendWith(battler) && battler.isAlive());
     } else if (this.isForFriend()) {
-        return battlersInRange.filter(battler => this._subject.isFriendWith(battler));
+        return battlersInRange.filter(battler => this._subject.isFriendWith(battler) && battler.isAlive());
     }
+
     return battlersInRange;
 };
 
