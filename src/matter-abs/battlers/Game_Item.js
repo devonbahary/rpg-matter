@@ -31,5 +31,6 @@ Game_Item.prototype.forceMagnitude = function() {
         if (isNaN(Number(force))) return noteMetaError.call(this, `force '${force}' must be a number`);
         return Number(force);
     }
+    if (this.isWeapon()) return MATTER_ABS.DEFAULT_WEAPON_FORCE;
     return 0;
 };

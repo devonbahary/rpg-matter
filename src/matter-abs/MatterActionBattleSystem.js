@@ -73,6 +73,18 @@
  * @min 50
  * @max 150
  * @default 100
+ * 
+ * @param Actions
+ * 
+ * @param Default Weapon Force
+ * @parent Actions
+ * @type number
+ * @desc The default force of a normal attack for a given weapon.
+ * @min 0
+ * @max 5
+ * @decimals 2
+ * @default 1
+ * 
 */
 
 import "./battlers/Game_Item";
@@ -94,6 +106,7 @@ import "./action-sequences/action-sequences";
 
 export default {
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
+    DEFAULT_WEAPON_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Force"]),
     NORMAL_ATTACK_MISS_SE: {
         name: PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss SE"],
         volume: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Volume"]),
