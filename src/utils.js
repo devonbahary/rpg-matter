@@ -10,7 +10,7 @@ export function getBooleanFromMeta(boolean) {
     return boolean ? JSON.parse(boolean) : false;
 };
 
-export const transformPluginStruct = (pluginParam, accumulator) => {
+export const transformPluginStruct = pluginParam => {
     const struct = JSON.parse(pluginParam);
     return Object.entries(struct).reduce((acc, [ key, val ]) => {
         acc[key.toUpperCase()] = Number(val);
