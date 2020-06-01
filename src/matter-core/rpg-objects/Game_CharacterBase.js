@@ -228,9 +228,6 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
         Body.setPosition(this.body, destinationWorldPosVector);
         Body.setVelocity(this.body, { x: 0, y: 0 });
         this.shiftPathfindingQueue();
-    } else {
-        const dir = get8DirFromVector(vectorToDestination);
-        this.updateMovementDirection(dir);  
     }
 };
 
@@ -259,7 +256,6 @@ Game_CharacterBase.prototype.moveInDirection = function(dir) {
     if (isRight(dir)) vector.x = scalar;
     else if (isLeft(dir)) vector.x = -scalar;
 
-    this.updateMovementDirection(dir);
     this.move(vector);
 };
 
@@ -267,6 +263,7 @@ Game_CharacterBase.prototype.move = function(vector) {
     const normalizedVector = Vector.normalise(vector);
     const forceVector = Vector.mult(normalizedVector, this.distancePerFrame());
     Body.applyForce(this.body, this.body.position, forceVector);
+    this.updateMovementDirection(get8DirFromVector(vector));
     this.increaseSteps();
 };
 
