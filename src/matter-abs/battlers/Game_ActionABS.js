@@ -92,6 +92,11 @@ Game_ActionABS.prototype.range = function() {
     return this._item.range();
 };
 
+Game_ActionABS.prototype.hitStun = function() {
+    if (this.shouldUseWeaponProperty()) return this.weapon.hitStun();
+    return this._item.hitStun();
+};
+
 Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
     return this.isAttack() && this.weapon;
 };
@@ -236,7 +241,7 @@ Game_ActionABS.prototype.applyGuard = function(damage, target) {
 Game_ActionABS.prototype.executeDamage = function(target, value) {
     // important to apply effects that reset after death prior to executeDamage()
     target.gainAggro(this._subject, value); 
-    target.applyHitStun(15);
+    target.applyHitStun(this.hitStun());
     Game_Action.prototype.executeDamage.call(this, target, value);
 };
 

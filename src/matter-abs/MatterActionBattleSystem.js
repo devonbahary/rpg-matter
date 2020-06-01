@@ -90,6 +90,11 @@
  * @desc The default range of actions (in tiles).
  * @type struct<ActionNumbers>
  * 
+ * @param Default Hit Stun
+ * @parent Actions
+ * @desc The default hit stun value for actions (in frames).
+ * @type struct<ActionNumbers>
+ * 
 */
 
 /*~struct~ActionNumbers:
@@ -121,16 +126,22 @@ import "./sprites/Sprite_BattlerParameters";
 import "./sprites/Sprite_CharacterWeapon";
 import "./sprites/Sprite_Character";
 import "./action-sequences/action-sequences";
-import { transformPluginStruct } from "../utils";
+import { transformPluginStruct, convertStructToNumbers } from "../utils";
+
+const capitalizeKeyAndNumberValue = (acc, key, val) => {
+    acc[key.toUpperCase()] = Number(val);
+    return acc;
+};
 
 export default {
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
+    DEFAULT_HIT_STUN: transformPluginStruct(
+        PluginManager.parameters('MatterActionBattleSystem')["Default Hit Stun"],
+        capitalizeKeyAndNumberValue,
+    ),
     DEFAULT_RANGES: transformPluginStruct(
         PluginManager.parameters('MatterActionBattleSystem')["Default Ranges"],
-        (acc, key, val) => {
-            acc[key.toUpperCase()] = Number(val);
-            return acc;
-        },
+        capitalizeKeyAndNumberValue,
     ),
     DEFAULT_WEAPON_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Force"]),
     NORMAL_ATTACK_MISS_SE: {

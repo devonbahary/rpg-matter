@@ -41,3 +41,10 @@ Game_Item.prototype.range = function() {
     if (this.isWeapon()) return MATTER_ABS.DEFAULT_RANGES.WEAPONS;
     return MATTER_ABS.DEFAULT_RANGES.SKILLS;
 };
+
+Game_Item.prototype.hitStun = function() {
+    const hitStun = Number(this.meta.hitStun);
+    if (!isNaN(hitStun)) return hitStun;
+    if (this.isWeapon()) return MATTER_ABS.DEFAULT_HIT_STUN.WEAPONS;
+    return MATTER_ABS.DEFAULT_HIT_STUN.SKILLS;
+};
