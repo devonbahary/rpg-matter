@@ -77,6 +77,7 @@ Game_Event.prototype.setupBattlerSettings = function() {
     if (!this._characterName && this.battler.imageName) {
         this.setImage(this.battler.imageName, this.battler.imageIndex);
         this.setPriorityType(this.battler.priorityType);
+        this._originalPattern = 1;
         this.setPattern(1);
     }
     // step anime
