@@ -5,7 +5,7 @@
 // and actions.
 
 import Game_ActionABS from "./Game_ActionABS";
-import { getMassFromMeta } from "../../utils";
+import { getMassFromMeta, getBooleanFromMeta } from "../../utils";
 import MATTER_CORE from "../../matter-core/pluginParams";
 
 Object.defineProperties(Game_Battler.prototype, {
@@ -16,6 +16,7 @@ Object.defineProperties(Game_Battler.prototype, {
         return getMassFromMeta(this.data.meta.mass) || MATTER_CORE.CHARACTER_DEFAULT_MASS; 
     }, configurable: false },
     priorityType: { get: function() { return 1; }, configurable: false }, // same as characters
+    stepAnime: { get: function() { return getBooleanFromMeta(this.data.meta.stepAnime); }, configurable: false },
     weaponIconIndex: { get: function() { return 0; }, configurable: false },
 });
 

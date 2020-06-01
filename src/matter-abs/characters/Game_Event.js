@@ -70,12 +70,17 @@ Game_Event.prototype.battlerFromPage = function() {
 Game_Event.prototype.setupBattlerSettings = function() {
     if (!this.battler) return;
     // event-specific properties will overide broad battler meta 
+    
+    // mass
     if (!this._pageMass) this.setMass(this.battler.mass);
+    // image
     if (!this._characterName && this.battler.imageName) {
         this.setImage(this.battler.imageName, this.battler.imageIndex);
         this.setPriorityType(this.battler.priorityType);
         this.setPattern(1);
     }
+    // step anime
+    if (!this._stepAnime && this.battler.stepAnime) this.setStepAnime(true);
 };
 
 const _Game_Event_update = Game_Event.prototype.update;
