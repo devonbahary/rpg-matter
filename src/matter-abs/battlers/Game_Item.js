@@ -38,6 +38,6 @@ Game_Item.prototype.forceMagnitude = function() {
 Game_Item.prototype.range = function() {
     const range = Number(this.meta.range);
     if (range) return range;
-    if (this.isWeapon()) return MATTER_ABS.DEFAULT_WEAPON_FORCE;
-    return MATTER_ABS.DEFAULT_ACTION_RANGE;
+    if (this.isWeapon()) return MATTER_ABS.DEFAULT_RANGES.WEAPONS;
+    return MATTER_ABS.DEFAULT_RANGES.SKILLS;
 };
