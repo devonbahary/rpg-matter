@@ -16,7 +16,7 @@ Game_BattlerBase.prototype.initMembers = function() {
     _Game_BattlerBase_initMembers.call(this);
     this.id = uuidv4();
     this.resetAggro();
-    this.hitStun = 0;
+    this._hitStun = 0;
 };
 
 Game_BattlerBase.prototype.update = function() {
@@ -24,16 +24,16 @@ Game_BattlerBase.prototype.update = function() {
 };
 
 Game_BattlerBase.prototype.updateHitStun = function() {
-    if (this.hitStun) this.hitStun--;
+    if (this._hitStun) this._hitStun--;
 }
 
 Game_BattlerBase.prototype.applyHitStun = function(value) {
     // can't be stunned and result in being stunned for less than an already active stun
-    if (value > this.hitStun) this.hitStun = value; 
+    if (value > this._hitStun) this._hitStun = value; 
 };
 
 Game_BattlerBase.prototype.isHitStunned = function() { 
-    return this.hitStun;
+    return this._hitStun;
 };
 
 Game_BattlerBase.prototype.resetAggro = function() {
@@ -70,7 +70,7 @@ Game_BattlerBase.prototype.isEnemyWith = function(battler) {
 const _Game_BattlerBase_die = Game_BattlerBase.prototype.die;
 Game_BattlerBase.prototype.die = function() {
     _Game_BattlerBase_die.call(this);
-    this.hitStun = 0;
+    this._hitStun = 0;
     this.opponentsUnit().members().forEach(battler => {
         battler.clearBattlerAggro(this);
     });
