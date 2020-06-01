@@ -107,7 +107,7 @@ Game_Player.prototype.moveByInput = function() {
     const direction = this.getInputDirection();
     if (direction) {
         if (this.hasDestination()) this.clearPathfinding();
-        this.move(direction);
+        this.moveInDirection(direction);
     }
 };
 

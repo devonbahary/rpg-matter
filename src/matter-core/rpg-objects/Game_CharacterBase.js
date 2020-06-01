@@ -222,10 +222,7 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
     const destinationWorldPosVector = toWorldVectorCentered({ x: this._destinationX, y: this._destinationY });
     const vectorToDestination = vectorFromAToB(this.body.position, destinationWorldPosVector);
     
-    const normalizedVector = Vector.normalise(vectorToDestination);
-    const forceVector = Vector.mult(normalizedVector, this.distancePerFrame());
-
-    Body.applyForce(this.body, this.body.position, forceVector);
+    this.move(vectorToDestination);
 
     if (Vector.magnitude(this.body.velocity) >= Vector.magnitude(vectorToDestination)) {
         Body.setPosition(this.body, destinationWorldPosVector);
@@ -235,8 +232,6 @@ Game_CharacterBase.prototype.updateMoveToDestination = function() {
         const dir = get8DirFromVector(vectorToDestination);
         this.updateMovementDirection(dir);  
     }
-
-    this.increaseSteps();
 };
 
 Game_CharacterBase.prototype.refreshBushDepth = function() {
@@ -252,25 +247,26 @@ Game_CharacterBase.prototype.isOnBush = function() {
     return $gameMap.isBush(this._x, this._y + this.height / 2);
 };
 
-Game_CharacterBase.prototype.move = function(dir) {
+Game_CharacterBase.prototype.moveInDirection = function(dir) {
     if (!dir) return;
 
-    const magnitude = this.distancePerFrame();
     const vector = { x: 0, y: 0 };
     const scalar = 1; // arbitrary, will be normalized
-
+    
     if (isDown(dir)) vector.y = scalar;
     else if (isUp(dir)) vector.y = -scalar;
 
     if (isRight(dir)) vector.x = scalar;
     else if (isLeft(dir)) vector.x = -scalar;
 
-    const normalizedVector = Vector.normalise(vector);
-    const movementVector = Vector.mult(normalizedVector, magnitude);
-
     this.updateMovementDirection(dir);
-    Body.applyForce(this.body, this.body.position, movementVector);
+    this.move(vector);
+};
 
+Game_CharacterBase.prototype.move = function(vector) {
+    const normalizedVector = Vector.normalise(vector);
+    const forceVector = Vector.mult(normalizedVector, this.distancePerFrame());
+    Body.applyForce(this.body, this.body.position, forceVector);
     this.increaseSteps();
 };
 
@@ -305,13 +301,13 @@ Game_CharacterBase.prototype.updateMovementDirection = function(dir) {
 
 // overwrite
 Game_CharacterBase.prototype.moveStraight = function(d) {
-    this.move(d); 
+    this.moveInDirection(d); 
 };
 
 // overwrite
 Game_CharacterBase.prototype.moveDiagonally = function(horz, vert) {
     const d = get8DirFromHorzVert(horz, vert);
-    this.move(d); 
+    this.moveInDirection(d); 
 };
 
 Game_CharacterBase.prototype.moveTo = function(x, y) {
