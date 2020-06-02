@@ -40,7 +40,7 @@ Game_Player.prototype.initCharacterBodyOptions = function() {
 };
 
 Game_Player.prototype.initSensorBody = function() {
-    const length = this.radius * 2 * MATTER_CORE.INTERACTION_RADIUS;
+    const length = this.worldRadius * 2 * MATTER_CORE.INTERACTION_RADIUS;
     const options = {
         density: 0.00001,
         isSensor: true,
