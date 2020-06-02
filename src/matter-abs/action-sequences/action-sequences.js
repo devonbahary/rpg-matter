@@ -16,9 +16,10 @@ const command = (code, ...parameters) => ({ code, parameters });
 const playSe = (name, volume = 90, pitch = 100) => command(ROUTE_PLAY_SE, { name, volume, pitch });
 const stepLock = lock => command(STEP_LOCK, lock); 
 const weaponPose = pose => command(WEAPON_POSE, pose);
+const n = (command, n) => times(n, () => command);
 
 const ACTION_SEQUENCES = {
-    ENEMY_ATTACK: {
+    GOBLIN_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
         15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         22: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
