@@ -100,7 +100,7 @@ Game_CharacterBase.prototype.initBodyParts = function() {
 Game_CharacterBase.prototype.initCharacterBody = function() {
     const body = Bodies.circle(0, 0, this.worldRadius, this.initCharacterBodyOptions());
     body.character = this;
-    this._characterBody = body;
+    this.characterBody = body;
     return body;
 };
 
@@ -114,7 +114,7 @@ Game_CharacterBase.prototype.initBodyOptions = function() {
 Game_CharacterBase.prototype.setMass = function(mass) {
     this.setStatic(false);
     Body.setMass(this.body, mass);
-    Body.setMass(this._characterBody, mass);
+    Body.setMass(this.characterBody, mass);
 };
 
 Game_CharacterBase.prototype.setStatic = function(isStatic) {
@@ -337,7 +337,7 @@ Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
 const _Game_CharacterBase_setThrough = Game_CharacterBase.prototype.setThrough;
 Game_CharacterBase.prototype.setThrough = function(through) {
     _Game_CharacterBase_setThrough.call(this, through);
-    this._characterBody.isSensor = through;
+    this.characterBody.isSensor = through;
 };
 
 Game_CharacterBase.prototype.distanceFrom = function(char) {

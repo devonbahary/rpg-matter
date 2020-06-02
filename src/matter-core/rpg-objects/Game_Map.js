@@ -126,9 +126,9 @@ Game_Map.prototype.addEvents = function() {
     }
 };
 
-Game_Map.prototype.addCharacterBody = function({ body }) {
-    this.characterBodies.push(body);
-    this.addBody(body);
+Game_Map.prototype.addCharacterBody = function(character) {
+    this.characterBodies.push(character.characterBody);
+    this.addBody(character.body);
 }
 
 const _Game_Map_tileId = Game_Map.prototype.tileId;

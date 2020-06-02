@@ -34,7 +34,7 @@ Pair.update = (pair, collision, timestamp) => {
 const _Game_CharacterBase_setDirection = Game_CharacterBase.prototype.setDirection;
 Game_CharacterBase.prototype.setDirection = function(d) {
     _Game_CharacterBase_setDirection.call(this, d);
-    this._characterBody.isTurning = true;
+    this.characterBody.isTurning = true;
 };
 
 const _Scene_Map_updateMain = Scene_Map.prototype.updateMain;
