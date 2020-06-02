@@ -26,6 +26,8 @@ Game_Character.prototype.initMembers = function() {
     _Game_Character_initMembers.call(this);
     this.weaponPose = WEAPON_POSES.IDLE;
     this._originalWeaponPose = WEAPON_POSES.IDLE;
+    this._stepLock = false;
+    this._stepLockMem = false;
     this._hasActionSequenceMem = false;
 };
 
@@ -105,6 +107,7 @@ Game_Character.prototype.onActionSequenceEnd = function() {
     if (this.battler) this.battler.clearAction();
     // restore mutable properties of action sequence
     this.weaponPose = this._originalWeaponPose;
+    this.stepLock(this._stepLockMem);
 };
 
 const _Game_Character_processMoveCommand = Game_Character.prototype.processMoveCommand;
