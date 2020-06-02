@@ -97,6 +97,8 @@ Game_Battler.prototype.hasActionSequence = function() {
 };
 
 Game_Battler.prototype.updateBehavior = function() {
+    if (this.character === $gamePlayer) return;
+
     const target = this.topAggroBattler();
     if (!target) return;
 
