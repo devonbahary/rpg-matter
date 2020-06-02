@@ -99,16 +99,24 @@ Game_Battler.prototype.hasActionSequence = function() {
 Game_Battler.prototype.updateBehavior = function() {
     if (this.character === $gamePlayer) return;
 
-    const target = this.topAggroBattler();
-    if (!target) return;
+    const skill = this.determineActionSkill();
+    if (!skill) return;
 
-    const action = this.determineAction();
-    if (this.moveTowardsTarget(target, action)) this.setAction($dataSkills[this.attackSkillId()]);
+    const action = new Game_ActionABS(this, skill);
+
+    if (action.isForOpponent()) {
+        const target = this.topAggroBattler();
+        if (!target) return;
+
+        if (this.character.distanceBetween(target.character) <= action.range()) {
+            const battlers = action.determineTargets();
+            if (battlers.includes(target)) return this.setAction(skill);
+        }
+        this.character.moveTowardCharacter(target.character);
+    }
 };
 
-Game_Battler.prototype.determineAction = function() {
-    const normalAttack = $dataSkills[this.attackSkillId()];
-    return new Game_ActionABS(this, normalAttack);
+Game_Battler.prototype.determineActionSkill = function() {
 };
 
 Game_Battler.prototype.moveTowardsTarget = function(target, action) {

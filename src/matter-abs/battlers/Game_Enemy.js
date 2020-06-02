@@ -17,6 +17,17 @@ Game_Enemy.prototype.isEnemyWith = function(battler) {
     return battler.isActor();
 };
 
+Game_Enemy.prototype.determineActionSkill = function() {
+    // borrowed from Game_Enemy.selectAllActions()
+    const validActions = this.enemy().actions.filter(a => this.isActionValid(a));
+    
+    const ratingMax = Math.max.apply(null, validActions.map(a => a.rating));
+    const ratingZero = ratingMax - 3;
+
+    const actionList = validActions.filter(a => a.rating > ratingZero);
+    if (actionList.length) return $dataSkills[actionList[0].skillId];
+};
+
 Game_Enemy.prototype.die = function() {
     Game_Battler.prototype.die.call(this);
     this.performCollapse();
