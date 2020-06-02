@@ -3,8 +3,6 @@
 //
 // The game object class for an actor.
 
-import { getMassFromMeta } from "../../utils";
-
 Object.defineProperties(Game_Actor.prototype, {
     data: { get: function() { return this.actor(); }, configurable: false },
     imageName: { get: function() { return this._characterName; }, configurable: false },
