@@ -3,6 +3,7 @@ export const WEAPON_POSES = {
     DOWN_SWING: 'down-swing',
     EXTEND: 'extend',
     RAISE: 'raise',
+    GUARD: 'guard',
 };
 
 export const getWeaponSpritePosition = (weaponPose, direction, pattern, iconIndex) => {
@@ -143,7 +144,34 @@ const WEAPON_POSE_TO_POSITION = {
             scaleX: -1,
             z: -1,
         },
-    }
+    },
+    [WEAPON_POSES.GUARD]: {
+        2: {
+            x: -5,
+            y: 5,
+            rotation: Math.PI / 4 - Math.PI / 16,
+            scaleX: -1, 
+        },
+        4: {
+            x: -6,
+            y: 4,
+            rotation: -Math.PI / 8,
+            scaleX: 0.8,
+            z: -1,
+        },
+        6: {
+            x: 2,
+            y: 4,
+            rotation: Math.PI / 8,
+            scaleX: -0.8,
+        },
+        8: {
+            x: 4,
+            y: 0,
+            rotation: -Math.PI / 4 + Math.PI / 16,
+            z: -1,
+        },
+    },
 };
 
 const ICON_INDEX_TO_ANCHOR = {
