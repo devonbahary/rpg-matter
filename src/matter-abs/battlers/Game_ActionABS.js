@@ -240,9 +240,21 @@ Game_ActionABS.prototype.applyGuard = function(damage, target) {
 
 Game_ActionABS.prototype.executeDamage = function(target, value) {
     // important to apply effects that reset after death prior to executeDamage()
+    const hitStun = this.hitStun();
     target.gainAggro(this._subject, value); 
-    target.applyHitStun(this.hitStun());
+    target.applyHitStun(hitStun);
     Game_Action.prototype.executeDamage.call(this, target, value);
+    if (target.character === $gamePlayer && value > 0) {
+        const intensity = value / target.mhp;
+        
+        const power = 9 * intensity;
+        const speed = 9 * intensity;
+        const duration = hitStun;
+        $gameScreen.startShake(power, speed, duration);
+        
+        const color = [ 255, 0, 0, 255 * intensity ];
+        $gameScreen.startFlash(color, duration);
+    }
 };
 
 Game_ActionABS.prototype.executeHpDamage = function(target, value) {
