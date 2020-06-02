@@ -79,17 +79,19 @@ Game_Character.prototype.updateHitStun = function() {
 };
 
 Game_Character.prototype.updateActionSequence = function() {
-    if (!this.hasActionSequence()) return;
-
-    if (!this._isInActionSequenceMem) this.onActionSequenceStart();
+    if (!this.hasActionSequence()) {
+        if (this._isInActionSequenceMem) this.onActionSequenceEnd();
+    } else {
+        if (!this._isInActionSequenceMem) this.onActionSequenceStart();
     
-    const commands = this.battler.actionSequenceCommandsThisFrame();
-    if (commands.length) {
-        for (const command of commands) {
-            this.processMoveCommand(command);
+        const commands = this.battler.actionSequenceCommandsThisFrame();
+        if (commands.length) {
+            for (const command of commands) {
+                this.processMoveCommand(command);
+            }
+        } else if (this.battler.actionSequenceProgressRate() >= 1) {
+            this.onActionSequenceEnd();
         }
-    } else if (this.battler.actionSequenceProgressRate() >= 1) {
-        this.onActionSequenceEnd();
     }
 };
 
