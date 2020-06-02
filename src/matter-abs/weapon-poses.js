@@ -28,44 +28,20 @@ export const getWeaponSpritePosition = (weaponPose, direction, pattern, iconInde
 
 const DIRECTION_PATTERN_ADJ = {
     2: {
-        0: {
-            x: -2,
-            y: -1,
-        },
-        2: {
-            x: 3,
-            y: 0,
-        },
+        0: { x: -2, y: -1 },
+        2: { x: 3, y: 0 },
     },
     4: {
-        0: {
-            x: 3,
-            y: -1,
-        },
-        2: {
-            x: -7,
-            y: -2,
-        },
+        0: { x: 3, y: -1 },
+        2: { x: -7, y: -2 },
     },
     6: {
-        0: {
-            x: 5,
-            y: -2,
-        },
-        2: {
-            x: -3,
-            y: -1,
-        },
+        0: { x: 5, y: -2 },
+        2: { x: -3, y: -1 },
     },
     8: {
-        0: {
-            x: 1,
-            y: 1,
-        },
-        2: {
-            x: -3,
-            y: -1,
-        },
+        0: { x: 1, y: 1 },
+        2: { x: -3, y: -1 },
     },
 };
 
