@@ -38,8 +38,8 @@ Game_Battler.prototype.fulfillEffect = function() {
     this._effectTypeFulfilled = true;
 };
 
-Game_Battler.prototype.applyHitStun = function() {
-    Game_BattlerBase.prototype.applyHitStun.call(this);
+Game_Battler.prototype.applyHitStun = function(value) {
+    Game_BattlerBase.prototype.applyHitStun.call(this, value);
     if (this._hitStun) this.clearAction();
 };
 
