@@ -18,11 +18,17 @@ const stepLock = lock => command(STEP_LOCK, lock);
 const weaponPose = pose => command(WEAPON_POSE, pose);
 
 const ACTION_SEQUENCES = {
+    ENEMY_ATTACK: {
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+        22: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
+        60: [], 
+    },
     SWING: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
         7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         15: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
-        20: [ stepLock(false) ],
+        20: [],
     },
 };
 
