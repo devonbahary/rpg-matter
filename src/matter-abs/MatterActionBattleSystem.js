@@ -137,7 +137,7 @@ import "./sprites/Sprite_BattlerParameters";
 import "./sprites/Sprite_CharacterWeapon";
 import "./sprites/Sprite_Character";
 import "./action-sequences/action-sequences";
-import { transformPluginStruct, convertStructToNumbers } from "../utils";
+import { transformPluginStruct } from "../utils";
 
 const capitalizeKeyAndNumberValue = (acc, key, val) => {
     acc[key.toUpperCase()] = Number(val);
