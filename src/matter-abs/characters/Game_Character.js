@@ -26,7 +26,7 @@ Game_Character.prototype.initMembers = function() {
     _Game_Character_initMembers.call(this);
     this.weaponPose = WEAPON_POSES.IDLE;
     this._originalWeaponPose = WEAPON_POSES.IDLE;
-    this._isInActionSequenceMem = false;
+    this._hasActionSequenceMem = false;
 };
 
 Game_Character.prototype.stepForward = function() {
@@ -79,9 +79,9 @@ Game_Character.prototype.updateHitStun = function() {
 
 Game_Character.prototype.updateActionSequence = function() {
     if (!this.hasActionSequence()) {
-        if (this._isInActionSequenceMem) this.onActionSequenceEnd();
+        if (this._hasActionSequenceMem) this.onActionSequenceEnd();
     } else {
-        if (!this._isInActionSequenceMem) this.onActionSequenceStart();
+        if (!this._hasActionSequenceMem) this.onActionSequenceStart();
     
         const commands = this.battler.actionSequenceCommandsThisFrame();
         if (commands.length) {
@@ -93,7 +93,7 @@ Game_Character.prototype.updateActionSequence = function() {
         }
     }
 
-    this._isInActionSequenceMem = this.hasActionSequence();
+    this._hasActionSequenceMem = this.hasActionSequence();
 };
 
 Game_Character.prototype.onActionSequenceStart = function() {
