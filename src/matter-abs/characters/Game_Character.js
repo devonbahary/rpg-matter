@@ -66,7 +66,6 @@ Game_Character.prototype.update = function() {
     this.updateHitStun();
     this.updateActionSequence();
     _Game_Character_update.call(this);
-    this._isInActionSequenceMem = this.hasActionSequence();
 };
 
 const _Game_Character_move = Game_Character.prototype.move;
@@ -93,6 +92,8 @@ Game_Character.prototype.updateActionSequence = function() {
             this.onActionSequenceEnd();
         }
     }
+
+    this._isInActionSequenceMem = this.hasActionSequence();
 };
 
 Game_Character.prototype.onActionSequenceStart = function() {
