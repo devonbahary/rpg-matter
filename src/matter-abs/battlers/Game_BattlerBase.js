@@ -19,6 +19,10 @@ Game_BattlerBase.prototype.initMembers = function() {
     this._hitStun = 0;
 };
 
+Game_BattlerBase.prototype.isOccasionOk = function(item) {
+    return item.occasion < 3; // not "never"
+};
+
 Game_BattlerBase.prototype.update = function() {
     this.updateHitStun();
 };
