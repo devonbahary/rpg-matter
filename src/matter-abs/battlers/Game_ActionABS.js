@@ -11,6 +11,9 @@ function Game_ActionABS() {
     this.initialize.apply(this, arguments);
 }
 
+Game_ActionABS.prototype = Object.create(Game_Action.prototype);
+Game_ActionABS.prototype.constructor = Game_ActionABS;
+
 Object.defineProperties(Game_ActionABS.prototype, {
     weapon: { get: function() { return this._subject.weapon; }, configurable: false },
 });
@@ -114,128 +117,6 @@ Game_ActionABS.prototype.determineTargets = function() {
     return battlersInRange;
 };
 
-Game_ActionABS.prototype.item = function() {
-    return Game_Action.prototype.item.call(this);
-};
-
-Game_ActionABS.prototype.checkItemScope = function(list) {
-    return Game_Action.prototype.checkItemScope.call(this, list);
-};
-
-Game_ActionABS.prototype.isForOpponent = function() {
-    return Game_Action.prototype.isForOpponent.call(this);
-};
-
-Game_ActionABS.prototype.isForFriend = function() {
-    return Game_Action.prototype.isForFriend.call(this);
-};
-
-Game_ActionABS.prototype.isForDeadFriend = function() {
-    return Game_Action.prototype.isForDeadFriend.call(this);
-};
-
-Game_ActionABS.prototype.isForUser = function() {
-    return Game_Action.prototype.isForUser.call(this);
-};
-
-Game_ActionABS.prototype.isForOne = function() {
-    return Game_Action.prototype.isForOne.call(this);
-};
-
-Game_ActionABS.prototype.isForRandom = function() {
-    return Game_Action.prototype.isForRandom.call(this);
-};
-
-Game_ActionABS.prototype.isForAll = function() {
-    return Game_Action.prototype.isForAll.call(this);
-};
-
-Game_ActionABS.prototype.checkDamageType = function(list) {
-    return Game_Action.prototype.checkDamageType.call(this, list);
-};
-
-Game_ActionABS.prototype.isHpEffect = function() {
-    return Game_Action.prototype.isHpEffect.call(this);
-};
-
-Game_ActionABS.prototype.isMpEffect = function() {
-    return Game_Action.prototype.isMpEffect.call(this);
-};
-
-Game_ActionABS.prototype.isDamage = function() {
-    return Game_Action.prototype.isDamage.call(this);
-};
-
-Game_ActionABS.prototype.isRecover = function() {
-    return Game_Action.prototype.isRecover.call(this);
-};
-
-Game_ActionABS.prototype.isDrain = function() {
-    return Game_Action.prototype.isDrain.call(this);
-};
-
-Game_ActionABS.prototype.isHpRecover = function() {
-    return Game_Action.prototype.isHpRecover.call(this);
-};
-
-Game_ActionABS.prototype.isMpRecover = function() {
-    return Game_Action.prototype.isMpRecover.call(this);
-};
-
-Game_ActionABS.prototype.isCertainHit = function() {
-    return Game_Action.prototype.isCertainHit.call(this);
-};
-
-Game_ActionABS.prototype.isPhysical = function() {
-    return Game_Action.prototype.isPhysical.call(this);
-};
-
-Game_ActionABS.prototype.isMagical = function() {
-    return Game_Action.prototype.isPhysical.call(this);
-};
-
-Game_ActionABS.prototype.isAttack = function() {
-    return Game_Action.prototype.isAttack.call(this);
-};
-
-Game_ActionABS.prototype.isGuard = function() {
-    return Game_Action.prototype.isGuard.call(this);
-};
-
-Game_ActionABS.prototype.isMagicSkill = function() {
-    return Game_Action.prototype.isMagicSkill.call(this);
-};
-
-Game_ActionABS.prototype.itemCri = function(target) {
-    return Game_Action.prototype.itemCri.call(this, target);
-};
-
-Game_ActionABS.prototype.makeDamageValue = function(target, critical) {
-    return Game_Action.prototype.makeDamageValue.call(this, target, critical);
-};
-
-Game_ActionABS.prototype.evalDamageFormula = function(target) {
-    return Game_Action.prototype.evalDamageFormula.call(this, target);
-};
-
-Game_ActionABS.prototype.calcElementRate = function(target) {
-    return Game_Action.prototype.calcElementRate.call(this, target);
-};
-
-Game_ActionABS.prototype.elementsMaxRate = function(target, elements) {
-    return Game_Action.prototype.elementsMaxRate.call(this, target, elements);
-};
-
-Game_ActionABS.prototype.applyCritical = function(damage) {
-    return Game_Action.prototype.applyCritical.call(this, damage);
-};
-
-Game_ActionABS.prototype.applyVariance = function(damage, variance) {
-    return Game_Action.prototype.applyVariance.call(this, damage, variance);
-};
-
-Game_ActionABS.prototype.applyGuard = function(damage, target) {
-    return Game_Action.prototype.applyGuard.call(this, damage, target);
 };
 
 Game_ActionABS.prototype.executeDamage = function(target, value) {
@@ -257,25 +138,6 @@ Game_ActionABS.prototype.onPlayerDamage = function(value, hitStun) {
     
     const color = [ 255, 0, 0, 255 * intensity ];
     $gameScreen.startFlash(color, duration);
-};
-
-Game_ActionABS.prototype.executeHpDamage = function(target, value) {
-    return Game_Action.prototype.executeHpDamage.call(this, target, value);
-};
-
-Game_ActionABS.prototype.executeMpDamage = function(target, value) {
-    return Game_Action.prototype.executeMpDamage.call(this, target, value);
-};
-
-Game_ActionABS.prototype.gainDrainedHp = function(value) {
-    return Game_Action.prototype.gainDrainedHp.call(this, value);
-};
-
-Game_ActionABS.prototype.gainDrainedMp = function(value) {
-    return Game_Action.prototype.gainDrainedMp.call(this, value);
-};
-
-Game_ActionABS.prototype.makeSuccess = function() {
 };
 
 export default Game_ActionABS;
