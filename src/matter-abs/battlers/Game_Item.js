@@ -48,3 +48,8 @@ Game_Item.prototype.hitStun = function() {
     if (this.isWeapon()) return MATTER_ABS.DEFAULT_HIT_STUN.WEAPONS;
     return MATTER_ABS.DEFAULT_HIT_STUN.SKILLS;
 };
+
+Game_Item.prototype.isChanneled = function() {
+    const isChanneled = this.meta.channeled;
+    return isChanneled ? JSON.parse(isChanneled) : false;
+};

@@ -83,6 +83,10 @@ Game_Battler.prototype.actionSequenceProgressRate = function() {
     return this._actionFrame / this._action.actionSequenceLength();
 };
 
+Game_Battler.prototype.isActionChanneled = function() {
+    return this._action && this._action.isChanneled();
+};
+
 Game_Battler.prototype.actionFrameProgressRate = function() {
     return 1; // TODO: apply speed to this
 };

@@ -131,6 +131,10 @@ Game_ActionABS.prototype.determineTargets = function() {
     return battlersInRange;
 };
 
+Game_ActionABS.prototype.isChanneled = function() {
+    return this._item.isChanneled();
+};
+
 Game_ActionABS.prototype.executeDamage = function(target, value) {
     // important to apply effects that reset after death prior to executeDamage()
     Game_Action.prototype.executeDamage.call(this, target, value);
