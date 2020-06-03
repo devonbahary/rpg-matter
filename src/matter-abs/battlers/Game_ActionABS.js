@@ -107,6 +107,8 @@ Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
 };
 
 Game_ActionABS.prototype.determineTargets = function() {
+    if (this.isForUser()) return [ this._subject ];
+
     const bounds = this._subject.character.squareInFrontOf(this.range());
     const battlersInRange = $gameMap.battlersInBoundingBox(bounds);
 
