@@ -36,8 +36,8 @@ const ACTION_SEQUENCES = {
         20: [],
     },
     DASH_ATTACK: {
-        1: [ playSe('Flash2', 90, 150), stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        10: [ ROUTE_THROUGH_ON, ...n(ROUTE_MOVE_FORWARD, 60) ],
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        10: [ playSe('Flash2', 90, 150), ROUTE_THROUGH_ON, ...n(ROUTE_MOVE_FORWARD, 60) ],
         11: [ ROUTE_THROUGH_OFF, APPLY_EFFECT ]
     },
 };
