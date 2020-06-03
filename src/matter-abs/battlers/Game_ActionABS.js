@@ -244,17 +244,19 @@ Game_ActionABS.prototype.executeDamage = function(target, value) {
     target.gainAggro(this._subject, value); 
     target.applyHitStun(hitStun);
     Game_Action.prototype.executeDamage.call(this, target, value);
-    if (target.character === $gamePlayer && value > 0) {
-        const intensity = value / target.mhp;
-        
-        const power = 9 * intensity;
-        const speed = 9 * intensity;
-        const duration = hitStun;
-        $gameScreen.startShake(power, speed, duration);
-        
-        const color = [ 255, 0, 0, 255 * intensity ];
-        $gameScreen.startFlash(color, duration);
-    }
+    if (target.character === $gamePlayer && value > 0) this.onPlayerDamage(value, hitStun);
+};
+
+Game_ActionABS.prototype.onPlayerDamage = function(value, hitStun) {
+    const intensity = value / $gamePlayer.battler.mhp;
+    
+    const power = 9 * intensity;
+    const speed = 9 * intensity;
+    const duration = hitStun;
+    $gameScreen.startShake(power, speed, duration);
+    
+    const color = [ 255, 0, 0, 255 * intensity ];
+    $gameScreen.startFlash(color, duration);
 };
 
 Game_ActionABS.prototype.executeHpDamage = function(target, value) {
