@@ -24,8 +24,8 @@ const n = (command, n) => times(n, () => command);
 
 const ACTION_SEQUENCES = {
     GUARD: {
-        0: playSe('Sword5', 90, 150),
-        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD), APPLY_EFFECT ],
+        0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD) ],
+        1: APPLY_EFFECT,
     },
     GOBLIN_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
