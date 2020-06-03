@@ -44,7 +44,7 @@ Game_ActionABS.prototype.actionSequenceLength = function() {
 
 Game_ActionABS.prototype.apply = function() {
     const targets = this.determineTargets();
-    if (!targets.length && this.isAttack()) return this.playMissSe();
+    if (!targets.length && this.isPhysical()) return this.playMissSe();
 
     if (this.item().damage.type > 0) {
         for (const target of targets) {
