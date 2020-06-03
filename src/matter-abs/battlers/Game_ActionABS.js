@@ -117,8 +117,6 @@ Game_ActionABS.prototype.determineTargets = function() {
     return battlersInRange;
 };
 
-};
-
 Game_ActionABS.prototype.executeDamage = function(target, value) {
     // important to apply effects that reset after death prior to executeDamage()
     const hitStun = this.hitStun();

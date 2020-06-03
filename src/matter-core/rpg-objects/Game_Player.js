@@ -210,6 +210,7 @@ Game_Player.prototype.triggerButtonAction = function() {
     if (closestActionButtonEventInRange && this.canStartLocalEvents()) {
         closestActionButtonEventInRange.start();
     }
+};
 
 Game_Player.prototype.cleanUpActionButtonEventsInRange = function() {
     // events can be erased between their entering action button range and their attempted triggering
