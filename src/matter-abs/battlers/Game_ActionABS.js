@@ -55,11 +55,13 @@ Game_ActionABS.prototype.apply = function() {
             this.applyForce(target);
         }
     }
-    // TODO
-    // this.item().effects.forEach(function(effect) {
-    //     this.applyItemEffect(target, effect);
-    // }, this);
-    // this.applyItemUserEffect(target);
+    
+    for (const target of targets) {
+        this.item().effects.forEach(function(effect) {
+            this.applyItemEffect(target, effect);
+        }, this);
+        this.applyItemUserEffect(target); // TODO: do we want to apply item user effect for EACH target affected?
+    }
 };
 
 Game_ActionABS.prototype.playMissSe = function() {
