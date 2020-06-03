@@ -53,7 +53,10 @@ Game_ActionABS.prototype.apply = function() {
             this.executeDamage(target, value);
             target.character.requestAnimation(this.animationId());
             this.applyForce(target);
-            target.applyHitStun(this.hitStun());
+
+            const hitStun = this.hitStun();
+            target.applyHitStun(hitStun);
+            target.gainAggro(this._subject, value + hitStun); 
         }
     }
     
@@ -127,7 +130,6 @@ Game_ActionABS.prototype.executeDamage = function(target, value) {
     const hitStun = this.hitStun();
     Game_Action.prototype.executeDamage.call(this, target, value);
     if (target.character === $gamePlayer && value > 0) this.onPlayerDamage(value, hitStun);
-    target.gainAggro(this._subject, value); 
 };
 
 Game_ActionABS.prototype.onPlayerDamage = function(value, hitStun) {
