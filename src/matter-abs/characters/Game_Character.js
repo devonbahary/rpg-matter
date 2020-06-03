@@ -90,7 +90,7 @@ Game_Character.prototype.updateActionSequence = function() {
             for (const command of commands) {
                 this.processMoveCommand(command);
             }
-        } else if (this.battler.actionSequenceProgressRate() >= 1 && !this.battler.isActionChanneled()) {
+        } else if (this.battler.actionSequenceProgressRate() >= 1 && !this.battler.isChanneling()) {
             this.onActionSequenceEnd();
         }
     }
