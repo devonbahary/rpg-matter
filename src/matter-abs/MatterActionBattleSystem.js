@@ -74,6 +74,11 @@
  * @max 150
  * @default 100
  * 
+ * @param Guard Animation
+ * @parent Battler
+ * @desc Animation ID for successful guard.
+ * @type animation
+ * 
  * @param Actions
  * 
  * @param Default Weapon Force
@@ -160,4 +165,5 @@ export default {
         volume: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Volume"]),
         pitch: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Pitch"]),
     },
+    GUARD_ANIMATION_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Guard Animation"]),
 };

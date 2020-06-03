@@ -51,12 +51,18 @@ Game_ActionABS.prototype.apply = function() {
             const critical = (Math.random() < this.itemCri(target));
             const value = this.makeDamageValue(target, critical);
             this.executeDamage(target, value);
-            target.character.requestAnimation(this.animationId());
+            
             this.applyForce(target);
 
             const hitStun = this.hitStun();
             target.applyHitStun(hitStun);
             target.gainAggro(this._subject, value + hitStun); 
+            
+            if (target.isGuard()) {
+                target.character.requestAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
+            } else {
+                target.character.requestAnimation(this.animationId());
+            }
         }
     }
     
