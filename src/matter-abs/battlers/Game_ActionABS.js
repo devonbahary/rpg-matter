@@ -53,6 +53,7 @@ Game_ActionABS.prototype.apply = function() {
             this.executeDamage(target, value);
             target.character.requestAnimation(this.animationId());
             this.applyForce(target);
+            target.applyHitStun(this.hitStun());
         }
     }
     
@@ -124,10 +125,9 @@ Game_ActionABS.prototype.determineTargets = function() {
 Game_ActionABS.prototype.executeDamage = function(target, value) {
     // important to apply effects that reset after death prior to executeDamage()
     const hitStun = this.hitStun();
-    target.gainAggro(this._subject, value); 
-    target.applyHitStun(hitStun);
     Game_Action.prototype.executeDamage.call(this, target, value);
     if (target.character === $gamePlayer && value > 0) this.onPlayerDamage(value, hitStun);
+    target.gainAggro(this._subject, value); 
 };
 
 Game_ActionABS.prototype.onPlayerDamage = function(value, hitStun) {
