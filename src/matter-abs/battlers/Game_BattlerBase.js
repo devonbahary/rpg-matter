@@ -25,6 +25,7 @@ Game_BattlerBase.prototype.isOccasionOk = function(item) {
 
 Game_BattlerBase.prototype.update = function() {
     this.updateHitStun();
+    this.onTurnEnd()
 };
 
 Game_BattlerBase.prototype.updateHitStun = function() {
