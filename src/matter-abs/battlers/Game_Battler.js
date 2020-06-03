@@ -9,7 +9,7 @@ import { getMassFromMeta, getBooleanFromMeta } from "../../utils";
 import MATTER_CORE from "../../matter-core/pluginParams";
 
 Object.defineProperties(Game_Battler.prototype, {
-    actionSequence: { get: function() { return this.action.actionSequence(); }, configurable: false },
+    actionSequence: { get: function() { return this._action.actionSequence(); }, configurable: false },
     imageName: { get: function() { return ''; }, configurable: false },
     imageIndex: { get: function() { return 0; }, configurable: false },
     mass: { get: function() { 
@@ -28,6 +28,10 @@ Game_Battler.prototype.initMembers = function() {
     this.character = null;
 };
 
+Game_Battler.prototype.currentAction = function() {
+    return this._action; // overwrite
+};
+
 const _Game_Battler_requestEffect = Game_Battler.prototype.requestEffect;
 Game_Battler.prototype.requestEffect = function(effectType) {
     _Game_Battler_requestEffect.call(this, effectType);
@@ -44,7 +48,7 @@ Game_Battler.prototype.applyHitStun = function(value) {
 };
 
 Game_Battler.prototype.clearAction = function() {
-    this.action = null;
+    this._action = null;
     this._actionFrame = 0;
     this._lastActionFrame = 0;
 };
@@ -52,11 +56,11 @@ Game_Battler.prototype.clearAction = function() {
 // overwrite
 Game_Battler.prototype.setAction = function(action) { 
     this.clearAction();
-    this.action = new Game_ActionABS(this, action);
+    this._action = new Game_ActionABS(this, action);
 };
 
 Game_Battler.prototype.hasAction = function() {
-    return !!this.action;
+    return !!this._action;
 };
 
 Game_Battler.prototype.update = function() {
@@ -69,14 +73,14 @@ Game_Battler.prototype.update = function() {
 };
 
 Game_Battler.prototype.updateActionSeq = function() {
-    if (!this.action) return;
+    if (!this._action) return;
     this._lastActionFrame = Math.floor(this._actionFrame);
     this._actionFrame += this.actionFrameProgressRate(); 
 };
 
 Game_Battler.prototype.actionSequenceProgressRate = function() {
-    if (!this.action) return 0;
-    return this._actionFrame / this.action.actionSequenceLength();
+    if (!this._action) return 0;
+    return this._actionFrame / this._action.actionSequenceLength();
 };
 
 Game_Battler.prototype.actionFrameProgressRate = function() {

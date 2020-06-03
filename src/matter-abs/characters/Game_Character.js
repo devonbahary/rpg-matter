@@ -51,7 +51,7 @@ Game_Character.prototype.stepLock = function(lock) {
 
 Game_Character.prototype.applyEffect = function() {
     if (!this.battler) return;
-    this.battler.action.apply();
+    this.battler.currentAction().apply();
 };
 
 const _Game_Character_updatePattern = Game_Character.prototype.updatePattern;
