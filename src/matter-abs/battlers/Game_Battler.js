@@ -95,7 +95,12 @@ Game_Battler.prototype.actionSequenceCommandsThisFrame = function() {
     const commands = [];
     // action frames can progress slower or faster than 1 per frame
     for (let i = Math.floor(this._lastActionFrame) + 1; i <= Math.floor(this._actionFrame); i++) {
-        if (this.actionSequence[i]) commands.push(...this.actionSequence[i]);
+        let frame = i;
+        if (this.isChanneling()) {
+            frame = (i % this._action.actionSequenceLength()) + 1; // cycle frames
+        }
+        if (i === 1 && this.actionSequence[0]) commands.push(...this.actionSequence[0]); // apply 0-frame commands only once
+        if (this.actionSequence[frame]) commands.push(...this.actionSequence[frame]);
     }
     return commands;
 }; 
