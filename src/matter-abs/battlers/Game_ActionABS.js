@@ -127,17 +127,16 @@ Game_ActionABS.prototype.determineTargets = function() {
 
 Game_ActionABS.prototype.executeDamage = function(target, value) {
     // important to apply effects that reset after death prior to executeDamage()
-    const hitStun = this.hitStun();
     Game_Action.prototype.executeDamage.call(this, target, value);
-    if (target.character === $gamePlayer && value > 0) this.onPlayerDamage(value, hitStun);
+    if (target.character === $gamePlayer && value > 0) this.onPlayerDamage(value);
 };
 
-Game_ActionABS.prototype.onPlayerDamage = function(value, hitStun) {
+Game_ActionABS.prototype.onPlayerDamage = function(value) {
     const intensity = value / $gamePlayer.battler.mhp;
     
     const power = 9 * intensity;
     const speed = 9 * intensity;
-    const duration = hitStun;
+    const duration = this.hitStun();
     $gameScreen.startShake(power, speed, duration);
     
     const color = [ 255, 0, 0, 255 * intensity ];
