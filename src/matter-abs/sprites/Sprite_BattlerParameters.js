@@ -47,9 +47,13 @@ Sprite_BattlerParameters.prototype.initMembers = function() {
     this._mhp = 0;
 };
 
+Sprite_BattlerParameters.prototype.gaugeHeight = function() {
+    return MATTER_ABS.GAUGE_HEIGHT;
+};
+
 Sprite_BattlerParameters.prototype.createBitmap = function() {
     var tileWidth = $gameMap.tileWidth();
-    this.bitmap = new Bitmap(tileWidth - 4, MATTER_ABS.GAUGE_HEIGHT);
+    this.bitmap = new Bitmap(tileWidth - 4, this.gaugeHeight());
     this.anchor.x = 0.5;
 };
 
@@ -91,7 +95,7 @@ Sprite_BattlerParameters.prototype.drawGauge = function() {
     const fillW = (this.width - 2) * this._battler.hpRate();
     this.bitmap.clear();
     this.bitmap.fillAll(Window_Base.prototype.gaugeBackColor.call(this));
-    this.bitmap.gradientFillRect(1, 1, fillW, MATTER_ABS.GAUGE_HEIGHT - 2, color1, color2);
+    this.bitmap.gradientFillRect(1, 1, fillW, this.gaugeHeight() - 2, color1, color2);
 };
 
 Sprite_BattlerParameters.prototype.shouldUpdate = function() {
