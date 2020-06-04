@@ -75,17 +75,27 @@ Sprite_BattlerParameters.prototype.shouldShow = function() {
 };
 
 Sprite_BattlerParameters.prototype.updateGauge = function() {
-    if (this._battler.hp !== this._hp || this._battler.mhp !== this._mhp) {
-        this._hp = this._battler.hp;
-        this._mhp = this._battler.mhp;
-        
-        const color1 = this.hpGaugeColor1();
-        const color2 = this.hpGaugeColor2();
-        const fillW = (this.width - 2) * this._battler.hpRate();
-        this.bitmap.clear();
-        this.bitmap.fillAll(Window_Base.prototype.gaugeBackColor.call(this));
-        this.bitmap.gradientFillRect(1, 1, fillW, MATTER_ABS.GAUGE_HEIGHT - 2, color1, color2)
-    }
+    if (!this.shouldUpdate()) return;
+    this.memorizeMembers();
+    this.drawGauge();
+};
+
+Sprite_BattlerParameters.prototype.memorizeMembers = function() {
+    this._hp = this._battler.hp;
+    this._mhp = this._battler.mhp;
+};
+
+Sprite_BattlerParameters.prototype.drawGauge = function() {
+    const color1 = this.hpGaugeColor1();
+    const color2 = this.hpGaugeColor2();
+    const fillW = (this.width - 2) * this._battler.hpRate();
+    this.bitmap.clear();
+    this.bitmap.fillAll(Window_Base.prototype.gaugeBackColor.call(this));
+    this.bitmap.gradientFillRect(1, 1, fillW, MATTER_ABS.GAUGE_HEIGHT - 2, color1, color2);
+};
+
+Sprite_BattlerParameters.prototype.shouldUpdate = function() {
+    return this._battler.hp !== this._hp || this._battler.mhp !== this._mhp;
 };
 
 Sprite_BattlerParameters.prototype.updatePosition = function() {
