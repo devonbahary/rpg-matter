@@ -100,6 +100,11 @@
  * @desc The default hit stun value for actions (in frames).
  * @type struct<ActionHitStuns>
  * 
+ * @param Deflect Skill
+ * @parent Battler
+ * @type skill
+ * @desc Skill set on battler who is successfully guarded against, used to apply a "deflected" action sequence.
+ * 
 */
 
 /*~struct~ActionRanges:
@@ -166,4 +171,5 @@ export default {
         pitch: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Pitch"]),
     },
     GUARD_ANIMATION_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Guard Animation"]),
+    DEFLECT_SKILL_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Deflect Skill"]),
 };

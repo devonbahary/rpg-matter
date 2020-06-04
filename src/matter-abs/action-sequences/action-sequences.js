@@ -5,6 +5,7 @@ import "../characters/Game_Character";
 
 const { 
     APPLY_EFFECT,
+    ROUTE_MOVE_BACKWARD,
     ROUTE_MOVE_FORWARD,
     ROUTE_PLAY_SE, 
     ROUTE_THROUGH_OFF,
@@ -23,6 +24,10 @@ const weaponPose = pose => command(WEAPON_POSE, pose);
 const n = (command, n) => times(n, () => command);
 
 const ACTION_SEQUENCES = {
+    DEFLECT: {
+        1: [ stepLock(true), STEP_BACKWARD, ROUTE_MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        60: [],
+    },
     GUARD: {
         0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD) ],
         1: APPLY_EFFECT,
