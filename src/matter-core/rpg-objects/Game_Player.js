@@ -195,7 +195,7 @@ Game_Player.prototype.clearDestination = function() {
 
 // overwrite to remove non-collision based event checks, triggerTouchAction(), and odd return boolean
 Game_Player.prototype.triggerAction = function() {
-    if (this.canMove()) this.triggerButtonAction();
+    this.triggerButtonAction();
 };
 
 // overwrite to remove non-collision based event checks and odd return boolean
