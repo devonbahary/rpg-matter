@@ -53,3 +53,7 @@ Game_Item.prototype.isChanneled = function() {
     const isChanneled = this.meta.channeled;
     return isChanneled ? JSON.parse(isChanneled) : false;
 };
+
+Game_Item.prototype.isSameAs = function(gameItem) {
+    return this._dataClass === gameItem._dataClass && this._itemId === gameItem._itemId;
+};
