@@ -14,9 +14,16 @@ Game_Player.prototype.refresh = function() {
     if (leader) $gameParty.addBattler(leader);
 };
 
-const _Game_Player_canMove = Game_Player.prototype.canMove;
-Game_Player.prototype.canMove = function() {
-    return _Game_Player_canMove.call(this) && !this.hasActionSequence();
+const _Game_Player_moveByInput = Game_Player.prototype.moveByInput;
+Game_Player.prototype.moveByInput = function() {
+    if (!this.canMove()) return;
+
+    if (this.hasActionSequence()) {
+        const direction = this.getInputDirection();
+        this.updateMovementDirection(direction);
+    } else {
+        _Game_Player_moveByInput.call(this);
+    }
 };
 
 Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP = {
