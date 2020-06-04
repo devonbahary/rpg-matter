@@ -62,7 +62,7 @@ Game_Player.prototype.triggerButtonAction = function() {
 
 Game_Player.prototype.triggerActionSlotForKeyName = function(keyName) {
     const actionSlotIndex = Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP[keyName];
-    if (Input.isPressed(keyName)) return this.battler.setActionBySlot(actionSlotIndex);
+    if (Input.isTriggered(keyName)) return this.battler.setActionBySlot(actionSlotIndex);
 };
 
 Game_Player.prototype.endChanneledActionForKeyName = function(keyName) {
