@@ -52,7 +52,7 @@ Game_ActionABS.prototype.apply = function() {
             const value = this.makeDamageValue(target, critical);
             this.executeDamage(target, value);
             
-            this.applyForce(target);
+            if (!target.isGuard()) this.applyForce(target);
 
             const hitStun = this.hitStun();
             target.applyHitStun(hitStun);
