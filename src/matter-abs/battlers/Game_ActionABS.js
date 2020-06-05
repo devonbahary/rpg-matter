@@ -158,4 +158,4 @@ Game_ActionABS.prototype.onPlayerDamage = function(value) {
     $gameScreen.startFlash(color, duration);
 };
 
-export default Game_ActionABS;
+global["Game_ActionABS"] = Game_ActionABS;
