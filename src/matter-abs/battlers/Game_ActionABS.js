@@ -49,14 +49,33 @@ Game_ActionABS.prototype.apply = function() {
     if (this.item().damage.type > 0) {
         for (const target of targets) {
             const critical = (Math.random() < this.itemCri(target));
+
+            const subjectEffectCallbacks = [];
+            const targetEffectCallbacks = [];
+
             const value = this.makeDamageValue(target, critical);
-            this.executeDamage(target, value);
-            if (target.character === $gamePlayer) this.onPlayerDamage(value);
             
-            this.applyGuardInteraction(target);
-            this.applyHitStun(target);
-            this.applyAggro(target, value);
-            this.applyAnimation(target);
+            targetEffectCallbacks.push(() => this.executeDamage(target, value));
+            if (target.character === $gamePlayer) {
+                targetEffectCallbacks.push(() => this.onPlayerDamage(value));
+            }
+            if (!target.isGuard()) {
+                targetEffectCallbacks.push(() => this.applyForce(target));
+            } else {
+                subjectEffectCallbacks.push(() => this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]));
+            }
+            if (!target.isGuard()) {
+                targetEffectCallbacks.push(() => target.applyHitStun(this.hitStun()));
+            }
+            targetEffectCallbacks.push(() => target.gainAggro(this._subject, value + this.hitStun()));
+            if (target.isGuard()) {
+                targetEffectCallbacks.push(() => target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID));
+            } else {
+                targetEffectCallbacks.push(() => target.character.requestAnimation(this.animationId()));
+            }
+
+            for (const cb of subjectEffectCallbacks) cb();
+            for (const cb of targetEffectCallbacks) cb();
         }
     }
     
@@ -76,24 +95,6 @@ Game_ActionABS.prototype.executeHpDamage = function(target, value) {
 
 Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
     return Math.round(damage / (damage > 0 && target.isGuard() ? 2 * target.grd : 1)); // Game_Action.applyGuard()
-};
-
-Game_ActionABS.prototype.applyGuardInteraction = function(target) {
-    if (!target.isGuard()) this.applyForce(target);
-    else this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]);
-};
-
-Game_ActionABS.prototype.applyHitStun = function(target) {
-    if (!target.isGuard()) target.applyHitStun(this.hitStun());
-};
-
-Game_ActionABS.prototype.applyAggro = function(target, value) {
-    target.gainAggro(this._subject, value + this.hitStun());
-};
-
-Game_ActionABS.prototype.applyAnimation = function(target) {
-    if (target.isGuard()) return target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
-    target.character.requestAnimation(this.animationId());
 };
 
 Game_ActionABS.prototype.playMissSe = function() {
