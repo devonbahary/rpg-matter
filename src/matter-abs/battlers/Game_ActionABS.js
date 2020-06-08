@@ -150,9 +150,9 @@ Game_ActionABS.prototype.applyGuard = function(damage, target) {
     return damage > 0 && target.isGuard() ? 0 : damage;
 };
 
-Game_ActionABS.prototype.executeDamage = function(target, value) {
-    // important to apply effects that reset after death prior to executeDamage()
-    Game_Action.prototype.executeDamage.call(this, target, value);
+const _Game_ActionABS_executeHpDamage = Game_ActionABS.prototype.executeHpDamage;
+Game_ActionABS.prototype.executeHpDamage = function(target, value) {
+    _Game_ActionABS_executeHpDamage.call(this, target, value);
     if (target.character === $gamePlayer && value > 0) this.onPlayerDamage(value);
 };
 
