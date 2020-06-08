@@ -51,6 +51,7 @@ Game_ActionABS.prototype.apply = function() {
             const critical = (Math.random() < this.itemCri(target));
             const value = this.makeDamageValue(target, critical);
             this.executeDamage(target, value);
+            if (target.character === $gamePlayer) this.onPlayerDamage(value);
             
             this.applyGuardInteraction(target);
             this.applyHitStun(target);
@@ -65,6 +66,16 @@ Game_ActionABS.prototype.apply = function() {
         }, this);
         this.applyItemUserEffect(target); // TODO: do we want to apply item user effect for EACH target affected?
     }
+};
+
+const _Game_ActionABS_executeHpDamage = Game_ActionABS.prototype.executeHpDamage;
+Game_ActionABS.prototype.executeHpDamage = function(target, value) {
+    const damageAfterGuard = this.damageAfterGuard(target, value);
+    _Game_ActionABS_executeHpDamage.call(this, target, damageAfterGuard);
+};
+
+Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
+    return Math.round(damage / (damage > 0 && target.isGuard() ? 2 * target.grd : 1)); // Game_Action.applyGuard()
 };
 
 Game_ActionABS.prototype.applyGuardInteraction = function(target) {
@@ -150,10 +161,10 @@ Game_ActionABS.prototype.applyGuard = function(damage, target) {
     return damage > 0 && target.isGuard() ? 0 : damage;
 };
 
-const _Game_ActionABS_executeHpDamage = Game_ActionABS.prototype.executeHpDamage;
-Game_ActionABS.prototype.executeHpDamage = function(target, value) {
-    _Game_ActionABS_executeHpDamage.call(this, target, value);
-    if (target.character === $gamePlayer && value > 0) this.onPlayerDamage(value);
+Game_ActionABS.prototype.applyGuard = function(damage, target) {
+    // overwrite; applyGuard does not return the transformed damage anymore because
+    // we need to account for the difference outside of makeDamageValue()
+    return damage;
 };
 
 Game_ActionABS.prototype.onPlayerDamage = function(value) {
