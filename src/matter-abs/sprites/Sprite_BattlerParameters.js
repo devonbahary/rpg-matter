@@ -117,3 +117,5 @@ Sprite_BattlerParameters.prototype.hpGaugeColor1 = function() {
 Sprite_BattlerParameters.prototype.hpGaugeColor2 = function() {
     return Window_Base.prototype.hpGaugeColor2.call(this);
 };
+
+global["Sprite_BattlerParameters"] = Sprite_BattlerParameters;
