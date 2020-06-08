@@ -92,7 +92,7 @@ Game_ActionABS.prototype.applyAggro = function(target, value) {
 };
 
 Game_ActionABS.prototype.applyAnimation = function(target) {
-    if (target.isGuard()) return target.character.requestAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
+    if (target.isGuard()) return target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
     target.character.requestAnimation(this.animationId());
 };
 
