@@ -79,6 +79,14 @@
  * @desc Animation ID for successful guard.
  * @type animation
  * 
+ * @param Guard Screen Effect Multiplier
+ * @parent Battler
+ * @desc Multiplier for screen shake effects when the player takes damage while guarding.
+ * @type number
+ * @decimals 2
+ * @default 0.5
+ * @min 0
+ * 
  * @param Actions
  * 
  * @param Default Weapon Force
@@ -172,5 +180,6 @@ export default {
         pitch: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Pitch"]),
     },
     GUARD_ANIMATION_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Guard Animation"]),
+    GUARD_SCREEN_EFFECTS_MULT: Number(PluginManager.parameters('MatterActionBattleSystem')["Guard Screen Effect Multiplier"]),
     DEFLECT_SKILL_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Deflect Skill"]),
 };

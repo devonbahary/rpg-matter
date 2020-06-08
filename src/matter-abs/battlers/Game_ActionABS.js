@@ -157,13 +157,18 @@ Game_ActionABS.prototype.executeHpDamage = function(target, value) {
 };
 
 Game_ActionABS.prototype.onPlayerDamage = function(value) {
-    const intensity = value / $gamePlayer.battler.mhp;
+    const isGuard = $gamePlayer.battler.isGuard();
+    const guardScreenEffectMult = isGuard ? MATTER_ABS.GUARD_SCREEN_EFFECTS_MULT : 1;
     
+    const intensity = value / $gamePlayer.battler.mhp * guardScreenEffectMult;
     const power = 9 * intensity;
     const speed = 9 * intensity;
-    const duration = this.hitStun();
+    const duration = this.hitStun() * guardScreenEffectMult;
+    
     $gameScreen.startShake(power, speed, duration);
     
+    if (isGuard) return;
+
     const color = [ 255, 0, 0, 255 * intensity ];
     $gameScreen.startFlash(color, duration);
 };
