@@ -149,6 +149,7 @@ Game_BattlerBase.prototype.ghpRate = function() {
 // and actions.
 
 Game_Battler.prototype.gainGhp = function(value) {
+    if (value < 0) value = value / this.grd;
     this.setGhp(this.ghp + value);
 };
 
