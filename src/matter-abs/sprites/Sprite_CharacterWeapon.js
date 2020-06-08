@@ -43,6 +43,7 @@ Sprite_CharacterWeapon.prototype.update = function() {
     Sprite_Base.prototype.update.call(this);
     this.updateIconIndex();
     this.updatePosition();
+    this.updateAnimation();
 };
 
 Sprite_CharacterWeapon.prototype.updateIconIndex = function() {
@@ -92,6 +93,20 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
     this.dz = dz; // influence placement above or below -only- its associated Sprite_Character
 };
 
+Sprite_CharacterWeapon.prototype.updateAnimation = function() {
+    this.setupAnimation();
+    if (!this.isAnimationPlaying()) {
+        this._character.endAnimation();
+    }
+};
+
+Sprite_CharacterWeapon.prototype.setupAnimation = function() {
+    if (this._character.weaponAnimationId() > 0) {
+        var animation = $dataAnimations[this._character.weaponAnimationId()];
+        this.startAnimation(animation, false, 0);
+        this._character.startWeaponAnimation();
+    }
+};
 
 //-----------------------------------------------------------------------------
 // Spriteset_Map
