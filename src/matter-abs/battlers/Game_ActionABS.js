@@ -56,7 +56,7 @@ Game_ActionABS.prototype.apply = function() {
             else this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]);
 
             const hitStun = this.hitStun();
-            target.applyHitStun(hitStun);
+            if (!target.isGuard()) target.applyHitStun(hitStun);
             target.gainAggro(this._subject, value + hitStun); 
             
             if (target.isGuard()) {
