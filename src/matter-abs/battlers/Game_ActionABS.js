@@ -52,18 +52,10 @@ Game_ActionABS.prototype.apply = function() {
             const value = this.makeDamageValue(target, critical);
             this.executeDamage(target, value);
             
-            if (!target.isGuard()) this.applyForce(target);
-            else this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]);
-
-            const hitStun = this.hitStun();
-            if (!target.isGuard()) target.applyHitStun(hitStun);
-            target.gainAggro(this._subject, value + hitStun); 
-            
-            if (target.isGuard()) {
-                target.character.requestAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
-            } else {
-                target.character.requestAnimation(this.animationId());
-            }
+            this.applyGuardInteraction(target);
+            this.applyHitStun(target);
+            this.applyAggro(target, value);
+            this.applyAnimation(target);
         }
     }
     
@@ -73,6 +65,24 @@ Game_ActionABS.prototype.apply = function() {
         }, this);
         this.applyItemUserEffect(target); // TODO: do we want to apply item user effect for EACH target affected?
     }
+};
+
+Game_ActionABS.prototype.applyGuardInteraction = function(target) {
+    if (!target.isGuard()) this.applyForce(target);
+    else this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]);
+};
+
+Game_ActionABS.prototype.applyHitStun = function(target) {
+    if (!target.isGuard()) target.applyHitStun(this.hitStun());
+};
+
+Game_ActionABS.prototype.applyAggro = function(target, value) {
+    target.gainAggro(this._subject, value + this.hitStun());
+};
+
+Game_ActionABS.prototype.applyAnimation = function(target) {
+    if (target.isGuard()) return target.character.requestAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
+    target.character.requestAnimation(this.animationId());
 };
 
 Game_ActionABS.prototype.playMissSe = function() {
