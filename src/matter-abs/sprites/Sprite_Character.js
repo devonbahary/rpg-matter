@@ -26,8 +26,17 @@ Sprite_Character.prototype.update = function() {
 };
 
 Sprite_Character.prototype.updateHitStunShake = function() {
-    if (this._character.isHitStunned()) this._shake = this._character.battler._hitStun % 2 * 2 - 1;
-    else if (this._shake) this._shake = 0;
+    if (this._character.isHitStopped()) {
+        if (this._character.isHitStopTarget()) {
+            this._shake = this._character.battler._hitStop % 4 * 2 - 2;
+        } else {
+            this._shake = this._character.battler._hitStop % 2 * 2 - 1;
+        }
+    } else if (this._character.isHitStunned()) {
+        this._shake = this._character.battler._hitStun % 2 * 2 - 1;
+    } else if (this._shake) {
+        this._shake = 0;
+    }
 };
 
 const _Sprite_Character_patternHeight = Sprite_Character.prototype.patternHeight;

@@ -161,3 +161,7 @@ Game_Character.prototype.isHitStunned = function() {
 Game_Character.prototype.isHitStopped = function() {
     return this.battler && this.battler.isHitStopped();
 };
+
+Game_Character.prototype.isHitStopTarget = function() {
+    return this.battler && this.battler.isHitStopTarget();
+};

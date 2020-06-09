@@ -19,6 +19,7 @@ Game_BattlerBase.prototype.initMembers = function() {
     this._hitStun = 0;
     this._hitStop = 0; // powerful attack visual effect
     this._hitStopCallbacks = null;
+    this._isHitStopTarget = false;
 };
 
 const _Game_BattlerBase_canMove = Game_BattlerBase.prototype.canMove;
@@ -46,6 +47,7 @@ Game_BattlerBase.prototype.updateHitStop = function() {
     if (!this._hitStop && this._hitStopCallbacks) {
         for (const cb of this._hitStopCallbacks) cb();
         this._hitStopCallbacks = null;
+        this._isHitStopTarget = false;
     }
 };
 
@@ -54,9 +56,10 @@ Game_BattlerBase.prototype.applyHitStun = function(value) {
     if (value > this._hitStun) this._hitStun = value; 
 };
 
-Game_BattlerBase.prototype.applyHitStop = function(value, callbacks) {
+Game_BattlerBase.prototype.applyHitStop = function(value, callbacks, isTarget = false) {
     this._hitStop = value;
     this._hitStopCallbacks = callbacks;
+    this._isHitStopTarget = isTarget;
 };
 
 Game_BattlerBase.prototype.isHitStunned = function() { 
@@ -65,6 +68,10 @@ Game_BattlerBase.prototype.isHitStunned = function() {
 
 Game_BattlerBase.prototype.isHitStopped = function() {
     return this._hitStop;
+};
+
+Game_Battler.prototype.isHitStopTarget = function() {
+    return this._isHitStopTarget;
 };
 
 Game_BattlerBase.prototype.resetAggro = function() {
