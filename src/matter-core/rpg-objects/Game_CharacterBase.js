@@ -22,6 +22,8 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     _direction: { get: function() { return get8DirFromAngle(this.body.angle); }, configurable: false },
     _x: { get: function() { return this.worldX / MATTER_CORE.TILE_SIZE; }, configurable: false },
     _y: { get: function() { return this.worldY / MATTER_CORE.TILE_SIZE; }, configurable: false },
+    centerX: { get: function() { return this.x + this.radius; }, configurable: false },
+    centerY: { get: function() { return this.y + this.radius; }, configurable: false },
     _realX: { get: function() { return this._x; }, configurable: false },
     _realY: { get: function() { return this._y; }, configurable: false },
     mapPos: { get: function() { return { x: this.x, y: this.y }; }, configurable: false },
