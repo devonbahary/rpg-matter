@@ -3,6 +3,8 @@
 //
 // The game object class for an actor.
 
+import MATTER_ABS from "../MatterActionBattleSystem";
+
 Object.defineProperties(Game_Actor.prototype, {
     data: { get: function() { return this.actor(); }, configurable: false },
     imageName: { get: function() { return this._characterName; }, configurable: false },
@@ -37,6 +39,12 @@ Game_Actor.prototype.setActionBySlot = function(index) {
     const action = this.actionSlots[index];
     if (!action) return;
     this.setAction(action.object());
+};
+
+Game_Actor.prototype.hitStunResist = function() {
+    const hitStunResist = parseInt(this.data.meta.hitStunResist);
+    if (isNaN(hitStunResist)) return Game_Battler.prototype.hitStunResist.call(this) + MATTER_ABS.DEFAULT_ACTOR_HIT_STUN_RESIST;
+    return Game_Battler.prototype.hitStunResist.call(this) + hitStunResist;
 };
 
 Game_Actor.prototype.isFriendWith = function(battler) {

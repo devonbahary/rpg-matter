@@ -124,6 +124,23 @@
  * @desc Settings around the camera focus on a battler affected by hit stop.
  * @type struct<Zoom>
  * 
+ * @param Actors
+ * 
+ * @param Default Actor Hit Stun Resist
+ * @parent Actors
+ * @desc Default hit stun resist for actors without meta tag <hitStunResist:Number>.
+ * @type number
+ * @default 0
+ * @min 0
+ *
+ * @param Enemies
+ * 
+ * @param Default Enemy Hit Stun Resist
+ * @parent Enemies
+ * @desc Default hit stun resist for enemies without meta tag <hitStunResist:Number>.
+ * @type number
+ * @default 0
+ * @min 0 
 */
 
 /*~struct~ActionRanges:
@@ -211,4 +228,6 @@ export default {
         PluginManager.parameters('MatterActionBattleSystem')["Hit Stop Camera"],
         capitalizeKeyAndNumberValue,
     ),
+    DEFAULT_ACTOR_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Actor Hit Stun Resist"]),
+    DEFAULT_ENEMY_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Enemy Hit Stun Resist"]),
 };

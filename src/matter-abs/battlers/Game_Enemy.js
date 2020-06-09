@@ -3,6 +3,8 @@
 //
 // The game object class for an enemy.
 
+import MATTER_ABS from "../MatterActionBattleSystem";
+
 Object.defineProperties(Game_Enemy.prototype, {
     data: { get: function() { return this.enemy(); }, configurable: false },
     imageName: { get: function() { return this.data.meta.characterName; }, configurable: false },
@@ -12,7 +14,7 @@ Object.defineProperties(Game_Enemy.prototype, {
 
 Game_Enemy.prototype.hitStunResist = function() {
     const hitStunResist = parseInt(this.data.meta.hitStunResist);
-    if (isNaN(hitStunResist)) return Game_Battler.prototype.hitStunResist.call(this);
+    if (isNaN(hitStunResist)) return Game_Battler.prototype.hitStunResist.call(this) + MATTER_ABS.DEFAULT_ENEMY_HIT_STUN_RESIST;
     return Game_Battler.prototype.hitStunResist.call(this) + hitStunResist;
 };
 
