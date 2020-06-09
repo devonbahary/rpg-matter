@@ -26,6 +26,13 @@ Game_Map.prototype.updateUnits = function() {
     $gameTroop.update();
 };
 
+Game_Map.prototype.unitMembers = function() {
+    return [
+        ...$gameParty.members(),
+        ...$gameTroop.members(),
+    ];
+};
+
 Game_Map.prototype.battlersInBoundingBox = function(bounds) {
     return this.characterBodiesInBoundingBox(bounds).reduce((battlers, characterBody) => {
         const battler = characterBody.character.battler;
@@ -37,11 +44,11 @@ Game_Map.prototype.battlersInBoundingBox = function(bounds) {
 Game_Map.prototype.updateZoom = function() {
     const duration = MATTER_ABS.CRITICAL_HIT_ZOOM.DURATION;
     if (!this._hitStopZoomTarget) {
-        for (const enemy of $gameTroop.members()) {
-            if (enemy.isHitStopTarget()) {
+        for (const battler of this.unitMembers()) {
+            if (battler.isHitStopTarget()) {
                 const scale = MATTER_ABS.CRITICAL_HIT_ZOOM.SCALE;
-                $gameScreen.startZoom(enemy.character.centerX, enemy.character.centerY, scale, duration);
-                this._hitStopZoomTarget = enemy.character;
+                $gameScreen.startZoom(battler.character.x0, battler.character.y0, scale, duration);
+                this._hitStopZoomTarget = battler.character;
             }
         }
     } else if (!this._hitStopZoomTarget.isHitStopTarget()) {
