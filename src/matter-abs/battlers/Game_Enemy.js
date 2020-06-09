@@ -9,6 +9,7 @@ Object.defineProperties(Game_Enemy.prototype, {
     data: { get: function() { return this.enemy(); }, configurable: false },
     imageName: { get: function() { return this.data.meta.characterName; }, configurable: false },
     imageIndex: { get: function() { return parseInt(this.data.meta.characterIndex); }, configurable: false },
+    moveSpeed: { get: function() { return Number(this.data.meta.moveSpeed); }, configurable: false },
     weaponIconIndex: { get: function() { return parseInt(this.data.meta.weaponIconIndex); }, configurable: false },
 });
 

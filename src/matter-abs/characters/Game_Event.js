@@ -82,6 +82,7 @@ Game_Event.prototype.setupBattlerSettings = function() {
     }
     // step anime
     if (!this._stepAnime && this.battler.stepAnime) this.setStepAnime(true);
+    if (this.battler.moveSpeed) this.setMoveSpeed(this.battler.moveSpeed);
 };
 
 const _Game_Event_update = Game_Event.prototype.update;
