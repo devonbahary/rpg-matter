@@ -127,24 +127,24 @@ Game_Character.prototype.processMoveCommand = function(command) {
     var gc = Game_Character;
     var params = command.parameters;
     switch (command.code) {
-    case gc.STEP_LOCK:
-        this.stepLock(params[0]);
-        break;
-    case gc.STEP_FORWARD:
-        this.stepForward();
-        break;
-    case gc.STEP_NEUTRAL:
-        this.resetPattern();
-        break;
-    case gc.STEP_BACKWARD:
-        this.stepBackward();
-        break;
-    case gc.WEAPON_POSE:
-        this.weaponPose = params[0];
-        break;
-    case gc.APPLY_EFFECT:
-        this.applyEffect(params[0]);
-        break;
+        case gc.STEP_LOCK:
+            this.stepLock(params[0]);
+            break;
+        case gc.STEP_FORWARD:
+            this.stepForward();
+            break;
+        case gc.STEP_NEUTRAL:
+            this.resetPattern();
+            break;
+        case gc.STEP_BACKWARD:
+            this.stepBackward();
+            break;
+        case gc.WEAPON_POSE:
+            this.weaponPose = params[0];
+            break;
+        case gc.APPLY_EFFECT:
+            this.applyEffect(params[0]);
+            break;
     }
 };
 
