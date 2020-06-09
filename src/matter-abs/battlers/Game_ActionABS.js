@@ -50,24 +50,11 @@ Game_ActionABS.prototype.apply = function() {
         for (const target of targets) {
             const critical = (Math.random() < this.itemCri(target));
 
-            const subjectEffectCallbacks = [];
-            const targetEffectCallbacks = [];
-
             const value = this.makeDamageValue(target, critical);
+
+            const subjectEffectCallbacks = this.subjectEffectCallbacks(target);
+            const targetEffectCallbacks = this.targetEffectCallbacks(target, value);
             
-            targetEffectCallbacks.push(() => this.executeDamage(target, value));
-            if (target.character === $gamePlayer) {
-                targetEffectCallbacks.push(() => this.onPlayerDamage(value));
-            }
-            if (!target.isGuard()) {
-                targetEffectCallbacks.push(() => this.applyForce(target));
-            } else {
-                subjectEffectCallbacks.push(() => this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]));
-            }
-            if (!target.isGuard()) {
-                targetEffectCallbacks.push(() => target.applyHitStun(this.hitStun()));
-            }
-            targetEffectCallbacks.push(() => target.gainAggro(this._subject, value + this.hitStun()));
             if (target.isGuard()) {
                 target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
             } else {
@@ -93,6 +80,25 @@ Game_ActionABS.prototype.apply = function() {
         }, this);
         this.applyItemUserEffect(target); // TODO: do we want to apply item user effect for EACH target affected?
     }
+};
+
+Game_ActionABS.prototype.subjectEffectCallbacks = function(target) {
+    if (!target.isGuard()) return [];
+    return [
+        () => this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]),
+    ];
+};
+
+Game_ActionABS.prototype.targetEffectCallbacks = function(target, value) {
+    const isPlayer = target.character === $gamePlayer;
+    const isGuard = target.isGuard();
+    return [
+        () => this.executeDamage(target, value),
+        () => target.gainAggro(this._subject, value + this.hitStun()),
+        () => isPlayer ? this.onPlayerDamage(value) : null,
+        () => !isGuard ? this.applyForce(target) : null, 
+        () => !isGuard ? target.applyHitStun(this.hitStun()) : null,
+    ];
 };
 
 const _Game_ActionABS_executeHpDamage = Game_ActionABS.prototype.executeHpDamage;
