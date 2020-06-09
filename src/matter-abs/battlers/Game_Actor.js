@@ -5,6 +5,15 @@
 
 import MATTER_ABS from "../MatterActionBattleSystem";
 
+function getMetaFromEquips(metaProperty) {
+    return this.equips().reduce((acc, item) => {
+        if (!item) return acc;
+        const meta = parseInt(item.meta[metaProperty]);
+        if (isNaN(meta)) return acc;
+        return acc + meta;
+    }, 0);
+}
+
 Object.defineProperties(Game_Actor.prototype, {
     data: { get: function() { return this.actor(); }, configurable: false },
     imageName: { get: function() { return this._characterName; }, configurable: false },
@@ -42,9 +51,14 @@ Game_Actor.prototype.setActionBySlot = function(index) {
 };
 
 Game_Actor.prototype.hitStunResist = function() {
-    const hitStunResist = parseInt(this.data.meta.hitStunResist);
-    if (isNaN(hitStunResist)) return Game_Battler.prototype.hitStunResist.call(this) + MATTER_ABS.DEFAULT_ACTOR_HIT_STUN_RESIST;
-    return Game_Battler.prototype.hitStunResist.call(this) + hitStunResist;
+    const baseValue = Game_Battler.prototype.hitStunResist.call(this);
+    const equipsValue = getMetaFromEquips.call(this, 'hitStunResist');
+    const value = baseValue + equipsValue;
+    
+    const actorValue = parseInt(this.data.meta.hitStunResist);
+    if (isNaN(actorValue)) return value + MATTER_ABS.DEFAULT_ACTOR_HIT_STUN_RESIST;
+
+    return value + actorValue;
 };
 
 Game_Actor.prototype.isFriendWith = function(battler) {
