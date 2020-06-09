@@ -119,9 +119,9 @@
  * @type number
  * @default 30
  * 
- * @param Critical Hit Stop Camera
+ * @param Hit Stop Camera
  * @parent Battler
- * @desc Settings around the camera focus on the critically hit battler.
+ * @desc Settings around the camera focus on a battler affected by hit stop.
  * @type struct<Zoom>
  * 
 */
@@ -207,8 +207,8 @@ export default {
     GUARD_SCREEN_EFFECTS_MULT: Number(PluginManager.parameters('MatterActionBattleSystem')["Guard Screen Effect Multiplier"]),
     DEFLECT_SKILL_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Deflect Skill"]),
     CRITICAL_HIT_STOP: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Critical Hit Stop"]),
-    CRITICAL_HIT_ZOOM: transformPluginStruct(
-        PluginManager.parameters('MatterActionBattleSystem')["Critical Hit Stop Camera"],
+    HIT_STOP_ZOOM: transformPluginStruct(
+        PluginManager.parameters('MatterActionBattleSystem')["Hit Stop Camera"],
         capitalizeKeyAndNumberValue,
     ),
 };

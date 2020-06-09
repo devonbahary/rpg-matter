@@ -105,7 +105,9 @@ Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
 };
 
 Game_ActionABS.prototype.hitStop = function(critical) {
-    return critical ? MATTER_ABS.CRITICAL_HIT_STOP : 0;
+    if (critical) return MATTER_ABS.CRITICAL_HIT_STOP;
+    if (this._item.hitStop()) return this._item.hitStop();
+    return 0;
 };
 
 Game_ActionABS.prototype.playMissSe = function() {

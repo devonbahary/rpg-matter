@@ -42,11 +42,11 @@ Game_Map.prototype.battlersInBoundingBox = function(bounds) {
 };
 
 Game_Map.prototype.updateZoom = function() {
-    const duration = MATTER_ABS.CRITICAL_HIT_ZOOM.DURATION;
+    const duration = MATTER_ABS.HIT_STOP_ZOOM.DURATION;
     if (!this._hitStopZoomTarget) {
         for (const battler of this.unitMembers()) {
             if (battler.isHitStopTarget()) {
-                const scale = MATTER_ABS.CRITICAL_HIT_ZOOM.SCALE;
+                const scale = MATTER_ABS.HIT_STOP_ZOOM.SCALE;
                 $gameScreen.startZoom(battler.character.x0, battler.character.y0, scale, duration);
                 this._hitStopZoomTarget = battler.character;
             }
