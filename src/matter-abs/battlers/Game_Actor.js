@@ -5,9 +5,10 @@
 
 import MATTER_ABS from "../MatterActionBattleSystem";
 
-function getMetaFromEquips(metaProperty) {
+function getMetaFromEquips(metaProperty, excludeEtypeIds = []) {
     return this.equips().reduce((acc, item) => {
         if (!item) return acc;
+        if (excludeEtypeIds.length && excludeEtypeIds.includes(item.etypeId)) return acc;
         const meta = parseInt(item.meta[metaProperty]);
         if (isNaN(meta)) return acc;
         return acc + meta;
@@ -52,7 +53,8 @@ Game_Actor.prototype.setActionBySlot = function(index) {
 
 Game_Actor.prototype.hitStunResist = function() {
     const baseValue = Game_Battler.prototype.hitStunResist.call(this);
-    const equipsValue = getMetaFromEquips.call(this, 'hitStunResist');
+    const excludeEtypeIds = !this.isGuard() ? MATTER_ABS.HIT_STUN_RESIST_GUARD_ONLY_ETYPE_IDS : [];
+    const equipsValue = getMetaFromEquips.call(this, 'hitStunResist', excludeEtypeIds);
     const value = baseValue + equipsValue;
     
     const actorValue = parseInt(this.data.meta.hitStunResist);

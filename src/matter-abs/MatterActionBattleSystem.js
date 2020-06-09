@@ -132,6 +132,12 @@
  * @type number
  * @default 0
  * @min 0
+ * 
+ * @param Hit Stun Resist Guard EtypeIds
+ * @parent Actors
+ * @desc List of EtypeIds which only contribute to actor Hit Stun Resist while guarding.
+ * @type number[]
+ * @default ["1","2"]
  *
  * @param Enemies
  * 
@@ -230,4 +236,5 @@ export default {
     ),
     DEFAULT_ACTOR_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Actor Hit Stun Resist"]),
     DEFAULT_ENEMY_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Enemy Hit Stun Resist"]),
+    HIT_STUN_RESIST_GUARD_ONLY_ETYPE_IDS: JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Hit Stun Resist Guard EtypeIds"]).map(etypeId => Number(etypeId)),
 };
