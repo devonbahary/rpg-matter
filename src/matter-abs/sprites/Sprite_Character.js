@@ -20,8 +20,14 @@ Sprite_Character.prototype.initMembers = function() {
 
 const _Sprite_Character_update = Sprite_Character.prototype.update;
 Sprite_Character.prototype.update = function() {
+    this.updateHitStunShake();
     _Sprite_Character_update.call(this);
     if (this._battler) this.updateEffect();
+};
+
+Sprite_Character.prototype.updateHitStunShake = function() {
+    if (this._character.isHitStunned()) this._shake = this._character.battler._hitStun % 2 * 2 - 1;
+    else if (this._shake) this._shake = 0;
 };
 
 const _Sprite_Character_patternHeight = Sprite_Character.prototype.patternHeight;
