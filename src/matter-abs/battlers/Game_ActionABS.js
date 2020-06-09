@@ -97,7 +97,7 @@ Game_ActionABS.prototype.targetEffectCallbacks = function(target, value) {
         () => target.gainAggro(this._subject, value + this.hitStun()),
         () => isPlayer ? this.onPlayerDamage(value) : null,
         () => !isGuard ? this.applyForce(target) : null, 
-        () => !isGuard ? target.applyHitStun(this.hitStun()) : null,
+        () => target.applyHitStun(this.hitStun()),
     ];
 };
 
