@@ -17,6 +17,8 @@ Game_BattlerBase.prototype.initMembers = function() {
     this.id = uuidv4();
     this.resetAggro();
     this._hitStun = 0;
+    this._hitStop = 0; // powerful attack visual effect
+    this._hitStopCallbacks = null;
 };
 
 const _Game_BattlerBase_canMove = Game_BattlerBase.prototype.canMove;
@@ -29,6 +31,8 @@ Game_BattlerBase.prototype.isOccasionOk = function(item) {
 };
 
 Game_BattlerBase.prototype.update = function() {
+    this.updateHitStop();
+    if (this._hitStop) return;
     this.updateHitStun();
     this.onTurnEnd()
 };
@@ -37,13 +41,30 @@ Game_BattlerBase.prototype.updateHitStun = function() {
     if (this._hitStun) this._hitStun--;
 }
 
+Game_BattlerBase.prototype.updateHitStop = function() {
+    if (this._hitStop) this._hitStop--;
+    if (!this._hitStop && this._hitStopCallbacks) {
+        for (const cb of this._hitStopCallbacks) cb();
+        this._hitStopCallbacks = null;
+    }
+};
+
 Game_BattlerBase.prototype.applyHitStun = function(value) {
     // can't be stunned and result in being stunned for less than an already active stun
     if (value > this._hitStun) this._hitStun = value; 
 };
 
+Game_BattlerBase.prototype.applyHitStop = function(value, callbacks) {
+    this._hitStop = value;
+    this._hitStopCallbacks = callbacks;
+};
+
 Game_BattlerBase.prototype.isHitStunned = function() { 
     return this._hitStun;
+};
+
+Game_BattlerBase.prototype.isHitStopped = function() {
+    return this._hitStop;
 };
 
 Game_BattlerBase.prototype.resetAggro = function() {

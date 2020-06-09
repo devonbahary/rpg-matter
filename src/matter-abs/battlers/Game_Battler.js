@@ -64,6 +64,7 @@ Game_Battler.prototype.hasAction = function() {
 
 Game_Battler.prototype.update = function() {
     Game_BattlerBase.prototype.update.call(this);
+    if (this._hitStop) return;
     if (this.hasActionSequence()) {
         this.updateActionSeq();
     } else {

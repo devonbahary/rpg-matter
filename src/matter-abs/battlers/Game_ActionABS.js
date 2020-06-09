@@ -69,13 +69,20 @@ Game_ActionABS.prototype.apply = function() {
             }
             targetEffectCallbacks.push(() => target.gainAggro(this._subject, value + this.hitStun()));
             if (target.isGuard()) {
-                targetEffectCallbacks.push(() => target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID));
+                target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
             } else {
-                targetEffectCallbacks.push(() => target.character.requestAnimation(this.animationId()));
+                target.character.requestAnimation(this.animationId());
             }
+            
+            const hitStop = this.hitStop(critical);
 
-            for (const cb of subjectEffectCallbacks) cb();
-            for (const cb of targetEffectCallbacks) cb();
+            if (hitStop) {
+                this._subject.applyHitStop(hitStop, subjectEffectCallbacks);
+                target.applyHitStop(hitStop, targetEffectCallbacks);
+            } else {
+                for (const cb of subjectEffectCallbacks) cb();
+                for (const cb of targetEffectCallbacks) cb();
+            }
         }
     }
     
@@ -95,6 +102,10 @@ Game_ActionABS.prototype.executeHpDamage = function(target, value) {
 
 Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
     return Math.round(damage / (damage > 0 && target.isGuard() ? 2 * target.grd : 1)); // Game_Action.applyGuard()
+};
+
+Game_ActionABS.prototype.hitStop = function(critical) {
+    return critical ? MATTER_ABS.CRITICAL_HIT_STOP : 0;
 };
 
 Game_ActionABS.prototype.playMissSe = function() {

@@ -27,6 +27,7 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     mapPos: { get: function() { return { x: this.x, y: this.y }; }, configurable: false },
     mass: { get: function() { return this.body.mass; }, configurable: false },
     radius: { get: function() { return this.width / 2; }, configurable: false },
+    timeScale: { get: function() { return this.body.timeScale; }, configurable: false },
     worldRadius: { get: function() { return this.radius * MATTER_CORE.TILE_SIZE; }, configurable: false },
     worldX: { get: function() { return this.body.position.x; }, configurable: false },
     worldY: { get: function() { return this.body.position.y; }, configurable: false },
@@ -119,6 +120,10 @@ Game_CharacterBase.prototype.setMass = function(mass) {
 
 Game_CharacterBase.prototype.setStatic = function(isStatic) {
     Body.setStatic(this.body, isStatic);
+};
+
+Game_CharacterBase.prototype.setTimeScale = function(timeScale) {
+    this.body.timeScale = timeScale;
 };
 
 Game_CharacterBase.prototype.initCharacterBodyOptions = function() {

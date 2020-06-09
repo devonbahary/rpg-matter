@@ -26,6 +26,11 @@ Game_Player.prototype.moveByInput = function() {
     }
 };
 
+const _Game_Player_canMove = Game_Player.prototype.canMove;
+Game_Player.prototype.canMove = function() {
+    return _Game_Player_canMove.call(this) && !this.isHitStopped();
+};
+
 Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP = {
     'ok': 0,
     'D': 0,

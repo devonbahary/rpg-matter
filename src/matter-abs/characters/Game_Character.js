@@ -60,12 +60,13 @@ Game_Character.prototype.updatePattern = function() {
 };
 
 Game_Character.prototype.shouldUpdatePattern = function() {
-    return !this._stepLock && !this.isHitStunned();
+    return !this._stepLock && !this.isHitStunned() && !this.isHitStopped();
 };
 
 const _Game_Character_update = Game_Character.prototype.update;
 Game_Character.prototype.update = function() {
     this.updateHitStun();
+    this.updateHitStop();
     this.updateActionSequence();
     _Game_Character_update.call(this);
 };
@@ -79,7 +80,13 @@ Game_Character.prototype.updateHitStun = function() {
     if (this.isHitStunned()) this.stepBackward();
 };
 
+Game_CharacterBase.prototype.updateHitStop = function() {
+    if (this.isHitStopped() && this.timeScale) this.setTimeScale(0);
+    else if (!this.isHitStopped() && !this.timeScale) this.setTimeScale(1);
+};
+
 Game_Character.prototype.updateActionSequence = function() {
+    if (this.isHitStopped()) return;
     if (!this.hasActionSequence()) {
         if (this._hasActionSequenceMem) this.onActionSequenceEnd();
     } else {
@@ -149,4 +156,8 @@ Game_Character.prototype.hasActionSequence = function() {
 
 Game_Character.prototype.isHitStunned = function() {
     return this.battler && this.battler.isHitStunned();
+};
+
+Game_Character.prototype.isHitStopped = function() {
+    return this.battler && this.battler.isHitStopped();
 };
