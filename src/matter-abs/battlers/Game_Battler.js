@@ -109,7 +109,7 @@ Game_Battler.prototype.hasActionSequence = function() {
 };
 
 Game_Battler.prototype.updateBehavior = function() {
-    if (this.character === $gamePlayer) return;
+    if (this.character === $gamePlayer || !this.canMove()) return;
 
     const skill = this.determineActionSkill();
     if (!skill) return;

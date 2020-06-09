@@ -19,6 +19,11 @@ Game_BattlerBase.prototype.initMembers = function() {
     this._hitStun = 0;
 };
 
+const _Game_BattlerBase_canMove = Game_BattlerBase.prototype.canMove;
+Game_BattlerBase.prototype.canMove = function() {
+    return _Game_BattlerBase_canMove.call(this) && !this.isHitStunned();
+};
+
 Game_BattlerBase.prototype.isOccasionOk = function(item) {
     return item.occasion < 3; // not "never"
 };
