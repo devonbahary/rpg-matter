@@ -193,7 +193,7 @@ Sprite_BattlerParameters.prototype.memorizeMembers = function() {
 const _Sprite_BattlerParameters_drawGauge = Sprite_BattlerParameters.prototype.drawGauge;
 Sprite_BattlerParameters.prototype.drawGauge = function() {
     _Sprite_BattlerParameters_drawGauge.call(this);
-    this.drawGuardGauge();
+    if (this.shouldDrawGuardGauge()) this.drawGuardGauge();
 };
 
 Sprite_BattlerParameters.prototype.drawGuardGauge = function() {
@@ -204,6 +204,10 @@ Sprite_BattlerParameters.prototype.drawGuardGauge = function() {
     this.drawWithOpacity(() => {
         this.bitmap.gradientFillRect(1, 1, fillW, (this.gaugeHeight() - 2) / 2, this.guardGaugeColor1(), this.guardGaugeColor2());
     }, opacity);
+};
+
+Sprite_BattlerParameters.prototype.shouldDrawGuardGauge = function() {
+    return this._isGuard || this._battler.ghpRate() < 1;
 };
 
 const _Sprite_BattlerParameters_shouldUpdate = Sprite_BattlerParameters.prototype.shouldUpdate;
