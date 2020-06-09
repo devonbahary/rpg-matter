@@ -124,6 +124,13 @@
  * @desc Settings around the camera focus on a battler affected by hit stop.
  * @type struct<Zoom>
  * 
+ * @param Hit Stop Time Scale
+ * @parent Battler
+ * @desc Time Scale multiplier for battlers involved in hit stop. Values < 0 produce a slow-mo effect.
+ * @type number
+ * @decimals 2
+ * @default 0.1
+ * 
  * @param Actors
  * 
  * @param Default Actor Hit Stun Resist
@@ -234,6 +241,7 @@ export default {
         PluginManager.parameters('MatterActionBattleSystem')["Hit Stop Camera"],
         capitalizeKeyAndNumberValue,
     ),
+    HIT_STOP_TIME_SCALE: Number(PluginManager.parameters('MatterActionBattleSystem')["Hit Stop Time Scale"]),
     DEFAULT_ACTOR_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Actor Hit Stun Resist"]),
     DEFAULT_ENEMY_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Enemy Hit Stun Resist"]),
     HIT_STUN_RESIST_GUARD_ONLY_ETYPE_IDS: JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Hit Stun Resist Guard EtypeIds"]).map(etypeId => Number(etypeId)),

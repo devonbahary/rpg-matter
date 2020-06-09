@@ -4,6 +4,7 @@
 // The superclass of Game_Player, Game_Follower, GameVehicle, and Game_Event.
 
 import { WEAPON_POSES } from "../weapon-poses";
+import MATTER_ABS from "../MatterActionBattleSystem";
 
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -84,9 +85,9 @@ Game_Character.prototype.updateHitStun = function() {
 };
 
 Game_CharacterBase.prototype.updateHitStop = function() {
-    if (this.isHitStopped() && this.timeScale) {
-        this.setTimeScale(0);
-    } else if (!this.isHitStopped() && !this.timeScale) {
+    if (this.isHitStopped() && this.timeScale !== MATTER_ABS.HIT_STOP_TIME_SCALE) {
+        this.setTimeScale(MATTER_ABS.HIT_STOP_TIME_SCALE);
+    } else if (!this.isHitStopped() && this.timeScale === MATTER_ABS.HIT_STOP_TIME_SCALE) {
         this.setTimeScale(1);
     }
 };
