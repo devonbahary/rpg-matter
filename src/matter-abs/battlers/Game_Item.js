@@ -22,7 +22,7 @@ Game_Item.prototype.actionSequence = function() {
     } else if (actionKey && !ACTION_SEQUENCES[actionKey]) {
         return noteMetaError.call(this, `could not find action sequence key '${actionKey}'`);
     }
-    return null;
+    return this.isSkill() ? ACTION_SEQUENCES["DEFAULT"] : null;
 };
 
 Game_Item.prototype.forceMagnitude = function() {
