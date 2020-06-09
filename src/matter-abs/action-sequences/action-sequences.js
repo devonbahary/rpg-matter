@@ -4,6 +4,8 @@ import { convertActionSequencesToCommands } from "./utils";
 import "../characters/Game_Character";
 
 const { 
+    ANIMATION_SELF,
+    ANIMATION_WEAPON,
     APPLY_EFFECT,
     ROUTE_MOVE_BACKWARD,
     ROUTE_MOVE_FORWARD,
@@ -19,6 +21,8 @@ const {
 
 const command = (code, ...parameters) => ({ code, parameters });
 const playSe = (name, volume = 90, pitch = 100) => command(ROUTE_PLAY_SE, { name, volume, pitch });
+const animationSelf = animationId => command(ANIMATION_SELF, animationId);
+const animationWeapon = animationId => command(ANIMATION_WEAPON, animationId);
 const stepLock = lock => command(STEP_LOCK, lock); 
 const weaponPose = pose => command(WEAPON_POSE, pose);
 const n = (command, n) => times(n, () => command);

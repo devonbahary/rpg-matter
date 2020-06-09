@@ -18,6 +18,8 @@ Game_Character.STEP_BACKWARD           = 403;
 // WEAPON POSE
 Game_Character.WEAPON_POSE             = 501;
 // ANIMATIONS
+Game_Character.ANIMATION_SELF          = 600;
+Game_Character.ANIMATION_WEAPON        = 601;
 // BATTLE EFFECTS
 Game_Character.APPLY_EFFECT            = 700;
 
@@ -144,6 +146,12 @@ Game_Character.prototype.processMoveCommand = function(command) {
             break;
         case gc.APPLY_EFFECT:
             this.applyEffect(params[0]);
+            break;
+        case gc.ANIMATION_SELF:
+            this.requestAnimation(params[0]);
+            break;
+        case gc.ANIMATION_WEAPON:
+            this.requestWeaponAnimation(params[0]);
             break;
     }
 };
