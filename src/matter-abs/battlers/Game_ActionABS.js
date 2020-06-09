@@ -175,7 +175,7 @@ Game_ActionABS.prototype.onPlayerDamage = function(value) {
     const intensity = value / $gamePlayer.battler.mhp * guardScreenEffectMult;
     const power = 9 * intensity;
     const speed = 9 * intensity;
-    const duration = this.hitStun() * guardScreenEffectMult;
+    const duration = Math.max(this.hitStun() * guardScreenEffectMult, 5);
     
     $gameScreen.startShake(power, speed, duration);
     
