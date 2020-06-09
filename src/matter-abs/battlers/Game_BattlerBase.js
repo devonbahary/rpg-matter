@@ -16,8 +16,13 @@ Game_BattlerBase.prototype.initMembers = function() {
     _Game_BattlerBase_initMembers.call(this);
     this.id = uuidv4();
     this.resetAggro();
-    this._hitStun = 0;
+    this.initHitStun();
     this.initHitStop();
+};
+
+Game_BattlerBase.prototype.initHitStun = function() {
+    this._hitStun = 0;
+    this._hitStunResist = 0;
 };
 
 // powerful attack visual effect
@@ -25,6 +30,10 @@ Game_BattlerBase.prototype.initHitStop = function() {
     this._hitStop = 0; 
     this._hitStopCallbacks = null;
     this._isHitStopTarget = false;
+};
+
+Game_BattlerBase.prototype.hitStunResist = function() {
+    return this._hitStunResist;
 };
 
 const _Game_BattlerBase_canMove = Game_BattlerBase.prototype.canMove;
@@ -58,6 +67,7 @@ Game_BattlerBase.prototype.updateHitStop = function() {
 
 Game_BattlerBase.prototype.applyHitStun = function(value) {
     // can't be stunned and result in being stunned for less than an already active stun
+    value = Math.max(0, value - this.hitStunResist());
     if (value > this._hitStun) this._hitStun = value; 
 };
 
