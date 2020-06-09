@@ -45,6 +45,7 @@ Sprite_CharacterWeapon.prototype.update = function() {
     this.updateIconIndex();
     this.updatePosition();
     this.updateAnimation();
+    this.updateOther();
 };
 
 Sprite_CharacterWeapon.prototype.updateIconIndex = function() {
@@ -107,6 +108,13 @@ Sprite_CharacterWeapon.prototype.setupAnimation = function() {
         this.startAnimation(animation, false, 0);
         this._character.startWeaponAnimation();
     }
+};
+
+
+Sprite_CharacterWeapon.prototype.updateOther = function() {
+    if (this._character.battler && this._character.battler.isDead()) this.hide();
+    this.opacity = this._extendedSprite.opacity;
+    this.blendMode = this._extendedSprite.blendMode;
 };
 
 //-----------------------------------------------------------------------------
