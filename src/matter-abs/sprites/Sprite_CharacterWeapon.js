@@ -18,13 +18,14 @@ Object.defineProperties(Sprite_CharacterWeapon.prototype, {
     _characterWeaponIconIndex: { get: function() { return get(this, '_character.weaponIconIndex', 0); }, configurable: false },
 });
 
-Sprite_CharacterWeapon.prototype.initialize = function(character) {
+Sprite_CharacterWeapon.prototype.initialize = function(character, extendedSprite) {
     Sprite_Base.prototype.initialize.call(this);
     this.loadBitmap();
     this.setCharacter(character);
     this.z = character.screenZ(); // important; z-ordering wasn't working immediately while z began undefined
     this._iconIndex = 0;
     this._isCharacterWeapon = true;
+    this._extendedSprite = extendedSprite; // this sprite is an "extension" of the extendedSprite
 };
 
 Sprite_CharacterWeapon._iconWidth  = 32;
@@ -87,9 +88,9 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
     this.scale.x = scaleX;
     this.scale.y = scaleY;
 
-    this.x = this._character.screenX() + dx; 
-    this.y = this._character.screenY() + dy;
-    this.z = this._character.screenZ();
+    this.x = this._extendedSprite.x + dx; 
+    this.y = this._extendedSprite.y + dy;
+    this.z = this._extendedSprite.z;
     this.dz = dz; // influence placement above or below -only- its associated Sprite_Character
 };
 
@@ -116,19 +117,11 @@ Sprite_CharacterWeapon.prototype.setupAnimation = function() {
 const _Spriteset_Map_createCharacters = Spriteset_Map.prototype.createCharacters;
 Spriteset_Map.prototype.createCharacters = function() {
     _Spriteset_Map_createCharacters.call(this);
-    for (const event of $gameMap.events()) {
-        const sprite = new Sprite_CharacterWeapon(event);
+    for (const characterSprite of this._characterSprites.slice()) {
+        const sprite = new Sprite_CharacterWeapon(characterSprite._character, characterSprite);
         this._characterSprites.push(sprite);
         this._tilemap.addChild(sprite);
     }
-    $gamePlayer.followers().reverseEach(follower => {
-        const sprite = new Sprite_CharacterWeapon(follower);
-        this._characterSprites.push(sprite);
-        this._tilemap.addChild(sprite);
-    });
-    const playerWeaponSprite = new Sprite_CharacterWeapon($gamePlayer);
-    this._characterSprites.push(playerWeaponSprite);
-    this._tilemap.addChild(playerWeaponSprite);
 };
 
 /**
