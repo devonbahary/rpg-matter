@@ -81,8 +81,11 @@ Game_Character.prototype.updateHitStun = function() {
 };
 
 Game_CharacterBase.prototype.updateHitStop = function() {
-    if (this.isHitStopped() && this.timeScale) this.setTimeScale(0);
-    else if (!this.isHitStopped() && !this.timeScale) this.setTimeScale(1);
+    if (this.isHitStopped() && this.timeScale) {
+        this.setTimeScale(0);
+    } else if (!this.isHitStopped() && !this.timeScale) {
+        this.setTimeScale(1);
+    }
 };
 
 Game_Character.prototype.updateActionSequence = function() {
