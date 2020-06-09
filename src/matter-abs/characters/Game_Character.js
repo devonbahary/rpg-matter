@@ -47,6 +47,7 @@ Game_Character.prototype.stepBackward = function() {
 
 Game_Character.prototype.stepLock = function(lock) {
     this._stepLock = lock;
+    if (!this._stepLock) this.setPattern(1);
 };
 
 Game_Character.prototype.applyEffect = function() {
