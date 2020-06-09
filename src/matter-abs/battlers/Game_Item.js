@@ -42,6 +42,12 @@ Game_Item.prototype.range = function() {
     return MATTER_ABS.DEFAULT_RANGES.SKILLS;
 };
 
+Game_Item.prototype.hitStunResist = function() {
+    const hitStunResist = Number(this.meta.hitStunResist);
+    if (!isNaN(hitStunResist)) return hitStunResist;
+    return 0;
+};
+
 Game_Item.prototype.hitStun = function() {
     const hitStun = Number(this.meta.hitStun);
     if (!isNaN(hitStun)) return hitStun;

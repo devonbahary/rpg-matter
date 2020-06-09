@@ -27,6 +27,12 @@ Game_Battler.prototype.initMembers = function() {
     this.character = null;
 };
 
+Game_Battler.prototype.hitStunResist = function() {
+    const baseValue = Game_BattlerBase.prototype.hitStunResist.call(this);
+    if (this.currentAction()) return baseValue + this.currentAction().hitStunResist();
+    return baseValue;
+};
+
 Game_Battler.prototype.currentAction = function() {
     return this._action; // overwrite
 };

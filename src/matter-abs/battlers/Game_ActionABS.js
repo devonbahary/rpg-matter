@@ -155,6 +155,10 @@ Game_ActionABS.prototype.hitStun = function() {
     return this._item.hitStun();
 };
 
+Game_ActionABS.prototype.hitStunResist = function() {
+    return this._item.hitStunResist();
+};
+
 Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
     return this.isAttack() && this.weapon;
 };
