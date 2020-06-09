@@ -101,7 +101,7 @@ Game_ActionABS.prototype.executeHpDamage = function(target, value) {
 };
 
 Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
-    return Math.round(damage / (damage > 0 && target.isGuard() ? 2 * target.grd : 1)); // Game_Action.applyGuard()
+    return Math.round(damage / (damage > 0 && target.isGuard() ? 2 * target.grd : 1)); // from Game_Action.applyGuard()
 };
 
 Game_ActionABS.prototype.hitStop = function(critical) {
