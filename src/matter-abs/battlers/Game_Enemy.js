@@ -10,6 +10,12 @@ Object.defineProperties(Game_Enemy.prototype, {
     weaponIconIndex: { get: function() { return parseInt(this.data.meta.weaponIconIndex); }, configurable: false },
 });
 
+Game_Enemy.prototype.hitStunResist = function() {
+    const hitStunResist = parseInt(this.data.meta.hitStunResist);
+    if (isNaN(hitStunResist)) return Game_Battler.prototype.hitStunResist.call(this);
+    return Game_Battler.prototype.hitStunResist.call(this) + hitStunResist;
+};
+
 Game_Enemy.prototype.isFriendWith = function(battler) {
     return battler.isEnemy();
 };
