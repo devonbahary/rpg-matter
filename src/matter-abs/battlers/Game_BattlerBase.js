@@ -17,7 +17,12 @@ Game_BattlerBase.prototype.initMembers = function() {
     this.id = uuidv4();
     this.resetAggro();
     this._hitStun = 0;
-    this._hitStop = 0; // powerful attack visual effect
+    this.initHitStop();
+};
+
+// powerful attack visual effect
+Game_BattlerBase.prototype.initHitStop = function() {
+    this._hitStop = 0; 
     this._hitStopCallbacks = null;
     this._isHitStopTarget = false;
 };
