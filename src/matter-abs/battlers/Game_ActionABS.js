@@ -79,6 +79,7 @@ Game_ActionABS.prototype.apply = function() {
             if (hitStop) {
                 this._subject.applyHitStop(hitStop, subjectEffectCallbacks);
                 target.applyHitStop(hitStop, targetEffectCallbacks, true);
+                $gameMap.setHitStopZoomTarget(target.character);
             } else {
                 for (const cb of subjectEffectCallbacks) cb();
                 for (const cb of targetEffectCallbacks) cb();

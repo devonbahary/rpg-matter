@@ -18,19 +18,12 @@ Game_Map.prototype.update = function(sceneActive) {
     _Game_Map_update.call(this, sceneActive);
     if (!sceneActive) return;
     this.updateUnits();
-    this.updateZoom();
+    this.updateHitStopZoom();
 };
 
 Game_Map.prototype.updateUnits = function() {
     $gameParty.update();
     $gameTroop.update();
-};
-
-Game_Map.prototype.unitMembers = function() {
-    return [
-        ...$gameParty.members(),
-        ...$gameTroop.members(),
-    ];
 };
 
 Game_Map.prototype.battlersInBoundingBox = function(bounds) {
@@ -41,18 +34,18 @@ Game_Map.prototype.battlersInBoundingBox = function(bounds) {
     }, []);
 };
 
-Game_Map.prototype.updateZoom = function() {
-    const duration = MATTER_ABS.HIT_STOP_ZOOM.DURATION;
-    if (!this._hitStopZoomTarget) {
-        for (const battler of this.unitMembers()) {
-            if (battler.isHitStopTarget()) {
-                const scale = MATTER_ABS.HIT_STOP_ZOOM.SCALE;
-                $gameScreen.startZoom(battler.character.x0, battler.character.y0, scale, duration);
-                this._hitStopZoomTarget = battler.character;
-            }
-        }
-    } else if (!this._hitStopZoomTarget.isHitStopTarget()) {
-        this._hitStopZoomTarget = null;
-        $gameScreen.startZoom(0, 0, 1, duration); // reset
-    }
+Game_Map.prototype.updateHitStopZoom = function() {
+    if (!this._hitStopZoomTarget || this._hitStopZoomTarget.isHitStopTarget()) return;
+    $gameScreen.startZoom(0, 0, 1, MATTER_ABS.HIT_STOP_ZOOM.DURATION); // reset
+    this._hitStopZoomTarget = null;
+};
+
+Game_Map.prototype.setHitStopZoomTarget = function(character) {
+    this._hitStopZoomTarget = character;
+    $gameScreen.startZoom(
+        character.x0, 
+        character.y0, 
+        MATTER_ABS.HIT_STOP_ZOOM.SCALE, 
+        MATTER_ABS.HIT_STOP_ZOOM.DURATION,
+    );
 };
