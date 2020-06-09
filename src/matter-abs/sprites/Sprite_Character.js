@@ -3,6 +3,8 @@
 //
 // The sprite for displaying a character.
 
+import { isAnimationPaused } from "./util";
+
 Object.defineProperties(Sprite_Character.prototype, {
     _battler: { get: function() { return this._character.battler; }, configurable: false },
 });
@@ -45,6 +47,10 @@ Sprite_Character.prototype.setupEffect = function() {
     } else if (this._appeared && this._battler.isHidden()) {
         this.startEffect('disappear');
     }
+};
+
+Sprite_Character.prototype.isAnimationPaused = function() {
+    return isAnimationPaused.call(this);
 };
 
 Sprite_Character.prototype.startAppear = function() {

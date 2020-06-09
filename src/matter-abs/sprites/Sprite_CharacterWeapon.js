@@ -1,5 +1,6 @@
 import { get } from "lodash";
 import { getWeaponSpritePosition } from "../weapon-poses";
+import { isAnimationPaused } from "./util";
 
 //-----------------------------------------------------------------------------
 // Sprite_CharacterWeapon
@@ -110,6 +111,9 @@ Sprite_CharacterWeapon.prototype.setupAnimation = function() {
     }
 };
 
+Sprite_CharacterWeapon.prototype.isAnimationPaused = function() {
+    return isAnimationPaused.call(this);
+};
 
 Sprite_CharacterWeapon.prototype.updateOther = function() {
     if (this._character.battler && this._character.battler.isDead()) this.hide();
