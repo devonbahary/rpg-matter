@@ -121,7 +121,6 @@ Game_ActionABS.prototype.hitStop = function(critical) {
 
 Game_ActionABS.prototype.latestDamageForGaugeDuration = function() {
     if (this.hitStop()) return this.hitStop();
-    console.log('MATTER_ABS.GAUGE_LATEST_DAMAGE_DURATION', MATTER_ABS.GAUGE_LATEST_DAMAGE_DURATION)
     return MATTER_ABS.GAUGE_LATEST_DAMAGE_DURATION;
 };
 
