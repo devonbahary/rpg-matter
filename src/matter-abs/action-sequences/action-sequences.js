@@ -49,14 +49,20 @@ const ACTION_SEQUENCES = {
     },
     SWING: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
-        15: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
-        20: [],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND) ],
+        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
+        25: [],
     },
     DASH_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
         10: [ playSe('Flash2', 90, 150), ROUTE_THROUGH_ON, ...n(ROUTE_MOVE_FORWARD, 60) ],
         11: [ ROUTE_THROUGH_OFF, APPLY_EFFECT ]
+    },
+    POWER_ATTACK: {
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD), animationSelf(5) ],
+        30: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.RAISE) ],
+        45: [ ...n(ROUTE_MOVE_FORWARD, 5), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+        90: [],
     },
 };
 
