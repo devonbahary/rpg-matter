@@ -52,10 +52,6 @@ Game_BattlerBase.prototype.update = function() {
     this.onTurnEnd()
 };
 
-Game_BattlerBase.prototype.updateHitStun = function() {
-    if (this._hitStun) this._hitStun--;
-}
-
 Game_BattlerBase.prototype.updateHitStop = function() {
     if (this._hitStop) this._hitStop--;
     if (!this._hitStop && this._hitStopCallbacks) {
@@ -64,6 +60,10 @@ Game_BattlerBase.prototype.updateHitStop = function() {
         this._isHitStopTarget = false;
     }
 };
+
+Game_BattlerBase.prototype.updateHitStun = function() {
+    if (this._hitStun) this._hitStun--;
+}
 
 Game_BattlerBase.prototype.applyHitStun = function(value) {
     // can't be stunned and result in being stunned for less than an already active stun
