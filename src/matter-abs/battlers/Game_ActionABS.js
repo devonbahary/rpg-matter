@@ -112,9 +112,9 @@ Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
 };
 
 Game_ActionABS.prototype.hitStop = function(critical) {
-    if (critical) return MATTER_ABS.CRITICAL_HIT_STOP;
-    if (this._item.hitStop()) return this._item.hitStop();
-    return 0;
+    const baseHitStop = this._item.hitStop() || 0;
+    if (critical) return baseHitStop + MATTER_ABS.CRITICAL_HIT_STOP;
+    return baseHitStop;
 };
 
 Game_ActionABS.prototype.playMissSe = function() {
