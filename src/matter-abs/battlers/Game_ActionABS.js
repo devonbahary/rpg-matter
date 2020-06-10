@@ -60,6 +60,9 @@ Game_ActionABS.prototype.apply = function() {
             } else {
                 target.character.requestAnimation(this.animationId());
             }
+
+            this.executeDamage(target, value);
+            target.gainAggro(this._subject, value + this.hitStun());
             
             const hitStop = this.hitStop(critical);
 
@@ -93,8 +96,6 @@ Game_ActionABS.prototype.targetEffectCallbacks = function(target, value) {
     const isPlayer = target.character === $gamePlayer;
     const isGuard = target.isGuard();
     return [
-        () => this.executeDamage(target, value),
-        () => target.gainAggro(this._subject, value + this.hitStun()),
         () => isPlayer ? this.onPlayerDamage(value) : null,
         () => !isGuard ? this.applyForce(target) : null, 
         () => target.applyHitStun(this.hitStun()),
@@ -105,6 +106,7 @@ const _Game_ActionABS_executeHpDamage = Game_ActionABS.prototype.executeHpDamage
 Game_ActionABS.prototype.executeHpDamage = function(target, value) {
     const damageAfterGuard = this.damageAfterGuard(target, value);
     _Game_ActionABS_executeHpDamage.call(this, target, damageAfterGuard);
+    target.setLatestDamageForGauge(damageAfterGuard, this.latestDamageForGaugeDuration());
 };
 
 Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
@@ -115,6 +117,12 @@ Game_ActionABS.prototype.hitStop = function(critical) {
     const baseHitStop = this._item.hitStop() || 0;
     if (critical) return baseHitStop + MATTER_ABS.CRITICAL_HIT_STOP;
     return baseHitStop;
+};
+
+Game_ActionABS.prototype.latestDamageForGaugeDuration = function() {
+    if (this.hitStop()) return this.hitStop();
+    console.log('MATTER_ABS.GAUGE_LATEST_DAMAGE_DURATION', MATTER_ABS.GAUGE_LATEST_DAMAGE_DURATION)
+    return MATTER_ABS.GAUGE_LATEST_DAMAGE_DURATION;
 };
 
 Game_ActionABS.prototype.playMissSe = function() {

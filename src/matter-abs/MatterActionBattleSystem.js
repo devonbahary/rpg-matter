@@ -49,6 +49,13 @@
  * @max 20
  * @default 6
  * 
+ * @param Latest Damage Duration
+ * @parent Battler HUD
+ * @desc Duration (in frames) of the damage portion of the HP gauge
+ * @type number
+ * @min 0
+ * @default 30
+ * 
  * @param Battler
  * 
  * @param Normal Attack Miss SE
@@ -224,6 +231,7 @@ const capitalizeKeyAndNumberValue = (acc, key, val) => {
 
 export default {
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
+    GAUGE_LATEST_DAMAGE_DURATION: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Latest Damage Duration"]),
     DEFAULT_HIT_STUN: transformPluginStruct(
         PluginManager.parameters('MatterActionBattleSystem')["Default Hit Stun"],
         capitalizeKeyAndNumberValue,

@@ -87,19 +87,28 @@ Sprite_BattlerParameters.prototype.updateGauge = function() {
 Sprite_BattlerParameters.prototype.memorizeMembers = function() {
     this._hp = this._battler.hp;
     this._mhp = this._battler.mhp;
+    this._latestDamageForGauge = this._battler.latestDamageForGauge;
 };
 
 Sprite_BattlerParameters.prototype.drawGauge = function() {
-    const color1 = this.hpGaugeColor1();
-    const color2 = this.hpGaugeColor2();
-    const fillW = (this.width - 2) * this._battler.hpRate();
+    const hpColor1 = this.hpGaugeColor1();
+    const hpColor2 = this.hpGaugeColor2();
+    const damageColor1 = this.hpDamageGaugeColor1();
+    const damageColor2 = this.hpDamageGaugeColor2();
+    const hpFillW = (this.width - 2) * this._battler.hpRate();
+    const damageFillW = (this.width - 2) * this._battler.latestDamageForGauge / this._mhp;
     this.bitmap.clear();
     this.bitmap.fillAll(Window_Base.prototype.gaugeBackColor.call(this));
-    this.bitmap.gradientFillRect(1, 1, fillW, this.gaugeHeight() - 2, color1, color2);
+    this.bitmap.gradientFillRect(1, 1, hpFillW, this.gaugeHeight() - 2, hpColor1, hpColor2);
+    this.bitmap.gradientFillRect(1 + hpFillW, 1, damageFillW, this.gaugeHeight() - 2, damageColor1, damageColor2);
 };
 
 Sprite_BattlerParameters.prototype.shouldUpdate = function() {
-    return this._battler.hp !== this._hp || this._battler.mhp !== this._mhp;
+    return (
+        this._battler.hp !== this._hp || 
+        this._battler.mhp !== this._mhp ||
+        this._battler.latestDamageForGauge !== this._latestDamageForGauge
+    );
 };
 
 Sprite_BattlerParameters.prototype.updatePosition = function() {
@@ -116,6 +125,14 @@ Sprite_BattlerParameters.prototype.hpGaugeColor1 = function() {
 
 Sprite_BattlerParameters.prototype.hpGaugeColor2 = function() {
     return Window_Base.prototype.hpGaugeColor2.call(this);
+};
+
+Sprite_BattlerParameters.prototype.hpDamageGaugeColor1 = function() {
+    return this.textColor(2);
+};
+
+Sprite_BattlerParameters.prototype.hpDamageGaugeColor2 = function() {
+    return this.textColor(10);
 };
 
 global["Sprite_BattlerParameters"] = Sprite_BattlerParameters;

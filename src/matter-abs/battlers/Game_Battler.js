@@ -25,6 +25,7 @@ Game_Battler.prototype.initMembers = function() {
     this._effectTypeFulfilled = true;
     this.clearAction();
     this.character = null;
+    this.latestDamageForGauge = 0;
 };
 
 Game_Battler.prototype.hitStunResist = function() {
@@ -70,12 +71,19 @@ Game_Battler.prototype.hasAction = function() {
 
 Game_Battler.prototype.update = function() {
     Game_BattlerBase.prototype.update.call(this);
+    this.updateLatestDamageForGauge();
     if (this._hitStop) return;
     if (this.hasActionSequence()) {
         this.updateActionSeq();
     } else {
         this.updateBehavior();
     }
+};
+
+Game_Battler.prototype.updateLatestDamageForGauge = function() {
+    if (!this._latestDamageForGaugeDuration) return; 
+    this._latestDamageForGaugeDuration--;
+    if (!this._latestDamageForGaugeDuration) this.latestDamageForGauge = 0;
 };
 
 Game_Battler.prototype.updateActionSeq = function() {
@@ -155,4 +163,9 @@ Game_Battler.prototype.die = function() {
     Game_BattlerBase.prototype.die.call(this);
     this.clearAction();
     this.resetAggro();
+};
+
+Game_Battler.prototype.setLatestDamageForGauge = function(damage, duration) {
+    this.latestDamageForGauge = damage;
+    this._latestDamageForGaugeDuration = duration;
 };
