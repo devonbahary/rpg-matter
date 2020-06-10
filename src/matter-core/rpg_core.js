@@ -36,3 +36,34 @@ Input.isPlaytestTimescalePressed = function() {
     const mappedKey = Input.keyMapper[MATTER_CORE.PLAYTEST_TIMESCALE_KEY_CODE];
     return Input.isPressed(mappedKey);
 };
+
+const _Input_clear = Input.clear;
+Input.clear = function() {
+    _Input_clear.call(this);
+    this._keyPressTimestamps = {};
+};
+
+const _Input_update = Input.update;
+Input.update = function() {
+    _Input_update.call(this);
+    this.updateDoubleTap();
+};
+
+Input.DOUBLE_TAP_THRESHOLD_MIN = 50;
+Input.DOUBLE_TAP_THRESHOLD_MAX = 500;
+
+Input.updateDoubleTap = function() {
+    if (!this._latestButton || this._pressedTime !== 0) return;
+
+    const lastButtonTimestamp = this._keyPressTimestamps[this._latestButton];
+    if (!lastButtonTimestamp || (Date.now() - lastButtonTimestamp >= Input.DOUBLE_TAP_THRESHOLD_MAX)) {
+        this._keyPressTimestamps[this._latestButton] = Date.now();
+    }
+};
+
+Input.isDoubleTapped = function(keyName) {
+    if (!this.isTriggered(keyName)) return false;
+    
+    const timeDiff = Date.now() - this._keyPressTimestamps[keyName];
+    return timeDiff > Input.DOUBLE_TAP_THRESHOLD_MIN && timeDiff < Input.DOUBLE_TAP_THRESHOLD_MAX;
+};
