@@ -51,7 +51,7 @@ Game_Player.prototype.triggerButtonAction = function() {
     if (!this.battler.hasAction() || Input.isPressed('shift')) {
         // interrupt action for guard
         if (Input.isPressed('shift')) {
-            this.battler.clearAction()
+            this.battler.clearAction();
             return this.battler.setActionBySlot(1);
         }
 
