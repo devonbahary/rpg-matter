@@ -108,6 +108,11 @@
  * @desc The default hit stun value for actions (in frames).
  * @type struct<ActionHitStuns>
  * 
+ * @param Dodge Skill
+ * @parent Battler
+ * @type skill
+ * @default 15
+ * 
  * @param Deflect Skill
  * @parent Battler
  * @type skill
@@ -236,6 +241,7 @@ export default {
     GUARD_ANIMATION_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Guard Animation"]),
     GUARD_SCREEN_EFFECTS_MULT: Number(PluginManager.parameters('MatterActionBattleSystem')["Guard Screen Effect Multiplier"]),
     DEFLECT_SKILL_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Deflect Skill"]),
+    DODGE_SKILL_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Dodge Skill"]),
     CRITICAL_HIT_STOP: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Critical Hit Stop"]),
     HIT_STOP_ZOOM: transformPluginStruct(
         PluginManager.parameters('MatterActionBattleSystem')["Hit Stop Camera"],

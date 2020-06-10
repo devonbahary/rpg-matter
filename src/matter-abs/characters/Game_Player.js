@@ -4,6 +4,8 @@
 // The game object class for the player. It contains event starting
 // determinants and map scrolling functions.
 
+import MATTER_ABS from "../MatterActionBattleSystem";
+
 const _Game_Player_refresh = Game_Player.prototype.refresh;
 Game_Player.prototype.refresh = function() {
     _Game_Player_refresh.call(this);
@@ -52,6 +54,12 @@ Game_Player.prototype.triggerButtonAction = function() {
         // interrupt action for guard
         if (Input.isPressed('shift')) {
             this.battler.clearAction();
+
+            if (Input.isDoubleTapped('down')) return this.dodgeInDirection(2);
+            if (Input.isDoubleTapped('left')) return this.dodgeInDirection(4);
+            if (Input.isDoubleTapped('right')) return this.dodgeInDirection(6);
+            if (Input.isDoubleTapped('up')) return this.dodgeInDirection(8);
+
             return this.battler.setActionBySlot(1);
         }
 
@@ -63,6 +71,11 @@ Game_Player.prototype.triggerButtonAction = function() {
             this.endChanneledActionForKeyName(keyName);
         }
     }
+};
+
+Game_Player.prototype.dodgeInDirection = function(dir) {
+    this.setDirection(dir);
+    this.battler.setAction($dataSkills[MATTER_ABS.DODGE_SKILL_ID]);
 };
 
 Game_Player.prototype.triggerActionSlotForKeyName = function(keyName) {

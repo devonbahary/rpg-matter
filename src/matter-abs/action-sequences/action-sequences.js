@@ -7,11 +7,13 @@ const {
     ANIMATION_SELF,
     ANIMATION_WEAPON,
     APPLY_EFFECT,
+    ROUTE_CHANGE_BLEND_MODE,
     ROUTE_MOVE_BACKWARD,
     ROUTE_MOVE_FORWARD,
     ROUTE_PLAY_SE, 
     ROUTE_THROUGH_OFF,
     ROUTE_THROUGH_ON,
+    ROUTE_TURN_180D,
     STEP_BACKWARD,
     STEP_FORWARD, 
     STEP_LOCK, 
@@ -26,6 +28,7 @@ const animationWeapon = animationId => command(ANIMATION_WEAPON, animationId);
 const stepLock = lock => command(STEP_LOCK, lock); 
 const weaponPose = pose => command(WEAPON_POSE, pose);
 const n = (command, n) => times(n, () => command);
+const setBlendMode = blendMode => command(ROUTE_CHANGE_BLEND_MODE, blendMode);
 
 const ACTION_SEQUENCES = {
     DEFAULT: {
@@ -40,6 +43,10 @@ const ACTION_SEQUENCES = {
     GUARD: {
         0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD) ],
         1: APPLY_EFFECT,
+    },
+    DODGE: {
+        1: [ ROUTE_TURN_180D, stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), ...n(ROUTE_MOVE_BACKWARD, 15), playSe('Absorb1', 90, 150) ],
+        60: [],
     },
     GOBLIN_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
