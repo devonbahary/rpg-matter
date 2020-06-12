@@ -75,7 +75,7 @@ Sprite_BattlerParameters.prototype.update = function() {
 };
 
 Sprite_BattlerParameters.prototype.shouldShow = function() {
-    return this._battler && this._battler.isAlive();
+    return this._battler && (this._battler.isAlive() || this._battler.isHitStopped());
 };
 
 Sprite_BattlerParameters.prototype.updateGauge = function() {

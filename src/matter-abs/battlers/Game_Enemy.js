@@ -38,11 +38,6 @@ Game_Enemy.prototype.determineActionSkill = function() {
     if (actionList.length) return $dataSkills[actionList[0].skillId];
 };
 
-Game_Enemy.prototype.die = function() {
-    Game_Battler.prototype.die.call(this);
-    this.performCollapse();
-};
-
 Game_Enemy.prototype.isEventErasable = function() {
-    return this._effectTypeFulfilled;
+    return !this._isInPostDeathProcessing;
 };

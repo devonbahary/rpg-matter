@@ -28,6 +28,20 @@ Game_Battler.prototype.initMembers = function() {
     this.latestDamageForGauge = 0;
 };
 
+Game_Battler.prototype.update = function() {
+    Game_BattlerBase.prototype.update.call(this);
+    if (this._isInPostDeathProcessing) this.updatePostDeathProcessing();
+}
+
+Game_Battler.prototype.updatePostDeathProcessing = function() {
+    if (this._hitStop) return; // allow hit stop to finish before processing death
+    if (!this._effectType) {
+        this.performCollapse();
+    } else if (this._effectTypeFulfilled) {
+        this._isInPostDeathProcessing = false;
+    }
+};
+
 Game_Battler.prototype.hitStunResist = function() {
     const baseValue = Game_BattlerBase.prototype.hitStunResist.call(this);
     if (this.currentAction()) return baseValue + this.currentAction().hitStunResist();
@@ -69,10 +83,9 @@ Game_Battler.prototype.hasAction = function() {
     return !!this._action;
 };
 
-Game_Battler.prototype.update = function() {
-    Game_BattlerBase.prototype.update.call(this);
+Game_Battler.prototype.updateActive = function() {
+    Game_BattlerBase.prototype.updateActive.call(this);
     this.updateLatestDamageForGauge();
-    if (this._hitStop) return;
     if (this.hasActionSequence()) {
         this.updateActionSeq();
     } else {

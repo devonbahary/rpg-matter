@@ -18,6 +18,7 @@ Game_BattlerBase.prototype.initMembers = function() {
     this.resetAggro();
     this.initHitStun();
     this.initHitStop();
+    this._isInPostDeathProcessing = false;
 };
 
 Game_BattlerBase.prototype.initHitStun = function() {
@@ -47,7 +48,11 @@ Game_BattlerBase.prototype.isOccasionOk = function(item) {
 
 Game_BattlerBase.prototype.update = function() {
     this.updateHitStop();
-    if (this._hitStop) return;
+    if (!this._hitStop && this.isAlive()) this.updateActive();
+    if (this._isInPostDeathProcessing) this.updatePostDeathProcessing();
+};
+
+Game_BattlerBase.prototype.updateActive = function() {
     this.updateHitStun();
     this.onTurnEnd()
 };
@@ -127,4 +132,5 @@ Game_BattlerBase.prototype.die = function() {
     this.opponentsUnit().members().forEach(battler => {
         battler.clearBattlerAggro(this);
     });
+    this._isInPostDeathProcessing = true;
 };
