@@ -29,9 +29,13 @@ Game_Character.prototype.initMembers = function() {
     _Game_Character_initMembers.call(this);
     this.weaponPose = WEAPON_POSES.IDLE;
     this._originalWeaponPose = WEAPON_POSES.IDLE;
+    this.initStepLock();
+    this._hasActionSequenceMem = false;
+};
+
+Game_Character.prototype.initStepLock = function() {
     this._stepLock = false;
     this._stepLockMem = false;
-    this._hasActionSequenceMem = false;
 };
 
 Game_Character.prototype.stepForward = function() {
