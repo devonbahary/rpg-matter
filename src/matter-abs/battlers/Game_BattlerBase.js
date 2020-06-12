@@ -129,6 +129,7 @@ const _Game_BattlerBase_die = Game_BattlerBase.prototype.die;
 Game_BattlerBase.prototype.die = function() {
     _Game_BattlerBase_die.call(this);
     this._hitStun = 0;
+    this.resetAggro();
     this.opponentsUnit().members().forEach(battler => {
         battler.clearBattlerAggro(this);
     });

@@ -175,7 +175,6 @@ Game_Battler.prototype.attackAnimationId1 = function() {
 Game_Battler.prototype.die = function() {
     Game_BattlerBase.prototype.die.call(this);
     this.clearAction();
-    this.resetAggro();
 };
 
 Game_Battler.prototype.setLatestDamageForGauge = function(damage, duration) {
