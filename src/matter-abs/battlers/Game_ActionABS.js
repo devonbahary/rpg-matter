@@ -114,7 +114,7 @@ Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
 };
 
 Game_ActionABS.prototype.hitStop = function(critical) {
-    const baseHitStop = this._item.hitStop() || 0;
+    const baseHitStop = this._item.hitStop();
     if (critical) return baseHitStop + MATTER_ABS.CRITICAL_HIT_STOP;
     return baseHitStop;
 };

@@ -58,6 +58,7 @@ Game_Item.prototype.hitStun = function() {
 Game_Item.prototype.hitStop = function() {
     const hitStop = parseInt(this.meta.hitStop);
     if (hitStop) return hitStop;
+    return 0;
 };
 
 Game_Item.prototype.isChanneled = function() {
