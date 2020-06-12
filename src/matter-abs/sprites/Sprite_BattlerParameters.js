@@ -80,8 +80,8 @@ Sprite_BattlerParameters.prototype.shouldShow = function() {
 
 Sprite_BattlerParameters.prototype.updateGauge = function() {
     if (!this.shouldUpdate()) return;
-    this.memorizeMembers();
     this.drawGauge();
+    this.memorizeMembers();
 };
 
 Sprite_BattlerParameters.prototype.memorizeMembers = function() {
@@ -96,7 +96,7 @@ Sprite_BattlerParameters.prototype.drawGauge = function() {
     const damageColor1 = this.hpDamageGaugeColor1();
     const damageColor2 = this.hpDamageGaugeColor2();
     const hpFillW = (this.width - 2) * this._battler.hpRate();
-    const damageFillW = (this.width - 2) * this._battler.latestDamageForGauge / this._mhp;
+    const damageFillW = (this.width - 2) * Math.min(this._battler.latestDamageForGauge, this._hp) / this._battler.mhp;
     this.bitmap.clear();
     this.bitmap.fillAll(Window_Base.prototype.gaugeBackColor.call(this));
     this.bitmap.gradientFillRect(1, 1, hpFillW, this.gaugeHeight() - 2, hpColor1, hpColor2);
