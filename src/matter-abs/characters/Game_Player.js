@@ -50,16 +50,16 @@ Game_Player.prototype.triggerButtonAction = function() {
     
     if ($gameMap.isEventRunning()) return;
 
-    if (!this.battler.hasAction() || Input.isPressed('shift')) {
+    if (!this.battler.hasAction() || (Input.isPressed('shift') && this.battler.currentAction().canGuardCancel())) {
         // interrupt action for guard
         if (Input.isPressed('shift')) {
-            this.battler.clearAction();
-
+            
             if (Input.isDoubleTapped('down')) return this.dodgeInDirection(2);
             if (Input.isDoubleTapped('left')) return this.dodgeInDirection(4);
             if (Input.isDoubleTapped('right')) return this.dodgeInDirection(6);
             if (Input.isDoubleTapped('up')) return this.dodgeInDirection(8);
 
+            if (this.battler.hasAction() && this.battler.currentAction().isGuard()) return;
             return this.battler.setActionBySlot(1);
         }
 
@@ -68,7 +68,7 @@ Game_Player.prototype.triggerButtonAction = function() {
         }
     } else if (this.battler.isChanneling()) {
         for (const keyName of Object.keys(Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP)) {
-            this.endChanneledActionForKeyName(keyName);
+            this.updateChanneledActionForKeyName(keyName);
         }
     }
 };
@@ -83,10 +83,11 @@ Game_Player.prototype.triggerActionSlotForKeyName = function(keyName) {
     if (Input.isTriggered(keyName)) return this.battler.setActionBySlot(actionSlotIndex);
 };
 
-Game_Player.prototype.endChanneledActionForKeyName = function(keyName) {
+Game_Player.prototype.updateChanneledActionForKeyName = function(keyName) {
     if (!this.battler.hasAction()) return;
     const index = Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP[keyName];
     const action = this.battler.actionSlots[index];
+    if (!action) return;
     if (action.isSameAs(this.battler.currentAction()._item) && !Input.isPressed(keyName)) {
         this.battler.clearAction();
     }

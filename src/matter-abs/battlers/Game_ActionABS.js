@@ -205,6 +205,11 @@ Game_ActionABS.prototype.applyGuard = function(damage, target) {
     return damage;
 };
 
+Game_ActionABS.prototype.canGuardCancel = function() {
+    if (this.isGuard()) return true;
+    return this._item.canGuardCancel();
+};
+
 Game_ActionABS.prototype.onPlayerDamage = function(value) {
     const isGuard = $gamePlayer.battler.isGuard();
     const guardScreenEffectMult = isGuard ? MATTER_ABS.GUARD_SCREEN_EFFECTS_MULT : 1;

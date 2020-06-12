@@ -143,6 +143,12 @@
  * @decimals 2
  * @default 0.1
  * 
+ * @param Guard Cancel
+ * @parent Battler
+ * @desc Guard skill cancels actions by default. Use meta tag <canGuardCancel[:false]> for specific actions.
+ * @type boolean
+ * @default true
+ * 
  * @param Actors
  * 
  * @param Default Actor Hit Stun Resist
@@ -247,6 +253,7 @@ export default {
         pitch: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Normal Attack Miss Pitch"]),
     },
     GUARD_ANIMATION_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Guard Animation"]),
+    GUARD_CANCEL_DEFAULT: JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Guard Cancel"]),
     GUARD_SCREEN_EFFECTS_MULT: Number(PluginManager.parameters('MatterActionBattleSystem')["Guard Screen Effect Multiplier"]),
     DEFLECT_SKILL_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Deflect Skill"]),
     DODGE_SKILL_ID: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Dodge Skill"]),

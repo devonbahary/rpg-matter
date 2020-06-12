@@ -74,3 +74,9 @@ Game_Item.prototype.isChanneled = function() {
 Game_Item.prototype.isSameAs = function(gameItem) {
     return this._dataClass === gameItem._dataClass && this._itemId === gameItem._itemId;
 };
+
+Game_Item.prototype.canGuardCancel = function() {
+    const canGuardCancel = this.meta.canGuardCancel;
+    if (canGuardCancel) return JSON.parse(canGuardCancel);
+    return MATTER_ABS.GUARD_CANCEL_DEFAULT;
+};
