@@ -200,14 +200,14 @@ Sprite_BattlerParameters.prototype.drawGuardGauge = function() {
     this._ghp = this._battler.ghp;
     this._mghp = this._battler.gmhp;
     const fillW = (this.width - 2) * this._battler.ghpRate();
-    const opacity = this._isGuard ? MATTER_ABS_GUARD.GUARD_GAUGE_OPACITY_ACTIVE : MATTER_ABS_GUARD.GUARD_GAUGE_OPACITY_INACTIVE;
+    const opacity = this._battler.isGuard() ? MATTER_ABS_GUARD.GUARD_GAUGE_OPACITY_ACTIVE : MATTER_ABS_GUARD.GUARD_GAUGE_OPACITY_INACTIVE;
     this.drawWithOpacity(() => {
         this.bitmap.gradientFillRect(1, 1, fillW, (this.gaugeHeight() - 2) / 2, this.guardGaugeColor1(), this.guardGaugeColor2());
     }, opacity);
 };
 
 Sprite_BattlerParameters.prototype.shouldDrawGuardGauge = function() {
-    return this._isGuard || this._battler.ghpRate() < 1;
+    return this._battler.isGuard() || this._battler.ghpRate() < 1;
 };
 
 const _Sprite_BattlerParameters_shouldUpdate = Sprite_BattlerParameters.prototype.shouldUpdate;
