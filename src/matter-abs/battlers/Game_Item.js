@@ -61,6 +61,11 @@ Game_Item.prototype.hitStop = function() {
     return 0;
 };
 
+Game_Item.prototype.hitStopZoomScale = function() {
+    const hitStopScale = Number(this.meta.hitStopZoomScale);
+    if (hitStopScale) return hitStopScale;
+};
+
 Game_Item.prototype.isChanneled = function() {
     const isChanneled = this.meta.channeled;
     return isChanneled ? JSON.parse(isChanneled) : false;

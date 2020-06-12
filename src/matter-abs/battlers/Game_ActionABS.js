@@ -69,7 +69,7 @@ Game_ActionABS.prototype.apply = function() {
             if (hitStop) {
                 this._subject.applyHitStop(hitStop, subjectEffectCallbacks);
                 target.applyHitStop(hitStop, targetEffectCallbacks, true);
-                $gameMap.setHitStopZoomTarget(target.character);
+                $gameMap.setHitStopZoomTarget(target.character, this.hitStopZoomScale());
             } else {
                 for (const cb of subjectEffectCallbacks) cb();
                 for (const cb of targetEffectCallbacks) cb();
@@ -117,6 +117,12 @@ Game_ActionABS.prototype.hitStop = function(critical) {
     const baseHitStop = this._item.hitStop();
     if (critical) return baseHitStop + MATTER_ABS.CRITICAL_HIT_STOP;
     return baseHitStop;
+};
+
+Game_ActionABS.prototype.hitStopZoomScale = function() {
+    const hitStopZoomScale = this._item.hitStopZoomScale();
+    if (hitStopZoomScale) return hitStopZoomScale;
+    return MATTER_ABS.HIT_STOP_ZOOM.SCALE;
 };
 
 Game_ActionABS.prototype.latestDamageForGaugeDuration = function() {

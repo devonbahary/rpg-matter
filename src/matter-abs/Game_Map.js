@@ -40,12 +40,12 @@ Game_Map.prototype.updateHitStopZoom = function() {
     this._hitStopZoomTarget = null;
 };
 
-Game_Map.prototype.setHitStopZoomTarget = function(character) {
+Game_Map.prototype.setHitStopZoomTarget = function(character, zoomScale) {
     this._hitStopZoomTarget = character;
     $gameScreen.startZoom(
-        character.x0, 
-        character.y0, 
-        MATTER_ABS.HIT_STOP_ZOOM.SCALE, 
+        character.screenX(), 
+        character.screenY(), 
+        zoomScale, 
         MATTER_ABS.HIT_STOP_ZOOM.DURATION,
     );
 };
