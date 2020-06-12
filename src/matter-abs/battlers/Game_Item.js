@@ -43,20 +43,20 @@ Game_Item.prototype.range = function() {
 };
 
 Game_Item.prototype.hitStunResist = function() {
-    const hitStunResist = Number(this.meta.hitStunResist);
+    const hitStunResist = parseInt(this.meta.hitStunResist);
     if (!isNaN(hitStunResist)) return hitStunResist;
     return 0;
 };
 
 Game_Item.prototype.hitStun = function() {
-    const hitStun = Number(this.meta.hitStun);
+    const hitStun = parseInt(this.meta.hitStun);
     if (!isNaN(hitStun)) return hitStun;
     if (this.isWeapon()) return MATTER_ABS.DEFAULT_HIT_STUN.WEAPONS;
     return MATTER_ABS.DEFAULT_HIT_STUN.SKILLS;
 };
 
 Game_Item.prototype.hitStop = function() {
-    const hitStop = Number(this.meta.hitStop);
+    const hitStop = parseInt(this.meta.hitStop);
     if (hitStop) return hitStop;
 };
 
