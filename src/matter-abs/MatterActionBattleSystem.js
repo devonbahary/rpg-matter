@@ -227,6 +227,7 @@ import "./sprites/Sprite_Animation";
 import "./sprites/Sprite_BattlerParameters";
 import "./sprites/Sprite_CharacterWeapon";
 import "./sprites/Sprite_Character";
+import "./sprites/Spriteset_Map";
 import "./action-sequences/action-sequences";
 import { transformPluginStruct } from "../utils";
 
