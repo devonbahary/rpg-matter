@@ -15,7 +15,7 @@ import {
     get8DirFromHorzVert, 
     get8DirFromVector, 
 } from "../utils/direction";
-import { toWorldVectorCentered, vectorFromAToB, vectorLengthFromAToB } from "../utils/vector";
+import { toWorldVectorCentered, vectorFromAToB, vectorLengthFromAToB, vectorResize } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -269,8 +269,7 @@ Game_CharacterBase.prototype.moveInDirection = function(dir) {
 };
 
 Game_CharacterBase.prototype.move = function(vector) {
-    const normalizedVector = Vector.normalise(vector);
-    const forceVector = Vector.mult(normalizedVector, this.distancePerFrame());
+    const forceVector = vectorResize(vector, this.distancePerFrame());
     Body.applyForce(this.body, this.body.position, forceVector);
     this.updateMovementDirection(get8DirFromVector(vector));
     this.increaseSteps();
