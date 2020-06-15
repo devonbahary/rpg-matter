@@ -4,6 +4,7 @@
 // The game object class for a projectile. 
 
 import { vectorFromAToB, vectorResize } from "../../matter-core/utils/vector";
+import { BODY_LABELS } from "../../matter-core/constants";
 
 function Game_Projectile() {
     this.initialize.apply(this, arguments);
@@ -43,6 +44,8 @@ Game_Projectile.prototype.onCollisionStart = function(event) {
     if (event.pair.character) {
         if (!this._action.determineTargets().length) return;
         this._action.apply();
+        this.removeFromScene();
+    } else if (event.pair.label === BODY_LABELS.ENVIRONMENT) {
         this.removeFromScene();
     }
 };

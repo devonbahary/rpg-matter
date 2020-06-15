@@ -2,6 +2,7 @@ export const BODY_LABELS = {
     EVENT: 'event',
     PLAYER: 'player',
     PLAYER_SENSOR: 'player-sensor',
+    ENVIRONMENT: 'environment',
 };
 
 export const EVENT_COMMAND_CODES = {
