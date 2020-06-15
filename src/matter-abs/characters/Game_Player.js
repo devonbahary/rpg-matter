@@ -34,7 +34,6 @@ Game_Player.prototype.canMove = function() {
 };
 
 Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP = {
-    'ok': 0,
     'D': 0,
     'shift': 1,
     'S': 2,
