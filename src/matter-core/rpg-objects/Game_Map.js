@@ -16,6 +16,7 @@ Game_Map.prototype.setup = function(mapId) {
     Game_Map_setup.call(this, mapId);
     this.tilemapPropertyMatrix = getTilemapPropertyMatrix.call(this);
     this.setupMatter();
+    this._dynamicCharacters = [];
 };
 
 Game_Map.prototype.setupMatter = function() {
@@ -131,6 +132,11 @@ Game_Map.prototype.addCharacterBody = function(character) {
     this.addBody(character.body);
 }
 
+Game_Map.prototype.addDynamicCharacter = function(character) {
+    this.addCharacterBody(character);
+    this._dynamicCharacters.push(character);
+};
+
 const _Game_Map_tileId = Game_Map.prototype.tileId;
 Game_Map.prototype.tileId = function(x, y, z) {
     return _Game_Map_tileId.call(this, Math.floor(x), Math.floor(y), z);
@@ -139,6 +145,7 @@ Game_Map.prototype.tileId = function(x, y, z) {
 const _Game_Map_update = Game_Map.prototype.update;
 Game_Map.prototype.update = function(sceneActive) {
     _Game_Map_update.call(this, sceneActive);
+    for (const character of this._dynamicCharacters) character.update();
     this.updateEngine(sceneActive);
 };
 

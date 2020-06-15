@@ -45,7 +45,7 @@ Game_CharacterBase.prototype.squareInFrontOf = function(range) {
 
 Game_CharacterBase.prototype.addToScene = function() {
     SceneManager._scene._spriteset.addCharacterToTilemap(this);
-    $gameMap.addCharacterBody(this);
+    $gameMap.addDynamicCharacter(this);
 };
 
 Game_CharacterBase.prototype.removeFromScene = function() {
