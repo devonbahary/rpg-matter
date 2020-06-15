@@ -35,6 +35,7 @@ Game_Projectile.prototype.initBodyOptions = function() {
     return {
         ...Game_Character.prototype.initBodyOptions.call(this),
         frictionAir: 0,
+        friction: 0,
         restitution: 1,
     };
 };
