@@ -42,3 +42,13 @@ Game_CharacterBase.prototype.endWeaponAnimation = function() {
 Game_CharacterBase.prototype.squareInFrontOf = function(range) {
     return squareInFrontOf.call(this, range);
 };
+
+Game_CharacterBase.prototype.addToScene = function() {
+    SceneManager._scene._spriteset.addCharacterToTilemap(this);
+    $gameMap.addCharacterBody(this);
+};
+
+Game_CharacterBase.prototype.removeFromScene = function() {
+    SceneManager._scene._spriteset.removeCharacterFromTilemap(this);
+    $gameMap.removeBody(this.body);
+};
