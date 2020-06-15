@@ -83,7 +83,7 @@ Game_ActionABS.prototype.apply = function() {
             }
 
             this.executeDamage(target, value);
-            target.gainAggro(this._subject, value + this.hitStun());
+            target.gainAggro(this._subject, value + this.hitStun(target));
             
             const hitStop = this.hitStop(critical);
 
@@ -119,7 +119,7 @@ Game_ActionABS.prototype.targetEffectCallbacks = function(target, value) {
     return [
         () => isPlayer ? this.onPlayerDamage(value) : null,
         () => !isGuard ? this.applyForce(target) : null, 
-        () => target.applyHitStun(this.hitStun()),
+        () => target.applyHitStun(this.hitStun(target)),
     ];
 };
 
@@ -180,9 +180,10 @@ Game_ActionABS.prototype.range = function() {
     return this._item.range();
 };
 
-Game_ActionABS.prototype.hitStun = function() {
-    if (this.shouldUseWeaponProperty()) return this.weapon.hitStun();
-    return this._item.hitStun();
+Game_ActionABS.prototype.hitStun = function(target) {
+    const elementRate = this.calcElementRate(target);
+    if (this.shouldUseWeaponProperty()) return elementRate * this.weapon.hitStun();
+    return elementRate * this._item.hitStun();
 };
 
 Game_ActionABS.prototype.hitStunResist = function() {
@@ -236,7 +237,7 @@ Game_ActionABS.prototype.onPlayerDamage = function(value) {
     const intensity = Math.abs(value) / $gamePlayer.battler.mhp * guardScreenEffectMult;
     const power = 9 * intensity;
     const speed = 9 * intensity;
-    const duration = Math.max(this.hitStun() * guardScreenEffectMult, 5);
+    const duration = Math.max(this.hitStun($gamePlayer.battler) * guardScreenEffectMult, 5);
     
     $gameScreen.startShake(power, speed, duration);
     

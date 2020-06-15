@@ -72,7 +72,7 @@ Game_BattlerBase.prototype.updateHitStun = function() {
 
 Game_BattlerBase.prototype.applyHitStun = function(value) {
     // can't be stunned and result in being stunned for less than an already active stun
-    value = Math.max(0, value - this.hitStunResist());
+    value = Math.round(Math.max(0, value - this.hitStunResist()));
     if (value > this._hitStun) this._hitStun = value; 
 };
 
