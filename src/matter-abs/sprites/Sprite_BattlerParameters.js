@@ -91,16 +91,22 @@ Sprite_BattlerParameters.prototype.memorizeMembers = function() {
 };
 
 Sprite_BattlerParameters.prototype.drawGauge = function() {
+    const latestDamage = this._battler.latestDamageForGauge;
     const hpColor1 = this.hpGaugeColor1();
     const hpColor2 = this.hpGaugeColor2();
-    const damageColor1 = this.hpDamageGaugeColor1();
-    const damageColor2 = this.hpDamageGaugeColor2();
+    const hpChangeColor1 = latestDamage >= 0 ? this.hpDamageGaugeColor1() : this.hpRecoveryGaugeColor1();
+    const hpChangeColor2 = latestDamage >= 0 ? this.hpDamageGaugeColor2() : this.hpRecoveryGaugeColor2();
     const hpFillW = (this.width - 2) * this._battler.hpRate();
-    const damageFillW = (this.width - 2) * Math.min(this._battler.latestDamageForGauge, this._hp) / this._battler.mhp;
+    let hpChangeFillW;
+    if (latestDamage >= 0) {
+        hpChangeFillW = (this.width - 2) * Math.min(latestDamage, this._hp) / this._battler.mhp;
+    } else {
+        hpChangeFillW = (this.width - 2) * Math.max(latestDamage, this._hp - this._mhp) / this._battler.mhp;
+    }
     this.bitmap.clear();
     this.bitmap.fillAll(Window_Base.prototype.gaugeBackColor.call(this));
     this.bitmap.gradientFillRect(1, 1, hpFillW, this.gaugeHeight() - 2, hpColor1, hpColor2);
-    this.bitmap.gradientFillRect(1 + hpFillW, 1, damageFillW, this.gaugeHeight() - 2, damageColor1, damageColor2);
+    this.bitmap.gradientFillRect(1 + hpFillW, 1, hpChangeFillW, this.gaugeHeight() - 2, hpChangeColor1, hpChangeColor2);
 };
 
 Sprite_BattlerParameters.prototype.shouldUpdate = function() {
@@ -133,6 +139,14 @@ Sprite_BattlerParameters.prototype.hpDamageGaugeColor1 = function() {
 
 Sprite_BattlerParameters.prototype.hpDamageGaugeColor2 = function() {
     return this.textColor(10);
+};
+
+Sprite_BattlerParameters.prototype.hpRecoveryGaugeColor1 = function() {
+    return this.textColor(3);
+};
+
+Sprite_BattlerParameters.prototype.hpRecoveryGaugeColor2 = function() {
+    return this.textColor(11);
 };
 
 global["Sprite_BattlerParameters"] = Sprite_BattlerParameters;

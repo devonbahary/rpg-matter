@@ -228,6 +228,8 @@ Game_ActionABS.prototype.canGuardCancel = function() {
 };
 
 Game_ActionABS.prototype.onPlayerDamage = function(value) {
+    if (value <= 0) return;
+
     const isGuard = $gamePlayer.battler.isGuard();
     const guardScreenEffectMult = isGuard ? MATTER_ABS.GUARD_SCREEN_EFFECTS_MULT : 1;
     
