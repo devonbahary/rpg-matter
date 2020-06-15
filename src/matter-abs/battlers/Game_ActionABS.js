@@ -231,7 +231,7 @@ Game_ActionABS.prototype.onPlayerDamage = function(value) {
     const isGuard = $gamePlayer.battler.isGuard();
     const guardScreenEffectMult = isGuard ? MATTER_ABS.GUARD_SCREEN_EFFECTS_MULT : 1;
     
-    const intensity = value / $gamePlayer.battler.mhp * guardScreenEffectMult;
+    const intensity = Math.abs(value) / $gamePlayer.battler.mhp * guardScreenEffectMult;
     const power = 9 * intensity;
     const speed = 9 * intensity;
     const duration = Math.max(this.hitStun() * guardScreenEffectMult, 5);
