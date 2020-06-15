@@ -14,11 +14,29 @@ Game_ActionABS.prototype = Object.create(Game_Action.prototype);
 Game_ActionABS.prototype.constructor = Game_ActionABS;
 
 Object.defineProperties(Game_ActionABS.prototype, {
+    directionFix: { get: function() { 
+        const directionFix = this._item.meta.directionFix;
+        if (directionFix) return Boolean(JSON.parse(directionFix));
+        return false; 
+    }, configurable: false },
+    imageName: { get: function() { return this._item.meta.characterName; }, configurable: false },
+    imageIndex: { get: function() { return parseInt(this._item.meta.characterIndex) || 0; }, configurable: false },
+    stepAnime: { get: function() { 
+        const isStepAnime = this._item.meta.stepAnime;
+        if (isStepAnime) return Boolean(JSON.parse(isStepAnime));
+        return false;
+    }, configurable: false },
+    through: { get: function() { 
+        const isThrough = this._item.meta.through;
+        if (isThrough) return Boolean(JSON.parse(isThrough));
+        return false;
+    }, configurable: false },
     weapon: { get: function() { return this._subject.weapon; }, configurable: false },
 });
 
 Game_ActionABS.prototype.initialize = function(subject, action) {
     this._subject = subject;
+    this._subjectCharacter = subject.character; // sometimes a projectile of subject and not the subject character
     this._item = new Game_Item();
     this._item.setObject(action);
 };
@@ -27,6 +45,10 @@ Game_ActionABS.BASE_FORCE_MULT = 1 / 16;
 
 Game_ActionABS.prototype.subject = function() {
     return this._subject;
+};
+
+Game_ActionABS.prototype.setSubjectCharacter = function(character) {
+    return this._subjectCharacter = character;
 };
 
 Game_ActionABS.prototype.actionSequence = function() {
@@ -140,15 +162,15 @@ Game_ActionABS.prototype.animationId = function() {
 };
 
 Game_ActionABS.prototype.applyForce = function(target) {
-    const directionalVector = vectorFromAToB(this._subject.character.bodyPos, target.character.bodyPos);
+    const directionalVector = vectorFromAToB(this._subjectCharacter.bodyPos, target.character.bodyPos);
     const forceVector = vectorResize(directionalVector, this.forceMagnitude() * Game_ActionABS.BASE_FORCE_MULT);
     
-    target.character.applyForce(forceVector, this._subject.character);
+    target.character.applyForce(forceVector, this._subjectCharacter);
 };
 
 Game_ActionABS.prototype.forceMagnitude = function() {
     // TODO: isPhysical to use subjectMass multiplier, isMagical to use fixed forces?
-    const subjectMass = this._subject.character.body.mass;
+    const subjectMass = this._subjectCharacter.body.mass;
     if (this.shouldUseWeaponProperty()) return subjectMass * this.weapon.forceMagnitude();
     return subjectMass * this._item.forceMagnitude();
 };
@@ -174,7 +196,7 @@ Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
 Game_ActionABS.prototype.determineTargets = function() {
     if (this.isForUser()) return [ this._subject ];
 
-    const bounds = this._subject.character.squareInFrontOf(this.range());
+    const bounds = this._subjectCharacter.squareInFrontOf(this.range());
     const battlersInRange = $gameMap.battlersInBoundingBox(bounds);
 
     if (this.isForOpponent()) {
@@ -220,6 +242,18 @@ Game_ActionABS.prototype.onPlayerDamage = function(value) {
 
     const color = [ 255, 0, 0, 255 * intensity ];
     $gameScreen.startFlash(color, duration);
+};
+
+Game_ActionABS.prototype.projectileCharacter = function() {
+    return new Game_Projectile(this._subject, this);
+};
+
+Game_ActionABS.prototype.hasProjectile = function() {
+    return this._item.isProjectile();
+};
+
+Game_ActionABS.prototype.projectileForce = function() {
+    return this._item.projectileForce();
 };
 
 global["Game_ActionABS"] = Game_ActionABS;

@@ -7,6 +7,7 @@ const {
     ANIMATION_SELF,
     ANIMATION_WEAPON,
     APPLY_EFFECT,
+    CREATE_PROJECTILE,
     ROUTE_CHANGE_BLEND_MODE,
     ROUTE_MOVE_BACKWARD,
     ROUTE_MOVE_FORWARD,
@@ -70,6 +71,10 @@ const ACTION_SEQUENCES = {
         30: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.RAISE) ],
         45: [ ...n(ROUTE_MOVE_FORWARD, 5), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         90: [],
+    },
+    FIRE: {
+        1: CREATE_PROJECTILE,
+        60: []
     },
 };
 

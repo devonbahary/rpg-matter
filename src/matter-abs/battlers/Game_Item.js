@@ -75,6 +75,16 @@ Game_Item.prototype.isSameAs = function(gameItem) {
     return this._dataClass === gameItem._dataClass && this._itemId === gameItem._itemId;
 };
 
+Game_Item.prototype.isProjectile = function() {
+    return Boolean(this.meta.projectile);
+};
+
+Game_Item.prototype.projectileForce = function() {
+    const force = Number(this.meta.projectile);
+    if (isNaN(force)) return 0;
+    return force;
+};
+
 Game_Item.prototype.canGuardCancel = function() {
     const canGuardCancel = this.meta.canGuardCancel;
     if (canGuardCancel) return JSON.parse(canGuardCancel);

@@ -22,6 +22,7 @@ Game_Character.ANIMATION_SELF          = 600;
 Game_Character.ANIMATION_WEAPON        = 601;
 // BATTLE EFFECTS
 Game_Character.APPLY_EFFECT            = 700;
+Game_Character.CREATE_PROJECTILE       = 701;
 
 const _Game_Character_initMembers = Game_Character.prototype.initMembers;
 Game_Character.prototype.initMembers = function() {
@@ -157,6 +158,9 @@ Game_Character.prototype.processMoveCommand = function(command) {
         case gc.ANIMATION_WEAPON:
             this.requestWeaponAnimation(params[0]);
             break;
+        case gc.CREATE_PROJECTILE:
+            this.createProjectile();
+            break;
     }
 };
 
@@ -180,4 +184,14 @@ Game_Character.prototype.isHitStopped = function() {
 
 Game_Character.prototype.isHitStopTarget = function() {
     return this.battler && this.battler.isHitStopTarget();
+};
+
+Game_Character.prototype.createProjectile = function() {
+    const action = this.battler.currentAction();
+    if (!action.hasProjectile()) return;
+    
+    const projectileCharacter = action.projectileCharacter();
+    projectileCharacter.setInFrontOfCharacter(this);
+    projectileCharacter.addToScene();
+    projectileCharacter.start();
 };
