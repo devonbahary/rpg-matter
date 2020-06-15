@@ -134,6 +134,7 @@ Game_Character.prototype.processMoveCommand = function(command) {
     var gc = Game_Character;
     var params = command.parameters;
     switch (command.code) {
+        // MOVEMENT
         case gc.STEP_LOCK:
             this.stepLock(params[0]);
             break;
@@ -146,17 +147,20 @@ Game_Character.prototype.processMoveCommand = function(command) {
         case gc.STEP_BACKWARD:
             this.stepBackward();
             break;
+        // WEAPON POSE
         case gc.WEAPON_POSE:
             this.weaponPose = params[0];
             break;
-        case gc.APPLY_EFFECT:
-            this.applyEffect(params[0]);
-            break;
+        // ANIMATIONS
         case gc.ANIMATION_SELF:
             this.requestAnimation(params[0]);
             break;
         case gc.ANIMATION_WEAPON:
             this.requestWeaponAnimation(params[0]);
+            break;
+        // BATTLE EFFECTS
+        case gc.APPLY_EFFECT:
+            this.applyEffect(params[0]);
             break;
         case gc.CREATE_PROJECTILE:
             this.createProjectile();
