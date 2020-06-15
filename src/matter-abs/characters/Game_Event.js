@@ -94,3 +94,9 @@ Game_Event.prototype.update = function() {
 Game_Event.prototype.updateEraseOnBattlerDeath = function() {
     if (this.battler && this.battler.isDead() && this.battler.isEventErasable()) this.erase();
 };
+
+const _Game_Event_erase = Game_Event.prototype.erase;
+Game_Event.prototype.erase = function() {
+    _Game_Event_erase.call(this);
+    this.removeFromScene();
+};
