@@ -6,7 +6,6 @@
 import { WEAPON_POSES } from "../weapon-poses";
 import MATTER_ABS from "../MatterActionBattleSystem";
 
-
 Object.defineProperties(Game_CharacterBase.prototype, {
     weaponIconIndex: { get: function() { return this.battler ? this.battler.weaponIconIndex : 0; }, configurable: false },
 });

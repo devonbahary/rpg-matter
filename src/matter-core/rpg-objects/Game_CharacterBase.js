@@ -26,13 +26,14 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     y0: { get: function() { return this.y + this.radius; }, configurable: false },
     _realX: { get: function() { return this._x; }, configurable: false },
     _realY: { get: function() { return this._y; }, configurable: false },
+    bodyPos: { get: function() { return this.body.position; }, configurable: false },
     mapPos: { get: function() { return { x: this.x, y: this.y }; }, configurable: false },
     mass: { get: function() { return this.body.mass; }, configurable: false },
     radius: { get: function() { return this.width / 2; }, configurable: false },
     timeScale: { get: function() { return this.body.timeScale; }, configurable: false },
     worldRadius: { get: function() { return this.radius * MATTER_CORE.TILE_SIZE; }, configurable: false },
-    worldX: { get: function() { return this.body.position.x; }, configurable: false },
-    worldY: { get: function() { return this.body.position.y; }, configurable: false },
+    worldX: { get: function() { return this.bodyPos.x; }, configurable: false },
+    worldY: { get: function() { return this.bodyPos.y; }, configurable: false },
 });
 
 Game_CharacterBase.DEFAULT_MASS = MATTER_CORE.CHARACTER_DEFAULT_MASS;
@@ -270,9 +271,14 @@ Game_CharacterBase.prototype.moveInDirection = function(dir) {
 
 Game_CharacterBase.prototype.move = function(vector) {
     const forceVector = vectorResize(vector, this.distancePerFrame());
-    Body.applyForce(this.body, this.body.position, forceVector);
+    this.applyForce(forceVector);
     this.updateMovementDirection(get8DirFromVector(vector));
     this.increaseSteps();
+};
+
+Game_CharacterBase.prototype.applyForce = function(forceVector, fromCharacter) {
+    const fromPosition = fromCharacter ? fromCharacter.bodyPos : this.bodyPos;
+    Body.applyForce(this.body, fromPosition, forceVector);
 };
 
 Game_CharacterBase.prototype.updateMovementDirection = function(dir) {
