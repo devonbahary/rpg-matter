@@ -70,3 +70,7 @@ Game_Actor.prototype.isFriendWith = function(battler) {
 Game_Actor.prototype.isEnemyWith = function(battler) {
     return battler.isEnemy();
 };
+
+Game_Actor.prototype.expRate = function() {
+    return (this.currentExp() - this.currentLevelExp()) / (this.nextLevelExp() - this.currentLevelExp());
+};
