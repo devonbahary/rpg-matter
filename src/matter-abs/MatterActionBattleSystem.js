@@ -217,6 +217,7 @@ import "./battlers/Game_Battler";
 import "./battlers/Game_Actor";
 import "./battlers/Game_Enemy";
 import "./units/Game_Unit";
+import "./units/Game_Party";
 import "./units/Game_TroopABS";
 import "./characters/Game_CharacterBase";
 import "./characters/Game_Character";

@@ -41,3 +41,17 @@ Game_Enemy.prototype.determineActionSkill = function() {
 Game_Enemy.prototype.isEventErasable = function() {
     return !this._isInPostDeathProcessing;
 };
+
+const _Game_Enemy_die = Game_Enemy.prototype.die;
+Game_Enemy.prototype.die = function() {
+    _Game_Enemy_die.call(this);
+    this.yieldRewards();
+};
+
+Game_Enemy.prototype.yieldRewards = function() {
+    $gameParty.gainExp(this.exp());
+    $gameParty.gainGold(this.gold());
+    for (const item of this.makeDropItems()) {
+        $gameParty.gainItem(item, 1);
+    }
+};
