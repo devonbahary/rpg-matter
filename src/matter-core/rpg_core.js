@@ -50,7 +50,7 @@ Input.update = function() {
 };
 
 Input.DOUBLE_TAP_THRESHOLD_MIN = 50;
-Input.DOUBLE_TAP_THRESHOLD_MAX = 500;
+Input.DOUBLE_TAP_THRESHOLD_MAX = 250;
 
 Input.updateDoubleTap = function() {
     if (!this._latestButton || this._pressedTime !== 0) return;
