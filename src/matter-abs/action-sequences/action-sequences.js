@@ -47,7 +47,7 @@ const ACTION_SEQUENCES = {
     },
     DODGE: {
         1: [ ROUTE_TURN_180D, stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), ...n(ROUTE_MOVE_BACKWARD, 15), playSe('Absorb1', 90, 150) ],
-        60: [],
+        30: [],
     },
     GOBLIN_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
