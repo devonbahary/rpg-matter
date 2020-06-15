@@ -31,6 +31,10 @@ Game_Projectile.prototype.initMembers = function() {
     this.setStepAnime(this._action.stepAnime);
 };
 
+Game_Projectile.prototype.setDimensions = function(width = 1, height = 1) {
+    Game_Character.prototype.setDimensions.call(this, 0.8, 0.8);
+};
+
 Game_Projectile.prototype.initBodyOptions = function() {
     return {
         ...Game_Character.prototype.initBodyOptions.call(this),
