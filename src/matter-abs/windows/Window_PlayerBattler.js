@@ -58,8 +58,10 @@ Window_PlayerBattler.prototype.drawGauges = function() {
 Window_PlayerBattler.prototype.drawGauge = function(x, y, rate, color1, color2) {
     const width = this.contentsWidth() - x;
     const fillW = Math.max(0, (width - 2) * rate);
-    this.contents.fillRect(x, y, width, Window_PlayerBattler.GAUGE_HEIGHT, this.gaugeBackColor());
-    this.contents.gradientFillRect(x + 1, y + 1, fillW, Window_PlayerBattler.GAUGE_HEIGHT - 2, color1, color2);
+    const gaugeH = Window_PlayerBattler.GAUGE_HEIGHT;
+    this.contents.fillRect(x, y, width, gaugeH, this.gaugeBorderColor());
+    this.contents.fillRect(x + 1, y + 1, width - 2, gaugeH - 2, this.gaugeBackColor());
+    this.contents.gradientFillRect(x + 1, y + 1, fillW, gaugeH - 2, color1, color2);
 };
 
 Window_PlayerBattler.prototype.expGaugeColor1 = function() {
@@ -68,6 +70,10 @@ Window_PlayerBattler.prototype.expGaugeColor1 = function() {
 
 Window_PlayerBattler.prototype.expGaugeColor2 = function() {
     return this.textColor(0);
+};
+
+Window_PlayerBattler.prototype.gaugeBorderColor = function() {
+    return this.textColor(15);
 };
 
 global["Window_PlayerBattler"] = Window_PlayerBattler;
