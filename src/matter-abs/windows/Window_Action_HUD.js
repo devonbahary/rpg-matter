@@ -78,9 +78,47 @@ Window_Action_HUD.prototype.refresh = function() {
         this.drawBorder(x);
         this.drawIcon(iconIndex, x + this.borderThickness(), this.borderThickness());
         this.drawText(keyName, x + 4, -8);
+        this.drawActionCost(x, action);
     }
 
     this._memSerializedPlayerActionSlotMap = this.serializedPlayerActionSlotMap();
+};
+
+Window_Action_HUD.prototype.actionOpacity = function(action) {
+    if (this.playerCanUse(action)) return Window_Action_HUD.ACTIVE_OPACITY;
+    return Window_Action_HUD.INACTIVE_OPACITY;
+};
+
+Window_Action_HUD.prototype.drawBorder = function(x) {
+    const sw = this.slotWidth();
+    const sh = this.slotHeight();
+    const color = this.lineColor();
+
+    this.contents.fillRect(x, 0, sw, 2, color);
+    this.contents.fillRect(x + sw, 0, 2, sh, color);
+    this.contents.fillRect(x, sh - 2, sw, 2, color);
+    this.contents.fillRect(x, 0, 2, sh, color);
+};
+
+Window_Action_HUD.prototype.drawActionCost = function(x, action) {
+    const y = 8;
+    const width = this.slotWidth() - this.borderThickness();
+    if (this.isTpAction(action)) {
+        this.changeTextColor(this.tpCostColor());
+        this.drawText(this.battler.skillTpCost(action.object()), x, y, width, 'right');
+    } else if (this.isMpAction(action)) {
+        this.changeTextColor(this.mpCostColor());
+        this.drawText(this.battler.skillMpCost(action.object()), x, y, width, 'right');
+    }
+    this.changeTextColor(this.normalColor());
+};
+
+Window_Action_HUD.prototype.isTpAction = function(action) {
+    return this.battler.skillTpCost(action.object()) > 0;
+};
+
+Window_Action_HUD.prototype.isMpAction = function(action) {
+    return this.battler.skillMpCost(action.object()) > 0;
 };
 
 Window_Action_HUD.prototype.playerActionSlotMap = function() {
@@ -106,24 +144,8 @@ Window_Action_HUD.prototype.actionIconIndex = function(action) {
     return action.iconIndex;
 };
 
-Window_Action_HUD.prototype.actionOpacity = function(action) {
-    if (this.playerCanUse(action)) return Window_Action_HUD.ACTIVE_OPACITY;
-    return Window_Action_HUD.INACTIVE_OPACITY;
-};
-
 Window_Action_HUD.prototype.playerCanUse = function(action) {
     return action && !this.battler.hasAction() && this.battler.canUse(action.object());
-};
-
-Window_Action_HUD.prototype.drawBorder = function(x) {
-    const sw = this.slotWidth();
-    const sh = this.slotHeight();
-    const color = this.lineColor();
-
-    this.contents.fillRect(x, 0, sw, 2, color);
-    this.contents.fillRect(x + sw, 0, 2, sh, color);
-    this.contents.fillRect(x, sh - 2, sw, 2, color);
-    this.contents.fillRect(x, 0, 2, sh, color);
 };
 
 Window_Action_HUD.prototype.update = function() {
