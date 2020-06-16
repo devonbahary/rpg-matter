@@ -12,6 +12,7 @@ function noteMetaError(msg) {
 };
 
 Object.defineProperties(Game_Item.prototype, {
+    iconIndex: { get: function() { return this.object().iconIndex; }, configurable: false },
     meta: { get: function() { return this.object().meta; }, configurable: false },
 });
 

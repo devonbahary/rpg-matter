@@ -41,6 +41,18 @@ Game_Actor.prototype.initActionSlots = function() {
     this.actionSlots[1] = new Game_Item($dataSkills[this.guardSkillId()]);
 };
 
+Game_Actor.prototype.displayableActionSlotKeyMap = function() {
+    return {
+        'D': this.actionSlots[0],
+        // skip Guard intentionally
+        'S': this.actionSlots[2],
+        'A': this.actionSlots[3],
+        'Q': this.actionSlots[4],
+        'W': this.actionSlots[5],
+        'E': this.actionSlots[6],
+    }
+};
+
 Game_Actor.prototype.setActionSlot = function(index, action) {
     this.actionSlots[index] = new Game_Item(action);
 };

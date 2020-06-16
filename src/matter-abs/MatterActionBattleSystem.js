@@ -231,6 +231,7 @@ import "./sprites/Sprite_BattlerParameters";
 import "./sprites/Sprite_CharacterWeapon";
 import "./sprites/Sprite_Character";
 import "./sprites/Spriteset_Map";
+import "./windows/Window_Action_HUD";
 import "./windows/Window_PlayerBattler";
 import "./action-sequences/action-sequences";
 import { transformPluginStruct } from "../utils";
