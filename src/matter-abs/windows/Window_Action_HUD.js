@@ -10,6 +10,10 @@ function Window_Action_HUD() {
 Window_Action_HUD.prototype = Object.create(Window_Base.prototype);
 Window_Action_HUD.prototype.constructor = Window_Action_HUD;
 
+Object.defineProperties(Window_Action_HUD.prototype, {
+    battler: { get: function() { return $gamePlayer.battler; }, configurable: false },
+});
+
 Window_Action_HUD.prototype.initialize = function() {
     const width = this.windowWidth();
     const height = this.windowHeight();
@@ -80,7 +84,7 @@ Window_Action_HUD.prototype.refresh = function() {
 };
 
 Window_Action_HUD.prototype.playerActionSlotMap = function() {
-    return $gamePlayer.battler.displayableActionSlotKeyMap();
+    return this.battler.displayableActionSlotKeyMap();
 };
 
 Window_Action_HUD.prototype.serializedPlayerActionSlotMap = function() {
@@ -96,8 +100,8 @@ Window_Action_HUD.prototype.serializedPlayerActionSlotMap = function() {
 
 Window_Action_HUD.prototype.actionIconIndex = function(action) {
     if (!action) return 0;
-    if (action.isSkill() && action.itemId() === $gamePlayer.battler.attackSkillId()) {
-        if ($gamePlayer.battler.weapon) return $gamePlayer.battler.weapon.iconIndex;
+    if (action.isSkill() && action.itemId() === this.battler.attackSkillId()) {
+        if (this.battler.weapon) return this.battler.weapon.iconIndex;
     }
     return action.iconIndex;
 };
@@ -108,7 +112,7 @@ Window_Action_HUD.prototype.actionOpacity = function(action) {
 };
 
 Window_Action_HUD.prototype.playerCanUse = function(action) {
-    return action && !$gamePlayer.battler.hasAction() && $gamePlayer.battler.canUse(action.object());
+    return action && !this.battler.hasAction() && this.battler.canUse(action.object());
 };
 
 Window_Action_HUD.prototype.drawBorder = function(x) {
