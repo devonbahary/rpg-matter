@@ -49,6 +49,11 @@ const ACTION_SEQUENCES = {
         1: [ ROUTE_TURN_180D, stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), ...n(ROUTE_MOVE_BACKWARD, 15), playSe('Absorb1', 90, 150) ],
         30: [],
     },
+    BOOST: {
+        0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD) ],
+        1: APPLY_EFFECT,
+        30: [],
+    },
     GOBLIN_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
         15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
