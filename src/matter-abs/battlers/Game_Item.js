@@ -100,3 +100,12 @@ Game_Item.prototype.canGuardCancel = function() {
     if (canGuardCancel) return JSON.parse(canGuardCancel);
     return MATTER_ABS.GUARD_CANCEL_DEFAULT;
 };
+
+Game_Item.prototype.cooldown = function() {
+    const cooldown = parseInt(this.meta.cooldown);
+    if (isNaN(cooldown)) {
+        if (this.isSkill()) return MATTER_ABS.DEFAULT_COOLDOWNS.SKILLS;
+        else if (this.isItem()) return MATTER_ABS.DEFAULT_COOLDOWNS.ITEMS;    
+    }
+    return cooldown;
+};

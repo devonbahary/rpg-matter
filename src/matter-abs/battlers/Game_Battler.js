@@ -68,6 +68,7 @@ Game_Battler.prototype.applyHitStun = function(value) {
 };
 
 Game_Battler.prototype.clearAction = function() {
+    if (this._action) this.applyCooldown(this._action);
     this._action = null;
     this._actionFrame = 0;
     this._lastActionFrame = 0;

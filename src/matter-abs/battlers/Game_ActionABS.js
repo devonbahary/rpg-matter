@@ -292,4 +292,8 @@ Game_ActionABS.prototype.needsPlayerSelection = function() {
     return this.needsSelection() && this.subject().character === $gamePlayer;
 };
 
+Game_ActionABS.prototype.cooldown = function() {
+    return this._item.cooldown();
+};
+
 global["Game_ActionABS"] = Game_ActionABS;

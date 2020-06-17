@@ -115,6 +115,11 @@
  * @desc The default hit stun value for actions (in frames).
  * @type struct<ActionHitStuns>
  * 
+ * @param Default Cooldowns
+ * @parent Actions
+ * @desc The default cooldowns for actions (in frames).
+ * @type struct<ActionCooldowns>
+ * 
  * @param Dodge Skill
  * @parent Battler
  * @type skill
@@ -196,6 +201,17 @@
  * 
 */
 
+/*~struct~ActionCooldowns:
+ * @param Skills
+ * @type number
+ * @default 60
+ * 
+ * @param Items
+ * @type number
+ * @default 60
+ * 
+*/
+
 /*~struct~ActionHitStuns:
  * @param Weapons
  * @type number
@@ -260,6 +276,10 @@ export default {
     ),
     DEFAULT_RANGES: transformPluginStruct(
         PluginManager.parameters('MatterActionBattleSystem')["Default Ranges"],
+        capitalizeKeyAndNumberValue,
+    ),
+    DEFAULT_COOLDOWNS: transformPluginStruct(
+        PluginManager.parameters('MatterActionBattleSystem')["Default Cooldowns"],
         capitalizeKeyAndNumberValue,
     ),
     DEFAULT_WEAPON_FORCE: Number(PluginManager.parameters('MatterActionBattleSystem')["Default Weapon Force"]),

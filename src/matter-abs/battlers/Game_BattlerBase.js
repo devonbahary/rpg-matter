@@ -19,6 +19,7 @@ Game_BattlerBase.prototype.initMembers = function() {
     this.resetAggro();
     this.initHitStun();
     this.initHitStop();
+    this.resetCooldowns();
     this._isInPostDeathProcessing = false;
 };
 
@@ -32,6 +33,22 @@ Game_BattlerBase.prototype.initHitStop = function() {
     this._hitStop = 0; 
     this._hitStopCallbacks = null;
     this._isHitStopTarget = false;
+};
+
+Game_BattlerBase.prototype.resetCooldowns = function() {
+    this._skillCooldowns = {};
+    this._itemCooldowns = {};
+};
+
+Game_BattlerBase.prototype.actionCooldown = function(dataItem) {
+    if (DataManager.isSkill(dataItem)) return this._skillCooldowns[dataItem.id];
+    else if (DataManager.isItem(dataItem)) return this._itemCooldowns[dataItem.id];
+    return 0;
+};
+
+const _Game_BattlerBase_meetsUsableItemConditions = Game_BattlerBase.prototype.meetsUsableItemConditions;
+Game_BattlerBase.prototype.meetsUsableItemConditions = function(dataItem) {
+    return _Game_BattlerBase_meetsUsableItemConditions.call(this, dataItem) && !this.actionCooldown(dataItem);
 };
 
 Game_BattlerBase.prototype.hitStunResist = function() {
@@ -55,6 +72,7 @@ Game_BattlerBase.prototype.update = function() {
 
 Game_BattlerBase.prototype.updateActive = function() {
     this.updateHitStun();
+    this.updateCooldowns();
     this.onTurnEnd();
 };
 
@@ -70,6 +88,30 @@ Game_BattlerBase.prototype.updateHitStop = function() {
 Game_BattlerBase.prototype.updateHitStun = function() {
     if (this._hitStun) this._hitStun--;
 }
+
+Game_BattlerBase.prototype.updateCooldowns = function() {
+    this.updateCooldown(this._skillCooldowns);
+    this.updateCooldown(this._itemCooldowns);
+};
+
+Game_BattlerBase.prototype.updateCooldown = function(cooldowns) {
+    for (const itemId of Object.keys(cooldowns)) {
+        if (cooldowns[itemId]) cooldowns[itemId]--;
+        if (cooldowns[itemId] <= 0) delete cooldowns[itemId];
+    }
+};
+
+Game_BattlerBase.prototype.applyCooldown = function(action) {
+    const cooldown = action.cooldown();
+    if (!cooldown) return;
+    
+    const dataItem = action.item();
+    if (DataManager.isSkill(dataItem)) {
+        this._skillCooldowns[dataItem.id] = cooldown;
+    } else if (DataManager.isItem(dataItem)) {
+        this._itemCooldowns[dataItem.id] = cooldown;
+    }
+};
 
 Game_BattlerBase.prototype.applyHitStun = function(value) {
     // can't be stunned and result in being stunned for less than an already active stun
