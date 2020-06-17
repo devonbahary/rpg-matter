@@ -183,12 +183,6 @@ Game_Map.prototype.removeBody = function(body) {
     World.remove(this.engine.world, body);
 };
 
-Game_Map.prototype.terminate = function() {
-    Engine.clear(this.engine);
-    Events.off(this.engine);
-    this.disposeMatterRender();
-};
-
 Game_Map.prototype.findPath = function(startPos, endPos, forCharacter, limit) {
     return getPathTo.call(this, startPos, endPos, forCharacter, limit);
 };

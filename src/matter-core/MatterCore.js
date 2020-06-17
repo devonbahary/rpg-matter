@@ -167,12 +167,6 @@ import './rpg-objects/Game_Map';
 import './rpg-objects/Game_Temp';
 import './matter/Pair';
 
-const _Scene_Map_terminate = Scene_Map.prototype.terminate;
-Scene_Map.prototype.terminate = function() {
-  _Scene_Map_terminate.call(this);
-  $gameMap.terminate();
-};
-
 //-----------------------------------------------------------------------------
 // Scene_Boot
 //
