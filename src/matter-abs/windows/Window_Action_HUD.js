@@ -3,6 +3,8 @@
 //
 // The window for displaying action slots.
 
+import { updateShow } from "./util";
+
 function Window_Action_HUD() {
     this.initialize.apply(this, arguments);
 }
@@ -168,8 +170,13 @@ Window_Action_HUD.prototype.playerCanUse = function(action) {
 };
 
 Window_Action_HUD.prototype.update = function() {
+    this.updateShow();
     Window_Base.prototype.update.call(this);
     if (this.shouldRefresh()) this.refresh();
+};
+
+Window_Action_HUD.prototype.updateShow = function() {
+    updateShow.call(this);
 };
 
 Window_Action_HUD.prototype.shouldRefresh = function() {

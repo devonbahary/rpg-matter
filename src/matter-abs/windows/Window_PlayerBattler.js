@@ -3,6 +3,8 @@
 //
 // The window for displaying the player battler.
 
+import { updateShow } from "./util";
+
 function Window_PlayerBattler() {
     this.initialize.apply(this, arguments);
 }
@@ -33,7 +35,13 @@ Window_PlayerBattler.prototype.windowHeight = function() {
 };
 
 Window_PlayerBattler.prototype.update = function() {
+    this.updateShow();
+    Window_Base.prototype.update.call(this);
     this.refresh();
+};
+
+Window_PlayerBattler.prototype.updateShow = function() {
+    updateShow.call(this);
 };
 
 Window_PlayerBattler.prototype.refresh = function() {
