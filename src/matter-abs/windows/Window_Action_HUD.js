@@ -109,6 +109,9 @@ Window_Action_HUD.prototype.drawActionCost = function(x, action) {
     } else if (this.isMpAction(action)) {
         this.changeTextColor(this.mpCostColor());
         this.drawText(this.battler.skillMpCost(action.object()), x, y, width, 'right');
+    } else if (this.isItemAction(action)) {
+        const numItems = $gameParty.numItems(action.object());
+        if (numItems) this.drawText(numItems, x, y, width, 'right');
     }
     this.changeTextColor(this.normalColor());
 };
@@ -119,6 +122,10 @@ Window_Action_HUD.prototype.isTpAction = function(action) {
 
 Window_Action_HUD.prototype.isMpAction = function(action) {
     return this.battler.skillMpCost(action.object()) > 0;
+};
+
+Window_Action_HUD.prototype.isItemAction = function(action) {
+    return DataManager.isItem(action.object());
 };
 
 Window_Action_HUD.prototype.playerActionSlotMap = function() {
