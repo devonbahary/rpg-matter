@@ -37,3 +37,17 @@ export function squareInFrontOf(range = 1) {
         },
     };
 };
+
+export function squareAround(range = 1) {
+    const d = range / 2;
+    return {
+        min: {
+            x: this.x - d,
+            y: this.y - d,
+        },
+        max: {
+            x: this.x + d,
+            y: this.y + d,
+        },
+    };
+};

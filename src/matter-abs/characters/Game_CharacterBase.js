@@ -4,7 +4,7 @@
 // The superclass of Game_Character. It handles basic information, such as
 // coordinates and images, shared by all characters.
 
-import { squareInFrontOf } from "./utils";
+import { squareInFrontOf, squareAround } from "./utils";
 
 const _Game_CharacterBase_initMembers = Game_CharacterBase.prototype.initMembers;
 Game_CharacterBase.prototype.initMembers = function() {
@@ -41,6 +41,10 @@ Game_CharacterBase.prototype.endWeaponAnimation = function() {
 
 Game_CharacterBase.prototype.squareInFrontOf = function(range) {
     return squareInFrontOf.call(this, range);
+};
+
+Game_CharacterBase.prototype.squareAround = function(range) {
+    return squareAround.call(this, range);
 };
 
 Game_CharacterBase.prototype.addToScene = function() {

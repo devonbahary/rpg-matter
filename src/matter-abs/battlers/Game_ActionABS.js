@@ -5,6 +5,7 @@
 
 import { vectorFromAToB, vectorResize } from "../../matter-core/utils/vector";
 import MATTER_ABS from "../MatterActionBattleSystem";
+import { AOE_TYPES } from "../constants";
 
 function Game_ActionABS() {
     this.initialize.apply(this, arguments);
@@ -197,8 +198,7 @@ Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
 Game_ActionABS.prototype.determineTargets = function() {
     if (this.isForUser()) return [ this._subject ];
 
-    const bounds = this._subjectCharacter.squareInFrontOf(this.range());
-    const battlersInRange = $gameMap.battlersInBoundingBox(bounds);
+    const battlersInRange = this.battlersInRange();
 
     if (this.isForOpponent()) {
         return battlersInRange.filter(battler => !this._subject.isFriendWith(battler) && battler.isAlive());
@@ -207,6 +207,26 @@ Game_ActionABS.prototype.determineTargets = function() {
     }
 
     return battlersInRange;
+};
+
+Game_ActionABS.prototype.battlersInRange = function() {
+    let bounds;
+    switch (this.aoe()) {
+        case AOE_TYPES.RADIUS:
+            bounds = this._subjectCharacter.squareAround(this.range());
+            const battlers = $gameMap.battlersInBoundingBox(bounds);
+            return battlers.filter(b => {
+                return b.character.distanceBetween(this.subject().character) <= this.range();
+            });
+        case AOE_TYPES.SQUARE: 
+        default:
+            bounds = this._subjectCharacter.squareInFrontOf(this.range());
+            return $gameMap.battlersInBoundingBox(bounds);
+    }
+};
+
+Game_ActionABS.prototype.aoe = function() {
+    return this._item.aoe();
 };
 
 Game_ActionABS.prototype.isChanneled = function() {

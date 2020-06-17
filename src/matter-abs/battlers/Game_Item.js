@@ -6,6 +6,7 @@
 
 import MATTER_ABS from "../MatterActionBattleSystem";
 import ACTION_SEQUENCES from "../action-sequences/action-sequences";
+import { AOE_TYPES } from "../constants";
 
 function noteMetaError(msg) {
     throw new Error(`${msg} for ${this.isSkill() ? 'skill' : 'item'} ID ${this._itemId}`);
@@ -70,6 +71,14 @@ Game_Item.prototype.hitStopZoomScale = function() {
 Game_Item.prototype.isChanneled = function() {
     const isChanneled = this.meta.channeled;
     return isChanneled ? JSON.parse(isChanneled) : false;
+};
+
+Game_Item.prototype.aoe = function() {
+    const aoe = this.meta.aoe || '';
+    const regex = new RegExp(`${Object.values(AOE_TYPES).join('|')}`, 'i');
+    const aoeMatch = aoe.match(regex);
+    if (aoeMatch) return aoeMatch[0].toLowerCase();
+    return AOE_TYPES.SQUARE;
 };
 
 Game_Item.prototype.isSameAs = function(gameItem) {
