@@ -77,6 +77,11 @@ const ACTION_SEQUENCES = {
         10: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), CREATE_PROJECTILE, playSe('Fire1') ],
         60: []
     },
+    SPARK: {
+        1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.GUARD) ],
+        10: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), APPLY_EFFECT ],
+        60: []
+    },
 };
 
 export default convertActionSequencesToCommands(ACTION_SEQUENCES);
