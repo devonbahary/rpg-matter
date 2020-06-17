@@ -80,8 +80,10 @@ Game_Character.prototype.shouldUpdatePattern = function() {
 const _Game_Character_update = Game_Character.prototype.update;
 Game_Character.prototype.update = function() {
     this.updateHitStun();
-    this.updateHitStop();
-    this.updateActionSequence();
+    if (!$gameMessage.isBusy()) {
+        this.updateHitStop();
+        this.updateActionSequence();
+    }
     _Game_Character_update.call(this);
 };
 

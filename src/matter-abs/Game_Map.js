@@ -17,7 +17,7 @@ Game_Map.prototype.setup = function(mapId) {
 const _Game_Map_update = Game_Map.prototype.update;
 Game_Map.prototype.update = function(sceneActive) {
     _Game_Map_update.call(this, sceneActive);
-    if (!sceneActive || this.isSelectionMode) return;
+    if (!sceneActive || this.isSelectionMode || this.isEventRunning() || $gameMessage.isBusy()) return;
     this.updateUnits();
     this.updateHitStopZoom();
 };
