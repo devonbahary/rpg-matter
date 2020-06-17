@@ -217,7 +217,7 @@ Game_ActionABS.prototype.battlersInRange = function() {
             bounds = this._subjectCharacter.squareAround(this.range());
             const battlers = $gameMap.battlersInBoundingBox(bounds);
             return battlers.filter(b => {
-                return b.character.distanceBetween(this.subject().character) <= this.range();
+                return b.character.distanceBetween(this._subjectCharacter) <= this.range();
             });
         case AOE_TYPES.SQUARE: 
         default:
