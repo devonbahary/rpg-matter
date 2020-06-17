@@ -69,58 +69,60 @@ Game_ActionABS.prototype.apply = function(target) {
     
     if (!targets.length && this.isPhysical()) return this.playMissSe();
 
-    if (this.item().damage.type > 0) {
-        for (const target of targets) {
-            const critical = (Math.random() < this.itemCri(target));
-
-            const value = this.makeDamageValue(target, critical);
-
-            const subjectEffectCallbacks = this.subjectEffectCallbacks(target);
-            const targetEffectCallbacks = this.targetEffectCallbacks(target, value);
-            
-            if (target.isGuard()) {
-                target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
-            } else {
-                target.character.requestAnimation(this.animationId());
-            }
-
-            this.executeDamage(target, value);
-            target.gainAggro(this._subject, value + this.hitStun(target));
-            
-            const hitStop = this.hitStop(critical);
-
-            if (hitStop) {
-                this._subject.applyHitStop(hitStop, subjectEffectCallbacks);
-                target.applyHitStop(hitStop, targetEffectCallbacks, true);
-                $gameMap.setHitStopZoomTarget(target.character, this.hitStopZoomScale());
-            } else {
-                for (const cb of subjectEffectCallbacks) cb();
-                for (const cb of targetEffectCallbacks) cb();
-            }
-        }
-    }
-    
     for (const target of targets) {
-        this.item().effects.forEach(function(effect) {
+        let isCritical, value = 0;
+        if (this.item().damage.type > 0) {
+            isCritical = Math.random() < this.itemCri(target);
+            value = this.makeDamageValue(target, isCritical);
+        }
+    
+        const subjectEffectCallbacks = this.subjectEffectCallbacks(target);
+        const targetEffectCallbacks = this.targetEffectCallbacks(target, value);
+        
+        if (this.isForOpponent() && target.isGuard()) {
+            target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
+        } else {
+            target.character.requestAnimation(this.animationId());
+        }
+
+        this.executeDamage(target, value);
+        target.gainAggro(this._subject, value + this.hitStun(target));
+        
+        const hitStop = this.hitStop(isCritical);
+
+        if (hitStop) {
+            this._subject.applyHitStop(hitStop, subjectEffectCallbacks);
+            target.applyHitStop(hitStop, targetEffectCallbacks, true);
+            $gameMap.setHitStopZoomTarget(target.character, this.hitStopZoomScale());
+        } else {
+            for (const cb of subjectEffectCallbacks) cb();
+            for (const cb of targetEffectCallbacks) cb();
+        }
+
+        for (const effect of this.item().effects) {
             this.applyItemEffect(target, effect);
-        }, this);
+        }
         this.applyItemUserEffect(target); // TODO: do we want to apply item user effect for EACH target affected?
     }
 };
 
 Game_ActionABS.prototype.subjectEffectCallbacks = function(target) {
-    if (!target.isGuard()) return [];
+    if (!this.shouldApplyGuardedEffects(target)) return [];
     return [
         () => this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]),
     ];
 };
 
+Game_ActionABS.prototype.shouldApplyGuardedEffects = function(target) {
+    return this.isForOpponent() && target.isGuard();
+};
+
 Game_ActionABS.prototype.targetEffectCallbacks = function(target, value) {
     const isPlayer = target.character === $gamePlayer;
-    const isGuard = target.isGuard();
+    const isTargetGuarded = target.isGuard();
     return [
         () => isPlayer ? this.onPlayerDamage(value) : null,
-        () => !isGuard ? this.applyForce(target) : null, 
+        () => !isTargetGuarded ? this.applyForce(target) : null, 
         () => target.applyHitStun(this.hitStun(target)),
     ];
 };
@@ -136,9 +138,9 @@ Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
     return Math.round(damage / (damage > 0 && target.isGuard() ? 2 * target.grd : 1)); // from Game_Action.applyGuard()
 };
 
-Game_ActionABS.prototype.hitStop = function(critical) {
+Game_ActionABS.prototype.hitStop = function(isCritical) {
     const baseHitStop = this._item.hitStop();
-    if (critical) return baseHitStop + MATTER_ABS.CRITICAL_HIT_STOP;
+    if (isCritical) return baseHitStop + MATTER_ABS.CRITICAL_HIT_STOP;
     return baseHitStop;
 };
 
@@ -266,6 +268,12 @@ Game_ActionABS.prototype.onPlayerDamage = function(value) {
 
     const color = [ 255, 0, 0, 255 * intensity ];
     $gameScreen.startFlash(color, duration);
+};
+
+Game_ActionABS.prototype.itemEffectRecoverHp = function(target, effect) {
+    const prevTargetHp = target.hp;
+    Game_Action.prototype.itemEffectRecoverHp.call(this, target, effect);
+    target.setLatestDamageForGauge(prevTargetHp - target.hp, this.latestDamageForGaugeDuration());
 };
 
 Game_ActionABS.prototype.projectileCharacter = function() {
