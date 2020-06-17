@@ -5,6 +5,7 @@
 // included.
 
 Object.defineProperties(Game_Party.prototype, {
+    isInAction: { get: function() { return this.members().some(m => m.hasAction()); }, configurable: false },
     isInBattle: { get: function() { return this.hasAggro(); }, configurable: false },
 });
 
