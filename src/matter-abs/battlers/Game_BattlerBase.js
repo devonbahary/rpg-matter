@@ -55,7 +55,7 @@ Game_BattlerBase.prototype.update = function() {
 
 Game_BattlerBase.prototype.updateActive = function() {
     this.updateHitStun();
-    this.onTurnEnd()
+    this.onTurnEnd();
 };
 
 Game_BattlerBase.prototype.updateHitStop = function() {
