@@ -158,7 +158,11 @@ Game_Map.prototype.update = function(sceneActive) {
 
 Game_Map.prototype.updateEngine = function(sceneActive) {
     this.updateEngineTiming();
-    if (sceneActive) Engine.update(this.engine);
+    if (this.shouldUpdateEngine(sceneActive)) Engine.update(this.engine);
+};
+
+Game_Map.prototype.shouldUpdateEngine = function(sceneActive) {
+    return sceneActive;
 };
 
 Game_Map.prototype.updateEngineTiming = function() {

@@ -20,9 +20,21 @@ Sprite_Character.prototype.initMembers = function() {
 
 const _Sprite_Character_update = Sprite_Character.prototype.update;
 Sprite_Character.prototype.update = function() {
+    this.updateTargetSelection();
     this.updateHitStunShake();
     _Sprite_Character_update.call(this);
     if (this._battler) this.updateEffect();
+};
+
+Sprite_Character.prototype.updateTargetSelection = function() {
+    if (!$gamePlayer.targetSelection || $gamePlayer.targetSelection.character !== this._character) return;
+    this.updateTargetSelectionEffect();
+};
+
+Sprite_Character.prototype.updateTargetSelectionEffect = function() {
+    if (this.isEffecting()) return;
+    this._effectType = 'whiten';
+    this.startWhiten();
 };
 
 Sprite_Character.prototype.updateHitStunShake = function() {
@@ -107,6 +119,10 @@ Sprite_Character.prototype.startBossCollapse = function() {
 
 Sprite_Character.prototype.startInstantCollapse = function() {
     Sprite_Enemy.prototype.startInstantCollapse.call(this);
+};
+
+Sprite_Character.prototype.isEffecting = function() {
+    return Sprite_Enemy.prototype.isEffecting.call(this);
 };
 
 Sprite_Character.prototype.updateEffect = function() {

@@ -59,6 +59,12 @@ Game_Character.prototype.stepLock = function(lock) {
 
 Game_Character.prototype.applyEffect = function() {
     if (!this.battler) return;
+  
+    if (this.battler.currentAction().needsPlayerSelection()) {
+        const targets = this.battler.currentAction().determineTargets();
+        if (targets.length) return this.startPlayerSelection(targets);
+    }
+    
     this.battler.currentAction().apply();
 };
 

@@ -18,6 +18,7 @@ Number.prototype.isInRange = function(min, max) {
 
 Input.keyMapper = {
     ...Input.keyMapper,
+    9: 'tab',       // tab
     65: 'A',        // A
     67: 'C',        // C
     68: 'D',        // D
@@ -67,3 +68,7 @@ Input.isDoubleTapped = function(keyName) {
     const timeDiff = Date.now() - this._keyPressTimestamps[keyName];
     return timeDiff > Input.DOUBLE_TAP_THRESHOLD_MIN && timeDiff < Input.DOUBLE_TAP_THRESHOLD_MAX;
 };
+
+window.addEventListener('keydown', event => {
+    if (event.key === 'Tab') event.preventDefault();
+});

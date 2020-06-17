@@ -64,8 +64,9 @@ Game_ActionABS.prototype.actionSequenceLength = function() {
     }, 0);
 };
 
-Game_ActionABS.prototype.apply = function() {
-    const targets = this.determineTargets();
+Game_ActionABS.prototype.apply = function(target) {
+    const targets = target ? [ target ] : this.determineTargets();
+    
     if (!targets.length && this.isPhysical()) return this.playMissSe();
 
     if (this.item().damage.type > 0) {
@@ -277,6 +278,10 @@ Game_ActionABS.prototype.hasProjectile = function() {
 
 Game_ActionABS.prototype.projectileForce = function() {
     return this._item.projectileForce();
+};
+
+Game_ActionABS.prototype.needsPlayerSelection = function() {
+    return this.needsSelection() && this.subject().character === $gamePlayer;
 };
 
 global["Game_ActionABS"] = Game_ActionABS;

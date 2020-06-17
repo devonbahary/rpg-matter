@@ -225,6 +225,7 @@ import "./characters/Game_Projectile";
 import "./characters/Game_Player";
 import "./characters/Game_Event";
 import "./Game_Map";
+import "./Game_Screen";
 import "./scenes/Scene_Map";
 import "./sprites/Sprite_Animation";
 import "./sprites/Sprite_BattlerParameters";

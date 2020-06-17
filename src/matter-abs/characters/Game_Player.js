@@ -6,6 +6,29 @@
 
 import MATTER_ABS from "../MatterActionBattleSystem";
 
+Object.defineProperties(Game_Player.prototype, {
+    targetSelection: { get: function() { return this._targetSelectionTargets[this._targetSelectionIndex]; }, configurable: false },
+});
+
+const _Game_Player_initMembers = Game_Player.prototype.initMembers;
+Game_Player.prototype.initMembers = function() {
+    _Game_Player_initMembers.call(this);
+    this.clearTargetSelection();
+};
+
+Game_Player.prototype.setTargetSelectionTargets = function(targets, applyCallback) {
+    this.playTargetSelectionSe();
+    this._targetSelectionTargets = targets.sort((a, b) => a.character.distanceFrom(this) - b.character.distanceFrom(this));
+    this._targetSelectionApplyCallback = applyCallback;
+    this._targetSelectionIndex = 0;
+};
+
+Game_Player.prototype.clearTargetSelection = function() {
+    this._targetSelectionTargets = [];
+    this._targetSelectionApplyCallback = null;
+    this._targetSelectionIndex = 0;
+};
+
 const _Game_Player_refresh = Game_Player.prototype.refresh;
 Game_Player.prototype.refresh = function() {
     _Game_Player_refresh.call(this);
@@ -14,6 +37,31 @@ Game_Player.prototype.refresh = function() {
     const leader = $gameParty.leader();
     this.setBattler(leader);
     if (leader) $gameParty.addBattler(leader);
+};
+
+const _Game_Player_update = Game_Player.prototype.update;
+Game_Player.prototype.update = function(sceneActive) {
+    if ($gameMap.isSelectionMode) return this.updateSelection();
+    _Game_Player_update.call(this, sceneActive);
+};
+
+Game_Player.prototype.updateSelection = function() {
+    if (Input.isTriggered('tab')) {
+        this.playTargetSelectionSe();
+        let nextTargetIndex = this._targetSelectionIndex + 1;
+        if (nextTargetIndex >= this._targetSelectionTargets.length) nextTargetIndex = 0;
+        this._targetSelectionIndex = nextTargetIndex;
+    } else if (Input.isTriggered('ok')) {
+        this.playTargetSelectionSe();
+        this.turnTowardCharacter(this.targetSelection.character);
+        $gameMap.setSelectionMode(false);
+        this._targetSelectionApplyCallback(this.targetSelection);
+        this.clearTargetSelection();
+    } 
+};
+
+Game_Player.prototype.playTargetSelectionSe = function() {
+    SoundManager.playCursor();
 };
 
 const _Game_Player_moveByInput = Game_Player.prototype.moveByInput;
@@ -90,4 +138,9 @@ Game_Player.prototype.updateChanneledActionForKeyName = function(keyName) {
     if (action.isSameAs(this.battler.currentAction()._item) && !Input.isPressed(keyName)) {
         this.battler.clearAction();
     }
+};
+
+Game_Player.prototype.startPlayerSelection = function(targets) {
+    this.setTargetSelectionTargets(targets, target => this.battler.currentAction().apply(target));
+    $gameMap.setSelectionMode(true);
 };
