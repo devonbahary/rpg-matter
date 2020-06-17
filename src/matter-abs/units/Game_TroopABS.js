@@ -44,3 +44,7 @@ Game_TroopABS.prototype.removeEnemy = function(battler) {
     this.removeBattler(battler);
     this._enemies = this._enemies.filter(e => e.id !== battler.id);
 };
+
+Game_TroopABS.prototype.opponentsUnit = function() {
+    return $gameParty;
+};

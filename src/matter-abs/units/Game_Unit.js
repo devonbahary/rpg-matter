@@ -24,3 +24,10 @@ Game_Unit.prototype.addBattler = function(battler) {
 Game_Unit.prototype.removeBattler = function(battler) {
     delete this._idToBattlerMap[battler.id];
 };
+
+Game_Unit.prototype.opponentsUnit = function() {
+};
+
+Game_Unit.prototype.hasAggro = function() {
+    return this.opponentsUnit().members().some(m => m.hasAggro());
+};

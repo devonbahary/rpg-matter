@@ -3,6 +3,7 @@
 //
 // The superclass of Game_Battler. It mainly contains parameters calculation.
 
+import { size } from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
 Object.defineProperties(Game_BattlerBase.prototype, {
@@ -103,6 +104,10 @@ Game_BattlerBase.prototype.gainAggro = function(battler, value) {
     const val = battler.agr * value;
     if (!this._aggro[battler.id]) this._aggro[battler.id] = val;
     this._aggro[battler.id] += val;
+};
+
+Game_BattlerBase.prototype.hasAggro = function() {  
+    return size(this._aggro);
 };
 
 Game_BattlerBase.prototype.clearBattlerAggro = function(battler) {

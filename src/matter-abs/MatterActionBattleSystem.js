@@ -172,6 +172,15 @@
  * @type number
  * @default 0
  * @min 0 
+ * 
+ * @param Battle
+ * 
+ * @param Allow Menu During Battle
+ * @parent Battle
+ * @desc Allow menu access while an enemy has aggro towards a party member.
+ * @type boolean
+ * @default true
+ *
 */
 
 /*~struct~ActionRanges:
@@ -273,4 +282,5 @@ export default {
     DEFAULT_ACTOR_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Actor Hit Stun Resist"]),
     DEFAULT_ENEMY_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Enemy Hit Stun Resist"]),
     HIT_STUN_RESIST_GUARD_ONLY_ETYPE_IDS: JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Hit Stun Resist Guard EtypeIds"]).map(etypeId => Number(etypeId)),
+    ALLOW_MENU_DURING_BATTLE: JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Allow Menu During Battle"]),
 };
