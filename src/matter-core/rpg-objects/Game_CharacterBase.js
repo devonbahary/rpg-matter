@@ -193,6 +193,7 @@ Game_CharacterBase.prototype.setDirection = function(d) {
     if (this.isDirectionFixed() || !d) return; // overwrite; used to set _direction
     this.resetStopCount();
     Body.setAngle(this.body, getAngleFromDirection(d));
+    this._heading = d;
 };
 
 Game_CharacterBase.prototype.screenX = function() {
