@@ -24,7 +24,7 @@ Game_Item.prototype.actionSequence = function() {
     } else if (actionKey && !ACTION_SEQUENCES[actionKey]) {
         return noteMetaError.call(this, `could not find action sequence key '${actionKey}'`);
     }
-    return this.isSkill() ? ACTION_SEQUENCES["DEFAULT"] : null;
+    return ACTION_SEQUENCES["DEFAULT"];
 };
 
 Game_Item.prototype.forceMagnitude = function() {
