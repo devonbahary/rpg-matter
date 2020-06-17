@@ -76,6 +76,7 @@ Window_Action_HUD.prototype.refresh = function() {
         const iconIndex = this.actionIconIndex(action);
 
         this.drawBorder(x);
+        this.drawCooldown(x, action);
         this.drawIcon(iconIndex, x + this.borderThickness(), this.borderThickness());
         this.drawText(keyName, x + 4, -8);
         this.drawActionCost(x, action);
@@ -99,6 +100,14 @@ Window_Action_HUD.prototype.drawBorder = function(x) {
     this.contents.fillRect(x + sw, 0, bt, sh, color);
     this.contents.fillRect(x, sh - bt, sw, bt, color);
     this.contents.fillRect(x, 0, bt, sh, color);
+};
+
+Window_Action_HUD.prototype.drawCooldown = function(x, action) {
+    const bt = this.borderThickness();
+    const cooldownRate = this.battler.cooldownRate(action);
+    if (cooldownRate === 1) return;
+    const width = cooldownRate * (this.slotWidth() - bt)
+    this.contents.fillRect(x + bt, bt, width, this.slotHeight() - bt * 2, this.normalColor());
 };
 
 Window_Action_HUD.prototype.drawActionCost = function(x, action) {
@@ -139,6 +148,7 @@ Window_Action_HUD.prototype.serializedPlayerActionSlotMap = function() {
         acc[keyName] = {
             canUse: this.playerCanUse(action),
             iconIndex: this.actionIconIndex(action),
+            cooldownRate: this.battler.cooldownRate(action),
         };
         return acc;
     }, {});
