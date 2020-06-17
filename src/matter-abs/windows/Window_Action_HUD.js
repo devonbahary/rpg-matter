@@ -93,11 +93,12 @@ Window_Action_HUD.prototype.drawBorder = function(x) {
     const sw = this.slotWidth();
     const sh = this.slotHeight();
     const color = this.lineColor();
+    const bt = this.borderThickness();
 
-    this.contents.fillRect(x, 0, sw, 2, color);
-    this.contents.fillRect(x + sw, 0, 2, sh, color);
-    this.contents.fillRect(x, sh - 2, sw, 2, color);
-    this.contents.fillRect(x, 0, 2, sh, color);
+    this.contents.fillRect(x, 0, sw, bt, color);
+    this.contents.fillRect(x + sw, 0, bt, sh, color);
+    this.contents.fillRect(x, sh - bt, sw, bt, color);
+    this.contents.fillRect(x, 0, bt, sh, color);
 };
 
 Window_Action_HUD.prototype.drawActionCost = function(x, action) {
@@ -134,6 +135,7 @@ Window_Action_HUD.prototype.playerActionSlotMap = function() {
 
 Window_Action_HUD.prototype.serializedPlayerActionSlotMap = function() {
     const minimizedActionSlotMap = Object.entries(this.playerActionSlotMap()).reduce((acc, [ keyName, action ]) => {
+        if (!action) return acc;
         acc[keyName] = {
             canUse: this.playerCanUse(action),
             iconIndex: this.actionIconIndex(action),
