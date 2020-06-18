@@ -50,9 +50,9 @@ const ACTION_SEQUENCES = {
         30: [],
     },
     BOOST: {
-        0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD) ],
+        0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD), playSe('Powerup', 90, 150) ],
         1: APPLY_EFFECT,
-        30: [],
+        15: [],
     },
     GOBLIN_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
