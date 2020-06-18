@@ -38,8 +38,12 @@ Game_Battler.prototype.updatePostDeathProcessing = function() {
     if (!this._effectType) {
         this.performCollapse();
     } else if (this._effectTypeFulfilled) {
-        this._isInPostDeathProcessing = false;
+        this.onEndDeathProcessing();
     }
+};
+
+Game_Battler.prototype.onEndDeathProcessing = function() {
+    this._isInPostDeathProcessing = false;
 };
 
 Game_Battler.prototype.hitStunResist = function() {

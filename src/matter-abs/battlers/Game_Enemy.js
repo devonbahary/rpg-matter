@@ -42,9 +42,8 @@ Game_Enemy.prototype.isEventErasable = function() {
     return !this._isInPostDeathProcessing;
 };
 
-const _Game_Enemy_die = Game_Enemy.prototype.die;
-Game_Enemy.prototype.die = function() {
-    _Game_Enemy_die.call(this);
+Game_Enemy.prototype.onEndDeathProcessing = function() {
+    Game_Battler.prototype.onEndDeathProcessing.call(this);
     this.yieldRewards();
 };
 
