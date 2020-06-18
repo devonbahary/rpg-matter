@@ -129,7 +129,7 @@ Game_Battler.prototype.actionSequenceCommandsThisFrame = function() {
 
         let frame = i;
         if (this.isChanneling()) {
-            frame = (i % this._action.actionSequenceLength()); // cycle frames
+            frame = i % this._action.actionSequenceLength() || 1; // cycle frames
             if (this._action.actionSequenceLength() === 1) frame = 1; // overcome 0 % 1 === 1 % 1 === 0 (never reaches 1)
         }
         
