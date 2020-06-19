@@ -48,19 +48,13 @@ Window_Action_HUD.prototype.slotGap = function() {
 };
 
 Window_Action_HUD.prototype.windowWidth = function() {
-    return this.slotWidth() * Window_Action_HUD.NUM_SLOTS + this.slotGap() * (Window_Action_HUD.NUM_SLOTS) + this.standardPadding() * 2;
+    const slotWidth = this.slotWidth() * Window_Action_HUD.NUM_SLOTS;
+    const gapWidth = this.slotGap() * (Window_Action_HUD.NUM_SLOTS - 1);
+    return slotWidth + gapWidth + this.standardPadding() * 2;
 };
 
 Window_Action_HUD.prototype.windowHeight = function() {
     return this.slotHeight() + this.standardPadding() * 2;
-};
-
-Window_Action_HUD.prototype.contentsWidth = function() {
-    return this.width;
-};
-
-Window_Action_HUD.prototype.contentsHeight = function() {
-    return this.height;
 };
 
 Window_Action_HUD.prototype.refresh = function() {
@@ -99,7 +93,7 @@ Window_Action_HUD.prototype.drawBorder = function(x) {
     const bt = this.borderThickness();
 
     this.contents.fillRect(x, 0, sw, bt, color);
-    this.contents.fillRect(x + sw, 0, bt, sh, color);
+    this.contents.fillRect(x + sw - bt, 0, bt, sh, color);
     this.contents.fillRect(x, sh - bt, sw, bt, color);
     this.contents.fillRect(x, 0, bt, sh, color);
 };
