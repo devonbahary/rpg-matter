@@ -54,5 +54,5 @@ Game_CharacterBase.prototype.addToScene = function() {
 
 Game_CharacterBase.prototype.removeFromScene = function() {
     SceneManager._scene._spriteset.removeCharacterFromTilemap(this);
-    $gameMap.removeBody(this.body);
+    $gameMap.removeDynamicCharacter(this);
 };

@@ -144,6 +144,11 @@ Game_Map.prototype.addDynamicCharacter = function(character) {
     this._dynamicCharacters.push(character);
 };
 
+Game_Map.prototype.removeDynamicCharacter = function(character) {
+    this.characterBodies = this.characterBodies.filter(characterBody => characterBody !== character.characterBody);
+    this.removeBody(character.body);
+};
+
 const _Game_Map_tileId = Game_Map.prototype.tileId;
 Game_Map.prototype.tileId = function(x, y, z) {
     return _Game_Map_tileId.call(this, Math.floor(x), Math.floor(y), z);
