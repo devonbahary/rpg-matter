@@ -80,7 +80,7 @@ const ACTION_SEQUENCES = {
     FIRE: {
         1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.GUARD) ],
         10: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), CREATE_PROJECTILE, playSe('Fire1') ],
-        60: []
+        30: []
     },
     SPARK: {
         1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.GUARD) ],
