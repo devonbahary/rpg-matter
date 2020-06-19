@@ -206,4 +206,6 @@ Game_Character.prototype.createProjectile = function() {
     projectileCharacter.setInFrontOfCharacter(this);
     projectileCharacter.addToScene();
     projectileCharacter.start();
+
+    this.battler.currentAction().setHasAppliedEffect(true);
 };

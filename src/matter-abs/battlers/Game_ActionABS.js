@@ -40,6 +40,7 @@ Game_ActionABS.prototype.initialize = function(subject, action) {
     this._subjectCharacter = subject.character; // sometimes a projectile of subject and not the subject character
     this._item = new Game_Item();
     this._item.setObject(action);
+    this._hasAppliedEffect = false;
 };
 
 Game_ActionABS.BASE_FORCE_MULT = 1 / 16; 
@@ -50,6 +51,10 @@ Game_ActionABS.prototype.subject = function() {
 
 Game_ActionABS.prototype.setSubjectCharacter = function(character) {
     return this._subjectCharacter = character;
+};
+
+Game_ActionABS.prototype.setHasAppliedEffect = function(hasAppliedEffect) {
+    this._hasAppliedEffect = hasAppliedEffect;
 };
 
 Game_ActionABS.prototype.actionSequence = function() {
@@ -65,6 +70,8 @@ Game_ActionABS.prototype.actionSequenceLength = function() {
 };
 
 Game_ActionABS.prototype.apply = function(target) {
+    this.setHasAppliedEffect(true);
+
     const targets = target ? [ target ] : this.determineTargets();
     
     if (!targets.length && this.isPhysical()) return this.playMissSe();
@@ -248,7 +255,7 @@ Game_ActionABS.prototype.applyGuard = function(damage, target) {
 
 Game_ActionABS.prototype.canGuardCancel = function() {
     if (this.isGuard()) return true;
-    return this._item.canGuardCancel();
+    return this._item.canGuardCancel() && !this._hasAppliedEffect;
 };
 
 Game_ActionABS.prototype.onPlayerDamage = function(value) {
