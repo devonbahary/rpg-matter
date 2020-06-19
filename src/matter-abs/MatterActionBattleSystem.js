@@ -235,6 +235,7 @@
  * 
 */
 
+import { constantCase } from "change-case";
 import "./battlers/Game_Item";
 import "./battlers/Game_ActionABS";
 import "./battlers/Game_BattlerBase";
@@ -263,7 +264,7 @@ import "./action-sequences/action-sequences";
 import { transformPluginStruct } from "../utils";
 
 const capitalizeKeyAndNumberValue = (acc, key, val) => {
-    acc[key.toUpperCase()] = Number(val);
+    acc[constantCase(key)] = Number(val);
     return acc;
 };
 

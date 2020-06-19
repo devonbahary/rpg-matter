@@ -21,6 +21,7 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "change-case": "^4.1.1",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
