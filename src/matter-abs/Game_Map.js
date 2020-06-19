@@ -17,7 +17,7 @@ Game_Map.prototype.setup = function(mapId) {
 const _Game_Map_update = Game_Map.prototype.update;
 Game_Map.prototype.update = function(sceneActive) {
     _Game_Map_update.call(this, sceneActive);
-    if (!sceneActive || this.isSelectionMode || this.isEventRunning() || $gameMessage.isBusy()) return;
+    if (!sceneActive || this.isMapPaused() || this.isEventRunning() || $gameMessage.isBusy()) return;
     this.updateUnits();
     this.updateHitStopZoom();
 };
@@ -29,12 +29,12 @@ Game_Map.prototype.shouldUpdateEngine = function(sceneActive) {
 
 const _Game_Map_updateEvents = Game_Map.prototype.updateEvents;
 Game_Map.prototype.updateEvents = function() {
-    if (!this.isSelectionMode) _Game_Map_updateEvents.call(this);
+    if (!this.isMapPaused()) _Game_Map_updateEvents.call(this);
 };
 
 const _Game_Map_updateVehicles = Game_Map.prototype.updateVehicles;
 Game_Map.prototype.updateVehicles = function() {
-    if (!this.isSelectionMode) _Game_Map_updateVehicles.call(this);
+    if (!this.isMapPaused()) _Game_Map_updateVehicles.call(this);
 };
 
 Game_Map.prototype.updateUnits = function() {
@@ -77,5 +77,9 @@ Game_Map.prototype.setSelectionMode = function(isSelectionMode) {
 
 const _Game_Map_updateEngineTiming = Game_Map.prototype.updateEngineTiming;
 Game_Map.prototype.updateEngineTiming = function() {
-    if (!this.isSelectionMode) _Game_Map_updateEngineTiming.call(this);
+    if (!this.isMapPaused()) _Game_Map_updateEngineTiming.call(this);
+};
+
+Game_Map.prototype.isMapPaused = function() {
+    return this.isSelectionMode;
 };
