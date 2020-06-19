@@ -82,13 +82,11 @@ Game_Player.prototype.canMove = function() {
 };
 
 Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP = {
-    'D': 0,
-    'shift': 1,
-    'S': 2,
-    'A': 3,
-    'Q': 4,
-    'W': 5,
-    'E': 6,
+    'S': 0,
+    'A': 1,
+    'Q': 2,
+    'W': 3,
+    'E': 4,
 };
 
 const _Game_Player_triggerButtonAction = Game_Player.prototype.triggerButtonAction;
@@ -107,13 +105,16 @@ Game_Player.prototype.triggerButtonAction = function() {
             if (Input.isDoubleTapped('up')) return this.dodgeInDirection(8);
 
             if (this.battler.hasAction() && this.battler.currentAction().isGuard()) return;
-            return this.battler.setActionBySlot(1);
+            return this.battler.setAction($dataSkills[this.battler.guardSkillId()]);
         }
+
+        if (Input.isTriggered('D')) return this.battler.setAction($dataSkills[this.battler.attackSkillId()]);
 
         for (const keyName of Object.keys(Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP)) {
             this.triggerActionSlotForKeyName(keyName);
         }
     } else if (this.battler.isChanneling()) {
+        if (this.battler.currentAction().isGuard() && !Input.isPressed('shift')) return this.battler.clearAction();
         for (const keyName of Object.keys(Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP)) {
             this.updateChanneledActionForKeyName(keyName);
         }

@@ -36,20 +36,17 @@ Game_Actor.prototype.initMembers = function() {
 };
 
 Game_Actor.prototype.initActionSlots = function() {
-    this.actionSlots = new Array(2);
-    this.actionSlots[0] = new Game_Item($dataSkills[this.attackSkillId()]);
-    this.actionSlots[1] = new Game_Item($dataSkills[this.guardSkillId()]);
+    this.actionSlots = new Array(4);
 };
 
 Game_Actor.prototype.displayableActionSlotKeyMap = function() {
     return {
-        'D': this.actionSlots[0],
-        // skip Guard intentionally
-        'S': this.actionSlots[2],
-        'A': this.actionSlots[3],
-        'Q': this.actionSlots[4],
-        'W': this.actionSlots[5],
-        'E': this.actionSlots[6],
+        'D': new Game_Item($dataSkills[this.attackSkillId()]),
+        'S': this.actionSlots[0],
+        'A': this.actionSlots[1],
+        'Q': this.actionSlots[2],
+        'W': this.actionSlots[3],
+        'E': this.actionSlots[4],
     }
 };
 
