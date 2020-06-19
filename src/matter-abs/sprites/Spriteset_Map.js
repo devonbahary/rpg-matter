@@ -19,6 +19,14 @@ Spriteset_Map.prototype.createCharacters = function() {
         this._characterSprites.push(weaponSprite);
         this._tilemap.addChild(weaponSprite);
     }
+    
+    // because sprites are created in original function from $gameMap.events(), $gamePlayer.vehicles(), etc,
+    // dynamic characters persisted to Game_Map will not be re-created here if the Game_Map instance is returned to
+    for (const characterBody of $gameMap.characterBodies) {
+        const { character } = characterBody;
+        const associatedSprite = this._characterSprites.find(characterSprite => characterSprite.spritesetMapId === character.spritesetMapId);
+        if (!associatedSprite) this.addCharacterToTilemap(character);
+    }
 };
 
 Spriteset_Map.prototype.addCharacterToTilemap = function(character) {
