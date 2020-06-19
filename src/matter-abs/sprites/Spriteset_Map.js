@@ -30,17 +30,26 @@ Spriteset_Map.prototype.createCharacters = function() {
 };
 
 Spriteset_Map.prototype.addCharacterToTilemap = function(character) {
-    const characterSprite = new Sprite_Character(character);
-    const weaponSprite = new Sprite_CharacterWeapon(character, characterSprite);
-    
     const spritesetMapId = uuidv4(); // we want to identify a character with its sprites to remove later
-    
-    for (const sprite of [ characterSprite, weaponSprite ]) {
-        sprite.spritesetMapId = spritesetMapId;
-        character.spritesetMapId = (spritesetMapId);
-        
-        this._characterSprites.push(sprite);
-        this._tilemap.addChild(sprite);
+
+    if (character instanceof Game_CollectibleItem) {
+        const collectibleItemSprite = new Sprite_CollectibleItem(character);
+        collectibleItemSprite.spritesetMapId = spritesetMapId;
+        character.spritesetMapId = spritesetMapId;
+
+        this._characterSprites.push(collectibleItemSprite);
+        this._tilemap.addChild(collectibleItemSprite);
+    } else {
+        const characterSprite = new Sprite_Character(character);
+        const weaponSprite = new Sprite_CharacterWeapon(character, characterSprite);
+            
+        for (const sprite of [ characterSprite, weaponSprite ]) {
+            sprite.spritesetMapId = spritesetMapId;
+            character.spritesetMapId = (spritesetMapId);
+            
+            this._characterSprites.push(sprite);
+            this._tilemap.addChild(sprite);
+        }
     }
 };
 

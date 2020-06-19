@@ -49,8 +49,23 @@ Game_Enemy.prototype.onEndDeathProcessing = function() {
 
 Game_Enemy.prototype.yieldRewards = function() {
     $gameParty.gainExp(this.exp());
-    $gameParty.gainGold(this.gold());
+    const collectibleItems = [];
+    const gold = this.gold();
+    
+    if (gold) {
+        const collectibleItem = new Game_CollectibleItem();
+        collectibleItem.setGold(gold);
+        collectibleItems.push(collectibleItem);
+    }
+    
     for (const item of this.makeDropItems()) {
-        $gameParty.gainItem(item, 1);
+        const collectibleItem = new Game_CollectibleItem();
+        collectibleItem.setItem(item);
+        collectibleItems.push(collectibleItem);
+    }
+    
+    for (const collectibleItem of collectibleItems) {
+        collectibleItem.locateWithRandomness(this.character.x0, this.character.y0);
+        collectibleItem.addToScene();
     }
 };

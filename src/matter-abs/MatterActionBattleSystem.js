@@ -185,6 +185,11 @@
  * @desc Allow menu access while an enemy has aggro towards a party member.
  * @type boolean
  * @default true
+ * 
+ * @param Collectible Map Items
+ * @parent Battle
+ * @desc Settings for collectible items on map.
+ * @type struct<CollectibleItems>
  *
 */
 
@@ -235,6 +240,61 @@
  * 
 */
 
+/*~struct~CollectibleItems:
+ * @param Gold Float Rate
+ * @type number
+ * @decimals 2
+ * @default 0.25
+ * 
+ * @param Gold Float Height
+ * @type number
+ * @default 8
+ * 
+ * @param Gold Pickup SE
+ * @type file
+ * @dir audio/se
+ * @default Coin
+ * 
+ * @param Gold Pickup Vol
+ * @type number
+ * @default 90
+ * @min 0
+ * @max 100
+ * 
+ * @param Gold Pickup Pitch
+ * @type number
+ * @default 100
+ * @min 50
+ * @max 150
+ *
+ * @param Item Float Rate
+ * @type number
+ * @decimals 2
+ * @default 0.25
+ * 
+ * @param Item Float Height
+ * @type number
+ * @default 8
+ * 
+ * @param Item Pickup SE
+ * @type file
+ * @dir audio/se
+ * @default Item3
+ * 
+ * @param Item Pickup Vol
+ * @type number
+ * @default 90
+ * @min 0
+ * @max 100
+ * 
+ * @param Item Pickup Pitch
+ * @type number
+ * @default 100
+ * @min 50
+ * @max 150
+ *
+*/
+
 import { constantCase } from "change-case";
 import "./battlers/Game_Item";
 import "./battlers/Game_ActionABS";
@@ -248,6 +308,7 @@ import "./units/Game_TroopABS";
 import "./characters/Game_CharacterBase";
 import "./characters/Game_Character";
 import "./characters/Game_Projectile";
+import "./characters/Game_CollectibleItem";
 import "./characters/Game_Player";
 import "./characters/Game_Event";
 import "./Game_Map";
@@ -257,6 +318,7 @@ import "./sprites/Sprite_Animation";
 import "./sprites/Sprite_BattlerParameters";
 import "./sprites/Sprite_CharacterWeapon";
 import "./sprites/Sprite_Character";
+import "./sprites/Sprite_CollectibleItem";
 import "./sprites/Spriteset_Map";
 import "./windows/Window_Action_HUD";
 import "./windows/Window_PlayerBattler";
@@ -304,4 +366,12 @@ export default {
     DEFAULT_ENEMY_HIT_STUN_RESIST: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Default Enemy Hit Stun Resist"]),
     HIT_STUN_RESIST_GUARD_ONLY_ETYPE_IDS: JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Hit Stun Resist Guard EtypeIds"]).map(etypeId => Number(etypeId)),
     ALLOW_MENU_DURING_BATTLE: JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Allow Menu During Battle"]),
+    COLLECTIBLE_ITEMS: transformPluginStruct(
+        PluginManager.parameters('MatterActionBattleSystem')["Collectible Map Items"],
+        (acc, key, val) => {
+            if (key === 'Gold Pickup SE' || key === 'Item Pickup SE') acc[constantCase(key)] = val;
+            else acc[constantCase(key)] = Number(val);
+            return acc;
+        },
+    ),
 };
