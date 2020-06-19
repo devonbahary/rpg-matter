@@ -81,6 +81,7 @@ Game_Battler.prototype.clearAction = function() {
 // overwrite
 Game_Battler.prototype.setAction = function(action) { 
     if (!this.canUse(action)) return;
+    this.character.clearPathfinding();
     this.clearAction();
     this._action = new Game_ActionABS(this, action);
     this.useItem(action);
