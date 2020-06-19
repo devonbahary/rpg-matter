@@ -92,9 +92,10 @@ Game_Player.KEY_NAME_TO_ACTION_SLOT_INDEX_MAP = {
 const _Game_Player_triggerButtonAction = Game_Player.prototype.triggerButtonAction;
 Game_Player.prototype.triggerButtonAction = function() {
     _Game_Player_triggerButtonAction.call(this);
-    
-    if ($gameMap.isEventRunning()) return;
+    if (!$gameMap.isEventRunning()) this.triggerButtonActionABS();
+};
 
+Game_Player.prototype.triggerButtonActionABS = function() {
     if (!this.battler.hasAction() || (Input.isPressed('shift') && this.battler.currentAction().canGuardCancel())) {
         // interrupt action for guard
         if (Input.isPressed('shift')) {
