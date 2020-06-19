@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Window_Action_HUD
 //
-// The window for displaying action slots.
+// The window for displaying the player action slots.
 
 import { updateShow } from "./util";
 
