@@ -41,7 +41,10 @@ Game_Player.prototype.refresh = function() {
 
 const _Game_Player_update = Game_Player.prototype.update;
 Game_Player.prototype.update = function(sceneActive) {
-    if ($gameMap.isSelectionMode) return this.updateSelection();
+    if ($gameMap.isSelectionMode) {
+        if (this.targetSelection) this.updateSelection();
+        return;
+    }
     _Game_Player_update.call(this, sceneActive);
 };
 
