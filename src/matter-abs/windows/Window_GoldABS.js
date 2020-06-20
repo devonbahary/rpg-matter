@@ -69,13 +69,13 @@ Window_GoldABS.prototype.shouldRefresh = function() {
 };
 
 Window_GoldABS.prototype.updateGoldMem = function() {
-    if (this._valueMem !== this.value()) {
-        const diff = this.value() - this._drawValue;
-        const goldSprite = new Window_GoldABS(diff);
-        this._childSprites.push(goldSprite);
-        this.parent.addChild(goldSprite);
-        this._valueMem = this.value();
-    }
+    if (this._valueMem === this.value()) return;
+  
+    const diff = this.value() - this._drawValue;
+    const goldSprite = new Window_GoldABS(diff);
+    this._childSprites.push(goldSprite);
+    this.parent.addChild(goldSprite);
+    this._valueMem = this.value();
 };
 
 Window_GoldABS.prototype.updateValue = function() {
