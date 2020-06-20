@@ -114,6 +114,7 @@ Scene_Action.prototype.onSkillTypeCancel = function() {
 };
 
 Scene_Action.prototype.onItemOk = function() {
+    SoundManager.playEquip();
     this.actor().setActionSlot(this._slotWindow._index, this.item());
     this._itemWindow.deselect();
     this._slotWindow.activate();
