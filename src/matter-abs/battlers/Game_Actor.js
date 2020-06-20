@@ -36,7 +36,7 @@ Game_Actor.prototype.initMembers = function() {
 };
 
 Game_Actor.prototype.initActionSlots = function() {
-    this.actionSlots = new Array(4);
+    this.actionSlots = new Array(5);
 };
 
 Game_Actor.prototype.displayableActionSlotKeyMap = function() {
