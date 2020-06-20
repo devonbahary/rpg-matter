@@ -10,6 +10,7 @@ module.exports = env => {
       MatterActionBattleSystem: './src/matter-abs/MatterActionBattleSystem.js',
       MatterABSGuard: './src/plugins/MatterABSGuard.js',
       MatterABSMenuAction: './src/plugins/MatterABSMenuAction.js',
+      MatterABSCommandMenu: './src/plugins/MatterABSCommandMenu.js',
     },
     output: {
       path: path.join(__dirname, 'rpgmakermv', 'js', 'plugins'),
