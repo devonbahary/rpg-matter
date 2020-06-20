@@ -27,8 +27,6 @@ Window_Action_HUD.prototype.initialize = function() {
 };
 
 Window_Action_HUD.NUM_SLOTS = 6;
-Window_Action_HUD.ACTIVE_OPACITY = 255;
-Window_Action_HUD.INACTIVE_OPACITY = 100;
 
 Window_Action_HUD.prototype.initMembers = function() {
     this.setBackgroundType(1);
@@ -79,9 +77,9 @@ Window_Action_HUD.prototype.drawActions = function() {
         if (!action) continue;
         
         const dataItem = action.object();
-        const x = i * this.slotWidth() + (this.slotGap() * i);
+        const x = i * this.slotWidth() + this.slotGap() * i;
         const iconIndex = this.actionIconIndex(action);
-        this.contents.paintOpacity = this.actionOpacity(dataItem);
+        this.changePaintOpacity(this.playerCanUse(dataItem));
         this.drawAction(x, dataItem, iconIndex, keyName, true);
     }
 };
@@ -96,11 +94,6 @@ Window_Action_HUD.prototype.drawAction = function(x, dataItem, iconIndex, text, 
     this.drawIcon(iconIndex, x + this.borderThickness(), this.borderThickness());
     if (text) this.drawText(text, x + 4, -8);
     this.drawActionCost(x, dataItem);
-};
-
-Window_Action_HUD.prototype.actionOpacity = function(dataItem) {
-    if (this.playerCanUse(dataItem)) return Window_Action_HUD.ACTIVE_OPACITY;
-    return Window_Action_HUD.INACTIVE_OPACITY;
 };
 
 Window_Action_HUD.prototype.drawBorder = function(x) {
