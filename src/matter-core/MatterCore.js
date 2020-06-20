@@ -165,6 +165,7 @@ import './rpg-objects/Game_Player';
 import './rpg-objects/Game_Party';
 import './rpg-objects/Game_Map';
 import './rpg-objects/Game_Temp';
+import './scenes/Scene_Map';
 import './matter/Pair';
 
 //-----------------------------------------------------------------------------
