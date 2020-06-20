@@ -197,7 +197,7 @@ Window_Action_HUD.prototype.update = function() {
 Window_Action_HUD.prototype.updateCommandInput = function() {
     if ($gameMap.isEventRunning() || this.isClosed()) return;
 
-    if (Input.isTriggered('space') && !$gamePlayer.battler.hasAction()) this.toggleCommandMenu();    
+    if (Input.isTriggered('space') && !$gamePlayer.battler.hasAction() && $gamePlayer.battler.canMove()) this.toggleCommandMenu();    
     
     if (this.isCommandMenuOpen) {
         if (Input.isTriggered('left')) return this.cycleMenuIndexDown();
