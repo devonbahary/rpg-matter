@@ -10,6 +10,7 @@ Scene_Map.prototype.createAllWindows = function() {
     _Scene_Map_createAllWindows.call(this);
     this.createPlayerBattlerWindow();
     this.createActionHUDWindow();
+    this.createGoldWindow();
 };
 
 Scene_Map.prototype.createPlayerBattlerWindow = function() {
@@ -20,6 +21,11 @@ Scene_Map.prototype.createPlayerBattlerWindow = function() {
 Scene_Map.prototype.createActionHUDWindow = function() {
     this._actionHUDWindow = new Window_Action_HUD();
     this.addChild(this._actionHUDWindow);
+};
+
+Scene_Map.prototype.createGoldWindow = function() {
+    this._goldWindow = new Window_GoldABS();
+    this.addChild(this._goldWindow);
 };
 
 const _Scene_Map_isMenuEnabled = Scene_Map.prototype.isMenuEnabled;
