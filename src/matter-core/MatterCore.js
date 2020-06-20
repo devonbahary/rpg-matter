@@ -167,26 +167,3 @@ import './rpg-objects/Game_Map';
 import './rpg-objects/Game_Temp';
 import './scenes/Scene_Map';
 import './matter/Pair';
-
-//-----------------------------------------------------------------------------
-// Scene_Boot
-//
-// The scene class for initializing the entire game.
-
-Scene_Boot.prototype.start = function() {
-  Scene_Base.prototype.start.call(this);
-  SoundManager.preloadImportantSounds();
-  if (DataManager.isBattleTest()) {
-      DataManager.setupBattleTest();
-      SceneManager.goto(Scene_Battle);
-  } else if (DataManager.isEventTest()) {
-      DataManager.setupEventTest();
-      SceneManager.goto(Scene_Map);
-  } else {
-      this.checkPlayerLocation();
-      DataManager.setupNewGame();
-      SceneManager.goto(Scene_Map); // overwrite
-      Window_TitleCommand.initCommandPosition();
-  }
-  this.updateDocumentTitle();
-};
