@@ -74,7 +74,7 @@ Game_ActionABS.prototype.apply = function(target) {
 
     const targets = target ? [ target ] : this.determineTargets();
     
-    if (!targets.length && this.isPhysical()) return this.playMissSe();
+    if (!targets.length) return;
 
     for (const target of targets) {
         let isCritical, value = 0;
@@ -161,10 +161,6 @@ Game_ActionABS.prototype.hitStopZoomScale = function() {
 Game_ActionABS.prototype.latestDamageForGaugeDuration = function() {
     if (this.hitStop()) return this.hitStop();
     return MATTER_ABS.GAUGE_LATEST_DAMAGE_DURATION;
-};
-
-Game_ActionABS.prototype.playMissSe = function() {
-    AudioManager.playSe(MATTER_ABS.NORMAL_ATTACK_MISS_SE);
 };
 
 Game_ActionABS.prototype.animationId = function() {
