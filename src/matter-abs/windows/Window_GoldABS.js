@@ -3,6 +3,8 @@
 //
 // The window for displaying the party's gold.
 
+import { updateShow } from "./util";
+
 function Window_GoldABS() {
     this.initialize.apply(this, arguments);
 }
@@ -52,6 +54,8 @@ Window_GoldABS.prototype.refresh = function() {
 };
 
 Window_GoldABS.prototype.update = function() {
+    Window_Base.prototype.update.call(this);
+    this.updateShow();
     if (this._isChild) {
         this.updateGhostSprite();
     } else {
@@ -62,6 +66,10 @@ Window_GoldABS.prototype.update = function() {
         }
         this.updateChildSprites();
     }
+};
+
+Window_GoldABS.prototype.updateShow = function() {
+    updateShow.call(this);
 };
 
 Window_GoldABS.prototype.shouldRefresh = function() {
@@ -94,6 +102,7 @@ Window_GoldABS.prototype.updateChildSprites = function() {
 };
 
 Window_GoldABS.prototype.updateGhostSprite = function() {
+    if (this.isClosed()) return;
     this._ghostDuration--;
     const opacity = this.childOpacityThisFrame();
     this._dimmerSprite.opacity = opacity;
