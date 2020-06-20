@@ -26,7 +26,7 @@ Window_GoldABS.prototype.initMembers = function(drawValue) {
         this._drawValue = drawValue;
         this._ghostDuration = this.ghostDuration();
     } else {
-        this._drawValue = this._value = this.value();
+        this._drawValue = this._valueMem = this.value();
         this._childSprites = [];
     }
 };
@@ -65,22 +65,22 @@ Window_GoldABS.prototype.update = function() {
 };
 
 Window_GoldABS.prototype.shouldRefresh = function() {
-    return this._value !== this.value();
+    return this._drawValue !== this.value();
 };
 
 Window_GoldABS.prototype.updateGoldMem = function() {
-    if (this._drawValue !== this.value()) {
+    if (this._valueMem !== this.value()) {
         const diff = this.value() - this._drawValue;
-        this._drawValue = this.value();
         const goldSprite = new Window_GoldABS(diff);
         this._childSprites.push(goldSprite);
         this.parent.addChild(goldSprite);
+        this._valueMem = this.value();
     }
 };
 
 Window_GoldABS.prototype.updateValue = function() {
-    if (this.value() > this.value) this.value++;
-    else if (this.value() < this.value) this.value--;
+    if (this.value() > this._drawValue) this._drawValue++;
+    else if (this.value() < this._drawValue) this._drawValue--;
 };
 
 Window_GoldABS.prototype.updateChildSprites = function() {
