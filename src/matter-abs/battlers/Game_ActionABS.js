@@ -139,6 +139,7 @@ Game_ActionABS.prototype.executeHpDamage = function(target, value) {
     const damageAfterGuard = this.damageAfterGuard(target, value);
     _Game_ActionABS_executeHpDamage.call(this, target, damageAfterGuard);
     target.setLatestDamageForGauge(damageAfterGuard, this.latestDamageForGaugeDuration());
+    target.requestDamagePopup(damageAfterGuard);
 };
 
 Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
@@ -280,7 +281,9 @@ Game_ActionABS.prototype.onPlayerDamage = function(value) {
 Game_ActionABS.prototype.itemEffectRecoverHp = function(target, effect) {
     const prevTargetHp = target.hp;
     Game_Action.prototype.itemEffectRecoverHp.call(this, target, effect);
+    const recoveredHp = prevTargetHp - target.hp;
     target.setLatestDamageForGauge(prevTargetHp - target.hp, this.latestDamageForGaugeDuration());
+    if (recoveredHp) target.requestDamagePopup(recoveredHp);
 };
 
 Game_ActionABS.prototype.projectileCharacter = function() {

@@ -26,6 +26,15 @@ Game_Battler.prototype.initMembers = function() {
     this.clearAction();
     this.character = null;
     this.latestDamageForGauge = 0;
+    this._damagePopups = [];
+};
+
+Game_Battler.prototype.requestDamagePopup = function(damage) {
+    this._damagePopups.push(damage);
+};
+
+Game_Battler.prototype.isDamagePopupsRequested = function() {
+    return this._damagePopups.length;
 };
 
 Game_Battler.prototype.update = function() {

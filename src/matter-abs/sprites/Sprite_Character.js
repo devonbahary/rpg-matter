@@ -16,14 +16,26 @@ Sprite_Character.prototype.initMembers = function() {
     this._effectType = null;
     this._effectDuration = 0;
     this._shake = 0;
+    this._damageSprites = [];
 };
 
 const _Sprite_Character_update = Sprite_Character.prototype.update;
 Sprite_Character.prototype.update = function() {
+    this.updateDamageSprites();
     this.updateTargetSelection();
     this.updateHitStunShake();
     _Sprite_Character_update.call(this);
     if (this._battler) this.updateEffect();
+};
+
+Sprite_Character.prototype.updateDamageSprites = function() {
+    if (!this._battler) return;
+    while (this._battler.isDamagePopupsRequested()) {
+        const damage = this._battler._damagePopups.pop();
+        const sprite = new Sprite_DamageABS(this._battler, damage);
+        this._damageSprites.push(sprite);
+        this.addChild(sprite);
+    }
 };
 
 Sprite_Character.prototype.updateTargetSelection = function() {
