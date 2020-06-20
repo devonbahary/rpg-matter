@@ -62,7 +62,7 @@ const ACTION_SEQUENCES = {
     },
     SWING: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND) ],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), animationWeapon(11) ],
         12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
         25: [],
     },
@@ -74,7 +74,9 @@ const ACTION_SEQUENCES = {
     POWER_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD), animationSelf(5) ],
         30: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.RAISE) ],
+        40: [ animationWeapon(12) ],
         45: [ ...n(ROUTE_MOVE_FORWARD, 5), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+        46: playSe('Thunder1'),
         90: [],
     },
     FIRE: {
