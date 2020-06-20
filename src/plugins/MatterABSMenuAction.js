@@ -276,3 +276,15 @@ Window_MenuCommand.prototype.needsCommand = function(name) {
     if (name === 'action') return true;
     return _Window_MenuCommand_needsCommand.call(this, name);
 };
+
+
+//-----------------------------------------------------------------------------
+// Window_SkillList
+//
+// The window for selecting a skill on the skill screen.
+
+const _Window_SkillList_isEnabled = Window_SkillList.prototype.isEnabled;
+Window_SkillList.prototype.isEnabled = function(item) {
+    if (SceneManager._scene instanceof Scene_Action) return true;
+    return _Window_SkillList_isEnabled.call(this);
+};
