@@ -183,11 +183,12 @@ Game_BattlerBase.prototype.die = function() {
     this._isInPostDeathProcessing = true;
 };
 
-Game_BattlerBase.prototype.cooldownRate = function(item) {
+Game_BattlerBase.prototype.cooldownRate = function(dataItem) {
     let cooldown;
-    if (item.isSkill()) cooldown = this._skillCooldowns[item.itemId()];
-    else if (item.isItem()) cooldown = this._itemCooldowns[item.itemId()];
+    if (DataManager.isSkill(dataItem)) cooldown = this._skillCooldowns[dataItem.id];
+    else if (DataManager.isItem(dataItem)) cooldown = this._itemCooldowns[dataItem.id];
     if (!cooldown) return 1;
 
-    return (item.cooldown() - cooldown) / item.cooldown();
+    const totalCooldown = new Game_Item(dataItem).cooldown();
+    return (totalCooldown - cooldown) / totalCooldown;
 };

@@ -22,14 +22,18 @@ Window_Action_HUD.prototype.initialize = function() {
     const x = (Graphics.boxWidth - width) / 2;
     const y = Graphics.boxHeight - height;
     Window_Base.prototype.initialize.call(this, x, y, width, height);
-    this.setBackgroundType(1);
-    this.contents.fontSize = 12;
+    this.initMembers();
     this.refresh();
 };
 
 Window_Action_HUD.NUM_SLOTS = 6;
 Window_Action_HUD.ACTIVE_OPACITY = 255;
 Window_Action_HUD.INACTIVE_OPACITY = 100;
+
+Window_Action_HUD.prototype.initMembers = function() {
+    this.setBackgroundType(1);
+    this.contents.fontSize = 12;
+};
 
 Window_Action_HUD.prototype.slotWidth = function() {
     return Window_Base._iconWidth + this.borderThickness() * 2;
@@ -59,30 +63,43 @@ Window_Action_HUD.prototype.windowHeight = function() {
 
 Window_Action_HUD.prototype.refresh = function() {
     this.contents.clear();
-    
+    this.drawActionHUD();
+    this.memorizeLastRefresh();
+};
+
+Window_Action_HUD.prototype.drawActionHUD = function() {
+    this.drawActions();
+};
+
+Window_Action_HUD.prototype.drawActions = function() {
     const actionSlotMapEntries = Object.entries(this.playerActionSlotMap());
     
     for (let i = 0; i < actionSlotMapEntries.length; i++) {
         const [ keyName, action ] = actionSlotMapEntries[i];
         if (!action) continue;
-
-        this.contents.paintOpacity = this.actionOpacity(action);
-
+        
+        const dataItem = action.object();
         const x = i * this.slotWidth() + (this.slotGap() * i);
         const iconIndex = this.actionIconIndex(action);
-
-        this.drawBorder(x);
-        this.drawCooldown(x, action);
-        this.drawIcon(iconIndex, x + this.borderThickness(), this.borderThickness());
-        this.drawText(keyName, x + 4, -8);
-        this.drawActionCost(x, action);
+        this.contents.paintOpacity = this.actionOpacity(dataItem);
+        this.drawAction(x, dataItem, iconIndex, keyName, true);
     }
+};
 
+Window_Action_HUD.prototype.memorizeLastRefresh = function() {
     this._memSerializedPlayerActionSlotMap = this.serializedPlayerActionSlotMap();
 };
 
-Window_Action_HUD.prototype.actionOpacity = function(action) {
-    if (this.playerCanUse(action)) return Window_Action_HUD.ACTIVE_OPACITY;
+Window_Action_HUD.prototype.drawAction = function(x, dataItem, iconIndex, text, withBorder = false) {
+    if (withBorder) this.drawBorder(x);
+    this.drawCooldown(x, dataItem);
+    this.drawIcon(iconIndex, x + this.borderThickness(), this.borderThickness());
+    if (text) this.drawText(text, x + 4, -8);
+    this.drawActionCost(x, dataItem);
+};
+
+Window_Action_HUD.prototype.actionOpacity = function(dataItem) {
+    if (this.playerCanUse(dataItem)) return Window_Action_HUD.ACTIVE_OPACITY;
     return Window_Action_HUD.INACTIVE_OPACITY;
 };
 
@@ -98,40 +115,40 @@ Window_Action_HUD.prototype.drawBorder = function(x) {
     this.contents.fillRect(x, 0, bt, sh, color);
 };
 
-Window_Action_HUD.prototype.drawCooldown = function(x, action) {
+Window_Action_HUD.prototype.drawCooldown = function(x, dataItem) {
     const bt = this.borderThickness();
-    const cooldownRate = this.battler.cooldownRate(action);
+    const cooldownRate = this.battler.cooldownRate(dataItem);
     if (cooldownRate === 1) return;
     const width = cooldownRate * (this.slotWidth() - bt)
     this.contents.fillRect(x + bt, bt, width, this.slotHeight() - bt * 2, this.normalColor());
 };
 
-Window_Action_HUD.prototype.drawActionCost = function(x, action) {
+Window_Action_HUD.prototype.drawActionCost = function(x, dataItem) {
     const y = 8;
     const width = this.slotWidth() - this.borderThickness();
-    if (this.isTpAction(action)) {
+    if (this.isTpAction(dataItem)) {
         this.changeTextColor(this.tpCostColor());
-        this.drawText(this.battler.skillTpCost(action.object()), x, y, width, 'right');
-    } else if (this.isMpAction(action)) {
+        this.drawText(this.battler.skillTpCost(dataItem), x, y, width, 'right');
+    } else if (this.isMpAction(dataItem)) {
         this.changeTextColor(this.mpCostColor());
-        this.drawText(this.battler.skillMpCost(action.object()), x, y, width, 'right');
-    } else if (this.isItemAction(action)) {
-        const numItems = $gameParty.numItems(action.object());
+        this.drawText(this.battler.skillMpCost(dataItem), x, y, width, 'right');
+    } else if (this.isItemAction(dataItem)) {
+        const numItems = $gameParty.numItems(dataItem);
         if (numItems) this.drawText(numItems, x, y, width, 'right');
     }
     this.changeTextColor(this.normalColor());
 };
 
-Window_Action_HUD.prototype.isTpAction = function(action) {
-    return this.battler.skillTpCost(action.object()) > 0;
+Window_Action_HUD.prototype.isTpAction = function(dataItem) {
+    return this.battler.skillTpCost(dataItem) > 0;
 };
 
-Window_Action_HUD.prototype.isMpAction = function(action) {
-    return this.battler.skillMpCost(action.object()) > 0;
+Window_Action_HUD.prototype.isMpAction = function(dataItem) {
+    return this.battler.skillMpCost(dataItem) > 0;
 };
 
-Window_Action_HUD.prototype.isItemAction = function(action) {
-    return DataManager.isItem(action.object());
+Window_Action_HUD.prototype.isItemAction = function(dataItem) {
+    return DataManager.isItem(dataItem);
 };
 
 Window_Action_HUD.prototype.playerActionSlotMap = function() {
@@ -142,9 +159,9 @@ Window_Action_HUD.prototype.serializedPlayerActionSlotMap = function() {
     const minimizedActionSlotMap = Object.entries(this.playerActionSlotMap()).reduce((acc, [ keyName, action ]) => {
         if (!action) return acc;
         acc[keyName] = {
-            canUse: this.playerCanUse(action),
+            canUse: this.playerCanUse(action.object()),
             iconIndex: this.actionIconIndex(action),
-            cooldownRate: this.battler.cooldownRate(action),
+            cooldownRate: this.battler.cooldownRate(action.object()),
         };
         return acc;
     }, {});
@@ -159,8 +176,8 @@ Window_Action_HUD.prototype.actionIconIndex = function(action) {
     return action.iconIndex;
 };
 
-Window_Action_HUD.prototype.playerCanUse = function(action) {
-    return action && !this.battler.hasAction() && this.battler.canUse(action.object());
+Window_Action_HUD.prototype.playerCanUse = function(dataItem) {
+    return dataItem && !this.battler.hasAction() && this.battler.canUse(dataItem);
 };
 
 Window_Action_HUD.prototype.update = function() {
