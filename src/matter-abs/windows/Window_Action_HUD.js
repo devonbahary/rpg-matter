@@ -49,6 +49,10 @@ Window_Action_HUD.prototype.slotGap = function() {
     return 12;
 };
 
+Window_Action_HUD.prototype.translucentOpacity = function() {
+    return 100;
+};
+
 Window_Action_HUD.prototype.windowWidth = function() {
     const slotWidth = this.slotWidth() * Window_Action_HUD.NUM_SLOTS;
     const gapWidth = this.slotGap() * (Window_Action_HUD.NUM_SLOTS - 1);
