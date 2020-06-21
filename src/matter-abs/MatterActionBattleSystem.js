@@ -182,6 +182,12 @@
  * @default 88
  * @min 0
  * 
+ * @param Level Up Icon Index
+ * @parent Windows
+ * @type number
+ * @default 313
+ * @min 0
+ * 
 */
 
 /*~struct~ActionRanges:
@@ -365,4 +371,5 @@ export default {
     ),
     WINDOW_GOLD_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gold Icon Index"]),
     WINDOW_EXP_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["EXP Icon Index"]),
+    WINDOW_LEVEL_UP_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Level Up Icon Index"]),
 };
