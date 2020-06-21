@@ -126,10 +126,9 @@ Game_ActionABS.prototype.shouldApplyGuardedEffects = function(target) {
 
 Game_ActionABS.prototype.targetEffectCallbacks = function(target, value) {
     const isPlayer = target.character === $gamePlayer;
-    const isTargetGuarded = target.isGuard();
     return [
         () => isPlayer ? this.onPlayerDamage(value) : null,
-        () => !isTargetGuarded ? this.applyForce(target) : null, 
+        () => this.applyForce(target, value), 
         () => target.applyHitStun(this.hitStun(target)),
     ];
 };
@@ -169,9 +168,11 @@ Game_ActionABS.prototype.animationId = function() {
     return animationId;
 };
 
-Game_ActionABS.prototype.applyForce = function(target) {
+Game_ActionABS.prototype.applyForce = function(target, damage) {
     const directionalVector = vectorFromAToB(this._subjectCharacter.bodyPos, target.character.bodyPos);
-    const forceVector = vectorResize(directionalVector, this.forceMagnitude() * Game_ActionABS.BASE_FORCE_MULT);
+    let forceScalar = this.forceMagnitude() * Game_ActionABS.BASE_FORCE_MULT;
+    if (target.isGuard()) forceScalar /= 2 * target.grd;
+    const forceVector = vectorResize(directionalVector, forceScalar);
     
     target.character.applyForce(forceVector, this._subjectCharacter);
 };
