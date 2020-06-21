@@ -4,6 +4,7 @@
 // The window for displaying the party's gold.
 
 import { updateShow } from "./util";
+import MATTER_ABS from "../MatterActionBattleSystem";
 
 function Window_GoldABS() {
     this.initialize.apply(this, arguments);
@@ -41,7 +42,7 @@ Window_GoldABS.prototype.windowWidth = function() {
 Window_GoldABS.prototype.refresh = function() {
     this.contents.clear();
     const textWidth = this.contentsWidth() - Window_Base._iconWidth;
-    this.drawIcon(314, textWidth, 0);
+    this.drawIcon(this.goldIconIndex(), textWidth, 0);
     
     let valueText = this._drawValue;
     if (this._isChild) {
@@ -114,6 +115,10 @@ Window_GoldABS.prototype.ghostDuration = function() {
 
 Window_GoldABS.prototype.isPlaying = function() {
     return this._ghostDuration;
+};
+
+Window_GoldABS.prototype.goldIconIndex = function() {
+    return MATTER_ABS.WINDOW_GOLD_ICON_INDEX;
 };
 
 global["Window_GoldABS"] = Window_GoldABS;

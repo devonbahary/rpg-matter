@@ -168,6 +168,14 @@
  * @desc Settings for collectible items on map.
  * @type struct<CollectibleItems>
  *
+ * @param Windows
+ * 
+ * @param Gold Icon Index
+ * @parent Windows
+ * @type number
+ * @default 314
+ * @min 0
+ * 
 */
 
 /*~struct~ActionRanges:
@@ -349,4 +357,5 @@ export default {
             return acc;
         },
     ),
+    WINDOW_GOLD_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gold Icon Index"]),
 };
