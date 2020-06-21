@@ -144,11 +144,17 @@ Scene_Action.prototype.onActorChange = function() {
 const _Scene_Menu_createCommandWindow = Scene_Menu.prototype.createCommandWindow;
 Scene_Menu.prototype.createCommandWindow = function() {
     _Scene_Menu_createCommandWindow.call(this);
-    this._commandWindow.setHandler('action',   this.commandAction.bind(this));
+    this._commandWindow.setHandler('action',   this.commandPersonal.bind(this));
 };
 
-Scene_Menu.prototype.commandAction = function() {
-    SceneManager.push(Scene_Action);
+const _Scene_Menu_onPersonalOk = Scene_Menu.prototype.onPersonalOk;
+Scene_Menu.prototype.onPersonalOk = function() {
+    _Scene_Menu_onPersonalOk.call(this);
+    switch (this._commandWindow.currentSymbol()) {
+    case 'action':
+        SceneManager.push(Scene_Action);
+        break;
+    }
 };
 
 //-----------------------------------------------------------------------------
