@@ -16,7 +16,6 @@ Window_GoldABS.prototype.initialize = function(drawValue) {
     const x = Graphics.boxWidth - this.windowWidth();
     const y = Graphics.boxHeight - this.windowHeight();
     Window_Gold.prototype.initialize.call(this, x, y);
-    this.setBackgroundType(1);
     this.contents.fontSize = 18;
     this.initMembers(drawValue);
     this.refresh();
@@ -27,9 +26,11 @@ Window_GoldABS.prototype.initMembers = function(drawValue) {
         this._isChild = true;
         this._drawValue = drawValue;
         this._ghostDuration = this.ghostDuration();
+        this.setBackgroundType(2);
     } else {
         this._drawValue = this._valueMem = this.value();
         this._childSprites = [];
+        this.setBackgroundType(1);
     }
 };
 
@@ -104,17 +105,11 @@ Window_GoldABS.prototype.updateChildSprites = function() {
 Window_GoldABS.prototype.updateGhostSprite = function() {
     if (this.isClosed()) return;
     this._ghostDuration--;
-    const opacity = this.childOpacityThisFrame();
-    this._dimmerSprite.opacity = opacity;
-    this.contentsOpacity = opacity;
+    this.contentsOpacity = 255 * this._ghostDuration / this.ghostDuration();
 };
 
 Window_GoldABS.prototype.ghostDuration = function() {
     return 120;
-};
-
-Window_GoldABS.prototype.childOpacityThisFrame = function() {
-    return 255 * this._ghostDuration / this.ghostDuration();
 };
 
 Window_GoldABS.prototype.isPlaying = function() {
