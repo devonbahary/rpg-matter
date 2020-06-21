@@ -6,10 +6,6 @@
 
 import MATTER_ABS from "../MatterActionBattleSystem";
 
-Object.defineProperties(Game_Player.prototype, {
-    targetSelection: { get: function() { return this._targetSelectionTargets[this._targetSelectionIndex]; }, configurable: false },
-});
-
 const _Game_Player_initMembers = Game_Player.prototype.initMembers;
 Game_Player.prototype.initMembers = function() {
     _Game_Player_initMembers.call(this);
@@ -20,13 +16,13 @@ Game_Player.prototype.setTargetSelectionTargets = function(targets, applyCallbac
     this.playTargetSelectionSe();
     this._targetSelectionTargets = targets.sort((a, b) => a.character.distanceFrom(this) - b.character.distanceFrom(this));
     this._targetSelectionApplyCallback = applyCallback;
-    this._targetSelectionIndex = 0;
+    this.targetSelection = this._targetSelectionTargets[0];
 };
 
 Game_Player.prototype.clearTargetSelection = function() {
     this._targetSelectionTargets = [];
     this._targetSelectionApplyCallback = null;
-    this._targetSelectionIndex = 0;
+    this.targetSelection = null;
 };
 
 const _Game_Player_refresh = Game_Player.prototype.refresh;
@@ -51,9 +47,9 @@ Game_Player.prototype.update = function(sceneActive) {
 Game_Player.prototype.updateSelection = function() {
     if (Input.isTriggered('tab')) {
         this.playTargetSelectionSe();
-        let nextTargetIndex = this._targetSelectionIndex + 1;
+        let nextTargetIndex = this._targetSelectionTargets.findIndex(target => target === this.targetSelection) + 1;
         if (nextTargetIndex >= this._targetSelectionTargets.length) nextTargetIndex = 0;
-        this._targetSelectionIndex = nextTargetIndex;
+        this.targetSelection = this._targetSelectionTargets[nextTargetIndex];
     } else if (Input.isTriggered('ok')) {
         this.playTargetSelectionSe();
         this.turnTowardCharacter(this.targetSelection.character);
@@ -145,6 +141,7 @@ Game_Player.prototype.updateChanneledActionForKeyName = function(keyName) {
 };
 
 Game_Player.prototype.startPlayerSelection = function(targets) {
+    if (!targets.length) return;
     this.setTargetSelectionTargets(targets, target => this.battler.currentAction().apply(target));
     $gameMap.setSelectionMode(true);
 };

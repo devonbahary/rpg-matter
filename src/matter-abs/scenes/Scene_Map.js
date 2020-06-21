@@ -8,10 +8,16 @@ import MATTER_ABS from "../MatterActionBattleSystem";
 const _Scene_Map_createAllWindows = Scene_Map.prototype.createAllWindows;
 Scene_Map.prototype.createAllWindows = function() {
     _Scene_Map_createAllWindows.call(this);
+    this.createTargetWindow();
     this.createPlayerBattlerWindow();
     this.createActionHUDWindow();
     this.createGoldWindow();
     this.createLogsWindow();
+};
+
+Scene_Map.prototype.createTargetWindow = function() {
+    this._targetWindow = new Window_Target();
+    this.addChild(this._targetWindow);
 };
 
 Scene_Map.prototype.createPlayerBattlerWindow = function() {

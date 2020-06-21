@@ -39,8 +39,13 @@ Sprite_Character.prototype.updateDamageSprites = function() {
 };
 
 Sprite_Character.prototype.updateTargetSelection = function() {
-    if (!$gamePlayer.targetSelection || $gamePlayer.targetSelection.character !== this._character) return;
-    this.updateTargetSelectionEffect();
+    if (
+        $gameMap.isSelectionMode &&
+        $gamePlayer.targetSelection &&
+        $gamePlayer.targetSelection.character === this._character
+    ) {
+        this.updateTargetSelectionEffect();
+    }
 };
 
 Sprite_Character.prototype.updateTargetSelectionEffect = function() {
