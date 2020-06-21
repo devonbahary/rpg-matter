@@ -6,6 +6,7 @@
 import { size } from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { AUTO_REMOVAL_TIMINGS } from "../constants";
+import MATTER_ABS from "../MatterActionBattleSystem";
 
 Object.defineProperties(Game_BattlerBase.prototype, {
     // AGgro Rate
@@ -186,6 +187,10 @@ Game_BattlerBase.prototype.die = function() {
     _Game_BattlerBase_die.call(this);
     this._hitStun = 0;
     this.resetAggro();
+    $gameMap.addLog({
+        iconIndex: MATTER_ABS.WINDOW_DEFEAT_ICON_INDEX,
+        message: TextManager.defeat.format(this.name()),
+    });
     this.opponentsUnit().members().forEach(battler => {
         battler.clearBattlerAggro(this);
     });
