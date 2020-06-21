@@ -83,3 +83,17 @@ Game_Actor.prototype.isEnemyWith = function(battler) {
 Game_Actor.prototype.expRate = function() {
     return (this.currentExp() - this.currentLevelExp()) / (this.nextLevelExp() - this.currentLevelExp());
 };
+
+// overwrite (formerly pushed to $gameMessage)
+Game_Actor.prototype.displayLevelUp = function(newSkills) {
+    for (const skill of newSkills) {
+        $gameMap.addLog({
+            iconIndex: skill.iconIndex,
+            message: TextManager.obtainSkill.format(skill.name),
+        });
+    }
+    $gameMap.addLog({
+        iconIndex: MATTER_ABS.WINDOW_LEVEL_UP_ICON_INDEX,
+        message: TextManager.levelUp.format(this._name, TextManager.level, this._level),
+    });
+};
