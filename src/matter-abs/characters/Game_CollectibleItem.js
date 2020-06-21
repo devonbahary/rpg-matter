@@ -17,7 +17,7 @@ Object.defineProperties(Game_CollectibleItem.prototype, {
     isGold: { get: function() { return Boolean(this._gold); }, configurable: false },
     isItem: { get: function() { return Boolean(this._dataItem); }, configurable: false },
     iconIndex: { get: function() { 
-        if (this.isGold) return 314;
+        if (this.isGold) return MATTER_ABS.WINDOW_GOLD_ICON_INDEX;
         if (this.isItem) return this._dataItem.iconIndex;
         return 0;
     }, configurable: false },
@@ -42,6 +42,10 @@ Game_CollectibleItem.prototype.onCollisionStart = function(event) {
 
     if (this.isGold) {
         $gameParty.gainGold(this._gold);
+        $gameMap.addLog({
+            iconIndex: MATTER_ABS.WINDOW_GOLD_ICON_INDEX,
+            message: TextManager.obtainGold.format(this._gold),
+        });
         AudioManager.playSe({ 
             name: MATTER_ABS.COLLECTIBLE_ITEMS.GOLD_PICKUP_SE, 
             volume: MATTER_ABS.COLLECTIBLE_ITEMS.GOLD_PICKUP_VOL, 
@@ -52,7 +56,7 @@ Game_CollectibleItem.prototype.onCollisionStart = function(event) {
         $gameParty.gainItem(this._dataItem, 1);
         $gameMap.addLog({ 
             iconIndex: this._dataItem.iconIndex, 
-            message: this._dataItem.name,
+            message: TextManager.obtainItem.format(this._dataItem.name),
         });
         AudioManager.playSe({ 
             name: MATTER_ABS.COLLECTIBLE_ITEMS.ITEM_PICKUP_SE, 

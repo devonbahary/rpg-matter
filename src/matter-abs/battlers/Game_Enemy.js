@@ -48,7 +48,13 @@ Game_Enemy.prototype.onEndDeathProcessing = function() {
 };
 
 Game_Enemy.prototype.yieldRewards = function() {
-    $gameParty.gainExp(this.exp());
+    const exp = this.exp();
+    $gameParty.gainExp(exp);
+    $gameMap.addLog({ 
+        iconIndex: MATTER_ABS.WINDOW_EXP_ICON_INDEX, 
+        message: TextManager.obtainExp.format(exp, TextManager.exp),
+    });
+
     const collectibleItems = [];
     const gold = this.gold();
     

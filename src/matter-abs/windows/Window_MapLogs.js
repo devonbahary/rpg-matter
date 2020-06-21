@@ -24,7 +24,7 @@ Window_MapLogs.prototype.initialize = function() {
 };
 
 Window_MapLogs.prototype.windowWidth = function() {
-    return 180;
+    return 220;
 };
 
 Window_MapLogs.prototype.windowHeight = function() {
@@ -90,7 +90,7 @@ Window_MapLog.prototype.initialize = function(log) {
     const height = this.windowHeight();
     Window_Base.prototype.initialize.call(this, 0, 0, width, height);
     this.setBackgroundType(1);
-    this.contents.fontSize = 18;
+    this.contents.fontSize = 14;
     this.initMembers(log);
     this.refresh();
     this.setOpacity(0);
@@ -145,8 +145,8 @@ Window_MapLog.prototype.setOpacity = function(opacity) {
 Window_MapLog.prototype.refresh = function() {
     this.contents.clear();
     if (this._iconIndex) this.drawIcon(this._iconIndex, 0, 0);
-    const x = this._iconIndex ? Window_Base._iconWidth : 0;
-    this.drawText(this._message, x, 0);
+    const x = this._iconIndex ? Window_Base._iconWidth + 2 : 0;
+    this.drawText(this.convertEscapeCharacters(this._message), x, 0);
 };
 
 Window_MapLog.prototype.duration = function() {

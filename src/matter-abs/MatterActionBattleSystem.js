@@ -176,6 +176,12 @@
  * @default 314
  * @min 0
  * 
+ * @param EXP Icon Index
+ * @parent Windows
+ * @type number
+ * @default 88
+ * @min 0
+ * 
 */
 
 /*~struct~ActionRanges:
@@ -358,4 +364,5 @@ export default {
         },
     ),
     WINDOW_GOLD_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gold Icon Index"]),
+    WINDOW_EXP_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["EXP Icon Index"]),
 };
