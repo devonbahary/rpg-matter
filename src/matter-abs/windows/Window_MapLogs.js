@@ -58,16 +58,22 @@ Window_MapLogs.prototype.updateChildSprites = function() {
         }
     }
     for (let i = 0; i < this._logSprites.length; i++) {
-        const windowMapLogHeight = Window_MapLog.prototype.windowHeight();
-        this._logSprites[i].y = -(i + 1) * windowMapLogHeight;
+        const sprite = this._logSprites[i];
+        const destinationY = this.childSpriteDestinationY(i);
+        sprite.y += Math.min(destinationY - sprite.y, 3);
     }
 };
 
 Window_MapLogs.prototype.createLog = function(log) {
     const sprite = new Window_MapLog(log);
+    sprite.y = this.childSpriteDestinationY(this._logSprites.length);
     this._logSprites.push(sprite);
     this.addChild(sprite);
 };
+
+Window_MapLogs.prototype.childSpriteDestinationY = function(index) {
+    return -(index + 1) * Window_MapLog.prototype.windowHeight()
+}; 
 
 Window_MapLogs.prototype.hasLogs = function() {
     return $gameMap.hasLogs();
