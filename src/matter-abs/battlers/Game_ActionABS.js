@@ -88,9 +88,8 @@ Game_ActionABS.prototype.apply = function(target) {
         
         if (this.isForOpponent() && target.isGuard()) {
             target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
-        } else {
-            target.character.requestAnimation(this.animationId());
         }
+        target.character.requestAnimation(this.animationId());
 
         this.executeDamage(target, value);
         target.gainAggro(this._subject, value + this.hitStun(target));
