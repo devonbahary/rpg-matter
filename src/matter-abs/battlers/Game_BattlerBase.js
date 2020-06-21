@@ -73,6 +73,7 @@ Game_BattlerBase.prototype.isOccasionOk = function(item) {
 };
 
 Game_BattlerBase.prototype.update = function() {
+    this.clearResult();
     this.updateHitStop();
     if (!this._hitStop && this.isAlive()) this.updateActive();
     if (this._isInPostDeathProcessing) this.updatePostDeathProcessing();
