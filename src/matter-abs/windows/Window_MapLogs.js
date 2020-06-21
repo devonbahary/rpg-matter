@@ -144,7 +144,11 @@ Window_MapLog.prototype.setOpacity = function(opacity) {
 
 Window_MapLog.prototype.refresh = function() {
     this.contents.clear();
-    if (this._iconIndex) this.drawIcon(this._iconIndex, 0, 0);
+    if (this._iconIndex) {
+        this.contents.paintOpacity = this.iconOpacity();
+        this.drawIcon(this._iconIndex, 0, 0);
+        this.contents.paintOpacity = 255;
+    }
     const x = this._iconIndex ? Window_Base._iconWidth + 2 : 0;
     this.drawText(this.convertEscapeCharacters(this._message), x, 0);
 };
@@ -159,6 +163,10 @@ Window_MapLog.prototype.isPlaying = function() {
 
 Window_MapLog.prototype.transitionOpacityDuration = function() {
     return 60;
+};
+
+Window_MapLog.prototype.iconOpacity = function() {
+    return 200;
 };
 
 global["Window_MapLogs"] = Window_MapLogs;
