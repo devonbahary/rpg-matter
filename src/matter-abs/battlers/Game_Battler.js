@@ -83,6 +83,9 @@ Game_Battler.prototype.applyHitStun = function(value) {
 
 Game_Battler.prototype.clearAction = function() {
     if (this._action) this.applyCooldown(this._action);
+    this._eligibleActionsMem = null; // serialized array of actions used to track when a new action set is available
+    this._pursuedAction = null;
+    this._pursuedActionCount = 0;
     this._action = null;
     this._actionFrame = 0;
     this._lastActionFrame = 0;
@@ -105,11 +108,8 @@ Game_Battler.prototype.hasAction = function() {
 Game_Battler.prototype.updateActive = function() {
     Game_BattlerBase.prototype.updateActive.call(this);
     this.updateLatestDamageForGauge();
-    if (this.hasActionSequence()) {
-        this.updateActionSeq();
-    } else {
-        this.updateBehavior();
-    }
+    if (this.hasActionSequence()) this.updateActionSeq();
+    this.updateBehavior();
 };
 
 Game_Battler.prototype.updateLatestDamageForGauge = function() {
@@ -160,25 +160,74 @@ Game_Battler.prototype.hasActionSequence = function() {
 
 Game_Battler.prototype.updateBehavior = function() {
     if (this.character === $gamePlayer || !this.canMove()) return;
+    this.updateEligibleActions();
+    this.updatePursuedAction();
+};
 
-    const skill = this.determineActionSkill();
-    if (!skill) return;
+Game_Battler.prototype.updateEligibleActions = function() {
+    const eligibleActions = this.getEligibleActions();
+    const serializedEligibleActions = JSON.stringify(eligibleActions);
+    
+    if (serializedEligibleActions !== this._eligibleActionsMem) {
+        this._eligibleActionsMem = serializedEligibleActions;
+        
+        const ratingZero = this.getRatingZeroForActions(eligibleActions);
+        const action = this.selectAction(eligibleActions, ratingZero);
+        
+        if (action) this._pursuedAction = $dataSkills[action.skillId];
+    }
+};
 
-    const action = new Game_ActionABS(this, skill);
+Game_Battler.prototype.selectAction = function(actionList, ratingZero) {
+    return Game_Enemy.prototype.selectAction.call(this, actionList, ratingZero);
+};
+
+Game_Battler.prototype.getEligibleActions = function() {
+    return [];
+};
+
+Game_Battler.prototype.getRatingZeroForActions = function(actions) {
+    const ratingMax = Math.max.apply(null, actions.map(a => a.rating));
+    return ratingMax - 3; 
+};
+
+Game_Battler.prototype.updatePursuedAction = function() {
+    let target = this.topAggroBattler();
+
+    if (this._pursuedAction) this._pursuedActionCount++;
+
+    if (this.hasAction()) {
+        this.character.turnTowardCharacter(target.character);
+        if (this.currentAction().isChanneled() && !this.meetsActionSustainCondition(this.currentAction())) {
+            this.clearAction();
+        }
+        return;
+    }
+    
+    if (!this._pursuedAction) return;
+    
+    const action = new Game_ActionABS(this, this._pursuedAction);
 
     if (action.isForOpponent()) {
-        const target = this.topAggroBattler();
         if (!target) return;
 
         if (this.character.distanceBetween(target.character) <= action.range()) {
             const battlers = action.determineTargets();
-            if (battlers.includes(target)) return this.setAction(skill);
+            if (battlers.includes(target)) return this.setAction(this._pursuedAction);
         }
-        this.character.moveTowardCharacter(target.character);
+    } else if (action.isForFriend()) {
+        if (this.meetsActionSustainCondition(action)) return this.setAction(this._pursuedAction);
     }
+
+    if (target) this.character.moveTowardCharacter(target.character);
 };
 
-Game_Battler.prototype.determineActionSkill = function() {
+Game_Battler.prototype.meetsActionSustainCondition = function(action) {
+    if (this._pursuedActionCount >= this.pursuedActionCountLimit(action)) return false;
+    if (action.isGuard()) {
+        return this.hasAggro() && this.isEnemyUnitWithinRange(this.rangeToGuardWithin());
+    }
+    return true;
 };
 
 Game_Battler.prototype.moveTowardsTarget = function(target, action) {
@@ -202,4 +251,19 @@ Game_Battler.prototype.die = function() {
 Game_Battler.prototype.setLatestDamageForGauge = function(damage, duration) {
     this.latestDamageForGauge = damage;
     this._latestDamageForGaugeDuration = duration;
+};
+
+Game_Battler.prototype.rangeToGuardWithin = function() {
+    return 2;
+};
+
+Game_Battler.prototype.isEnemyUnitWithinRange = function(range) {
+    return this.opponentsUnit().members().some(battler => 
+        battler.character && this.character.distanceBetween(battler.character) <= range
+    );
+};
+
+Game_Battler.prototype.pursuedActionCountLimit = function(action) {
+    if (action.isGuard()) return 300;
+    return Infinity;
 };
