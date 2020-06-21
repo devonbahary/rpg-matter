@@ -79,7 +79,7 @@ Window_GoldABS.prototype.shouldRefresh = function() {
 Window_GoldABS.prototype.updateGoldMem = function() {
     if (this._valueMem === this.value()) return;
   
-    const diff = this.value() - this._drawValue;
+    const diff = this.value() - this._valueMem;
     const goldSprite = new Window_GoldABS(diff);
     this._childSprites.push(goldSprite);
     this.parent.addChild(goldSprite);
