@@ -39,7 +39,7 @@ const ACTION_SEQUENCES = {
         60: [],
     },
     DEFLECT: {
-        1: [ stepLock(true), STEP_BACKWARD, ROUTE_MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        1: [ stepLock(true), STEP_BACKWARD, ROUTE_MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE), ROUTE_DIR_FIX_ON ],
         60: [],
     },
     GUARD: {
