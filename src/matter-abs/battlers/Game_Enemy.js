@@ -38,11 +38,11 @@ Game_Enemy.prototype.onEndDeathProcessing = function() {
 
 Game_Enemy.prototype.yieldRewards = function() {
     const exp = this.exp();
-    $gameParty.gainExp(exp);
     $gameMap.addLog({ 
         iconIndex: MATTER_ABS.WINDOW_EXP_ICON_INDEX, 
         message: TextManager.obtainExp.format(exp, TextManager.exp),
     });
+    $gameParty.gainExp(exp);
 
     const collectibleItems = [];
     const gold = this.gold();
