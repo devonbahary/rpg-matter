@@ -127,12 +127,14 @@ Game_Character.prototype.updateActionSequence = function() {
 Game_Character.prototype.onActionSequenceStart = function() {
     // remember mutable properties of action sequence to restore at end
     this._originalWeaponPose = this.weaponPose;
+    this._originalDirectionFix = this._directionFix;
 };
 
 Game_Character.prototype.onActionSequenceEnd = function() {
     if (this.battler) this.battler.clearAction();
     // restore mutable properties of action sequence
     this.weaponPose = this._originalWeaponPose;
+    this._directionFix = this._originalDirectionFix;
     this.stepLock(this._stepLockMem);
 };
 

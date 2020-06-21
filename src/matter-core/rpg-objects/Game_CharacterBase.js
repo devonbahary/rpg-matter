@@ -283,6 +283,7 @@ Game_CharacterBase.prototype.applyForce = function(forceVector, fromCharacter) {
 };
 
 Game_CharacterBase.prototype.updateMovementDirection = function(dir) {
+    if (this.isDirectionFixed()) return;
     if (!dir || dir === this._heading) return;
     
     switch (this._direction) {

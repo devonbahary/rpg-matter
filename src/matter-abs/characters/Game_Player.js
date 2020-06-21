@@ -103,10 +103,10 @@ Game_Player.prototype.triggerButtonActionABS = function() {
         // interrupt action for guard
         if (Input.isPressed('shift')) {
             
-            if (Input.isDoubleTapped('down')) return this.dodgeInDirection(2);
-            if (Input.isDoubleTapped('left')) return this.dodgeInDirection(4);
-            if (Input.isDoubleTapped('right')) return this.dodgeInDirection(6);
-            if (Input.isDoubleTapped('up')) return this.dodgeInDirection(8);
+            if (Input.isDoubleTapped('down')) return this.setDodgeAction();
+            if (Input.isDoubleTapped('left')) return this.setDodgeAction();
+            if (Input.isDoubleTapped('right')) return this.setDodgeAction();
+            if (Input.isDoubleTapped('up')) return this.setDodgeAction();
 
             if (this.battler.hasAction() && this.battler.currentAction().isGuard()) return;
             return this.battler.setAction($dataSkills[this.battler.guardSkillId()]);
@@ -125,8 +125,7 @@ Game_Player.prototype.triggerButtonActionABS = function() {
     }
 };
 
-Game_Player.prototype.dodgeInDirection = function(dir) {
-    this.setDirection(dir);
+Game_Player.prototype.setDodgeAction = function() {
     this.battler.setAction($dataSkills[MATTER_ABS.DODGE_SKILL_ID]);
 };
 

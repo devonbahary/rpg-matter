@@ -9,6 +9,7 @@ const {
     APPLY_EFFECT,
     CREATE_PROJECTILE,
     ROUTE_CHANGE_BLEND_MODE,
+    ROUTE_DIR_FIX_ON,
     ROUTE_MOVE_BACKWARD,
     ROUTE_MOVE_FORWARD,
     ROUTE_PLAY_SE, 
@@ -46,7 +47,7 @@ const ACTION_SEQUENCES = {
         1: APPLY_EFFECT,
     },
     DODGE: {
-        1: [ ROUTE_TURN_180D, stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), ...n(ROUTE_MOVE_BACKWARD, 15), playSe('Absorb1', 90, 150) ],
+        1: [ ROUTE_TURN_180D, ROUTE_DIR_FIX_ON, stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), ...n(ROUTE_MOVE_BACKWARD, 15), playSe('Absorb1', 90, 150) ],
         30: [],
     },
     BOOST: {
