@@ -43,8 +43,8 @@ const ACTION_SEQUENCES = {
         60: [],
     },
     GUARD: {
-        0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD) ],
-        1: APPLY_EFFECT,
+        0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD), APPLY_EFFECT ],
+        1: [],
     },
     DODGE: {
         1: [ ROUTE_TURN_180D, ROUTE_DIR_FIX_ON, stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), ...n(ROUTE_MOVE_BACKWARD, 15), playSe('Absorb1', 90, 150) ],

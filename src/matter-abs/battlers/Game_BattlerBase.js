@@ -5,6 +5,7 @@
 
 import { size } from "lodash";
 import { v4 as uuidv4 } from "uuid";
+import { AUTO_REMOVAL_TIMINGS } from "../constants";
 
 Object.defineProperties(Game_BattlerBase.prototype, {
     // AGgro Rate
@@ -44,6 +45,13 @@ Game_BattlerBase.prototype.actionCooldown = function(dataItem) {
     if (DataManager.isSkill(dataItem)) return this._skillCooldowns[dataItem.id];
     else if (DataManager.isItem(dataItem)) return this._itemCooldowns[dataItem.id];
     return 0;
+};
+
+const _Game_BattlerBase_isStateExpired = Game_BattlerBase.prototype.isStateExpired;
+Game_BattlerBase.prototype.isStateExpired = function(stateId) {
+    // states of Action End auto removal timing type expire at the end of actions
+    if ($dataStates[stateId].autoRemovalTiming === AUTO_REMOVAL_TIMINGS.ACTION_END) return true;
+    return _Game_BattlerBase_isStateExpired.call(this, stateId);
 };
 
 const _Game_BattlerBase_meetsUsableItemConditions = Game_BattlerBase.prototype.meetsUsableItemConditions;
