@@ -12,6 +12,15 @@ Game_Map.prototype.setup = function(mapId) {
     _Game_Map_setup.call(this, mapId);
     this._hitStopZoomTarget = null;
     this.setSelectionMode(false);
+    this.logs = [];
+};
+
+Game_Map.prototype.hasLogs = function() {
+    return this.logs.length;
+};
+
+Game_Map.prototype.addLog = function(log) {
+    this.logs.push(log);
 };
 
 const _Game_Map_update = Game_Map.prototype.update;

@@ -50,6 +50,10 @@ Game_CollectibleItem.prototype.onCollisionStart = function(event) {
     }
     if (this.isItem) {
         $gameParty.gainItem(this._dataItem, 1);
+        $gameMap.addLog({ 
+            iconIndex: this._dataItem.iconIndex, 
+            message: this._dataItem.name,
+        });
         AudioManager.playSe({ 
             name: MATTER_ABS.COLLECTIBLE_ITEMS.ITEM_PICKUP_SE, 
             volume: MATTER_ABS.COLLECTIBLE_ITEMS.ITEM_PICKUP_VOL, 

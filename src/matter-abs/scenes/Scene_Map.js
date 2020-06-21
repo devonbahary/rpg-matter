@@ -11,6 +11,7 @@ Scene_Map.prototype.createAllWindows = function() {
     this.createPlayerBattlerWindow();
     this.createActionHUDWindow();
     this.createGoldWindow();
+    this.createLogsWindow();
 };
 
 Scene_Map.prototype.createPlayerBattlerWindow = function() {
@@ -26,6 +27,11 @@ Scene_Map.prototype.createActionHUDWindow = function() {
 Scene_Map.prototype.createGoldWindow = function() {
     this._goldWindow = new Window_GoldABS();
     this.addChild(this._goldWindow);
+};
+
+Scene_Map.prototype.createLogsWindow = function() {
+    this._mapLogsWindow = new Window_MapLogs();
+    this.addChild(this._mapLogsWindow);
 };
 
 const _Scene_Map_isMenuEnabled = Scene_Map.prototype.isMenuEnabled;

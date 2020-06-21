@@ -300,6 +300,7 @@ import "./sprites/Sprite_DamageABS";
 import "./sprites/Spriteset_Map";
 import "./windows/Window_Action_HUD";
 import "./windows/Window_GoldABS";
+import "./windows/Window_MapLogs";
 import "./windows/Window_PlayerBattler";
 import "./action-sequences/action-sequences";
 import { transformPluginStruct } from "../utils";
