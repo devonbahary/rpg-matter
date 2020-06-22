@@ -19,7 +19,7 @@ Window_MapLogs.prototype.initialize = function() {
     const y = Graphics.boxHeight - Window_GoldABS.prototype.windowHeight();
     Window_Base.prototype.initialize.call(this, x, y, width, height);
     this.setBackgroundType(2);
-    this._logsLengthMem = 0;
+    this._logsLengthMem = $gameMap.logs.length;
     this._logSprites = [];
 };
 
