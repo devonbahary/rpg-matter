@@ -220,7 +220,7 @@ Game_ActionABS.prototype.battlersInRange = function() {
     let bounds;
     switch (this.aoe()) {
         case AOE_TYPES.RADIUS:
-            bounds = this._subjectCharacter.squareAround(this.range());
+            bounds = this._subjectCharacter.squareAround(this.range() * 2);
             const battlers = $gameMap.battlersInBoundingBox(bounds);
             return battlers.filter(b => {
                 return b.character.distanceBetween(this._subjectCharacter) <= this.range();
