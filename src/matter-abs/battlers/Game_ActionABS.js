@@ -221,6 +221,11 @@ Game_ActionABS.prototype.determineTargets = function() {
 
     const battlersInRange = this.battlersInRange();
 
+    if (this.subject().isBlinded() && this.needsSelection()) {
+        if (this.isForFriend()) return [ this._subject ];
+        return [];
+    }
+
     if (this.isForOpponent()) {
         return battlersInRange.filter(battler => !this._subject.isFriendWith(battler) && battler.isAlive());
     } else if (this.isForFriend()) {
