@@ -473,3 +473,12 @@ Game_Battler.prototype.distanceBetween = function(battler) {
     return this.character.distanceBetween(battlerCharacter);
 };
 
+const _Game_Battler_canUse = Game_Battler.prototype.canUse;
+Game_Battler.prototype.canUse = function(item) {
+    if (!this.isBlinded()) return _Game_Battler_canUse.call(this, item);
+    const action = new Game_ActionABS(this, item);
+    return (
+        _Game_Battler_canUse.call(this, item) && 
+        (!action.needsSelection() || action.isForFriend())
+    );
+};
