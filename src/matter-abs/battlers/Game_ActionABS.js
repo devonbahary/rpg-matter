@@ -86,7 +86,7 @@ Game_ActionABS.prototype.apply = function(target) {
         const subjectEffectCallbacks = this.subjectEffectCallbacks(target);
         const targetEffectCallbacks = this.targetEffectCallbacks(target, value);
         
-        if (this.isForOpponent() && target.isGuard()) {
+        if (this.isForOpponent() && target.isGuard() && value > 0) {
             target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
         }
         target.character.requestAnimation(this.animationId());
