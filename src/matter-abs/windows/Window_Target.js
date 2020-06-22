@@ -80,7 +80,7 @@ Window_Target.prototype.drawHpGauge = function() {
 };
 
 Window_Target.prototype.drawStates = function() {
-    const states = this.target.states().concat(this.target.states()).concat(this.target.states());
+    const states = this.target.states();
     for (let i = 0; i < states.length; i++) {
         const iconIndex = states[i].iconIndex;
         const duration = Math.floor(this.target.stateDuration(states[i].id));
