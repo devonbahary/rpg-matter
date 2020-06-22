@@ -186,7 +186,7 @@ Game_BattlerBase.prototype.clearBattlerAggro = function(battler) {
 
 Game_BattlerBase.prototype.topAggroBattler = function() {
     const topAggroBattlerId = Object.entries(this._aggro).reduce((topAggroBattlerId, [ battlerId, aggro ]) => {
-        if (!topAggroBattlerId || !topAggroBaggro > this._aggro[topAggroBattlerId]) return battlerId;
+        if (!topAggroBattlerId || aggro > this._aggro[topAggroBattlerId]) return battlerId;
         return topAggroBattlerId;
     }, null);
     return this.opponentsUnit().battlerById(topAggroBattlerId);
