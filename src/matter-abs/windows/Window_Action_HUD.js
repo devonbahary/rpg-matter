@@ -33,26 +33,6 @@ Window_Action_HUD.prototype.initMembers = function() {
     this.contents.fontSize = 12;
 };
 
-Window_Action_HUD.prototype.slotWidth = function() {
-    return Window_Base._iconWidth + this.borderThickness() * 2;
-};
-
-Window_Action_HUD.prototype.slotHeight = function() {
-    return Window_Base._iconHeight + this.borderThickness() * 2;
-};
-
-Window_Action_HUD.prototype.borderThickness = function() {
-    return 2;
-};
-
-Window_Action_HUD.prototype.slotGap = function() {
-    return 12;
-};
-
-Window_Action_HUD.prototype.translucentOpacity = function() {
-    return 100;
-};
-
 Window_Action_HUD.prototype.windowWidth = function() {
     const slotWidth = this.slotWidth() * Window_Action_HUD.NUM_SLOTS;
     const gapWidth = this.slotGap() * (Window_Action_HUD.NUM_SLOTS - 1);
@@ -63,10 +43,18 @@ Window_Action_HUD.prototype.windowHeight = function() {
     return this.slotHeight() + this.standardPadding() * 2;
 };
 
+Window_Action_HUD.prototype.slotWidth = function() {
+    return Window_Base._iconWidth + this.borderThickness() * 2;
+};
+
+Window_Action_HUD.prototype.slotHeight = function() {
+    return Window_Base._iconHeight + this.borderThickness() * 2;
+};
+
 Window_Action_HUD.prototype.refresh = function() {
     this.contents.clear();
     this.drawActionHUD();
-    this.memorizeLastRefresh();
+    this.updateRefreshMem();
 };
 
 Window_Action_HUD.prototype.drawActionHUD = function() {
@@ -86,10 +74,6 @@ Window_Action_HUD.prototype.drawActions = function() {
         this.changePaintOpacity(this.playerCanUse(dataItem));
         this.drawAction(x, dataItem, iconIndex, keyName, true);
     }
-};
-
-Window_Action_HUD.prototype.memorizeLastRefresh = function() {
-    this._memSerializedPlayerActionSlotMap = this.serializedPlayerActionSlotMap();
 };
 
 Window_Action_HUD.prototype.drawAction = function(x, dataItem, iconIndex, text, withBorder = false) {
@@ -136,23 +120,11 @@ Window_Action_HUD.prototype.drawActionCost = function(x, dataItem) {
     this.changeTextColor(this.normalColor());
 };
 
-Window_Action_HUD.prototype.isTpAction = function(dataItem) {
-    return this.battler.skillTpCost(dataItem) > 0;
+Window_Action_HUD.prototype.updateRefreshMem = function() {
+    this._refreshMem = this.refreshMem();
 };
 
-Window_Action_HUD.prototype.isMpAction = function(dataItem) {
-    return this.battler.skillMpCost(dataItem) > 0;
-};
-
-Window_Action_HUD.prototype.isItemAction = function(dataItem) {
-    return DataManager.isItem(dataItem);
-};
-
-Window_Action_HUD.prototype.playerActionSlotMap = function() {
-    return this.battler.displayableActionSlotKeyMap();
-};
-
-Window_Action_HUD.prototype.serializedPlayerActionSlotMap = function() {
+Window_Action_HUD.prototype.refreshMem = function() {
     const minimizedActionSlotMap = Object.entries(this.playerActionSlotMap()).reduce((acc, [ keyName, action ]) => {
         if (!action) return acc;
         acc[keyName] = {
@@ -173,10 +145,6 @@ Window_Action_HUD.prototype.actionIconIndex = function(action) {
     return action.iconIndex;
 };
 
-Window_Action_HUD.prototype.playerCanUse = function(dataItem) {
-    return dataItem && !this.battler.hasAction() && this.battler.canUse(dataItem);
-};
-
 Window_Action_HUD.prototype.update = function() {
     this.updateShow();
     Window_Base.prototype.update.call(this);
@@ -188,11 +156,43 @@ Window_Action_HUD.prototype.updateShow = function() {
 };
 
 Window_Action_HUD.prototype.shouldRefresh = function() {
-    return this._memSerializedPlayerActionSlotMap !== this.serializedPlayerActionSlotMap();
+    return this._refreshMem !== this.refreshMem();
+};
+
+Window_Action_HUD.prototype.playerCanUse = function(dataItem) {
+    return dataItem && !this.battler.hasAction() && this.battler.canUse(dataItem);
+};
+
+Window_Action_HUD.prototype.isTpAction = function(dataItem) {
+    return this.battler.skillTpCost(dataItem) > 0;
+};
+
+Window_Action_HUD.prototype.isMpAction = function(dataItem) {
+    return this.battler.skillMpCost(dataItem) > 0;
+};
+
+Window_Action_HUD.prototype.isItemAction = function(dataItem) {
+    return DataManager.isItem(dataItem);
+};
+
+Window_Action_HUD.prototype.playerActionSlotMap = function() {
+    return this.battler.displayableActionSlotKeyMap();
 };
 
 Window_Action_HUD.prototype.lineColor = function() {
     return this.normalColor();
+};
+
+Window_Action_HUD.prototype.borderThickness = function() {
+    return 2;
+};
+
+Window_Action_HUD.prototype.slotGap = function() {
+    return 12;
+};
+
+Window_Action_HUD.prototype.translucentOpacity = function() {
+    return 100;
 };
 
 global["Window_Action_HUD"] = Window_Action_HUD;
