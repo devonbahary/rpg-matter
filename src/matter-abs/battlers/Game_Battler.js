@@ -7,7 +7,6 @@
 import { getMassFromMeta, getBooleanFromMeta } from "../../utils";
 import MATTER_CORE from "../../matter-core/pluginParams";
 import MATTER_ABS from "../MatterActionBattleSystem";
-import { AUTO_REMOVAL_TIMINGS } from "../constants";
 
 Object.defineProperties(Game_Battler.prototype, {
     actionSequence: { get: function() { return this._action.actionSequence(); }, configurable: false },
@@ -99,7 +98,7 @@ Game_Battler.prototype.clearAction = function() {
     this._action = null;
     this._actionFrame = 0;
     this._lastActionFrame = 0;
-    this.removeStatesAuto(AUTO_REMOVAL_TIMINGS.ACTION_END);
+    this.removeStatesAuto(Game_BattlerBase.AUTO_REMOVAL_TIMINGS.ACTION_END);
 };
 
 // overwrite

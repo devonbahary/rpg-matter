@@ -5,7 +5,6 @@
 
 import { size } from "lodash";
 import { v4 as uuidv4 } from "uuid";
-import { AUTO_REMOVAL_TIMINGS } from "../constants";
 import MATTER_ABS from "../MatterActionBattleSystem";
 
 Object.defineProperties(Game_BattlerBase.prototype, {
@@ -22,6 +21,12 @@ Game_BattlerBase.REGENERATION_XPARAM_DATA_IDS = [
     Game_BattlerBase.MRG_DATA_ID,
     Game_BattlerBase.TRG_DATA_ID,
 ];
+
+Game_BattlerBase.AUTO_REMOVAL_TIMINGS = {
+    NONE: 0,
+    ACTION_END: 1,
+    TURN_END: 2,
+};
 
 const _Game_BattlerBase_initMembers = Game_BattlerBase.prototype.initMembers;
 Game_BattlerBase.prototype.initMembers = function() {
@@ -60,7 +65,7 @@ Game_BattlerBase.prototype.actionCooldown = function(dataItem) {
 const _Game_BattlerBase_isStateExpired = Game_BattlerBase.prototype.isStateExpired;
 Game_BattlerBase.prototype.isStateExpired = function(stateId) {
     // states of Action End auto removal timing type expire at the end of actions
-    if ($dataStates[stateId].autoRemovalTiming === AUTO_REMOVAL_TIMINGS.ACTION_END) return true;
+    if ($dataStates[stateId].autoRemovalTiming === Game_BattlerBase.AUTO_REMOVAL_TIMINGS.ACTION_END) return true;
     return _Game_BattlerBase_isStateExpired.call(this, stateId);
 };
 
