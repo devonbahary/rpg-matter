@@ -40,7 +40,7 @@ Game_ActionABS.prototype.initialize = function(subject, action) {
     this._subjectCharacter = subject.character; // sometimes a projectile of subject and not the subject character
     this._item = new Game_Item();
     this._item.setObject(action);
-    this._hasAppliedEffect = false;
+    this._hasAppliedEffect = false; // prevent certain behavior after effect has been applied (e.g., guard cancelling)
 };
 
 Game_ActionABS.BASE_FORCE_MULT = 1 / 16; 
