@@ -142,16 +142,32 @@ Game_Battler.prototype.clearAction = function() {
 // overwrite
 Game_Battler.prototype.setAction = function(dataItem) { 
     if (!this.canUse(dataItem)) return;
-    this.character.clearPathfinding();
-    this.clearAction();
-    this._action = new Game_ActionABS(this, dataItem);
-    this.useItem(dataItem);
-    if (!dataItem.meta.noLog) {
-        $gameMap.addLog({
-            iconIndex: dataItem.iconIndex,
-            message: TextManager.useItem.format(this.name(), dataItem.name),
-        });
+
+    const action = new Game_ActionABS(this, dataItem);
+    
+    const setActionCallback = () => {
+        this.clearAction();
+        this.character.clearPathfinding();
+        
+        this._action = action;
+        this.useItem(dataItem);
+        
+        if (!dataItem.meta.noLog) {
+            $gameMap.addLog({
+                iconIndex: dataItem.iconIndex,
+                message: TextManager.useItem.format(this.name(), dataItem.name),
+            });
+        }
+    };
+
+    if (action.needsPlayerSelection()) {
+        const targets = action.determineTargets();
+        if (!targets.length) return;
+
+        return $gamePlayer.startTargetSelection(targets, setActionCallback);
     }
+
+    setActionCallback();
 };
 
 Game_Battler.prototype.hasAction = function() {
@@ -267,10 +283,18 @@ Game_Battler.prototype.updatePursuedAction = function() {
 
         if (this.character.distanceBetween(target.character) <= action.range()) {
             const battlers = action.determineTargets();
-            if (battlers.includes(target)) return this.setAction(this._pursuedAction);
+            if (battlers.includes(target)) {
+                this.setAction(this._pursuedAction);
+                if (this.currentAction().needsSelection()) this.currentAction().setTarget(target);
+                return;
+            }
         }
     } else if (action.isForFriend()) {
-        if (this.meetsActionSustainCondition(action)) return this.setAction(this._pursuedAction);
+        if (this.meetsActionSustainCondition(action)) {
+            this.setAction(this._pursuedAction);
+            if (this.currentAction().needsSelection()) this.currentAction().setTarget(this); // TODO: only targeting self for now
+            return;
+        }
     }
 
     if (target) this.character.moveTowardCharacter(target.character);

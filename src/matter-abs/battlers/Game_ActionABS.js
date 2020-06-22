@@ -57,6 +57,13 @@ Game_ActionABS.prototype.setHasAppliedEffect = function(hasAppliedEffect) {
     this._hasAppliedEffect = hasAppliedEffect;
 };
 
+// overwritten
+Game_ActionABS.prototype.setTarget = function(target) {
+    // used by needsSelection() actions to indicate the target at the time of setting the action
+    // (may not be in the same list as determineTargets() by the time the action is applied)
+    this._target = target;
+};
+
 Game_ActionABS.prototype.actionSequence = function() {
     return this._item.actionSequence();
 };
@@ -69,10 +76,10 @@ Game_ActionABS.prototype.actionSequenceLength = function() {
     }, 0);
 };
 
-Game_ActionABS.prototype.apply = function(target) {
+Game_ActionABS.prototype.apply = function() {
     this.setHasAppliedEffect(true);
 
-    const targets = target ? [ target ] : this.determineTargets();
+    const targets = this.determineTargets();
     
     if (!targets.length) return;
 
@@ -203,6 +210,8 @@ Game_ActionABS.prototype.shouldUseWeaponProperty = function() {
 };
 
 Game_ActionABS.prototype.determineTargets = function() {
+    if (this._target) return [ this._target ];
+    
     if (this.isForUser()) return [ this._subject ];
 
     const battlersInRange = this.battlersInRange();

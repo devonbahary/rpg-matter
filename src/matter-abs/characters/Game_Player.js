@@ -12,16 +12,17 @@ Game_Player.prototype.initMembers = function() {
     this.clearTargetSelection();
 };
 
-Game_Player.prototype.setTargetSelectionTargets = function(targets, applyCallback) {
+Game_Player.prototype.startTargetSelection = function(targets, targetSelectionCallback) {
     this.playTargetSelectionSe();
     this._targetSelectionTargets = targets.sort((a, b) => a.character.distanceFrom(this) - b.character.distanceFrom(this));
-    this._targetSelectionApplyCallback = applyCallback;
     this.targetSelection = this._targetSelectionTargets[0];
+    this._targetSelectionCallback = targetSelectionCallback;
+    $gameMap.setSelectionMode(true);
 };
 
 Game_Player.prototype.clearTargetSelection = function() {
     this._targetSelectionTargets = [];
-    this._targetSelectionApplyCallback = null;
+    this._targetSelectionCallback = null;
     this.targetSelection = null;
 };
 
@@ -54,7 +55,8 @@ Game_Player.prototype.updateSelection = function() {
         this.playTargetSelectionSe();
         this.turnTowardCharacter(this.targetSelection.character);
         $gameMap.setSelectionMode(false);
-        this._targetSelectionApplyCallback(this.targetSelection);
+        this._targetSelectionCallback();
+        this.battler.currentAction().setTarget(this.targetSelection);
         this.clearTargetSelection();
     } 
 };
@@ -138,10 +140,4 @@ Game_Player.prototype.updateChanneledActionForKeyName = function(keyName) {
     if (action.isSameAs(this.battler.currentAction()._item) && !Input.isPressed(keyName)) {
         this.battler.clearAction();
     }
-};
-
-Game_Player.prototype.startPlayerSelection = function(targets) {
-    if (!targets.length) return;
-    this.setTargetSelectionTargets(targets, target => this.battler.currentAction().apply(target));
-    $gameMap.setSelectionMode(true);
 };
