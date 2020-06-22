@@ -58,7 +58,11 @@ Game_Player.prototype.updateSelection = function() {
         this._targetSelectionCallback();
         this.battler.currentAction().setTarget(this.targetSelection);
         this.clearTargetSelection();
-    } 
+    } else if (Input.isTriggered('escape')) {
+        SoundManager.playCancel();
+        this.clearTargetSelection();
+        setTimeout(() => $gameMap.setSelectionMode(false), 0); // prevent menu open in same input
+    }
 };
 
 Game_Player.prototype.playTargetSelectionSe = function() {
