@@ -170,10 +170,16 @@ Game_BattlerBase.prototype.resetAggro = function() {
 };
 
 Game_BattlerBase.prototype.gainAggro = function(battler, value) {
-    if (this.isDead() || this.isFriendWith(battler)) return;
+    if (!this.shouldGainAggro(battler)) return;
+    
     const val = battler.agr * value;
     if (!this._aggro[battler.id]) this._aggro[battler.id] = val;
     else this._aggro[battler.id] += val;
+};
+
+Game_BattlerBase.prototype.shouldGainAggro = function(battler) {
+    if (this.isDead() || this.isFriendWith(battler)) return false;
+    return true;
 };
 
 Game_BattlerBase.prototype.hasAggro = function() {  
