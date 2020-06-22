@@ -11,7 +11,11 @@ Sprite_Animation.prototype.setupDuration = function() {
 
 const _Sprite_Animation_update = Sprite_Animation.prototype.update;
 Sprite_Animation.prototype.update = function() {
-    if (this.shouldUpdate()) _Sprite_Animation_update.call(this);
+    if (this.shouldUpdate()) {
+        _Sprite_Animation_update.call(this);
+    } else {
+        this.updatePosition();
+    }
 };
 
 Sprite_Animation.prototype.shouldUpdate = function() {
