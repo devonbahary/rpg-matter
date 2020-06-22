@@ -3,7 +3,7 @@
 //
 // The window for displaying selected battler info.
 
-const { updateShow, drawGaugeABS } = require("./util");
+import { updateShow, drawGaugeABS } from "./util";
 
 function Window_Target() {
     this.initialize.apply(this, arguments);
