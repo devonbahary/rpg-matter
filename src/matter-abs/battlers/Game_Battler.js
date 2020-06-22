@@ -257,7 +257,7 @@ Game_Battler.prototype.updateEligibleActions = function() {
         const ratingZero = this.getRatingZeroForActions(eligibleActions);
         const action = this.selectAction(eligibleActions, ratingZero);
         
-        if (action) this._pursuedAction = $dataSkills[action.skillId];
+        this._pursuedAction = action ? $dataSkills[action.skillId] : null;
     }
 };
 
