@@ -28,7 +28,6 @@ Window_Target.prototype.initialize = function() {
     this.setBackgroundType(1);
     this.close();
     this.contents.fontSize = 14;
-    this._refreshMem = null;
 };
 
 Window_Target.prototype.windowWidth = function() {
@@ -67,7 +66,7 @@ Window_Target.prototype.refresh = function() {
     this.drawText(this.target.name(), 0, 0, this.contentsWidth(), 'center');
     this.drawHpGauge();
     this.drawStates();
-    this.memorizeLastRefresh();
+    this.updateRefreshMem();
 };
 
 Window_Target.prototype.drawHpGauge = function() {
@@ -92,7 +91,7 @@ Window_Target.prototype.drawStates = function() {
     }
 };
 
-Window_Target.prototype.memorizeLastRefresh = function() {
+Window_Target.prototype.updateRefreshMem = function() {
     this._refreshMem = this.refreshMem();
 };
 
