@@ -44,5 +44,10 @@ const _Scene_Map_isMenuEnabled = Scene_Map.prototype.isMenuEnabled;
 Scene_Map.prototype.isMenuEnabled = function() {
     const shouldRestrictDueToBattle = !MATTER_ABS.ALLOW_MENU_DURING_BATTLE && $gameParty.isInBattle;
     const shouldRestrictDueToAction = !MATTER_ABS.ALLOW_MENU_DURING_BATTLE && $gameParty.isInAction;
-    return _Scene_Map_isMenuEnabled.call(this) && !shouldRestrictDueToBattle && !shouldRestrictDueToAction;
+    return (
+        _Scene_Map_isMenuEnabled.call(this) && 
+        !shouldRestrictDueToBattle && 
+        !shouldRestrictDueToAction &&
+        !$gameMap.isSelectionMode
+    );
 };
