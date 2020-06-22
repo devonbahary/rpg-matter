@@ -28,7 +28,7 @@ Window_Target.prototype.initialize = function() {
     this.setBackgroundType(1);
     this.close();
     this.contents.fontSize = 14;
-    this._refreshMem = 0;
+    this._refreshMem = null;
 };
 
 Window_Target.prototype.windowWidth = function() {
