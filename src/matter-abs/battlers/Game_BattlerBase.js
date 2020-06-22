@@ -245,3 +245,9 @@ Game_BattlerBase.prototype.traitsWithId = function(code, id) {
         return trait.code === code && trait.dataId === id;
     });
 };
+
+// in seconds
+Game_BattlerBase.prototype.stateDuration = function(stateId) {
+    if (!this._stateTurns[stateId]) return 0;
+    return this._stateTurns[stateId] / MATTER_ABS.BATTLE_FRAMES_IN_TURN;
+};

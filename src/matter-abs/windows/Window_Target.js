@@ -17,6 +17,7 @@ Object.defineProperties(Window_Target.prototype, {
 });
 
 Window_Target.GAUGE_HEIGHT = 8;
+Window_Target.FIT_ICON_LENGTH = 8;
 
 Window_Target.prototype.initialize = function() {
     const width = this.windowWidth();
@@ -27,15 +28,15 @@ Window_Target.prototype.initialize = function() {
     this.setBackgroundType(1);
     this.close();
     this.contents.fontSize = 14;
-    this._hpRateMem = 0;
+    this._refreshMem = 0;
 };
 
 Window_Target.prototype.windowWidth = function() {
-    return 320;
+    return Window_Base._iconWidth * Window_Target.FIT_ICON_LENGTH + 2 * this.standardPadding();
 };
 
 Window_Target.prototype.windowHeight = function() {
-    return this.fittingHeight(2);
+    return this.fittingHeight(1) + Window_Target.GAUGE_HEIGHT + 2 + this.standardPadding() * 2;
 };
 
 Window_Target.prototype.update = function() {
@@ -50,23 +51,22 @@ Window_Target.prototype.updateShow = function() {
 };
 
 Window_Target.prototype.shouldShow = function() {
-    return $gamePlayer.targetSelection;
+    return this.target;
 };
 
 Window_Target.prototype.shouldHide = function() {
-    return !$gamePlayer.targetSelection;
+    return !this.target;
 };
 
 Window_Target.prototype.shouldRefresh = function() {
-    return this.target && this._hpRateMem !== this.target.hpRate();
+    return this.isOpen() && this._refreshMem !== this.refreshMem();
 };
 
 Window_Target.prototype.refresh = function() {
-    if (this.isClosed()) return;
     this.contents.clear();
-    if (!this.target) return;
     this.drawText(this.target.name(), 0, 0, this.contentsWidth(), 'center');
     this.drawHpGauge();
+    this.drawStates();
     this.memorizeLastRefresh();
 };
 
@@ -79,8 +79,32 @@ Window_Target.prototype.drawHpGauge = function() {
     this.drawText(this.target.hp, 0, 16, this.contentsWidth(), 'right');
 };
 
+Window_Target.prototype.drawStates = function() {
+    const states = this.target.states().concat(this.target.states()).concat(this.target.states());
+    for (let i = 0; i < states.length; i++) {
+        const iconIndex = states[i].iconIndex;
+        const duration = Math.floor(this.target.stateDuration(states[i].id));
+        const y = this.lineHeight() + Window_Target.GAUGE_HEIGHT + 2;
+        const width = Window_Base._iconWidth;
+        const x = width * i;
+        this.drawIcon(iconIndex, x, y);
+        this.drawText(duration, x, y + 6, width - 2, 'right');
+    }
+};
+
 Window_Target.prototype.memorizeLastRefresh = function() {
-    this._hpRateMem = this.target.hpRate();
+    this._refreshMem = this.refreshMem();
+};
+
+Window_Target.prototype.refreshMem = function() {
+    return this.target ? JSON.stringify({
+        name: this.target.name(),
+        hpRate: this.target.hpRate(),
+        states: this.target.states().map(state => ({
+            id: state.id,
+            duration: this.target.stateDuration(state.id),
+        })), 
+    }) : null;
 };
 
 global["Window_Target"] = Window_Target;
