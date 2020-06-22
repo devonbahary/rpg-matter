@@ -243,7 +243,19 @@ Game_Battler.prototype.meetsActionSustainCondition = function(action) {
 const _Game_Battler_onTurnEnd = Game_Battler.prototype.onTurnEnd;
 Game_Battler.prototype.onTurnEnd = function() {
     this._internalTurnCount++;
+    this.updateOnStateTickAnimations();
     _Game_Battler_onTurnEnd.call(this);
+};
+
+Game_Battler.prototype.updateOnStateTickAnimations = function() {
+    if (!this.character) return;
+    for (const stateId of this._states) {
+        if (this.isStateTurnTick(stateId)) {
+            const animationId = parseInt($dataStates[stateId].meta.tickAnimationId);
+            if (!animationId) continue;
+            this.character.requestAnimation(animationId);
+        } 
+    }
 };
 
 Game_Battler.prototype.moveTowardsTarget = function(target, action) {
