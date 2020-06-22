@@ -77,22 +77,22 @@ Game_ActionABS.prototype.apply = function(target) {
     if (!targets.length) return;
 
     for (const target of targets) {
-        let isCritical, value = 0;
+        let isCritical, damage = 0;
         if (this.item().damage.type > 0) {
             isCritical = Math.random() < this.itemCri(target);
-            value = this.makeDamageValue(target, isCritical);
+            damage = this.makeDamageValue(target, isCritical);
         }
     
         const subjectEffectCallbacks = this.subjectEffectCallbacks(target);
-        const targetEffectCallbacks = this.targetEffectCallbacks(target, value);
+        const targetEffectCallbacks = this.targetEffectCallbacks(target, damage);
         
-        if (this.isForOpponent() && target.isGuard() && value > 0) {
+        if (this.isForOpponent() && target.isGuard() && damage > 0) {
             target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
         }
         target.character.requestAnimation(this.animationId());
 
-        this.executeDamage(target, value);
-        target.gainAggro(this._subject, value + this.hitStun(target));
+        this.executeDamage(target, damage);
+        target.gainAggro(this._subject, damage + this.hitStun(target));
         
         const hitStop = this.hitStop(isCritical);
 
