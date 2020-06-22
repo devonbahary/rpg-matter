@@ -6,6 +6,16 @@
 
 import { squareInFrontOf, squareAround } from "./utils";
 
+Object.defineProperties(Game_CharacterBase.prototype, {
+    locationData: { get: function() { 
+        return { 
+            ...this.mapPos, 
+            mapPos: this.mapPos, 
+            radius: this.radius 
+        }; 
+    }, configurable: false },
+});
+
 const _Game_CharacterBase_initMembers = Game_CharacterBase.prototype.initMembers;
 Game_CharacterBase.prototype.initMembers = function() {
     _Game_CharacterBase_initMembers.call(this);
