@@ -78,6 +78,41 @@ Game_Battler.prototype.currentAction = function() {
     return this._action; // overwrite
 };
 
+const _Game_Battler_addState = Game_Battler.prototype.addState;
+Game_Battler.prototype.addState = function(stateId) {
+    _Game_Battler_addState.call(this, stateId);
+    if (this.isStateAddable(stateId)) this.logAddState(stateId);
+};
+
+Game_Battler.prototype.logAddState = function(stateId) {
+    const state = $dataStates[stateId];
+    const { iconIndex, message1: actorMessage, message2: enemyMessage } = state;
+    const message = this.isActor() ? actorMessage : enemyMessage;
+    if (message) {
+        $gameMap.addLog({
+            iconIndex,
+            message: this.name() + message,
+        });
+    }
+};
+
+const _Game_Battler_removeState = Game_Battler.prototype.removeState;
+Game_Battler.prototype.removeState = function(stateId) {
+    if (this.isStateAffected(stateId)) this.logRemoveState(stateId);
+    _Game_Battler_removeState.call(this, stateId);
+};
+
+Game_Battler.prototype.logRemoveState = function(stateId) {
+    const state = $dataStates[stateId];
+    const { iconIndex, message4: removedMessage } = state;
+    if (removedMessage) {
+        $gameMap.addLog({
+            iconIndex,
+            message: this.name() + removedMessage,
+        });
+    }
+};
+
 const _Game_Battler_requestEffect = Game_Battler.prototype.requestEffect;
 Game_Battler.prototype.requestEffect = function(effectType) {
     _Game_Battler_requestEffect.call(this, effectType);
