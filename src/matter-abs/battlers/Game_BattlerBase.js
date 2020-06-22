@@ -14,6 +14,15 @@ Object.defineProperties(Game_BattlerBase.prototype, {
     weapon: { get: function() { return null; }, configurable: false },
 });
 
+Game_BattlerBase.HRG_DATA_ID = 7;
+Game_BattlerBase.MRG_DATA_ID = 8;
+Game_BattlerBase.TRG_DATA_ID = 9;
+Game_BattlerBase.REGENERATION_XPARAM_DATA_IDS = [ 
+    Game_BattlerBase.HRG_DATA_ID,
+    Game_BattlerBase.MRG_DATA_ID,
+    Game_BattlerBase.TRG_DATA_ID,
+];
+
 const _Game_BattlerBase_initMembers = Game_BattlerBase.prototype.initMembers;
 Game_BattlerBase.prototype.initMembers = function() {
     _Game_BattlerBase_initMembers.call(this);
@@ -55,6 +64,12 @@ Game_BattlerBase.prototype.isStateExpired = function(stateId) {
     return _Game_BattlerBase_isStateExpired.call(this, stateId);
 };
 
+const _Game_BattlerBase_resetStateCounts = Game_BattlerBase.prototype.resetStateCounts;
+Game_BattlerBase.prototype.resetStateCounts = function(stateId) {
+    _Game_BattlerBase_resetStateCounts.call(this, stateId);
+    this._stateTurns[stateId] *= MATTER_ABS.BATTLE_FRAMES_IN_TURN;
+};
+
 const _Game_BattlerBase_meetsUsableItemConditions = Game_BattlerBase.prototype.meetsUsableItemConditions;
 Game_BattlerBase.prototype.meetsUsableItemConditions = function(dataItem) {
     return _Game_BattlerBase_meetsUsableItemConditions.call(this, dataItem) && !this.actionCooldown(dataItem);
@@ -74,7 +89,6 @@ Game_BattlerBase.prototype.isOccasionOk = function(item) {
 };
 
 Game_BattlerBase.prototype.update = function() {
-    this.clearResult();
     this.updateHitStop();
     if (!this._hitStop && this.isAlive()) this.updateActive();
     if (this._isInPostDeathProcessing) this.updatePostDeathProcessing();
@@ -83,7 +97,6 @@ Game_BattlerBase.prototype.update = function() {
 Game_BattlerBase.prototype.updateActive = function() {
     this.updateHitStun();
     this.updateCooldowns();
-    this.onTurnEnd();
 };
 
 Game_BattlerBase.prototype.updateHitStop = function() {
@@ -205,4 +218,25 @@ Game_BattlerBase.prototype.cooldownRate = function(dataItem) {
 
     const totalCooldown = new Game_Item(dataItem).cooldown();
     return (totalCooldown - cooldown) / totalCooldown;
+};
+
+// overwrite to include (code, id)
+Game_BattlerBase.prototype.traitObjects = function(code, id) {
+    // don't include regeneration xparams in states
+    if (code === Game_BattlerBase.TRAIT_XPARAM && Game_BattlerBase.REGENERATION_XPARAM_DATA_IDS.includes(id)) return [];
+    return this.states();
+};
+
+// overwrite to include (code, id)
+Game_BattlerBase.prototype.allTraits = function(code, id) {
+    return this.traitObjects(code, id).reduce(function(r, obj) {
+        return r.concat(obj.traits);
+    }, []);
+};
+
+// overwrite to include (code, id)
+Game_BattlerBase.prototype.traitsWithId = function(code, id) {
+    return this.allTraits(code, id).filter(function(trait) {
+        return trait.code === code && trait.dataId === id;
+    });
 };

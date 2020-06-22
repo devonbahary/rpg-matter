@@ -70,3 +70,8 @@ Game_Enemy.prototype.getEligibleActions = function() {
     const ratingZero = this.getRatingZeroForActions(validActions);
     return validActions.filter(a => a.rating > ratingZero);
 };
+
+// overwrite to include (code, id)
+Game_Enemy.prototype.traitObjects = function(code, id) {
+    return Game_Battler.prototype.traitObjects.call(this, code, id).concat(this.enemy());
+};

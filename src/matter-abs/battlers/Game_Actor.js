@@ -97,3 +97,17 @@ Game_Actor.prototype.displayLevelUp = function(newSkills) {
         message: TextManager.levelUp.format(this._name, TextManager.level, this._level),
     });
 };
+
+// overwrite to include (code, id)
+Game_Actor.prototype.traitObjects = function(code, id) {
+    var objects = Game_Battler.prototype.traitObjects.call(this, code, id);
+    objects = objects.concat([this.actor(), this.currentClass()]);
+    var equips = this.equips();
+    for (var i = 0; i < equips.length; i++) {
+        var item = equips[i];
+        if (item) {
+            objects.push(item);
+        }
+    }
+    return objects;
+};

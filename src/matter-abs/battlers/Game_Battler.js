@@ -6,6 +6,7 @@
 
 import { getMassFromMeta, getBooleanFromMeta } from "../../utils";
 import MATTER_CORE from "../../matter-core/pluginParams";
+import MATTER_ABS from "../MatterActionBattleSystem";
 import { AUTO_REMOVAL_TIMINGS } from "../constants";
 
 Object.defineProperties(Game_Battler.prototype, {
@@ -28,6 +29,7 @@ Game_Battler.prototype.initMembers = function() {
     this.character = null;
     this.latestDamageForGauge = 0;
     this._damagePopups = [];
+    this._internalTurnCount = 0;
 };
 
 Game_Battler.prototype.requestDamagePopup = function(damage) {
@@ -36,6 +38,14 @@ Game_Battler.prototype.requestDamagePopup = function(damage) {
 
 Game_Battler.prototype.isDamagePopupsRequested = function() {
     return this._damagePopups.length;
+};
+
+Game_Battler.prototype.isInternalTurnTick = function() {
+    return this._internalTurnCount % MATTER_ABS.BATTLE_FRAMES_IN_TURN === 0;
+};
+
+Game_Battler.prototype.isStateTurnTick = function(stateId) {
+    return this._stateTurns[stateId] % MATTER_ABS.BATTLE_FRAMES_IN_TURN === 0;
 };
 
 Game_Battler.prototype.update = function() {
@@ -110,6 +120,7 @@ Game_Battler.prototype.updateActive = function() {
     this.updateLatestDamageForGauge();
     if (this.hasActionSequence()) this.updateActionSeq();
     this.updateBehavior();
+    this.onTurnEnd();
 };
 
 Game_Battler.prototype.updateLatestDamageForGauge = function() {
@@ -230,6 +241,12 @@ Game_Battler.prototype.meetsActionSustainCondition = function(action) {
     return true;
 };
 
+const _Game_Battler_onTurnEnd = Game_Battler.prototype.onTurnEnd;
+Game_Battler.prototype.onTurnEnd = function() {
+    this._internalTurnCount++;
+    _Game_Battler_onTurnEnd.call(this);
+};
+
 Game_Battler.prototype.moveTowardsTarget = function(target, action) {
     if (this.character.distanceBetween(target.character) <= action.range()) {
         const battlers = action.determineTargets();
@@ -266,4 +283,53 @@ Game_Battler.prototype.isEnemyUnitWithinRange = function(range) {
 Game_Battler.prototype.pursuedActionCountLimit = function(action) {
     if (action.isGuard()) return 300;
     return Infinity;
+};
+
+Game_Battler.prototype.updateOnTickStateRegen = function(dataId, nonZeroRegenCallback) {
+    for (const state of this.states()) {
+        if (!this.isStateTurnTick(state.id)) return;
+        
+        const stateRegen = state.traits.reduce((acc, trait) => {
+            if (trait.code === Game_BattlerBase.TRAIT_XPARAM && trait.dataId === dataId) {
+                return acc + trait.value;
+            }
+            return acc;
+        }, 0);
+        if (stateRegen !== 0) nonZeroRegenCallback(stateRegen);
+    }
+};
+
+const _Game_Battler_regenerateHp = Game_Battler.prototype.regenerateHp;
+Game_Battler.prototype.regenerateHp = function() {
+    if (this.isInternalTurnTick()) _Game_Battler_regenerateHp.call(this);
+    this.updateOnTickStateRegen(Game_BattlerBase.HRG_DATA_ID, stateHrg => {
+        // from Game_Battler.regenerateHp()
+        var value = Math.floor(this.mhp * stateHrg);
+        value = Math.max(value, -this.maxSlipDamage());
+        if (value !== 0) {
+            this.gainHp(value);
+        }
+    });
+};
+
+const _Game_Battler_regenerateMp = Game_Battler.prototype.regenerateMp;
+Game_Battler.prototype.regenerateMp = function() {
+    if (this.isInternalTurnTick()) _Game_Battler_regenerateMp.call(this);
+    this.updateOnTickStateRegen(Game_BattlerBase.MRG_DATA_ID, stateMrg => {
+        // from Game_Battler.regenerateMp()
+        var value = Math.floor(this.mmp * stateMrg);
+        if (value !== 0) {
+            this.gainMp(value);
+        }
+    });
+};
+
+const _Game_Battler_regenerateTp = Game_Battler.prototype.regenerateTp;
+Game_Battler.prototype.regenerateTp = function() {
+    if (this.isInternalTurnTick()) _Game_Battler_regenerateTp.call(this);
+    this.updateOnTickStateRegen(Game_BattlerBase.TRG_DATA_ID, stateTrg => {
+        // from Game_Battler.regenerateTp()
+        var value = Math.floor(100 * stateTrg);
+        this.gainSilentTp(value);
+    });
 };

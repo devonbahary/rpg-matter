@@ -167,6 +167,13 @@
  * @parent Battle
  * @desc Settings for collectible items on map.
  * @type struct<CollectibleItems>
+ * 
+ * @param Frames In Turn
+ * @parent Battle
+ * @desc Number of frames that constitute 1 turn. (60 frames = 1 second)
+ * @type number
+ * @default 60
+ * @min 0
  *
  * @param Windows
  * 
@@ -337,6 +344,7 @@ const capitalizeKeyAndNumberValue = (acc, key, val) => {
 };
 
 export default {
+    BATTLE_FRAMES_IN_TURN: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Frames In Turn"]),
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
     GAUGE_LATEST_DAMAGE_DURATION: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Latest Damage Duration"]),
     DEFAULT_HIT_STUN: transformPluginStruct(
