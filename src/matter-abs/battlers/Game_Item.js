@@ -109,3 +109,9 @@ Game_Item.prototype.cooldown = function() {
     }
     return cooldown;
 };
+
+Game_Item.prototype.aggro = function() {
+    const aggro = parseInt(this.meta.aggro);
+    if (aggro) return aggro;
+    return 0;
+};

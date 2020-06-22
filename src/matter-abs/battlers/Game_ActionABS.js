@@ -99,7 +99,7 @@ Game_ActionABS.prototype.apply = function() {
         target.character.requestAnimation(this.animationId());
 
         this.executeDamage(target, damage);
-        target.gainAggro(this._subject, damage + this.hitStun(target));
+        target.gainAggro(this._subject, this.aggroForTarget(damage, target));
         
         const hitStop = this.hitStop(isCritical);
 
@@ -137,6 +137,11 @@ Game_ActionABS.prototype.targetEffectCallbacks = function(target, value) {
         () => this.applyForce(target, value), 
         () => target.applyHitStun(this.hitStun(target)),
     ];
+};
+
+Game_ActionABS.prototype.aggroForTarget = function(damage, target) {
+    const baseAggro = this._item.aggro() + damage + this.hitStun(target);
+    return baseAggro + 60 * this.item().effects.length;
 };
 
 const _Game_ActionABS_executeHpDamage = Game_ActionABS.prototype.executeHpDamage;
