@@ -326,15 +326,6 @@ Game_Battler.prototype.updateOnStateTickAnimations = function() {
     }
 };
 
-Game_Battler.prototype.moveTowardsTarget = function(target, action) {
-    if (this.character.distanceBetween(target.character) <= action.range()) {
-        const battlers = action.determineTargets();
-        if (battlers.includes(target)) return true;
-    }
-    this.character.moveTowardCharacter(target.character);
-    return false;
-};
-
 Game_Battler.prototype.attackAnimationId1 = function() {
     return 1;
 };
