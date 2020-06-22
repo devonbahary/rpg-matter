@@ -37,12 +37,16 @@ Window_PlayerBattler.prototype.windowHeight = function() {
 Window_PlayerBattler.prototype.update = function() {
     this.updateShow();
     Window_Base.prototype.update.call(this);
-    this.refresh();
+    if (this.shouldRefresh()) this.refresh();
 };
 
 Window_PlayerBattler.prototype.updateShow = function() {
     updateShow.call(this);
 };
+
+Window_PlayerBattler.prototype.shouldRefresh = function() {
+    return this._refreshMem !== this.refreshMem();
+}
 
 Window_PlayerBattler.prototype.refresh = function() {
     this.contents.clear();
@@ -50,6 +54,22 @@ Window_PlayerBattler.prototype.refresh = function() {
     const y = this.contentsHeight() / 2 + characterHeight / 2;
     this.drawCharacter(this.battler.imageName, this.battler.imageIndex, this.standardPadding(), y);
     this.drawGauges();
+    this.updateRefreshMem();
+};
+
+Window_PlayerBattler.prototype.updateRefreshMem = function() {
+    this._refreshMem = this.refreshMem();
+};
+
+Window_PlayerBattler.prototype.refreshMem = function() {
+    return JSON.stringify({
+        battlerImageName: this.battler.imageName,
+        battlerImageIndex: this.battler.imageIndex,
+        hpRate: this.battler.hpRate(),
+        mpRate: this.battler.mpRate(),
+        tpRate: this.battler.tpRate(),
+        expRate: this.battler.expRate(),
+    });
 };
 
 Window_PlayerBattler.prototype.drawGauges = function() {
