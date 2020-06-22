@@ -146,6 +146,12 @@ Game_Battler.prototype.setAction = function(action) {
     this.clearAction();
     this._action = new Game_ActionABS(this, action);
     this.useItem(action);
+    if (!action.meta.noLog) {
+        $gameMap.addLog({
+            iconIndex: action.iconIndex,
+            message: TextManager.useItem.format(this.name(), action.name),
+        });
+    }
 };
 
 Game_Battler.prototype.hasAction = function() {
