@@ -76,7 +76,9 @@ Window_PlayerBattler.prototype.drawBasicInfo = function(y) {
     this.changeTextColor(this.normalColor());
     this.drawText(this.battler.level, 2 + xFromStart, y);
     xFromStart += this.textWidth(this.battler.level) + 2;
+    this.contents.fontSize = 16;
     this.drawText(this.battler.name(), 6 + xFromStart, y);
+    this.contents.fontSize = 14;
 };
 
 Window_PlayerBattler.prototype.drawHpGauge = function(x, y) {
@@ -91,14 +93,18 @@ Window_PlayerBattler.prototype.drawHpGauge = function(x, y) {
 Window_PlayerBattler.prototype.drawMpAndTpGauges = function(x, y) {
     // MP
     const mpGaugeWidth = (this.contentsWidth() - x) * 2 / 3;
-    this.drawGauge(x, y + 18, mpGaugeWidth, this.battler.mpRate(), this.mpGaugeColor1(), this.mpGaugeColor2());
+    const mpColor1 = this.mpGaugeColor1();
+    const mpColor2 = this.mpGaugeColor2();
+    this.drawGauge(x, y + 18, mpGaugeWidth, this.battler.mpRate(), mpColor1, mpColor2, Math.max(100, 255 * this.battler.mpRate()));
     this.changeTextColor(this.mpColor(this.battler));
     this.drawText(this.battler.mp, x, y, mpGaugeWidth, 'right');
     this.changeTextColor(this.systemColor());
     this.drawText(TextManager.mpA, x, y + 2);
     // TP
     const tpWidth = this.contentsWidth() - mpGaugeWidth;
-    this.drawGauge(x + mpGaugeWidth, y + 18, tpWidth, this.battler.tpRate(), this.tpGaugeColor1(), this.tpGaugeColor2());
+    const tpColor1 = this.tpGaugeColor1();
+    const tpColor2 = this.tpGaugeColor2();
+    this.drawGauge(x + mpGaugeWidth, y + 18, tpWidth, this.battler.tpRate(), tpColor1, tpColor2, Math.max(100, 255 * this.battler.tpRate()));
     this.changeTextColor(this.tpColor(this.battler));
     this.drawText(this.battler.tp, x, y, this.contentsWidth() - x, 'right');
     this.changeTextColor(this.systemColor());
@@ -137,9 +143,9 @@ Window_PlayerBattler.prototype.refreshMem = function() {
     });
 };
 
-Window_PlayerBattler.prototype.drawGauge = function(x, y, width, rate, color1, color2) {
+Window_PlayerBattler.prototype.drawGauge = function(x, y, width, rate, color1, color2, gradientOpacity) {
     const height = Window_PlayerBattler.GAUGE_HEIGHT;
-    drawGaugeABS.call(this, x, y, width, height, rate, color1, color2);
+    drawGaugeABS.call(this, x, y, width, height, rate, color1, color2, gradientOpacity);
 };
 
 Window_PlayerBattler.prototype.expGaugeColor1 = function() {
