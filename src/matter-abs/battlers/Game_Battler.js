@@ -140,16 +140,16 @@ Game_Battler.prototype.clearAction = function() {
 };
 
 // overwrite
-Game_Battler.prototype.setAction = function(action) { 
-    if (!this.canUse(action)) return;
+Game_Battler.prototype.setAction = function(dataItem) { 
+    if (!this.canUse(dataItem)) return;
     this.character.clearPathfinding();
     this.clearAction();
-    this._action = new Game_ActionABS(this, action);
-    this.useItem(action);
-    if (!action.meta.noLog) {
+    this._action = new Game_ActionABS(this, dataItem);
+    this.useItem(dataItem);
+    if (!dataItem.meta.noLog) {
         $gameMap.addLog({
-            iconIndex: action.iconIndex,
-            message: TextManager.useItem.format(this.name(), action.name),
+            iconIndex: dataItem.iconIndex,
+            message: TextManager.useItem.format(this.name(), dataItem.name),
         });
     }
 };
