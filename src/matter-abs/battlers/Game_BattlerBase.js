@@ -173,7 +173,7 @@ Game_BattlerBase.prototype.gainAggro = function(battler, value) {
     if (this.isDead() || this.isFriendWith(battler)) return;
     const val = battler.agr * value;
     if (!this._aggro[battler.id]) this._aggro[battler.id] = val;
-    this._aggro[battler.id] += val;
+    else this._aggro[battler.id] += val;
 };
 
 Game_BattlerBase.prototype.hasAggro = function() {  
