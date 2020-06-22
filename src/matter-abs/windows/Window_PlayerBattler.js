@@ -3,7 +3,7 @@
 //
 // The window for displaying the player battler.
 
-import { drawGaugeABS, updateShow } from "./util";
+import { drawGaugeABS, updateShow } from "./window-utils";
 
 function Window_PlayerBattler() {
     this.initialize.apply(this, arguments);

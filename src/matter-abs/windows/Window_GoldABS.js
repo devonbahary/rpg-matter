@@ -3,7 +3,7 @@
 //
 // The window for displaying the party's gold.
 
-import { updateShow } from "./util";
+import { updateShow } from "./window-utils";
 import MATTER_ABS from "../MatterActionBattleSystem";
 
 function Window_GoldABS() {

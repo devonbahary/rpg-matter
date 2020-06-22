@@ -1,4 +1,4 @@
-import { updateShow } from "./util";
+import { updateShow } from "./window-utils";
 
 //-----------------------------------------------------------------------------
 // Window_MapLogs

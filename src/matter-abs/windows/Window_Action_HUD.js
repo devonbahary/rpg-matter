@@ -3,7 +3,7 @@
 //
 // The window for displaying the player action slots.
 
-import { updateShow } from "./util";
+import { updateShow } from "./window-utils";
 
 function Window_Action_HUD() {
     this.initialize.apply(this, arguments);
