@@ -24,7 +24,7 @@ Window_MapLogs.prototype.initialize = function() {
 };
 
 Window_MapLogs.prototype.windowWidth = function() {
-    return 220;
+    return 320;
 };
 
 Window_MapLogs.prototype.windowHeight = function() {
