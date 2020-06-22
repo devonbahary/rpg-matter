@@ -84,6 +84,7 @@ Game_Battler.prototype.addState = function(stateId) {
     if (this.isStateAddable(stateId)) {
         if ($dataStates[stateId].meta.blind && this.stateCountWithBlindMeta() === 0) {
             this.setupBlindedMentalCharacterMap();
+            if (this.character === $gamePlayer) $gameScreen.startFadeOut(60);
         }
         this.logAddState(stateId);
     }
@@ -108,6 +109,7 @@ Game_Battler.prototype.removeState = function(stateId) {
         this.logRemoveState(stateId);
         if ($dataStates[stateId].meta.blind && this.stateCountWithBlindMeta() === 1) { // only reset if no more states
             this.resetBlindedMentalCharacterMap();
+            if (this.character === $gamePlayer) $gameScreen.startFadeIn(60);
         }
     }
     _Game_Battler_removeState.call(this, stateId);
