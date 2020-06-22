@@ -44,7 +44,10 @@ Game_Battler.prototype.isInternalTurnTick = function() {
 };
 
 Game_Battler.prototype.isStateTurnTick = function(stateId) {
-    return this._stateTurns[stateId] % MATTER_ABS.BATTLE_FRAMES_IN_TURN === 0;
+    if ($dataStates[stateId].autoRemovalTiming === Game_BattlerBase.AUTO_REMOVAL_TIMINGS.TURN_END) {
+        return this._stateTurns[stateId] % MATTER_ABS.BATTLE_FRAMES_IN_TURN === 0;
+    }
+    return false;
 };
 
 Game_Battler.prototype.update = function() {
