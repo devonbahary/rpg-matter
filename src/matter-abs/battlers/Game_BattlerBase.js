@@ -72,7 +72,12 @@ Game_BattlerBase.prototype.isStateExpired = function(stateId) {
 const _Game_BattlerBase_resetStateCounts = Game_BattlerBase.prototype.resetStateCounts;
 Game_BattlerBase.prototype.resetStateCounts = function(stateId) {
     _Game_BattlerBase_resetStateCounts.call(this, stateId);
-    this._stateTurns[stateId] *= MATTER_ABS.BATTLE_FRAMES_IN_TURN;
+    if ($dataStates[stateId].autoRemovalTiming === Game_BattlerBase.AUTO_REMOVAL_TIMINGS.TURN_END) {
+        this._stateTurns[stateId] *= MATTER_ABS.BATTLE_FRAMES_IN_TURN;
+    } else {
+        this._stateTurns[stateId] = Infinity;
+    }
+    
 };
 
 const _Game_BattlerBase_meetsUsableItemConditions = Game_BattlerBase.prototype.meetsUsableItemConditions;

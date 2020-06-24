@@ -82,12 +82,12 @@ Window_Target.prototype.drawStates = function() {
     const states = this.target.states();
     for (let i = 0; i < states.length; i++) {
         const iconIndex = states[i].iconIndex;
-        const duration = Math.floor(this.target.stateDuration(states[i].id));
+        const duration = Math.ceil(this.target.stateDuration(states[i].id));
         const y = this.lineHeight() + Window_Target.GAUGE_HEIGHT + 2;
         const width = Window_Base._iconWidth;
         const x = width * i;
         this.drawIcon(iconIndex, x, y);
-        this.drawText(duration, x, y + 6, width - 2, 'right');
+        if (duration !== Infinity) this.drawText(duration, x, y + 6, width - 2, 'right');
     }
 };
 

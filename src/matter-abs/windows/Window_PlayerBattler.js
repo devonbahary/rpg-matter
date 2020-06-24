@@ -86,7 +86,7 @@ Window_PlayerBattler.prototype.drawStates = function() {
         }
         this.drawIcon(states[i].iconIndex, x, y);
         this.contents.paintOpacity = 255;
-        this.drawText(Math.ceil(duration), x, y + 4, width - 2, 'right');
+        if (duration !== Infinity) this.drawText(Math.ceil(duration), x, y + 4, width - 2, 'right');
     }
 };
 
