@@ -260,10 +260,6 @@ Game_ActionABS.prototype.isChanneled = function() {
 };
 
 Game_ActionABS.prototype.applyGuard = function(damage, target) {
-    return damage > 0 && target.isGuard() ? 0 : damage;
-};
-
-Game_ActionABS.prototype.applyGuard = function(damage, target) {
     // overwrite; applyGuard does not return the transformed damage anymore because
     // we need to account for the difference outside of makeDamageValue()
     return damage;
