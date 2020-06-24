@@ -55,7 +55,6 @@ Window_PlayerBattler.prototype.shouldRefresh = function() {
 }
 
 Window_PlayerBattler.prototype.refresh = function() {
-    console.log('refresh');
     this.contents.clear();
     const offsetX = 4;
     this.drawInfo()
