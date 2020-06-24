@@ -83,7 +83,8 @@ Game_Character.prototype.update = function() {
 
 const _Game_Character_move = Game_Character.prototype.move;
 Game_Character.prototype.move = function(vector) {
-    if (!this.isHitStunned()) _Game_Character_move.call(this, vector);
+    if (this.battler && !this.battler.canMove()) return;
+    _Game_Character_move.call(this, vector);
 };
 
 Game_Character.prototype.updateHitStun = function() {
