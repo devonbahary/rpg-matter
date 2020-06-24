@@ -55,61 +55,24 @@ Window_PlayerBattler.prototype.shouldRefresh = function() {
 }
 
 Window_PlayerBattler.prototype.refresh = function() {
+    console.log('refresh');
     this.contents.clear();
     const offsetX = 4;
-    this.drawBasicInfo(-8);
-    this.drawHpGauge(offsetX, 6);
-    this.drawMpAndTpGauges(offsetX, 18);
+    this.drawInfo()
+    this.drawParameters();
     this.drawStates();
     this.updateRefreshMem();
 };
 
-Window_PlayerBattler.prototype.drawBasicInfo = function(y) {
-    this.contents.fillRect(0, y + 22, this.contentsWidth(), 4, this.gaugeBackColor(), this.gaugeBackColor());
-    this.contents.paintOpacity = 100;
-    this.contents.gradientFillRect(0, y + 22, this.contentsWidth() * this.battler.expRate(), 4, this.expGaugeColor1(), this.expGaugeColor2());
-    this.contents.paintOpacity = 255;
-    this.changeTextColor(this.systemColor());
-    let xFromStart = 0;
-    this.drawText(TextManager.levelA, xFromStart, y);
-    xFromStart += this.textWidth(TextManager.levelA);
-    this.changeTextColor(this.normalColor());
-    this.drawText(this.battler.level, 2 + xFromStart, y);
-    xFromStart += this.textWidth(this.battler.level) + 2;
-    this.contents.fontSize = 16;
-    this.drawText(this.battler.name(), 6 + xFromStart, y);
-    this.contents.fontSize = 14;
+Window_PlayerBattler.prototype.drawInfo = function() {
+    this.drawText(this.battler.name(), 0, -4);
 };
 
-Window_PlayerBattler.prototype.drawHpGauge = function(x, y) {
-    this.drawGauge(x, y + 18, this.contentsWidth() - x, this.battler.hpRate(), this.hpGaugeColor1(), this.hpGaugeColor2());
-    this.changeTextColor(this.hpColor(this.battler));
-    this.drawText(this.battler.hp, x, y, this.contentsWidth() - x, 'right');
-    this.changeTextColor(this.systemColor());
-    this.drawText(TextManager.hpA, x, y + 2);
-    this.changeTextColor(this.normalColor());
-};
-
-Window_PlayerBattler.prototype.drawMpAndTpGauges = function(x, y) {
-    // MP
-    const mpGaugeWidth = (this.contentsWidth() - x) * 2 / 3;
-    const mpColor1 = this.mpGaugeColor1();
-    const mpColor2 = this.mpGaugeColor2();
-    this.drawGauge(x, y + 18, mpGaugeWidth, this.battler.mpRate(), mpColor1, mpColor2, Math.max(100, 255 * this.battler.mpRate()));
-    this.changeTextColor(this.mpColor(this.battler));
-    this.drawText(this.battler.mp, x, y, mpGaugeWidth, 'right');
-    this.changeTextColor(this.systemColor());
-    this.drawText(TextManager.mpA, x, y + 2);
-    // TP
-    const tpWidth = this.contentsWidth() - mpGaugeWidth;
-    const tpColor1 = this.tpGaugeColor1();
-    const tpColor2 = this.tpGaugeColor2();
-    this.drawGauge(x + mpGaugeWidth, y + 18, tpWidth, this.battler.tpRate(), tpColor1, tpColor2, Math.max(100, 255 * this.battler.tpRate()));
-    this.changeTextColor(this.tpColor(this.battler));
-    this.drawText(this.battler.tp, x, y, this.contentsWidth() - x, 'right');
-    this.changeTextColor(this.systemColor());
-    this.drawText(TextManager.tpA, x + mpGaugeWidth, y + 2);
-    this.changeTextColor(this.normalColor());
+Window_PlayerBattler.prototype.drawParameters = function() {
+    const y = 24;
+    drawGaugeABS.call(this, 0, y, this.contentsWidth(), 8, this.battler.hpRate(), this.hpGaugeColor1(), this.hpGaugeColor2());
+    drawGaugeABS.call(this, 0, y + 8, this.contentsWidth(), 8, this.battler.mpRate(), this.mpGaugeColor1(), this.mpGaugeColor2());
+    drawGaugeABS.call(this, 0, y + 16, this.contentsWidth(), 8, this.battler.tpRate(), this.tpGaugeColor1(), this.tpGaugeColor2());
 };
 
 Window_PlayerBattler.prototype.drawStates = function() {
@@ -118,9 +81,13 @@ Window_PlayerBattler.prototype.drawStates = function() {
         const width = Window_Base._iconWidth;
         const x = i * width;
         const y = this.contentsHeight() - Window_Base._iconHeight;
-        const duration = Math.ceil(this.battler.stateDuration(states[i].id));
+        const duration = this.battler.stateDuration(states[i].id);
+        if (duration < this.stateFadeOutDuration()) {
+            this.contents.paintOpacity = 255 * duration / 3;
+        }
         this.drawIcon(states[i].iconIndex, x, y);
-        this.drawText(duration, x, y + 4, width - 2, 'right');
+        this.contents.paintOpacity = 255;
+        this.drawText(Math.ceil(duration), x, y + 4, width - 2, 'right');
     }
 };
 
@@ -136,16 +103,18 @@ Window_PlayerBattler.prototype.refreshMem = function() {
         expRate: this.battler.expRate(),
         name: this.battler.name(),
         level: this.battler.level,
-        states: this.battler.states().map(state => ({
-            id: state.id,
-            duration: this.battler.stateDuration(state.id),
-        })), 
+        states: this.battler.states().map(state => {
+            const duration = this.battler.stateDuration(state.id);
+            return {
+                id: state.id,
+                duration: duration < this.stateFadeOutDuration() ? duration : Math.ceil(duration),
+            };
+        }), 
     });
 };
 
-Window_PlayerBattler.prototype.drawGauge = function(x, y, width, rate, color1, color2, gradientOpacity) {
-    const height = Window_PlayerBattler.GAUGE_HEIGHT;
-    drawGaugeABS.call(this, x, y, width, height, rate, color1, color2, gradientOpacity);
+Window_PlayerBattler.prototype.stateFadeOutDuration = function() {
+    return 3; // begin fade out at 3s duration  
 };
 
 Window_PlayerBattler.prototype.expGaugeColor1 = function() {
