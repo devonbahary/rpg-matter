@@ -22,7 +22,9 @@ Game_Projectile.prototype.initialize = function(battler, action) {
 
 Game_Projectile.prototype.initMembers = function() {
     Game_Character.prototype.initMembers.call(this);
-    if (this._action.imageName) {
+    if (this._action.iconIndex) {
+        this.iconIndex = this._action.iconIndex;
+    } else if (this._action.imageName) {
         this.setImage(this._action.imageName, this._action.imageIndex);
     }
     this.setDirection(this._battler.character.direction());

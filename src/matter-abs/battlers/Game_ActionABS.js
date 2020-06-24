@@ -20,6 +20,7 @@ Object.defineProperties(Game_ActionABS.prototype, {
         if (directionFix) return Boolean(JSON.parse(directionFix));
         return false; 
     }, configurable: false },
+    iconIndex: { get: function() { return parseInt(this._item.meta.iconIndex); }, configurable: false },
     imageName: { get: function() { return this._item.meta.characterName; }, configurable: false },
     imageIndex: { get: function() { return parseInt(this._item.meta.characterIndex) || 0; }, configurable: false },
     stepAnime: { get: function() { 

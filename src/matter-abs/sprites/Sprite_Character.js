@@ -28,6 +28,33 @@ Sprite_Character.prototype.update = function() {
     if (this._battler) this.updateEffect();
 };
 
+const _Sprite_Character_updateBitmap = Sprite_Character.prototype.updateBitmap;
+Sprite_Character.prototype.updateBitmap = function() {
+    if (this.isImageChanged()) this._iconIndex = this._character.iconIndex;
+    if (this._iconIndex) return this.setIconBitmap();
+    _Sprite_Character_updateBitmap.call(this);
+};
+
+Sprite_Character.prototype.setIconBitmap = function() {
+    this.bitmap = ImageManager.loadSystem('IconSet');
+    const pw = Window_Base._iconWidth;
+    const ph = Window_Base._iconHeight;
+    const sx = this._iconIndex % 16 * pw;
+    const sy = Math.floor(this._iconIndex / 16) * ph;
+    this.setFrame(sx, sy, pw, ph);
+};
+
+const _Sprite_Character_isImageChanged = Sprite_Character.prototype.isImageChanged;
+Sprite_Character.prototype.isImageChanged = function() {
+    return _Sprite_Character_isImageChanged.call(this) || this._iconIndex !== this._character.iconIndex;
+};
+
+const _Sprite_Character_updateFrame = Sprite_Character.prototype.updateFrame;
+Sprite_Character.prototype.updateFrame = function() {
+    if (this._iconIndex) return;
+    _Sprite_Character_updateFrame.call(this);
+};
+
 Sprite_Character.prototype.updateDamageSprites = function() {
     if (!this._battler) return;
     while (this._battler.isDamagePopupsRequested()) {
