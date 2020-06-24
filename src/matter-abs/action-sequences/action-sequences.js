@@ -77,7 +77,7 @@ const ACTION_SEQUENCES = {
         30: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.RAISE) ],
         38: [ animationWeapon(12) ],
         45: [ ...n(ROUTE_MOVE_FORWARD, 5), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
-        46: playSe('Thunder1'),
+        44: playSe('Thunder1'),
         90: [],
     },
     FIRE: {
