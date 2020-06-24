@@ -86,7 +86,7 @@ const MATTER_ABS_GUARD = {
 
 const _Game_ActionABS_executeHpDamage = Game_ActionABS.prototype.executeHpDamage;
 Game_ActionABS.prototype.executeHpDamage = function(target, value) {
-    if (!target.isGuard()) return _Game_ActionABS_executeHpDamage.call(this, target, value);
+    if (!this.shouldApplyGuardedEffects(target, value)) return _Game_ActionABS_executeHpDamage.call(this, target, value);
 
     const valueAfterGuard = value - Math.max(0, target.ghp);
     target.gainGhp(-value);

@@ -115,3 +115,9 @@ Game_Item.prototype.aggro = function() {
     if (aggro) return aggro;
     return 0;
 };
+
+Game_Item.prototype.isUnguardable = function() {
+    const unguardable = this.meta.unguardable;
+    if (unguardable) return JSON.parse(unguardable);
+    return false;
+};

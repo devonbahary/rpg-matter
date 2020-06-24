@@ -90,10 +90,10 @@ Game_ActionABS.prototype.apply = function() {
             damage = this.makeDamageValue(target, isCritical);
         }
     
-        const subjectEffectCallbacks = this.subjectEffectCallbacks(target);
+        const subjectEffectCallbacks = this.subjectEffectCallbacks(target, damage);
         const targetEffectCallbacks = this.targetEffectCallbacks(target, damage);
         
-        if (this.isForOpponent() && target.isGuard() && damage > 0) {
+        if (this.shouldApplyGuardedEffects(target, damage)) {
             target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
         }
         target.character.requestAnimation(this.animationId());
@@ -119,22 +119,22 @@ Game_ActionABS.prototype.apply = function() {
     }
 };
 
-Game_ActionABS.prototype.subjectEffectCallbacks = function(target) {
-    if (!this.shouldApplyGuardedEffects(target)) return [];
+Game_ActionABS.prototype.subjectEffectCallbacks = function(target, damage) {
+    if (!this.shouldApplyGuardedEffects(target, damage)) return [];
     return [
         () => this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]),
     ];
 };
 
-Game_ActionABS.prototype.shouldApplyGuardedEffects = function(target) {
-    return this.isForOpponent() && target.isGuard();
+Game_ActionABS.prototype.shouldApplyGuardedEffects = function(target, damage) {
+    return this.isForOpponent() && target.isGuard() && damage > 0 && !this.isUnguardable();
 };
 
-Game_ActionABS.prototype.targetEffectCallbacks = function(target, value) {
+Game_ActionABS.prototype.targetEffectCallbacks = function(target, damage) {
     const isPlayer = target.character === $gamePlayer;
     return [
-        () => isPlayer ? this.onPlayerDamage(value) : null,
-        () => this.applyForce(target, value), 
+        () => isPlayer ? this.onPlayerDamage(damage) : null,
+        () => this.applyForce(target, damage), 
         () => target.applyHitStun(this.hitStun(target)),
     ];
 };
@@ -153,7 +153,8 @@ Game_ActionABS.prototype.executeHpDamage = function(target, value) {
 };
 
 Game_ActionABS.prototype.damageAfterGuard = function(target, damage) {
-    return Math.round(damage / (damage > 0 && target.isGuard() ? 2 * target.grd : 1)); // from Game_Action.applyGuard()
+    if (!this.shouldApplyGuardedEffects(target, damage)) return Math.round(damage);
+    return Math.round(damage / 2 * target.grd); // from Game_Action.applyGuard()
 };
 
 Game_ActionABS.prototype.hitStop = function(isCritical) {
@@ -182,7 +183,7 @@ Game_ActionABS.prototype.animationId = function() {
 Game_ActionABS.prototype.applyForce = function(target, damage) {
     const directionalVector = vectorFromAToB(this._subjectCharacter.bodyPos, target.character.bodyPos);
     let forceScalar = this.forceMagnitude() * Game_ActionABS.BASE_FORCE_MULT;
-    if (target.isGuard()) forceScalar /= 2 * target.grd;
+    if (this.shouldApplyGuardedEffects(target, damage)) forceScalar /= 2 * target.grd;
     const forceVector = vectorResize(directionalVector, forceScalar);
     
     target.character.applyForce(forceVector, this._subjectCharacter);
@@ -198,6 +199,10 @@ Game_ActionABS.prototype.forceMagnitude = function() {
 Game_ActionABS.prototype.range = function() {
     if (this.shouldUseWeaponProperty()) return this.weapon.range();
     return this._item.range();
+};
+
+Game_ActionABS.prototype.isUnguardable = function() {
+    return this._item.isUnguardable();
 };
 
 Game_ActionABS.prototype.hitStun = function(target) {
@@ -270,13 +275,13 @@ Game_ActionABS.prototype.canGuardCancel = function() {
     return this._item.canGuardCancel() && !this._hasAppliedEffect;
 };
 
-Game_ActionABS.prototype.onPlayerDamage = function(value) {
-    if (value <= 0) return;
+Game_ActionABS.prototype.onPlayerDamage = function(damage) {
+    if (damage <= 0) return;
 
-    const isGuard = $gamePlayer.battler.isGuard();
+    const isGuard = this.shouldApplyGuardedEffects($gamePlayer.battler, damage);
     const guardScreenEffectMult = isGuard ? MATTER_ABS.GUARD_SCREEN_EFFECTS_MULT : 1;
     
-    const intensity = Math.abs(value) / $gamePlayer.battler.mhp * guardScreenEffectMult;
+    const intensity = Math.abs(damage) / $gamePlayer.battler.mhp * guardScreenEffectMult;
     const power = 9 * intensity;
     const speed = 9 * intensity;
     const duration = Math.max(this.hitStun($gamePlayer.battler) * guardScreenEffectMult, 5);
