@@ -36,7 +36,7 @@ Scene_Map.prototype.createGoldWindow = function() {
 };
 
 Scene_Map.prototype.createLogsWindow = function() {
-    this._mapLogsWindow = new Window_MapLogs();
+    this._mapLogsWindow = new Window_MapLogs(this._goldWindow);
     this.addChild(this._mapLogsWindow);
 };
 

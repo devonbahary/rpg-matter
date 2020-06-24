@@ -12,11 +12,11 @@ function Window_MapLogs() {
 Window_MapLogs.prototype = Object.create(Window_Base.prototype);
 Window_MapLogs.prototype.constructor = Window_MapLogs;
 
-Window_MapLogs.prototype.initialize = function() {
+Window_MapLogs.prototype.initialize = function(goldWindow) {
     const width = this.windowWidth();
     const height = this.windowHeight();
     const x = Graphics.boxWidth - width;
-    const y = Graphics.boxHeight - Window_GoldABS.prototype.windowHeight();
+    const y = Graphics.boxHeight - goldWindow.height;
     Window_Base.prototype.initialize.call(this, x, y, width, height);
     this.setBackgroundType(2);
     this._logsLengthMem = $gameMap.logs.length;
