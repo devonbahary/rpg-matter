@@ -14,9 +14,9 @@ Window_MapLogs.prototype.constructor = Window_MapLogs;
 
 Window_MapLogs.prototype.initialize = function(goldWindow) {
     const width = this.windowWidth();
-    const height = this.windowHeight();
+    const height = Graphics.boxHeight - goldWindow.height;
     const x = Graphics.boxWidth - width;
-    const y = Graphics.boxHeight - goldWindow.height;
+    const y = 0;
     Window_Base.prototype.initialize.call(this, x, y, width, height);
     this.setBackgroundType(2);
     this._logsLengthMem = $gameMap.logs.length;
@@ -25,10 +25,6 @@ Window_MapLogs.prototype.initialize = function(goldWindow) {
 
 Window_MapLogs.prototype.windowWidth = function() {
     return 320;
-};
-
-Window_MapLogs.prototype.windowHeight = function() {
-    return 1;
 };
 
 Window_MapLogs.prototype.update = function() {
@@ -72,7 +68,7 @@ Window_MapLogs.prototype.createLog = function(log) {
 };
 
 Window_MapLogs.prototype.childSpriteDestinationY = function(index) {
-    return -(index + 1) * Window_MapLog.prototype.windowHeight()
+    return this.contentsHeight() -(index * Window_MapLog.prototype.windowHeight());
 }; 
 
 Window_MapLogs.prototype.hasLogs = function() {
