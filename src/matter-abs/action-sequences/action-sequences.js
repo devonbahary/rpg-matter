@@ -88,7 +88,7 @@ const ACTION_SEQUENCES = {
     THROW: {
         1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.GUARD) ],
         10: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), CREATE_PROJECTILE, playSe('Wind7', 90, 150) ],
-        30: []
+        15: []
     },
     SPELL: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
