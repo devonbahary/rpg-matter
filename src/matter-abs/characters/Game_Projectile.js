@@ -22,12 +22,34 @@ Game_Projectile.prototype.initialize = function(battler, action) {
 
 Game_Projectile.prototype.initMembers = function() {
     Game_Character.prototype.initMembers.call(this);
+    const battlerDirection = this._battler.character.direction();
     if (this._action.iconIndex) {
         this.iconIndex = this._action.iconIndex;
+        let iconRotation = this._action.iconRotation;
+        
+        if (iconRotation) {
+            switch (battlerDirection) {
+                case 4: 
+                    iconRotation += 90;
+                    break;
+                case 6:
+                    iconRotation -= 90;
+                    break;
+                case 8:
+                    iconRotation += 180;
+                    break;
+                case 2:
+                default:
+                    break;
+            }
+            this.iconRotation = iconRotation * Math.PI / 180;
+            this.iconRotationSpeed = this._action.iconRotationSpeed;
+        }
+        
     } else if (this._action.imageName) {
         this.setImage(this._action.imageName, this._action.imageIndex);
     }
-    this.setDirection(this._battler.character.direction());
+    this.setDirection(battlerDirection);
     this.setDirectionFix(this._action.directionFix);
     this.setThrough(this._action.through); 
     this.setStepAnime(this._action.stepAnime);

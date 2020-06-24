@@ -21,6 +21,8 @@ Object.defineProperties(Game_ActionABS.prototype, {
         return false; 
     }, configurable: false },
     iconIndex: { get: function() { return parseInt(this._item.meta.iconIndex); }, configurable: false },
+    iconRotation: { get: function() { return parseInt(this._item.meta.iconRotation) || 0; }, configurable: false },
+    iconRotationSpeed: { get: function() { return parseInt(this._item.meta.iconRotationSpeed) || 0; }, configurable: false },
     imageName: { get: function() { return this._item.meta.characterName; }, configurable: false },
     imageIndex: { get: function() { return parseInt(this._item.meta.characterIndex) || 0; }, configurable: false },
     stepAnime: { get: function() { 

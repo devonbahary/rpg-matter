@@ -25,13 +25,16 @@ Sprite_Character.prototype.update = function() {
     this.updateTargetSelection();
     this.updateHitStunShake();
     _Sprite_Character_update.call(this);
+    this.updateIconRotation();
     if (this._battler) this.updateEffect();
 };
 
 const _Sprite_Character_updateBitmap = Sprite_Character.prototype.updateBitmap;
 Sprite_Character.prototype.updateBitmap = function() {
-    if (this.isImageChanged()) this._iconIndex = this._character.iconIndex;
-    if (this._iconIndex) return this.setIconBitmap();
+    if (this.isImageChanged()) {
+        this._iconIndex = this._character.iconIndex;   
+        if (this._iconIndex) this.setIconBitmap();
+    }
     _Sprite_Character_updateBitmap.call(this);
 };
 
@@ -42,6 +45,16 @@ Sprite_Character.prototype.setIconBitmap = function() {
     const sx = this._iconIndex % 16 * pw;
     const sy = Math.floor(this._iconIndex / 16) * ph;
     this.setFrame(sx, sy, pw, ph);
+    this.anchor.y = 0.5;
+    if (this._character.iconRotation) {
+        this.rotation = this._character.iconRotation;
+        this._iconRotationSpeed = this._character.iconRotationSpeed;
+    }
+};
+
+const _Sprite_Character_setCharacterBitmap = Sprite_Character.prototype.setCharacterBitmap;
+Sprite_Character.prototype.setCharacterBitmap = function() {
+    if (!this._iconIndex) _Sprite_Character_setCharacterBitmap.call(this);
 };
 
 const _Sprite_Character_isImageChanged = Sprite_Character.prototype.isImageChanged;
@@ -104,7 +117,13 @@ Sprite_Character.prototype.patternHeight = function() {
 const _Sprite_Character_updatePosition = Sprite_Character.prototype.updatePosition;
 Sprite_Character.prototype.updatePosition = function() {
     _Sprite_Character_updatePosition.call(this);
+    if (this._iconIndex) this.y -= Window_Base._iconHeight / 2;
     this.x += this._shake;
+};
+
+Sprite_Character.prototype.updateIconRotation = function() {
+    if (!this._iconRotationSpeed) return;
+    this.rotation += this._iconRotationSpeed * Math.PI / 180;
 };
 
 // borrowed from Sprite_Enemy.setupEffect()
