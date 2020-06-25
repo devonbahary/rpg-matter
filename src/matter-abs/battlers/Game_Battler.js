@@ -243,8 +243,19 @@ Game_Battler.prototype.hasActionSequence = function() {
 
 Game_Battler.prototype.updateBehavior = function() {
     if (this.character === $gamePlayer || !this.canMove()) return;
+    this.updateEnemyUnitDetection();
     this.updateEligibleActions();
     this.updatePursuedAction();
+};
+
+Game_Battler.prototype.updateEnemyUnitDetection = function() {
+    if (!this.character) return;
+    for (const battler of this.opponentsUnit().members()) {
+        if (!battler.character || this._aggro[battler.id]) continue;
+        const hasLineOfSightTo = this.character.hasLineOfSightTo(battler.character);
+        const isWithinRange = this.character.distanceBetween(battler.character) <= MATTER_ABS.BATTLER_LINE_OF_SIGHT_DETECTION_RANGE;
+        if (hasLineOfSightTo && isWithinRange) this.gainAggro(battler, 0);
+    }
 };
 
 Game_Battler.prototype.updateEligibleActions = function() {

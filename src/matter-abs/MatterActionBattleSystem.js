@@ -71,6 +71,14 @@
  * @default 0.5
  * @min 0
  * 
+ * @param Line of Sight Detection Range
+ * @parent Battler
+ * @desc The distance (in tiles) that a battler can detect an enemy within line of sight.
+ * @type number
+ * @decimals 1
+ * @default 5
+ * @min 0
+ * 
  * @param Actions
  * 
  * @param Default Weapon Force
@@ -345,6 +353,7 @@ const capitalizeKeyAndNumberValue = (acc, key, val) => {
 
 export default {
     BATTLE_FRAMES_IN_TURN: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Frames In Turn"]),
+    BATTLER_LINE_OF_SIGHT_DETECTION_RANGE: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Line of Sight Detection Range"]),
     GAUGE_HEIGHT: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gauge Height"]),
     GAUGE_LATEST_DAMAGE_DURATION: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Latest Damage Duration"]),
     DEFAULT_HIT_STUN: transformPluginStruct(

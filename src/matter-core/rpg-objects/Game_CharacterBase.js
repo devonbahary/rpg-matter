@@ -4,7 +4,7 @@
 // The superclass of Game_Character. It handles basic information, such as
 // coordinates and images, shared by all characters.
 
-import { Body, Bodies, Events, Vector } from "matter-js";
+import { Body, Bodies, Events, Query, Vector } from "matter-js";
 import { 
     isDown, 
     isLeft, 
@@ -396,4 +396,22 @@ Game_CharacterBase.prototype.canCollideWith = function(char) {
     if (this.isThrough() || char.isThrough()) return false;
     if (this._priorityType !== char._priorityType) return false;
     return true;
+};
+
+Game_CharacterBase.prototype.hasLineOfSightTo = function(character) {
+    switch (this.direction()) {
+        case 2:
+            if (this.y > character.y) return false;
+            break;
+        case 4:
+            if (this.x < character.x) return false;
+            break;
+        case 6:
+            if (this.x > character.x) return false;
+            break;
+        case 8:
+            if (this.y < character.y) return false;
+            break;
+    }
+    return Query.ray($gameMap.engine.world.bodies, this.bodyPos, character.bodyPos).length === 2; // should only be this and the character
 };
