@@ -10,7 +10,45 @@
  * This plugin introduces an extensive menu for accessing skills and items
  * from Scene_Map.
  * 
+ * @param Items Icon Index
+ * @desc Icon index for the items category.
+ * @type number
+ * @default 208
+ * @min 0
+ * 
+ * @param Skill Type Icon Indices
+ * @type struct<StypeIconIndex>[]
+ * @desc Icon index for each skill type.
+ * 
+ * @param Default Skill Type Icon Index
+ * @desc Icon index for the items category.
+ * @type number
+ * @default 72
+ * @min 0
+ * 
 */
+
+/*~struct~StypeIconIndex:
+ * @param Skill Type ID
+ * @type number
+ * @min 1
+ * 
+ * @param Icon Index
+ * @type number 
+ * @min 0
+ *
+*/
+
+
+const WINDOW_ITEMS_ICON_INDEX = parseInt(PluginManager.parameters('MatterABSCommandMenu')["Items Icon Index"]);
+const WINDOW_STYPE_ID_ICON_INDICES = JSON.parse(PluginManager.parameters('MatterABSCommandMenu')["Skill Type Icon Indices"]).reduce((acc, struct) => {
+    const entry = JSON.parse(struct);
+    const stypeId = entry["Skill Type ID"];
+    const iconIndex = parseInt(entry["Icon Index"]);
+    acc[stypeId] = iconIndex;
+    return acc;
+}, {});
+const WINDOW_DEFAULT_STYPE_ICON_INDEX = parseInt(PluginManager.parameters('MatterABSCommandMenu')["Default Skill Type Icon Index"]);
 
 /**
  * A hash table to convert from a virtual key code to a mapped key name.
@@ -86,18 +124,28 @@ Window_Action_HUD.prototype.setCommands = function(commands) {
 };
 
 Window_Action_HUD.prototype.setPrimaryCommands = function() {
-    this.setCommands([{
-        iconIndex: 208,
+    const commands = [];
+    commands.push({
+        iconIndex: WINDOW_ITEMS_ICON_INDEX,
         name: TextManager.item,
         id: 1,
         onOk: () => this.setDataItemCommands($gameParty.items()),
-    }, {
-        iconIndex: 72,
-        name: TextManager.skill,
-        id: 2,
-        onOk: () => this.setDataItemCommands($gamePlayer.battler.skills()),
-    }]);
+    });
 
+    const addedSkillTypes = this.battler.addedSkillTypes();
+    for (let i = 0; i < addedSkillTypes.length; i++) {
+        const stypeId = addedSkillTypes[i];
+        const stypeIconIndex = WINDOW_STYPE_ID_ICON_INDICES[stypeId];
+        const name = $dataSystem.skillTypes[stypeId];
+        commands.push({
+            iconIndex: stypeIconIndex !== undefined ? stypeIconIndex : WINDOW_DEFAULT_STYPE_ICON_INDEX,
+            name,
+            id: commands.length + 1,
+            onOk: () => this.setDataItemCommands($gamePlayer.battler.skills().filter(dataSkill => dataSkill.stypeId === stypeId)),
+        });
+    }
+
+    this.setCommands(commands);
     this._onCommandOk = command => {
         SoundManager.playCursor();
         command.onOk();
