@@ -40,30 +40,8 @@ Game_CollectibleItem.prototype.setItem = function(dataItem) {
 Game_CollectibleItem.prototype.onCollisionStart = function(event) {
     if (event.pair.label !== BODY_LABELS.PLAYER) return;
 
-    if (this.isGold) {
-        $gameParty.gainGold(this._gold);
-        $gameMap.addLog({
-            iconIndex: MATTER_ABS.WINDOW_GOLD_ICON_INDEX,
-            message: TextManager.obtainGold.format(this._gold),
-        });
-        AudioManager.playSe({ 
-            name: MATTER_ABS.COLLECTIBLE_ITEMS.GOLD_PICKUP_SE, 
-            volume: MATTER_ABS.COLLECTIBLE_ITEMS.GOLD_PICKUP_VOL, 
-            pitch: MATTER_ABS.COLLECTIBLE_ITEMS.GOLD_PICKUP_PITCH, 
-        });
-    }
-    if (this.isItem) {
-        $gameParty.gainItem(this._dataItem, 1);
-        $gameMap.addLog({ 
-            iconIndex: this._dataItem.iconIndex, 
-            message: TextManager.obtainItem.format(this._dataItem.name),
-        });
-        AudioManager.playSe({ 
-            name: MATTER_ABS.COLLECTIBLE_ITEMS.ITEM_PICKUP_SE, 
-            volume: MATTER_ABS.COLLECTIBLE_ITEMS.ITEM_PICKUP_VOL, 
-            pitch: MATTER_ABS.COLLECTIBLE_ITEMS.ITEM_PICKUP_PITCH,
-        });
-    }
+    if (this.isGold) $gameParty.gainGold(this._gold);
+    if (this.isItem) $gameParty.gainItem(this._dataItem, 1);
     this.removeFromScene();
 };
 
