@@ -39,7 +39,7 @@ Game_Party.prototype.gainGold = function(amount) {
 const _Game_Party_gainItem = Game_Party.prototype.gainItem;
 Game_Party.prototype.gainItem = function(item, amount, includeEquip) {
     _Game_Party_gainItem.call(this, item, amount, includeEquip);
-    if (amount <= 0) return;
+    if (!item || amount <= 0) return;
     $gameMap.addLog({ 
         iconIndex: item.iconIndex, 
         message: TextManager.obtainItem.format(item.name),
