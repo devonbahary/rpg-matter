@@ -6,6 +6,10 @@
 import { Vector } from "matter-js";
 import { vectorFromAToB } from "../utils/vector";
 
+Object.defineProperties(Game_Character.prototype, {
+    isActionEvent: { get: function() { return false; }, configurable: false },
+});
+
 Game_Character.prototype.moveTowardCharacter = function(character) {
     const vectorToCharacter = vectorFromAToB(this.mapPos, character.mapPos);
     this.move(vectorToCharacter);
