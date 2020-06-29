@@ -33,7 +33,7 @@ export function squareInFrontOf(range = 1) {
                 this.y + (this.height / 2),
             );
         case 8:
-            return createBoudns(
+            return createBounds(
                 this.x - (this.width / 2),
                 this.x + (this.width / 2),
                 this.y - range,
