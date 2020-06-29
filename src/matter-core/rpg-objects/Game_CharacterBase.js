@@ -375,7 +375,7 @@ Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
         this.moveTo(nextDestination.x, nextDestination.y);
     } else if (this._pathfindingDestinationPos) {
         const vectorToDestination = vectorFromAToB(this.body.position, this._pathfindingDestinationPos);
-        this.setDirection(get8DirFromVector(vectorToDestination));
+        this.updateMovementDirection(get8DirFromVector(vectorToDestination));
         this.clearPathfinding();
     }
 };
