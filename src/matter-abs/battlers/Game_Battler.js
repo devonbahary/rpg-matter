@@ -29,7 +29,7 @@ Game_Battler.prototype.initMembers = function() {
     this.latestDamageForGauge = 0;
     this._damagePopups = [];
     this._internalTurnCount = 0;
-    this.resetBlindedMentalCharacterMap();
+    this.resetMentalBattlerMap();
 };
 
 Game_Battler.prototype.requestDamagePopup = function(damage) {
@@ -82,9 +82,8 @@ Game_Battler.prototype.currentAction = function() {
 const _Game_Battler_addState = Game_Battler.prototype.addState;
 Game_Battler.prototype.addState = function(stateId) {
     if (this.isStateAddable(stateId)) {
-        if ($dataStates[stateId].meta.blind && this.stateCountWithBlindMeta() === 0) {
-            this.setupBlindedMentalCharacterMap();
-            if (this.character === $gamePlayer) $gameScreen.startFadeOut(60);
+        if ($dataStates[stateId].meta.blind && this.stateCountWithBlindMeta() === 0 && this.character === $gamePlayer) {
+            $gameScreen.startFadeOut(60);
         }
         this.logAddState(stateId);
     }
@@ -108,7 +107,7 @@ Game_Battler.prototype.removeState = function(stateId) {
     if (this.isStateAffected(stateId)) {
         this.logRemoveState(stateId);
         if ($dataStates[stateId].meta.blind && this.stateCountWithBlindMeta() === 1) { // only reset if no more states
-            this.resetBlindedMentalCharacterMap();
+            this.resetMentalBattlerMap();
             if (this.character === $gamePlayer) $gameScreen.startFadeIn(60);
         }
     }
@@ -243,19 +242,35 @@ Game_Battler.prototype.hasActionSequence = function() {
 
 Game_Battler.prototype.updateBehavior = function() {
     if (this.character === $gamePlayer || !this.canMove()) return;
-    this.updateEnemyUnitDetection();
+    this.updateEnemyDetection();
+    this.updateMentalBattlerMap();
     this.updateEligibleActions();
     this.updatePursuedAction();
 };
 
-Game_Battler.prototype.updateEnemyUnitDetection = function() {
+Game_Battler.prototype.updateEnemyDetection = function() {
     if (!this.character) return;
-    for (const battler of this.opponentsUnit().aliveMembers()) {
-        if (!battler.character || this._aggro[battler.id]) continue;
-        const hasLineOfSightTo = this.character.hasLineOfSightTo(battler.character);
-        const isWithinRange = this.character.distanceBetween(battler.character) <= MATTER_ABS.BATTLER_LINE_OF_SIGHT_DETECTION_RANGE;
-        if (hasLineOfSightTo && isWithinRange) this.gainAggro(battler, 0);
+    for (const enemy of this.opponentsUnit().aliveMembers()) {
+        if (!enemy.character || this._aggro[enemy.id] !== undefined) continue;
+        const isWithinAggroDistance = this.character.distanceBetween(enemy.character) <= MATTER_ABS.BATTLER_LINE_OF_SIGHT_DETECTION_RANGE;
+        if (this.character.hasLineOfSightTo(enemy.character) && isWithinAggroDistance) {
+            this.gainAggro(enemy, 0);            
+        }
     }
+};
+
+Game_Battler.prototype.updateMentalBattlerMap = function() {
+    if (!this.character || this.isBlinded()) return;
+    for (const enemy of this.opponentsUnit().aliveMembers()) {
+        if (enemy.character && this.character.hasLineOfSightTo(enemy.character)) this.updateMentalBattlerMapForBattler(enemy); 
+    }
+    for (const friend of this.friendsUnit().aliveMembers()) {
+        if (friend.character && this.character.hasLineOfSightTo(friend.character)) this.updateMentalBattlerMapForBattler(friend);
+    }
+};
+
+Game_Battler.prototype.updateMentalBattlerMapForBattler = function(battler) {
+    this._mentalBattlerMap[battler.id] = battler.character.locationData;
 };
 
 Game_Battler.prototype.updateEligibleActions = function() {
@@ -440,8 +455,8 @@ Game_Battler.prototype.regenerateTp = function() {
     });
 };
 
-Game_Battler.prototype.resetBlindedMentalCharacterMap = function() {
-    this._blindedMentalCharacterMap = {};
+Game_Battler.prototype.resetMentalBattlerMap = function() {
+    this._mentalBattlerMap = {};
 };
 
 Game_Battler.prototype.stateCountWithBlindMeta = function() {
@@ -452,31 +467,15 @@ Game_Battler.prototype.isBlinded = function() {
     return this.stateCountWithBlindMeta() > 0;
 };
 
-Game_Battler.prototype.setupBlindedMentalCharacterMap = function() {
-    for (const battlerId of Object.keys(this._aggro)) {
-        const battler = this.opponentsUnit().battlerById(battlerId);
-        this._blindedMentalCharacterMap[battlerId] = battler.character.locationData;
-    }
-    for (const battler of this.friendsUnit().members()) {
-        // only mentally account for allies within 10 range
-        if (battler.character && this.character.distanceBetween(battler.character) <= 10) {
-            this._blindedMentalCharacterMap[battler.id] = battler.character.locationData;
-        }
-    }
-};
-
 Game_Battler.prototype.gainAggro = function(battler, value) {
     Game_BattlerBase.prototype.gainAggro.call(this, battler, value);
-    if (!this.shouldGainAggro(battler)) return;
-    if (this.isBlinded()) {
-        // update mental map
-        this._blindedMentalCharacterMap[battler.id] = battler.character.locationData;
+    if (this.shouldGainAggro(battler)) {
+        this.updateMentalBattlerMapForBattler(battler);
     }
 };
 
 Game_Battler.prototype.getPerceivedBattlerCharacter = function(battler) {
-    if (this.isBlinded()) return this._blindedMentalCharacterMap[battler.id];
-    return battler.character;
+    return this._mentalBattlerMap[battler.id];
 };
 
 Game_Battler.prototype.distanceBetween = function(battler) {
