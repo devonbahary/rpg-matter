@@ -71,9 +71,8 @@ Game_Projectile.prototype.initBodyOptions = function() {
 Game_Projectile.prototype.onCollisionStart = function(event) {
     Game_Character.prototype.onCollisionStart.call(this, event);
     if (event.pair.character) {
-        if (!this._action.determineTargets().length) return;
-        this._action.apply();
-        this.removeFromScene();
+        if (this._action.determineTargets().length) this._action.apply();
+        if (event.pair.character.battler) this.removeFromScene();
     } else if (event.pair.label === BODY_LABELS.ENVIRONMENT) {
         this.removeFromScene();
     }
