@@ -291,7 +291,7 @@ Game_Battler.prototype.updatePursuedAction = function() {
     if (this._pursuedAction) this._pursuedActionCount++;
 
     if (this.hasAction()) {
-        this.turnTowardTarget(target);
+        if (target) this.turnTowardTarget(target);
         if (this.currentAction().isChanneled() && !this.meetsActionSustainCondition(this.currentAction())) {
             this.clearAction();
         }
