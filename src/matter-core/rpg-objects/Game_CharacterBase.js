@@ -15,6 +15,7 @@ import {
     get8DirFromHorzVert, 
     get8DirFromVector, 
 } from "../utils/direction";
+import { squareAround, squareInFrontOf } from "../utils/bounds";
 import { toWorldVectorCentered, vectorFromAToB, vectorLengthFromAToB, vectorResize } from "../utils/vector";
 import MATTER_CORE from "../pluginParams";
 
@@ -414,4 +415,12 @@ Game_CharacterBase.prototype.hasLineOfSightTo = function(character) {
             break;
     }
     return Query.ray($gameMap.engine.world.bodies, this.bodyPos, character.bodyPos).length === 2; // should only be this and the character
+};
+
+Game_CharacterBase.prototype.squareInFrontOf = function(range) {
+    return squareInFrontOf.call(this, range);
+};
+
+Game_CharacterBase.prototype.squareAround = function(range) {
+    return squareAround.call(this, range);
 };
