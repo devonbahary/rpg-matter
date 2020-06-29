@@ -61,8 +61,6 @@ Sprite_CharacterWeapon.prototype.updateFrame = function() {
 };
 
 Sprite_CharacterWeapon.prototype.updatePosition = function() {
-    if (!this._iconIndex) return;
-
     // TODO: do we need to update every frame, or do we only update when the dependencies update and we memoize
     // - iconIndex
     // - weaponPose
