@@ -90,8 +90,8 @@ Game_Item.prototype.isProjectile = function() {
 };
 
 Game_Item.prototype.projectileForce = function() {
-    const force = Number(this.meta.projectile);
-    if (isNaN(force)) return 0;
+    const force = Number(this.meta.projectileForce);
+    if (isNaN(force)) return 1;
     return force;
 };
 
