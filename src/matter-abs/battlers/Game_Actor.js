@@ -60,9 +60,9 @@ Game_Actor.prototype.setActionBySlot = function(index) {
     this.setAction(action.object());
 };
 
-Game_Actor.prototype.hitStunResist = function() {
+Game_Actor.prototype.hitStunResist = function(withGuard) {
     const baseValue = Game_Battler.prototype.hitStunResist.call(this);
-    const excludeEtypeIds = !this.isGuard() ? MATTER_ABS.HIT_STUN_RESIST_GUARD_ONLY_ETYPE_IDS : [];
+    const excludeEtypeIds = !withGuard ? MATTER_ABS.HIT_STUN_RESIST_GUARD_ONLY_ETYPE_IDS : [];
     const equipsValue = getMetaFromEquips.call(this, 'hitStunResist', excludeEtypeIds);
     const value = baseValue + equipsValue;
     

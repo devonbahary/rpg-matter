@@ -148,7 +148,8 @@ Game_BattlerBase.prototype.applyCooldown = function(action) {
 
 Game_BattlerBase.prototype.applyHitStun = function(value) {
     // can't be stunned and result in being stunned for less than an already active stun
-    value = Math.round(Math.max(0, value - this.hitStunResist()));
+    const isGuarding = this.isGuard();
+    value = Math.round(Math.max(0, value - this.hitStunResist(isGuarding)));
     if (value > this._hitStun) this._hitStun = value; 
 };
 
