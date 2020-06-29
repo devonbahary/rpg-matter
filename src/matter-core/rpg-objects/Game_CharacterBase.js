@@ -10,8 +10,6 @@ import {
     isLeft, 
     isRight, 
     isUp, 
-    getAngleFromDirection, 
-    get8DirFromAngle,
     get8DirFromHorzVert, 
     get8DirFromVector, 
 } from "../utils/direction";
@@ -20,7 +18,6 @@ import { toWorldVectorCentered, vectorFromAToB, vectorLengthFromAToB, vectorResi
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
-    _direction: { get: function() { return get8DirFromAngle(this.body.angle); }, configurable: false },
     _x: { get: function() { return this.worldX / MATTER_CORE.TILE_SIZE; }, configurable: false },
     _y: { get: function() { return this.worldY / MATTER_CORE.TILE_SIZE; }, configurable: false },
     x0: { get: function() { return this.x - this.radius; }, configurable: false },
@@ -191,9 +188,9 @@ Game_CharacterBase.prototype.copyPosition = function(character) {
 };
 
 Game_CharacterBase.prototype.setDirection = function(d) {
-    if (this.isDirectionFixed() || !d) return; // overwrite; used to set _direction
+    if (this.isDirectionFixed() || !d) return; // overwrite
     this.resetStopCount();
-    Body.setAngle(this.body, getAngleFromDirection(d));
+    this._direction = d;
     this._heading = d;
 };
 
@@ -379,7 +376,6 @@ Game_CharacterBase.prototype.shiftPathfindingQueue = function() {
     } else if (this._pathfindingDestinationPos) {
         const vectorToDestination = vectorFromAToB(this.body.position, this._pathfindingDestinationPos);
         this.setDirection(get8DirFromVector(vectorToDestination));
-        this.onPathfindingDestination(this._pathfindingDestinationPos);
         this.clearPathfinding();
     }
 };
@@ -388,9 +384,6 @@ Game_CharacterBase.prototype.clearPathfinding = function() {
     this._pathfindingQueue = [];
     this._pathfindingDestinationPos = null;
     this.clearDestination();
-};
-
-Game_CharacterBase.prototype.onPathfindingDestination = function(pathfindingDestinationPos) {
 };
 
 Game_CharacterBase.prototype.canCollideWith = function(char) {

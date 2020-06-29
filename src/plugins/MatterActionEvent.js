@@ -203,7 +203,7 @@ Sprite_ActionEvent.prototype.progressTowardsAnimation = function() {
 Sprite_ActionEvent.prototype.opacityThisFrame = function() {
     if (!this._iconIndex) return 0;
 
-    const isCharacterTargeted = $gamePlayer.closestActionButtonEventInRange() === this._character;
+    const isCharacterTargeted = $gamePlayer.closestActionButtonEvent === this._character;
     return isCharacterTargeted ? OPACITY_TARGETED : OPACITY_UNTARGETED;
 };
 

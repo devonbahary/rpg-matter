@@ -4,104 +4,15 @@
 // The game object class for the player. It contains event starting
 // determinants and map scrolling functions.
 
-import { Bodies, Events, Vector } from "matter-js";
-import { getPartsFromBodies } from "../utils/bodies";
+import { Vector } from "matter-js";
 import { BODY_LABELS } from "../constants";
 import MATTER_CORE from "../pluginParams";
-
-const BODY_EVENTS = {
-    EVENT_ENTER_PLAYER_SENSOR: 'eventEnterPlayerSensor',
-    EVENT_EXIT_PLAYER_SENSOR: 'eventExitPlayerSensor',
-};
-
-const _Game_Player_initMembers = Game_Player.prototype.initMembers;
-Game_Player.prototype.initMembers = function() {
-    _Game_Player_initMembers.call(this);
-    this._actionButtonEventsInRange = [];
-};
-
-Game_Player.prototype.closestActionButtonEventInRange = function() {
-    if (!this._actionButtonEventsInRange.length) return null;
-    return this._actionButtonEventsInRange.filter(e => 
-        // events can be erased between their entering action button range and their attempted triggering
-        !e.isErased
-    ).sort((a, b) => this.distanceFrom(a) - this.distanceFrom(b))[0];
-};
-
-Game_Player.prototype.initBodyParts = function() {
-    return [ 
-        ...Game_Character.prototype.initBodyParts.call(this),
-        this.initSensorBody(),
-    ];
-};
 
 Game_Player.prototype.initCharacterBodyOptions = function() {
     return {
         ...Game_Character.prototype.initCharacterBodyOptions.call(this),
         label: BODY_LABELS.PLAYER,
     };
-};
-
-Game_Player.prototype.initSensorBody = function() {
-    const length = this.worldRadius * 2 * MATTER_CORE.INTERACTION_RADIUS;
-    const options = {
-        density: 0.00001,
-        isSensor: true,
-        label: BODY_LABELS.PLAYER_SENSOR,
-    };
-    return Bodies.polygon(length, 0, 3, length, options);
-};
-
-Game_Player.prototype.setupMatterEvents = function() {
-    Game_Character.prototype.setupMatterEvents.call(this);
-    Events.on(this.body, BODY_EVENTS.EVENT_ENTER_PLAYER_SENSOR, this.onEventEnterPlayerSensor.bind(this));  
-    Events.on(this.body, BODY_EVENTS.EVENT_EXIT_PLAYER_SENSOR, this.onEventExitPlayerSensor.bind(this));  
-};
-
-Game_Player.prototype.onCollisionStart = function(event) {
-    Game_Character.prototype.onCollisionStart.call(this, event);
-    if (this.isEventOnSensorCollision(event)) Events.trigger(this.body, BODY_EVENTS.EVENT_ENTER_PLAYER_SENSOR, event);
-};
-
-Game_Player.prototype.onCollisionEnd = function(event) {
-    Game_Character.prototype.onCollisionEnd.call(this, event);
-    if (this.isEventOnSensorCollision(event)) Events.trigger(this.body, BODY_EVENTS.EVENT_EXIT_PLAYER_SENSOR, event);
-};
-
-Game_Player.prototype.isEventOnSensorCollision = function(event) {
-    return event.source.label === BODY_LABELS.PLAYER_SENSOR && event.pair.label === BODY_LABELS.EVENT;
-};
-
-Game_Player.prototype.onEventEnterPlayerSensor = function(event) {
-    const gameEvent = event.pair.character;
-    if (gameEvent.isActionEvent) {
-        this._actionButtonEventsInRange.push(gameEvent);
-    }
-};
-
-Game_Player.prototype.onEventExitPlayerSensor = function(event) {
-    const gameEvent = event.pair.character;
-    if (gameEvent.isActionEvent) {
-        this._actionButtonEventsInRange = this._actionButtonEventsInRange.filter(event => event !== gameEvent);
-    }
-};
-
-Game_Player.prototype.onPathfindingDestination = function(pathfindingDestinationPos) {
-    Game_Character.prototype.onPathfindingDestination.call(this, pathfindingDestinationPos);
-    if (!this.canStartLocalEvents()) return;
-
-    // TODO: not good
-    setTimeout(() => {
-        const characterBodiesAtDestination = getPartsFromBodies($gameMap.characterBodiesAtPoint(pathfindingDestinationPos));
-        const actionEventBodiesAtDestination = characterBodiesAtDestination.filter(charBody => {
-            return (
-                charBody.label === BODY_LABELS.EVENT && 
-                charBody.character.isActionEvent &&
-                this._actionButtonEventsInRange.includes(charBody.character)
-            );
-        });
-        if (actionEventBodiesAtDestination.length) actionEventBodiesAtDestination[0].character.start();
-    }, 25); // allow time for pathfinding to conclude (specifically, character direction and event triggering)
 };
 
 Game_Player.prototype.moveByInput = function() {
@@ -149,9 +60,20 @@ Game_Player.prototype.updateDashing = function() {
 
 const _Game_Player_update = Game_Player.prototype.update;
 Game_Player.prototype.update = function(sceneActive) {
+    this.updateClosestActionButtonEvent();
     _Game_Player_update.call(this, sceneActive);
     this.triggerAction();
     this.updateOnMoving();
+};
+
+Game_Player.prototype.updateClosestActionButtonEvent = function() {
+    const actionButtonEventsInRange = $gameMap.characterBodiesInBoundingBox(this.squareInFrontOf(), this).reduce((acc, characterBody) => {
+        if (characterBody.character.isActionEvent) acc.push(characterBody.character);
+        return acc;
+    }, []);
+
+    const actionButtonEventsByRange = actionButtonEventsInRange.sort((a, b) => this.distanceFrom(a) - this.distanceFrom(b));
+    this.closestActionButtonEvent = actionButtonEventsByRange.length ? actionButtonEventsByRange[0] : null;
 };
 
 Game_Player.prototype.updateScroll = function() {
@@ -203,14 +125,9 @@ Game_Player.prototype.triggerAction = function() {
 
 // overwrite to remove non-collision based event checks and odd return boolean
 Game_Player.prototype.triggerButtonAction = function() {
-    if (!Input.isTriggered('ok')) return;
+    if (!Input.isTriggered('ok') || this.getOnOffVehicle() || !this.canStartLocalEvents()) return;
     
-    if (this.getOnOffVehicle()) return;
-    
-    const closestActionButtonEventInRange = this.closestActionButtonEventInRange();
-    if (closestActionButtonEventInRange && this.canStartLocalEvents()) {
-        closestActionButtonEventInRange.start();
-    }
+    if (this.closestActionButtonEvent) this.closestActionButtonEvent.start();
 };
 
 Game_Player.prototype.encounterProgressValue = function() {
