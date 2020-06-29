@@ -59,7 +59,14 @@ const ACTION_SEQUENCES = {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
         15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         22: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
-        60: [], 
+        45: [], 
+    },
+    IMP_ATTACK: {
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        6: animationWeapon(19),
+        15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+        22: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
+        45: [], 
     },
     SWING: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
