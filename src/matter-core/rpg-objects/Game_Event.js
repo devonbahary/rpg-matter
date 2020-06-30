@@ -20,7 +20,7 @@ const UNACTIONABLE_EVENT_COMMAND_CODES = [
 ];
 
 
-Object.defineProperties(Game_CharacterBase.prototype, {
+Object.defineProperties(Game_Event.prototype, {
     _pageMass: { get: function() { return getMassFromMeta(this._pageMeta.mass); }, configurable: false },
     isActionEvent: { get: function() { return this.isTriggerIn([ EVENT_TRIGGERS.ACTION_BUTTON ]); }, configurable: false },
     isErased: { get: function() { return this._erased; }, configurable: false },
