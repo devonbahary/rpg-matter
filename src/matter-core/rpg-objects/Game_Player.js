@@ -67,7 +67,7 @@ Game_Player.prototype.update = function(sceneActive) {
 };
 
 Game_Player.prototype.updateClosestActionButtonEvent = function() {
-    const actionButtonEventsInRange = $gameMap.characterBodiesInBoundingBox(this.squareInFrontOf(), this).reduce((acc, characterBody) => {
+    const actionButtonEventsInRange = $gameMap.characterBodiesInBoundingBox(this.squareInFrontOf()).reduce((acc, characterBody) => {
         if (characterBody.character.isActionEvent) acc.push(characterBody.character);
         return acc;
     }, []);
