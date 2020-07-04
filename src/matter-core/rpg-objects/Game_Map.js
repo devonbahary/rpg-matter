@@ -188,8 +188,8 @@ Game_Map.prototype.removeBody = function(body) {
     World.remove(this.engine.world, body);
 };
 
-Game_Map.prototype.findPath = function(startPos, endPos, forCharacter, limit) {
-    return getPathTo.call(this, startPos, endPos, forCharacter, limit);
+Game_Map.prototype.findPath = function(startPos, endPos, forCharacter, filterChars) {
+    return getPathTo.call(this, startPos, endPos, forCharacter, filterChars);
 };
 
 Game_Map.prototype.characterBodiesInBoundingBox = function(mapBounds) {
