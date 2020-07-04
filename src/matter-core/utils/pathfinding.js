@@ -9,6 +9,8 @@
 import { get8DirFromXyPairs } from "./direction";
 import { createBounds } from "./bounds";
 
+const PATHFINDING_TILE_LIMIT = 10;
+
 class Node {
     constructor({ x, y }, parent = null) {
         this.x = Math.floor(x);
@@ -91,7 +93,7 @@ const getPathfindingDistance = (node1, node2) => {
     return diagonalCost + straightCost;
 };
 
-export function getPathTo(startPos, endPos, forCharacter, limit = null) {
+export function getPathTo(startPos, endPos, forCharacter) {
     let openList = [];
     const closedList = [];
 
@@ -111,7 +113,7 @@ export function getPathTo(startPos, endPos, forCharacter, limit = null) {
             return acc;
         });
         
-        if (limit && currentNode.g > limit * 10) break;
+        if (currentNode.g > PATHFINDING_TILE_LIMIT * 10) break;
 
         // remove current from open
         openList = openList.filter(node => node.id !== currentNode.id);
