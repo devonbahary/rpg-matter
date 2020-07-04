@@ -12,9 +12,11 @@ Object.defineProperties(Game_Battler.prototype, {
     actionSequence: { get: function() { return this._action.actionSequence(); }, configurable: false },
     imageName: { get: function() { return ''; }, configurable: false },
     imageIndex: { get: function() { return 0; }, configurable: false },
-    mass: { get: function() { 
-        return getMassFromMeta(this.data.meta.mass) || MATTER_CORE.CHARACTER_DEFAULT_MASS; 
-    }, configurable: false },
+    mass: {
+        get: function() {
+            return getMassFromMeta(this.data.meta.mass) || MATTER_CORE.CHARACTER_DEFAULT_MASS;
+        }, configurable: false
+    },
     priorityType: { get: function() { return 1; }, configurable: false }, // same as characters
     stepAnime: { get: function() { return getBooleanFromMeta(this.data.meta.stepAnime); }, configurable: false },
     weaponIconIndex: { get: function() { return 0; }, configurable: false },
