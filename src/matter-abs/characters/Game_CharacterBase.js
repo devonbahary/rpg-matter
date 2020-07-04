@@ -4,13 +4,16 @@
 // The superclass of Game_Character. It handles basic information, such as
 // coordinates and images, shared by all characters.
 
+import { cloneDeep } from "lodash";
+
 Object.defineProperties(Game_CharacterBase.prototype, {
     locationData: { get: function() { 
-        return { 
+        return cloneDeep({ 
+            bodyPos: this.bodyPos,
             ...this.mapPos, 
             mapPos: this.mapPos, 
-            radius: this.radius 
-        }; 
+            radius: this.radius,
+        }); 
     }, configurable: false },
 });
 

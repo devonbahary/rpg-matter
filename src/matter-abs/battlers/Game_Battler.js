@@ -4,6 +4,7 @@
 // The superclass of Game_Actor and Game_Enemy. It contains methods for sprites
 // and actions.
 
+import BehaviorTree from "./BehaviorTree";
 import { getMassFromMeta, getBooleanFromMeta } from "../../utils";
 import MATTER_CORE from "../../matter-core/pluginParams";
 import MATTER_ABS from "../MatterActionBattleSystem";
@@ -26,6 +27,7 @@ const _Game_Battler_initMembers = Game_Battler.prototype.initMembers;
 Game_Battler.prototype.initMembers = function() {
     _Game_Battler_initMembers.call(this);
     this._effectTypeFulfilled = true;
+    this.behaviorTree = new BehaviorTree(this);
     this.clearAction();
     this.character = null;
     this.latestDamageForGauge = 0;
@@ -144,6 +146,7 @@ Game_Battler.prototype.applyHitStun = function(value) {
 
 Game_Battler.prototype.clearAction = function() {
     if (this._action) this.applyCooldown(this._action);
+    this.behaviorTree.reset();
     this._eligibleActionsMem = null; // serialized array of actions used to track when a new action set is available
     this._pursuedAction = null;
     this._pursuedActionCount = 0;
@@ -246,8 +249,7 @@ Game_Battler.prototype.updateBehavior = function() {
     if (this.character === $gamePlayer || !this.canMove()) return;
     this.updateEnemyDetection();
     this.updateMentalBattlerMap();
-    this.updateEligibleActions();
-    this.updatePursuedAction();
+    this.behaviorTree.tick();
 };
 
 Game_Battler.prototype.updateEnemyDetection = function() {
@@ -275,20 +277,6 @@ Game_Battler.prototype.updateMentalBattlerMapForBattler = function(battler) {
     this._mentalBattlerMap[battler.id] = battler.character.locationData;
 };
 
-Game_Battler.prototype.updateEligibleActions = function() {
-    const eligibleActions = this.getEligibleActions();
-    const serializedEligibleActions = JSON.stringify(eligibleActions);
-    
-    if (serializedEligibleActions !== this._eligibleActionsMem) {
-        this._eligibleActionsMem = serializedEligibleActions;
-        
-        const ratingZero = this.getRatingZeroForActions(eligibleActions);
-        const action = this.selectAction(eligibleActions, ratingZero);
-        
-        this._pursuedAction = action ? $dataSkills[action.skillId] : null;
-    }
-};
-
 Game_Battler.prototype.selectAction = function(actionList, ratingZero) {
     return Game_Enemy.prototype.selectAction.call(this, actionList, ratingZero);
 };
@@ -299,48 +287,7 @@ Game_Battler.prototype.getEligibleActions = function() {
 
 Game_Battler.prototype.getRatingZeroForActions = function(actions) {
     const ratingMax = Math.max.apply(null, actions.map(a => a.rating));
-    return ratingMax - 3; 
-};
-
-Game_Battler.prototype.updatePursuedAction = function() {
-    let target = this.topAggroBattler();
-
-    if (this._pursuedAction) this._pursuedActionCount++;
-
-    if (this.hasAction()) {
-        if (target) this.turnTowardTarget(target);
-        if (this.currentAction().isChanneled() && !this.meetsActionSustainCondition(this.currentAction())) {
-            this.clearAction();
-        }
-        return;
-    }
-    
-    if (!this._pursuedAction) return;
-    
-    const action = new Game_ActionABS(this, this._pursuedAction);
-
-    if (action.isForOpponent()) {
-        if (!target) return;
-
-        if (this.distanceBetween(target) <= action.range()) {
-            const battlers = action.determineTargets();
-            if (this.isBlinded() || battlers.includes(target)) {
-                this.setAction(this._pursuedAction);
-                if (this.currentAction().needsSelection()) {
-                    if (!this.isBlinded() || battlers.includes(target)) this.currentAction().setTarget(target);
-                }
-                return;
-            }
-        }
-    } else if (action.isForFriend()) {
-        if (this.meetsActionSustainCondition(action)) {
-            this.setAction(this._pursuedAction);
-            if (this.currentAction().needsSelection()) this.currentAction().setTarget(this); // TODO: only targeting self for now
-            return;
-        }
-    }
-
-    if (target) this.moveTowardTarget(target);
+    return ratingMax - 3;
 };
 
 Game_Battler.prototype.meetsActionSustainCondition = function(action) {
@@ -359,6 +306,16 @@ Game_Battler.prototype.moveTowardTarget = function(target) {
 Game_Battler.prototype.turnTowardTarget = function(target) {
     const battlerCharacter = this.getPerceivedBattlerCharacter(target);
     this.character.turnTowardCharacter(battlerCharacter);
+};
+
+Game_Battler.prototype.hasLineOfSightTo = function(target) {
+    const battlerCharacter = this.getPerceivedBattlerCharacter(target);
+    return this.character.hasLineOfSightTo(battlerCharacter);
+};
+
+Game_Battler.prototype.pathfindToTarget = function(target) {
+    const battlerCharacter = this.getPerceivedBattlerCharacter(target);
+    this.character.pathfindTo(battlerCharacter, [ target.character ]);
 };
 
 const _Game_Battler_onTurnEnd = Game_Battler.prototype.onTurnEnd;
@@ -483,6 +440,10 @@ Game_Battler.prototype.getPerceivedBattlerCharacter = function(battler) {
 Game_Battler.prototype.distanceBetween = function(battler) {
     const battlerCharacter = this.getPerceivedBattlerCharacter(battler);
     return this.character.distanceBetween(battlerCharacter);
+};
+
+Game_Battler.prototype.isPathfinding = function() {
+    return this.character.hasDestination();
 };
 
 const _Game_Battler_canUse = Game_Battler.prototype.canUse;
