@@ -15,6 +15,7 @@ import {
 } from "../utils/direction";
 import { squareAround, squareInFrontOf } from "../utils/bounds";
 import { toWorldVectorCentered, vectorFromAToB, vectorLengthFromAToB, vectorResize } from "../utils/vector";
+import { BODY_LABELS } from "../constants";
 import MATTER_CORE from "../pluginParams";
 
 Object.defineProperties(Game_CharacterBase.prototype, {
@@ -407,7 +408,9 @@ Game_CharacterBase.prototype.hasLineOfSightTo = function(character) {
             if (this.y < character.y) return false;
             break;
     }
-    return Query.ray($gameMap.engine.world.bodies, this.bodyPos, character.bodyPos).length === 2; // should only be this and the character
+    // should be no environmental bodies between two characters
+    const collisions = Query.ray($gameMap.engine.world.bodies, this.bodyPos, character.bodyPos);
+    return !collisions.filter(collision => collision.body.label === BODY_LABELS.ENVIRONMENT).length;
 };
 
 Game_CharacterBase.prototype.overlapsWith = function(character) {
