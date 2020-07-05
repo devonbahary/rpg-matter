@@ -10,6 +10,9 @@ Object.defineProperties(Game_CharacterBase.prototype, {
     locationData: { get: function() { 
         return cloneDeep({ 
             bodyPos: this.bodyPos,
+            body: {
+                bounds: cloneDeep(this.body.bounds),
+            },
             ...this.mapPos, 
             mapPos: this.mapPos, 
             radius: this.radius,
