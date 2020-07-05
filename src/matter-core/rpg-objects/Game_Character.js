@@ -20,3 +20,12 @@ Game_Character.prototype.moveAwayFromCharacter = function(character) {
     const oppositeVector = Vector.neg(vectorToCharacter);
     this.move(oppositeVector);
 };
+
+// overwrite to ensure direction is different
+Game_Character.prototype.turnRandom = function() {
+    let dir;
+    while (dir === this.direction()) {
+        dir = 2 + Math.randomInt(4) * 2;
+    }
+    this.setDirection(2 + Math.randomInt(4) * 2);
+};
