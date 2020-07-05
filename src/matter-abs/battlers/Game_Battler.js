@@ -4,7 +4,7 @@
 // The superclass of Game_Actor and Game_Enemy. It contains methods for sprites
 // and actions.
 
-import { Root as BehaviorTree } from "./behavior-tree";
+import BehaviorTree from "./behavior-tree/Root";
 import { getMassFromMeta, getBooleanFromMeta } from "../../utils";
 import MATTER_CORE from "../../matter-core/pluginParams";
 import MATTER_ABS from "../MatterActionBattleSystem";
