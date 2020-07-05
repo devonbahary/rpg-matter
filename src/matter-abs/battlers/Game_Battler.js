@@ -267,6 +267,7 @@ Game_Battler.prototype.updateMentalBattlerMap = function() {
         if (enemy.character && this.character.hasLineOfSightTo(enemy.character)) this.updateMentalBattlerMapForBattler(enemy); 
     }
     for (const friend of this.friendsUnit().aliveMembers()) {
+        if (friend === this) continue;
         if (friend.character && this.character.hasLineOfSightTo(friend.character)) this.updateMentalBattlerMapForBattler(friend);
     }
 };
