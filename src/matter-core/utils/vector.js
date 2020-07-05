@@ -1,7 +1,7 @@
 import { Vector } from "matter-js";
 import MATTER_CORE from "../pluginParams";
 
-export const vectorFromAToB = (a, b) => Vector.add(b, Vector.neg(a));
+export const vectorFromAToB = (a, b) => Vector.sub(b, a);
 export const vectorLengthFromAToB = (a, b) => Vector.magnitude(vectorFromAToB(a, b));
 
 export const toWorldVector = ({ x, y }) => ({
