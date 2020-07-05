@@ -17,6 +17,9 @@ function getMetaFromEquips(metaProperty, excludeEtypeIds = []) {
 
 Object.defineProperties(Game_Actor.prototype, {
     data: { get: function() { return this.actor(); }, configurable: false },
+    damageCharacterName: { get: function() { return this.data.meta.damageCharacterName; }, configurable: false },
+    damageCharacterIndex: { get: function() { return parseInt(this.data.meta.damageCharacterIndex); }, configurable: false },
+    damageCharacterDir: { get: function() { return parseInt(this.data.meta.damageCharacterDir); }, configurable: false },
     imageName: { get: function() { return this._characterName; }, configurable: false },
     imageIndex: { get: function() { return this._characterIndex; }, configurable: false },
     weapon: { get: function() { 
@@ -110,4 +113,15 @@ Game_Actor.prototype.traitObjects = function(code, id) {
         }
     }
     return objects;
+};
+
+Game_Actor.prototype.die = function() {
+    Game_Battler.prototype.die.call(this);
+    SoundManager.playActorCollapse();
+    if (this.damageCharacterName) {
+        this.setCharacterImage(this.damageCharacterName, this.damageCharacterIndex);
+        $gamePlayer.setDirection(this.damageCharacterDir);
+        $gamePlayer.setDirectionFix(true);
+    }
+    $gamePlayer.refresh();
 };
