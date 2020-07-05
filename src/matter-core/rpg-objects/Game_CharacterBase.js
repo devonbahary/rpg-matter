@@ -4,7 +4,7 @@
 // The superclass of Game_Character. It handles basic information, such as
 // coordinates and images, shared by all characters.
 
-import { Body, Bodies, Events, Query, Vector } from "matter-js";
+import { Body, Bodies, Bounds, Events, Query, Vector } from "matter-js";
 import { 
     isDown, 
     isLeft, 
@@ -408,6 +408,10 @@ Game_CharacterBase.prototype.hasLineOfSightTo = function(character) {
             break;
     }
     return Query.ray($gameMap.engine.world.bodies, this.bodyPos, character.bodyPos).length === 2; // should only be this and the character
+};
+
+Game_CharacterBase.prototype.overlapsWith = function(character) {
+    return Bounds.overlaps(this.body.bounds, character.body.bounds);
 };
 
 Game_CharacterBase.prototype.squareInFrontOf = function(range) {
