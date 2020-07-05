@@ -23,6 +23,8 @@ class Selector {
                     break;
                 case STATUSES.RUNNING:
                     return STATUSES.RUNNING;
+                default:
+                    throw new Error(`selector can't process child status ${childStatus}`);
             }
         }
     }
@@ -52,6 +54,8 @@ class Sequence {
                     return STATUSES.FAILURE; // all children must succeed for a Sequence to succeed
                 case STATUSES.RUNNING:
                     return STATUSES.RUNNING;
+                default:
+                    throw new Error(`sequence can't process child status ${childStatus}`);
             }   
         }
     }
