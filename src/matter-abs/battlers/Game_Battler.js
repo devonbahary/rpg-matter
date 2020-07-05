@@ -4,7 +4,7 @@
 // The superclass of Game_Actor and Game_Enemy. It contains methods for sprites
 // and actions.
 
-import BehaviorTree from "./behavior-tree/BehaviorTree";
+import { Root as BehaviorTree } from "./behavior-tree/sequences";
 import { getMassFromMeta, getBooleanFromMeta } from "../../utils";
 import MATTER_CORE from "../../matter-core/pluginParams";
 import MATTER_ABS from "../MatterActionBattleSystem";
@@ -146,9 +146,7 @@ Game_Battler.prototype.applyHitStun = function(value) {
 
 Game_Battler.prototype.clearAction = function() {
     if (this._action) this.applyCooldown(this._action);
-    this.behaviorTree.reset();
-    this._eligibleActionsMem = null; // serialized array of actions used to track when a new action set is available
-    this._pursuedAction = null;
+    this.pursuedAction = null;
     this._pursuedActionCount = 0;
     this._action = null;
     this._actionFrame = 0;

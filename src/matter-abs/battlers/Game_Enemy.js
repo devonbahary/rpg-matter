@@ -65,6 +65,14 @@ Game_Enemy.prototype.yieldRewards = function() {
     }
 };
 
+const _Game_Enemy_isActionValid = Game_Enemy.prototype.isActionValid;
+Game_Enemy.prototype.isActionValid = function(action) {
+    if (!_Game_Enemy_isActionValid.call(this, action)) return false;
+    const gameAction = new Game_ActionABS(this, $dataSkills[action.skillId]);
+    if (gameAction.isForOpponent() && !this.topAggroBattler()) return false;
+    return true;
+};
+
 Game_Enemy.prototype.getEligibleActions = function() {
     const validActions = this.data.actions.filter(a => this.isActionValid(a));
     const ratingZero = this.getRatingZeroForActions(validActions);

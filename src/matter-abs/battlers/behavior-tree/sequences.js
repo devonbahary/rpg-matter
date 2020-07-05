@@ -62,9 +62,12 @@ class Sequence {
 }
 
 class Leaf {
-    constructor(battler, action) {
+    constructor(battler) {
         this.battler = battler;
-        this.action = action;
+    }
+
+    get action() {
+        return this.battler.pursuedAction;
     }
 
     get target() {
@@ -74,20 +77,70 @@ class Leaf {
 }
 
 export class Root extends Selector {
-    constructor(battler, action) {
+    constructor(battler) {
         super([
-            new PursueAction(battler, action),
+            new Act(battler),
+            new Idle(),
+        ]);
+    }
+}
+
+class Idle extends Leaf {
+    tick() {
+        return STATUSES.RUNNING;
+    }
+}
+
+class Act extends Sequence {
+    constructor(battler) {
+        super([
+            new DetermineAction(battler),
+            new PursueActionOrConfused(battler),
+        ]);
+    }
+}
+
+class PursueActionOrConfused extends Selector {
+    constructor(battler) {
+        super([
+            new PursueAction(battler),
             new ConfusedState(battler),
         ]);
     }
 }
 
+class DetermineAction extends Leaf {
+    constructor(battler) {
+        super(battler);
+        this.serializedEligibleActions = null;
+    }
+
+    tick() {
+        const eligibleActions = this.battler.getEligibleActions();
+        const serializedEligibleActions = JSON.stringify(eligibleActions);
+
+        if (serializedEligibleActions !== this.serializedEligibleActions || !this.battler.pursuedAction) {
+            this.serializedEligibleActions = serializedEligibleActions;
+            
+            const ratingZero = this.battler.getRatingZeroForActions(eligibleActions);
+            const action = this.battler.selectAction(eligibleActions, ratingZero);
+            if (action) {
+                this.battler.pursuedAction = new Game_ActionABS(this.battler, $dataSkills[action.skillId]);
+            }
+        }
+
+        if (!this.battler.pursuedAction) return STATUSES.FAILURE;
+
+        return STATUSES.SUCCESS;
+    }
+}
+
 class PursueAction extends Sequence {
-    constructor(battler, action) {
+    constructor(battler) {
         super([
-            new HasAppropriateTargetForAction(battler, action),
-            new MoveInRangeForAction(battler, action),
-            new ExecuteAction(battler, action),
+            new HasAppropriateTargetForAction(battler),
+            new MoveInRangeForAction(battler),
+            new ExecuteAction(battler),
         ]);
     }
 }
@@ -99,11 +152,11 @@ class HasAppropriateTargetForAction extends Leaf {
 }
 
 class MoveInRangeForAction extends Selector {
-    constructor(battler, action) {
+    constructor(battler) {
         super([
-            new IsTargetInRange(battler, action),
-            new MoveTowardsTarget(battler, action),
-            new PathfindToTarget(battler, action),
+            new IsTargetInRange(battler),
+            new MoveTowardsTarget(battler),
+            new PathfindToTarget(battler),
         ]);
     }
 }
@@ -143,10 +196,10 @@ class PathfindToTarget extends Leaf {
 }
 
 class ExecuteAction extends Sequence {
-    constructor(battler, action) {
+    constructor(battler) {
         super([
-            new IsTargetInRange(battler, action),
-            new PerformAction(battler, action),
+            new IsTargetInRange(battler),
+            new PerformAction(battler),
         ]);
     }
 }
@@ -168,8 +221,8 @@ class PerformAction extends Leaf {
 }
 
 class ConfusedState extends Leaf {
-    constructor(battler, action) {
-        super(battler, action);
+    constructor(battler) {
+        super(battler);
         this.confusedCount = 0;
     }
 
