@@ -123,7 +123,7 @@ Game_ActionABS.prototype.apply = function() {
 };
 
 Game_ActionABS.prototype.subjectEffectCallbacks = function(target, damage) {
-    if (!this.shouldApplyGuardedEffects(target, damage)) return [];
+    if (!this.shouldApplyGuardedEffectsToUser(target, damage)) return [];
     return [
         () => this._subject.setAction($dataSkills[MATTER_ABS.DEFLECT_SKILL_ID]),
     ];
@@ -131,6 +131,10 @@ Game_ActionABS.prototype.subjectEffectCallbacks = function(target, damage) {
 
 Game_ActionABS.prototype.shouldApplyGuardedEffects = function(target, damage) {
     return this.isForOpponent() && target.isGuard() && damage > 0 && !this.isUnguardable();
+};
+
+Game_ActionABS.prototype.shouldApplyGuardedEffectsToUser = function(target, damage) {
+    return this.shouldApplyGuardedEffects(target, damage) && this.isPhysical();
 };
 
 Game_ActionABS.prototype.targetEffectCallbacks = function(target, damage) {
