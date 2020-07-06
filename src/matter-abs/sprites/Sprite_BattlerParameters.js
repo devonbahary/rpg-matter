@@ -44,6 +44,8 @@ Sprite_BattlerParameters.prototype.initialize = function() {
 Sprite_BattlerParameters.prototype.initMembers = function() {
     this._hp = 0;
     this._mhp = 0;
+    this._spriteActionText = new Sprite_ActionText();
+    this.addChild(this._spriteActionText);
 };
 
 Sprite_BattlerParameters.prototype.gaugeHeight = function() {
@@ -58,6 +60,7 @@ Sprite_BattlerParameters.prototype.createBitmap = function() {
 
 Sprite_BattlerParameters.prototype.setCharacter = function(character) {
     this._character = character;
+    this._spriteActionText.setCharacter(character);
 };
 
 Sprite_BattlerParameters.prototype.update = function() {
@@ -149,3 +152,60 @@ Sprite_BattlerParameters.prototype.hpRecoveryGaugeColor2 = function() {
 };
 
 global["Sprite_BattlerParameters"] = Sprite_BattlerParameters;
+
+
+//-----------------------------------------------------------------------------
+// Sprite_ActionText
+//
+// The sprite for displaying overhead action text.
+
+function Sprite_ActionText() {
+    this.initialize.apply(this, arguments);
+}
+
+Sprite_ActionText.prototype = Object.create(Sprite_Base.prototype);
+Sprite_ActionText.prototype.constructor = Sprite_ActionText;
+
+Object.defineProperties(Sprite_ActionText.prototype, {
+    _battler: { get: function() { return this._character.battler; }, configurable: false },
+    _actionName: { get: function() { 
+        if (!this._battler || !this._battler.hasAction()) return null;
+        const dataItem = this._battler.currentAction().item();
+        return dataItem.meta.noLog ? null : dataItem.name;
+    }, configurable: false },
+});
+
+Sprite_ActionText.prototype.initialize = function() {
+    Sprite_Base.prototype.initialize.call(this);
+    Window_Base.prototype.loadWindowskin.call(this);
+    this.height = 24;
+    this.y -= this.height;
+    this.actionNameMem = null;
+    this.initBitmap();
+};
+
+Sprite_ActionText.prototype.initBitmap = function() {
+    this.bitmap = new Bitmap(120, 18);
+    this.anchor.x = 0.5;
+    this.bitmap.fontSize = 12;
+    this.bitmap.outlineColor = 'rgba(0, 0, 0, 0.8)';
+};
+
+Sprite_ActionText.prototype.setCharacter = function(character) {
+    this._character = character;
+    this.refresh();
+};
+
+Sprite_ActionText.prototype.refresh = function() {
+    const text = this._actionName;
+    if (!text) return this.bitmap.clear();
+    this.bitmap.drawText(text, 0, 0, 120, 18, 'center');
+}
+
+Sprite_ActionText.prototype.update = function() {
+    if (!this._character) return;
+    if (this.actionNameMem !== this._actionName) {
+        this.actionNameMem = this._actionName;
+        this.refresh();
+    }
+}
