@@ -32,12 +32,7 @@ export class Selector {
 
 export class Sequence {
     constructor(children) {
-        this.activeChildIndex = 0;;
         this.children = children;
-    }
-
-    reset() {
-        if (this.children[this.activeChildIndex]) this.children[this.activeChildIndex].reset();
     }
 
     tick() {        
