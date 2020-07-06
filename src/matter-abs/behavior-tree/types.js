@@ -70,6 +70,9 @@ export class Leaf {
         if (!this.action) return null;
         if (this.action.isForUser()) return this.battler;
         if (this.action.isForOpponent()) return this.battler.topAggroBattler();
+        if (this.action.isForFriend()) {
+            return this.battler.lowestHpRateFriendInMentalMap();
+        }
         return null;
     }
 }

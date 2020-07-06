@@ -465,3 +465,11 @@ Game_Battler.prototype.canUse = function(item) {
         (!action.needsSelection() || action.isForFriend())
     );
 };
+
+Game_Battler.prototype.lowestHpRateFriendInMentalMap = function() {
+    return this.friendsUnit().aliveMembers().reduce((acc, member) => {
+        if (!this._mentalBattlerMap[member.id]) return acc;
+        if (member.hpRate() < acc.hpRate()) return member;
+        return acc;
+    }, this);
+};
