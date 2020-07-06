@@ -15,9 +15,19 @@ export default class BehaviorTree {
     constructor(battler) {
         this.battler = battler;
         this.root = new Root(this);
+        this.initMembers();
+    }
+
+    initMembers() {
+        this.timeSinceLastAction = 0;
+    }
+
+    update() {
+        this.timeSinceLastAction++;
     }
 
     tick() {
         this.root.tick();
+        this.update();
     }
 }

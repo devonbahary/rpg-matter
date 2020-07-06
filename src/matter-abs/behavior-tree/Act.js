@@ -122,6 +122,10 @@ class ShouldExecuteAction extends Leaf {
     tick() {
         // only 1 enemy should attack a single battler at any one time
         if ($gameMap.blackboard.isBattlerBeingAttacked(this.target)) return STATUSES.FAILURE;
+
+        // prevent spamming
+        if (this.behaviorTree.timeSinceLastAction < 120) return STATUSES.FAILURE;
+
         return STATUSES.SUCCESS;
     }
 }
@@ -148,6 +152,7 @@ class PerformAction extends Leaf {
         }
 
         $gameMap.blackboard.setAttackingBattler(this.battler, this.target);
+        this.behaviorTree.timeSinceLastAction = 0;
 
         return STATUSES.RUNNING;
     }
