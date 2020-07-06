@@ -130,7 +130,7 @@ Game_ActionABS.prototype.subjectEffectCallbacks = function(target, damage) {
 };
 
 Game_ActionABS.prototype.shouldApplyGuardedEffects = function(target, damage) {
-    return this.isForOpponent() && target.isGuard() && damage > 0 && !this.isUnguardable();
+    return this.isForOpponent() && target.isGuard() && damage >= 0 && !this.isUnguardable();
 };
 
 Game_ActionABS.prototype.shouldApplyGuardedEffectsToUser = function(target, damage) {
