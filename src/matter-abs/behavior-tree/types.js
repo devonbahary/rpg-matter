@@ -5,8 +5,8 @@ export const STATUSES = {
 };
 
 export class Selector {
-    constructor(children) {
-        this.children = children;
+    constructor(behaviorTree, children) {
+        this.children = children.map(child => new child(behaviorTree));
     }
 
     tick() {
@@ -27,12 +27,14 @@ export class Selector {
                     throw new Error(`selector can't process child status ${childStatus}`);
             }
         }
+
+        return STATUSES.FAILURE;
     }
 }
 
 export class Sequence {
-    constructor(children) {
-        this.children = children;
+    constructor(behaviorTree, children) {
+        this.children = children.map(child => new child(behaviorTree));
     }
 
     tick() {        
@@ -53,12 +55,15 @@ export class Sequence {
                     throw new Error(`sequence can't process child status ${childStatus}`);
             }   
         }
+
+        return STATUSES.SUCCESS;
     }
 }
 
 export class Leaf {
-    constructor(battler) {
-        this.battler = battler;
+    constructor(behaviorTree) {
+        this.behaviorTree = behaviorTree;
+        this.battler = this.behaviorTree.battler;
     }
 
     get action() {

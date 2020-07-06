@@ -1,11 +1,11 @@
 import { Selector, Sequence, Leaf, STATUSES } from "./types";
 
 export class Act extends Sequence {
-    constructor(battler) {
-        super([
-            new NotAlreadyHasAction(battler),
-            new DetermineAction(battler),
-            new PursueAction(battler),
+    constructor(behaviorTree) {
+        super(behaviorTree, [
+            NotAlreadyHasAction,
+            DetermineAction,
+            PursueAction,
         ]);
     }
 }
@@ -18,8 +18,8 @@ class NotAlreadyHasAction extends Leaf {
 }
 
 class DetermineAction extends Leaf {
-    constructor(battler) {
-        super(battler);
+    constructor(behaviorTree) {
+        super(behaviorTree);
         this.serializedEligibleActions = null;
     }
 
@@ -44,12 +44,12 @@ class DetermineAction extends Leaf {
 }
 
 class PursueAction extends Sequence {
-    constructor(battler) {
-        super([
-            new HasAppropriateTargetForAction(battler),
-            new MoveInRangeForAction(battler),
-            new ShouldExecuteAction(battler),
-            new ExecuteAction(battler),
+    constructor(behaviorTree) {
+        super(behaviorTree, [
+            HasAppropriateTargetForAction,
+            MoveInRangeForAction,
+            ShouldExecuteAction,
+            ExecuteAction,
         ]);
     }
 }
@@ -61,12 +61,12 @@ class HasAppropriateTargetForAction extends Leaf {
 }
 
 class MoveInRangeForAction extends Selector {
-    constructor(battler) {
-        super([
-            new IsTargetInRange(battler),
-            new MoveTowardsTarget(battler),
-            new PathfindToTarget(battler),
-            new ConfusedState(battler),
+    constructor(behaviorTree) {
+        super(behaviorTree, [
+            IsTargetInRange,
+            MoveTowardsTarget,
+            PathfindToTarget,
+            ConfusedState,
         ]);
     }
 }
@@ -116,10 +116,10 @@ class ShouldExecuteAction extends Leaf {
 }
 
 class ExecuteAction extends Sequence {
-    constructor(battler) {
-        super([
-            new IsTargetInRange(battler),
-            new PerformAction(battler),
+    constructor(behaviorTree) {
+        super(behaviorTree, [
+            IsTargetInRange,
+            PerformAction,
         ]);
     }
 }
@@ -143,8 +143,8 @@ class PerformAction extends Leaf {
 }
 
 class ConfusedState extends Leaf {
-    constructor(battler) {
-        super(battler);
+    constructor(behaviorTree) {
+        super(behaviorTree);
         this.confusedCount = 0;
     }
 
