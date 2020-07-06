@@ -1,11 +1,13 @@
 import { Selector } from "./types";
 import { Act } from "./Act";
+import { CurrentAction } from "./CurrentAction";
 import { Idle } from "./Idle";
 
 class Root extends Selector {
     constructor(behaviorTree) {
         super(behaviorTree, [ 
-            Act, 
+            Act,
+            CurrentAction, 
             Idle,
         ]);
     }
