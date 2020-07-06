@@ -4,15 +4,27 @@
 // The game object class for a map. It contains scrolling and passage
 // determination functions.
 
+import Blackboard from "./behavior-tree/Blackboard";
 import MATTER_ABS from "./MatterActionBattleSystem";
+
+const _Game_Map_initialize = Game_Map.prototype.initialize;
+Game_Map.prototype.initialize = function() {
+    _Game_Map_initialize.call(this);
+    this.initBlackboard();
+};
 
 const _Game_Map_setup = Game_Map.prototype.setup;
 Game_Map.prototype.setup = function(mapId) {
     $gameTroop.clear();
+    this.initBlackboard();
     _Game_Map_setup.call(this, mapId);
     this._hitStopZoomTarget = null;
     this.setSelectionMode(false);
     this.logs = [];
+};
+
+Game_Map.prototype.initBlackboard = function() {
+    this.blackboard = new Blackboard();
 };
 
 Game_Map.prototype.hasLogs = function() {

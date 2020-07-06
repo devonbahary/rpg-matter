@@ -152,6 +152,7 @@ Game_Battler.prototype.clearAction = function() {
     this._actionFrame = 0;
     this._lastActionFrame = 0;
     this.removeStatesAuto(Game_BattlerBase.AUTO_REMOVAL_TIMINGS.ACTION_END);
+    $gameMap.blackboard.clearAttackingBattler(this);
 };
 
 // overwrite
@@ -440,6 +441,11 @@ Game_Battler.prototype.distanceBetween = function(battler) {
     const battlerCharacter = this.getPerceivedBattlerCharacter(battler);
     return this.character.distanceBetween(battlerCharacter);
 };
+
+Game_Battler.prototype.distanceFrom = function(battler) {
+    const battlerCharacter = this.getPerceivedBattlerCharacter(battler);
+    return this.character.distanceBetween(battlerCharacter);
+}
 
 Game_Battler.prototype.isPathfinding = function() {
     return this.character.hasDestination();

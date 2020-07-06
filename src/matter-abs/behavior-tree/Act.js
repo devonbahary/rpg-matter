@@ -3,18 +3,17 @@ import { Selector, Sequence, Leaf, STATUSES } from "./types";
 export class Act extends Sequence {
     constructor(battler) {
         super([
+            new NotAlreadyHasAction(battler),
             new DetermineAction(battler),
-            new PursueActionOrConfused(battler),
+            new PursueAction(battler),
         ]);
     }
 }
 
-class PursueActionOrConfused extends Selector {
-    constructor(battler) {
-        super([
-            new PursueAction(battler),
-            new ConfusedState(battler),
-        ]);
+class NotAlreadyHasAction extends Leaf {
+    tick() {
+        if (this.battler.hasAction()) return STATUSES.FAILURE;
+        return STATUSES.SUCCESS;
     }
 }
 
@@ -49,6 +48,7 @@ class PursueAction extends Sequence {
         super([
             new HasAppropriateTargetForAction(battler),
             new MoveInRangeForAction(battler),
+            new ShouldExecuteAction(battler),
             new ExecuteAction(battler),
         ]);
     }
@@ -66,6 +66,7 @@ class MoveInRangeForAction extends Selector {
             new IsTargetInRange(battler),
             new MoveTowardsTarget(battler),
             new PathfindToTarget(battler),
+            new ConfusedState(battler),
         ]);
     }
 }
@@ -84,7 +85,7 @@ class IsTargetInRange extends Leaf {
 
 class MoveTowardsTarget extends Leaf {
     tick() {
-        if (this.battler.character.overlapsWith(this.battler.getPerceivedBattlerCharacter(this.target))) return STATUSES.SUCCESS;
+        if (this.battler.character.overlapsWith(this.battler.getPerceivedBattlerCharacter(this.target))) return STATUSES.FAILURE;
 
         if (!this.battler.hasLineOfSightTo(this.target)) return STATUSES.FAILURE;
 
@@ -98,9 +99,19 @@ class MoveTowardsTarget extends Leaf {
 
 class PathfindToTarget extends Leaf {
     tick() {
-       if (!this.battler.isPathfinding()) this.battler.pathfindToTarget(this.target);
+        if (this.battler.distanceFrom(this.target) <= 0) return STATUSES.FAILURE;
 
-       return STATUSES.RUNNING;
+        if (!this.battler.isPathfinding()) this.battler.pathfindToTarget(this.target);
+
+        return STATUSES.RUNNING;
+    }
+}
+
+class ShouldExecuteAction extends Leaf {
+    tick() {
+        // only 1 enemy should attack a single battler at any one time
+        if ($gameMap.blackboard.isBattlerBeingAttacked(this.target)) return STATUSES.FAILURE;
+        return STATUSES.SUCCESS;
     }
 }
 
@@ -124,6 +135,8 @@ class PerformAction extends Leaf {
         if (this.battler.currentAction().needsSelection()) {
             this.battler.currentAction().setTarget(target);
         }
+
+        $gameMap.blackboard.setAttackingBattler(this.battler, this.target);
 
         return STATUSES.RUNNING;
     }

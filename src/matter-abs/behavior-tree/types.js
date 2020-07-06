@@ -67,7 +67,7 @@ export class Leaf {
     }
 
     get action() {
-        return this.battler.pursuedAction;
+        return this.battler.currentAction() || this.battler.pursuedAction;
     }
 
     get target() {
