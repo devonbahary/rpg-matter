@@ -1,19 +1,14 @@
 import { Selector, Sequence, Leaf, STATUSES } from "./types";
+import { HasAction } from "./shared";
+import { Inverter } from "./decorators";
 
 export class Act extends Sequence {
     constructor(behaviorTree) {
         super(behaviorTree, [
-            NotAlreadyHasAction,
+            Inverter(HasAction),
             DetermineAction,
             PursueAction,
         ]);
-    }
-}
-
-class NotAlreadyHasAction extends Leaf {
-    tick() {
-        if (this.battler.hasAction()) return STATUSES.FAILURE;
-        return STATUSES.SUCCESS;
     }
 }
 

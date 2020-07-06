@@ -1,4 +1,5 @@
 import { Sequence, Leaf, STATUSES } from "./types";
+import { HasAction } from "./shared";
 
 export class CurrentAction extends Sequence {
     constructor(behaviorTree) {
@@ -6,13 +7,6 @@ export class CurrentAction extends Sequence {
             HasAction,
             MaintainCurrentAction,
         ]);     
-    }
-}
-
-class HasAction extends Leaf {
-    tick() {
-        if (this.battler.hasAction()) return STATUSES.SUCCESS;
-        return STATUSES.SUCCESS;
     }
 }
 
