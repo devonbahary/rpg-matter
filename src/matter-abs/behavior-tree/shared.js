@@ -1,4 +1,5 @@
-import { Leaf, STATUSES } from "./types";
+import { Leaf } from "./types";
+import STATUSES from "./statuses";
 
 export class HasAction extends Leaf {
     tick() {

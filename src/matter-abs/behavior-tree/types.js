@@ -1,8 +1,4 @@
-export const STATUSES = {
-    SUCCESS: 0,
-    FAILURE: 1,
-    RUNNING: 2,
-};
+import STATUSES from "./statuses";
 
 export class Selector {
     constructor(behaviorTree, children) {

@@ -1,5 +1,6 @@
-import { Sequence, Leaf, STATUSES } from "./types";
+import { Sequence, Leaf } from "./types";
 import { HasAction } from "./shared";
+import STATUSES from "./statuses";
 
 export class CurrentAction extends Sequence {
     constructor(behaviorTree) {

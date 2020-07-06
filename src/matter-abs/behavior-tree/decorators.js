@@ -1,4 +1,4 @@
-const { STATUSES } = require("./types");
+import STATUSES from "./statuses";
 
 export const Inverter = Node => {
     return class ExtendsNode extends Node {

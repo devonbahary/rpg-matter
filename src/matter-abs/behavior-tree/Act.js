@@ -1,6 +1,7 @@
-import { Selector, Sequence, Leaf, STATUSES } from "./types";
+import { Selector, Sequence, Leaf } from "./types";
 import { HasAction } from "./shared";
 import { Inverter } from "./decorators";
+import STATUSES from "./statuses";
 
 export class Act extends Sequence {
     constructor(behaviorTree) {
