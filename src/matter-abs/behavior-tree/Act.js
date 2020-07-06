@@ -1,5 +1,5 @@
 import { Selector, Sequence, Leaf } from "./types";
-import { HasAction } from "./shared";
+import { HasAction, TurnTowardTarget } from "./shared";
 import { Inverter } from "./decorators";
 import STATUSES from "./statuses";
 
@@ -54,17 +54,6 @@ class PursueAction extends Sequence {
 class HasAppropriateTargetForAction extends Leaf {
     tick() {
         return this.target ? STATUSES.SUCCESS : STATUSES.FAILURE;
-    }
-}
-
-class TurnTowardTarget extends Leaf {
-    tick() {
-        if (this.target) {
-            if (this.target !== this.battler) this.battler.turnTowardTarget(this.target);
-            else if (this.battler.topAggroBattler()) this.battler.turnTowardTarget(this.battler.topAggroBattler());
-            return STATUSES.SUCCESS;
-        }
-        return STATUSES.FAILURE;
     }
 }
 

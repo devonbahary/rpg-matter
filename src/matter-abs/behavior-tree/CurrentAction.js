@@ -1,21 +1,11 @@
-import { Sequence, Leaf } from "./types";
-import { HasAction } from "./shared";
-import STATUSES from "./statuses";
+import { Sequence } from "./types";
+import { HasAction, TurnTowardTarget } from "./shared";
 
 export class CurrentAction extends Sequence {
     constructor(behaviorTree) {
         super(behaviorTree, [
             HasAction,
-            MaintainCurrentAction,
+            TurnTowardTarget,
         ]);     
     }
-}
-
-class MaintainCurrentAction extends Leaf {
-    tick() {
-        if (!this.target) return STATUSES.RUNNING;
-        if (this.target !== this.battler) this.battler.turnTowardTarget(this.target);
-        else if (this.battler.topAggroBattler()) this.battler.turnTowardTarget(this.battler.topAggroBattler());
-        return STATUSES.RUNNING;
-    }
-}
+};
