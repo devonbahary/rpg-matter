@@ -198,7 +198,8 @@ Sprite_ActionText.prototype.setCharacter = function(character) {
 
 Sprite_ActionText.prototype.refresh = function() {
     const text = this._actionName;
-    if (!text) return this.bitmap.clear();
+    if (!text) return;
+    this.bitmap.clear();
     this.bitmap.drawText(text, 0, 0, 120, 18, 'center');
 }
 
@@ -207,5 +208,9 @@ Sprite_ActionText.prototype.update = function() {
     if (this.actionNameMem !== this._actionName) {
         this.actionNameMem = this._actionName;
         this.refresh();
+    } else if (this._actionName && this.opacity !== 255) {
+        this.opacity = Math.min(this.opacity + 25, 255);
+    } else if (!this._actionName && this.opacity) {
+        this.opacity = Math.max(this.opacity - 25, 0);
     }
 }
