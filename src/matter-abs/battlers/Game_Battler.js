@@ -447,6 +447,11 @@ Game_Battler.prototype.distanceFrom = function(battler) {
     return this.character.distanceBetween(battlerCharacter);
 }
 
+Game_Battler.prototype.overlapsWith = function(battler) {
+    const battlerCharacter = this.getPerceivedBattlerCharacter(battler);
+    return this.character.overlapsWith(battlerCharacter);
+}
+
 Game_Battler.prototype.isPathfinding = function() {
     return this.character.hasDestination();
 };

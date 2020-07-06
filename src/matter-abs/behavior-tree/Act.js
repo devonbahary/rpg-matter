@@ -85,7 +85,7 @@ class IsTargetInRange extends Leaf {
 
 class MoveTowardsTarget extends Leaf {
     tick() {
-        if (this.battler.character.overlapsWith(this.battler.getPerceivedBattlerCharacter(this.target))) return STATUSES.FAILURE;
+        if (this.battler.overlapsWith(this.target)) return STATUSES.FAILURE;
 
         if (!this.battler.hasLineOfSightTo(this.target)) return STATUSES.FAILURE;
 
