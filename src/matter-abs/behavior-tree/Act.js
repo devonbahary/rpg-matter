@@ -64,7 +64,8 @@ class HasAppropriateTargetForAction extends Leaf {
 class TurnTowardTarget extends Leaf {
     tick() {
         if (this.target) {
-            this.battler.turnTowardTarget(this.target);
+            if (this.target !== this.battler) this.battler.turnTowardTarget(this.target);
+            else if (this.battler.topAggroBattler()) this.battler.turnTowardTarget(this.battler.topAggroBattler());
             return STATUSES.SUCCESS;
         }
         return STATUSES.FAILURE;
@@ -84,6 +85,7 @@ class MoveInRangeForAction extends Selector {
 
 class IsTargetInRange extends Leaf {
     tick() {
+        if (this.target === this.battler) return STATUSES.SUCCESS;
         if (this.battler.distanceBetween(this.target) <= this.action.range()) {
             const battlers = this.action.determineTargets();
             if (battlers.includes(this.target) || this.battler.isBlinded()) {
@@ -120,8 +122,10 @@ class PathfindToTarget extends Leaf {
 
 class ShouldExecuteAction extends Leaf {
     tick() {
-        // only 1 enemy should attack a single battler at any one time
-        if ($gameMap.blackboard.isBattlerBeingAttacked(this.target)) return STATUSES.FAILURE;
+        if (this.action.isForOpponent()) {
+            // only 1 enemy should attack a single battler at any one time
+            if ($gameMap.blackboard.isBattlerBeingAttacked(this.target)) return STATUSES.FAILURE;
+        }
 
         // prevent spamming
         if (this.behaviorTree.timeSinceLastAction < 120) return STATUSES.FAILURE;
@@ -145,14 +149,16 @@ class PerformAction extends Leaf {
 
         if (this.battler.isPathfinding()) this.battler.character.clearPathfinding();
 
-        this.battler.turnTowardTarget(this.target);
+        if (this.target !== this.battler) this.battler.turnTowardTarget(this.target);
         this.battler.setAction(this.action.item());
         if (this.battler.currentAction().needsSelection()) {
             this.battler.currentAction().setTarget(target);
         }
 
-        $gameMap.blackboard.setAttackingBattler(this.battler, this.target);
-        this.behaviorTree.timeSinceLastAction = 0;
+        if (this.action.isForOpponent()) {
+            $gameMap.blackboard.setAttackingBattler(this.battler, this.target);
+            this.behaviorTree.timeSinceLastAction = 0;
+        }
 
         return STATUSES.RUNNING;
     }
