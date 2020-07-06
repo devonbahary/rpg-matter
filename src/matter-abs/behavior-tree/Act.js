@@ -47,8 +47,9 @@ class PursueAction extends Sequence {
     constructor(behaviorTree) {
         super(behaviorTree, [
             HasAppropriateTargetForAction,
-            MoveInRangeForAction,
+            TurnTowardTarget,
             ShouldExecuteAction,
+            MoveInRangeForAction,
             ExecuteAction,
         ]);
     }
@@ -57,6 +58,16 @@ class PursueAction extends Sequence {
 class HasAppropriateTargetForAction extends Leaf {
     tick() {
         return this.target ? STATUSES.SUCCESS : STATUSES.FAILURE;
+    }
+}
+
+class TurnTowardTarget extends Leaf {
+    tick() {
+        if (this.target) {
+            this.battler.turnTowardTarget(this.target);
+            return STATUSES.SUCCESS;
+        }
+        return STATUSES.FAILURE;
     }
 }
 
