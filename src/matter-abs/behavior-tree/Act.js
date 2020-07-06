@@ -137,7 +137,7 @@ class PerformAction extends Leaf {
         if (this.target !== this.battler) this.battler.turnTowardTarget(this.target);
         this.battler.setAction(this.action.item());
         if (this.battler.currentAction().needsSelection()) {
-            this.battler.currentAction().setTarget(target);
+            this.battler.currentAction().setTarget(this.target);
         }
 
         if (this.action.isForOpponent()) {
