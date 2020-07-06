@@ -8,7 +8,7 @@ import MATTER_ABS from "../MatterActionBattleSystem";
 const _Sprite_Character_initMembers = Sprite_Character.prototype.initMembers;
 Sprite_Character.prototype.initMembers = function() {
     _Sprite_Character_initMembers.call(this);
-    this._battlerParametersSprite = new Sprite_BattlerParameters(this._character);
+    this._battlerParametersSprite = new Sprite_BattlerParameters();
     this.addChild(this._battlerParametersSprite);
 };
 
@@ -35,10 +35,9 @@ Object.defineProperties(Sprite_BattlerParameters.prototype, {
     _battler: { get: function() { return this._character ? this._character.battler : null; }, configurable: false },
 });
 
-Sprite_BattlerParameters.prototype.initialize = function(character) {
+Sprite_BattlerParameters.prototype.initialize = function() {
     Sprite_Base.prototype.initialize.call(this);
     Window_Base.prototype.loadWindowskin.call(this);
-    this.setCharacter(character);
     this.initMembers();
 };
 
