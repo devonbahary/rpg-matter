@@ -15,6 +15,9 @@ Game_Character.STEP_LOCK               = 400;
 Game_Character.STEP_FORWARD            = 401;
 Game_Character.STEP_NEUTRAL            = 402;
 Game_Character.STEP_BACKWARD           = 403;
+Game_Character.MOVEMENT_RESTRICT_ON    = 404;
+Game_Character.MOVEMENT_RESTRICT_OFF   = 405;
+
 // WEAPON POSE
 Game_Character.WEAPON_POSE             = 501;
 // ANIMATIONS
@@ -151,6 +154,12 @@ Game_Character.prototype.processMoveCommand = function(command) {
             break;
         case gc.STEP_BACKWARD:
             this.stepBackward();
+            break;
+        case gc.MOVEMENT_RESTRICT_ON:
+            this.battler.isMovementRestricted = true;
+            break;
+        case gc.MOVEMENT_RESTRICT_OFF:
+            this.battler.isMovementRestricted = false;
             break;
         // WEAPON POSE
         case gc.WEAPON_POSE:
