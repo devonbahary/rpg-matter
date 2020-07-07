@@ -79,6 +79,17 @@ const ACTION_SEQUENCES = {
         12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
         25: [],
     },
+    TRIPLE_SLASH: {
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), animationWeapon(11) ],
+        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
+        23: [ animationWeapon(22) ],
+        27: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+        34: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        42: [ ...n(ROUTE_MOVE_FORWARD, 5), STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+        47: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), animationWeapon(11) ],
+        90: [],
+    },
     DASH_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
         10: [ playSe('Flash2', 90, 150), ROUTE_THROUGH_ON, ...n(ROUTE_MOVE_FORWARD, 60) ],
