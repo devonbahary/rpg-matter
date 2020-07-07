@@ -73,9 +73,9 @@ Game_ActionABS.prototype.actionSequence = function() {
 
 Game_ActionABS.prototype.actionSequenceLength = function() {
     if (!this.actionSequence()) return 0;
-    return Object.keys(this.actionSequence()).reduce((len, key) => {
-        if (parseInt(key) > len) return parseInt(key);
-        return len;
+    return Object.keys(this.actionSequence()).reduce((length, key) => {
+        if (parseInt(key) > length) return parseInt(key);
+        return length;
     }, 0);
 };
 
