@@ -73,7 +73,7 @@ const _Game_Player_moveByInput = Game_Player.prototype.moveByInput;
 Game_Player.prototype.moveByInput = function() {
     if (!this.canMove()) return;
 
-    if (this.hasActionSequence()) {
+    if (this.battler && this.battler.isMovementRestricted) {
         const direction = this.getInputDirection();
         this.updateMovementDirection(direction);
     } else {

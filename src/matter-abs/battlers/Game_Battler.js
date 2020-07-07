@@ -34,6 +34,7 @@ Game_Battler.prototype.initMembers = function() {
     this._damagePopups = [];
     this._internalTurnCount = 0;
     this.resetMentalBattlerMap();
+    this.isMovementRestricted = false;
 };
 
 Game_Battler.prototype.requestDamagePopup = function(damage) {
@@ -151,6 +152,7 @@ Game_Battler.prototype.clearAction = function() {
     this._action = null;
     this._actionFrame = 0;
     this._lastActionFrame = 0;
+    this.isMovementRestricted = false;
     this.removeStatesAuto(Game_BattlerBase.AUTO_REMOVAL_TIMINGS.ACTION_END);
     $gameMap.blackboard.clearAttackingBattler(this);
 };
@@ -167,6 +169,7 @@ Game_Battler.prototype.setAction = function(dataItem) {
         
         this._action = action;
         this.useItem(dataItem);
+        this.isMovementRestricted = true;
         
         if (!dataItem.meta.noLog) {
             $gameMap.addLog({
