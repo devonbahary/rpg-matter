@@ -113,7 +113,7 @@ class ShouldExecuteAction extends Leaf {
         }
 
         // prevent spamming
-        if (this.behaviorTree.timeSinceLastAction < 120) return STATUSES.FAILURE;
+        if (this.behaviorTree.timeSinceLastOffensiveAction < 120) return STATUSES.FAILURE;
 
         return STATUSES.SUCCESS;
     }
@@ -142,7 +142,7 @@ class PerformAction extends Leaf {
 
         if (this.action.isForOpponent()) {
             $gameMap.blackboard.setAttackingBattler(this.battler, this.target);
-            this.behaviorTree.timeSinceLastAction = 0;
+            this.behaviorTree.timeSinceLastOffensiveAction = 0;
         }
 
         return STATUSES.RUNNING;

@@ -21,13 +21,13 @@ export default class BehaviorTree {
     }
 
     initMembers() {
-        this.timeSinceLastAction = 0;
+        this.timeSinceLastOffensiveAction = 0;
         this.lastAction = null;
         this.actionDuration = 0;
     }
 
     update() {
-        this.timeSinceLastAction++;
+        this.timeSinceLastOffensiveAction++;
         if (this.battler.currentAction() && this.lastAction === this.battler.currentAction()) {
             this.actionDuration++;
         } else {
