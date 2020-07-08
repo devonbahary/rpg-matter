@@ -98,8 +98,10 @@ Game_ActionABS.prototype.apply = function() {
         
         if (this.shouldApplyGuardedEffects(target, damage)) {
             target.character.requestWeaponAnimation(MATTER_ABS.GUARD_ANIMATION_ID);
+            if (this.isMagical()) target.character.requestAnimation(this.animationId());
+        } else {
+            target.character.requestAnimation(this.animationId());
         }
-        target.character.requestAnimation(this.animationId());
 
         this.executeDamage(target, damage);
         target.gainAggro(this._subject, this.aggroForTarget(damage, target));
