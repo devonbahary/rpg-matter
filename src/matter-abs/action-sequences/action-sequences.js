@@ -98,8 +98,8 @@ const ACTION_SEQUENCES = {
     CLIMHAZZARD: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD), animationSelf(5) ],
         30: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.RAISE) ],
-        45: [ ...n(ROUTE_MOVE_FORWARD, 2), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT, animationWeapon(12) ],
         44: playSe('Thunder1'),
+        45: [ ...n(ROUTE_MOVE_FORWARD, 2), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT, animationWeapon(12) ],
         90: [],
     },
     FIRE: {
