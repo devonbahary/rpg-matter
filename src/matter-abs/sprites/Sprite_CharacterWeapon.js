@@ -97,7 +97,7 @@ Sprite_CharacterWeapon.prototype.updatePosition = function() {
 Sprite_CharacterWeapon.prototype.updateAnimation = function() {
     this.setupAnimation();
     if (!this.isAnimationPlaying()) {
-        this._character.endAnimation();
+        this._character.endWeaponAnimation();
     }
 };
 
