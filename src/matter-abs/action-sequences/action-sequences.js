@@ -75,7 +75,7 @@ const ACTION_SEQUENCES = {
     },
     SWING: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), animationWeapon(11) ],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), animationWeapon(11) ],
         12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
         25: [],
     },
