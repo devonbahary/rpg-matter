@@ -18,7 +18,7 @@ class MaintainAction extends Leaf {
     }
     
     tick() {
-        if (this.action.isGuard() && this.behaviorTree.actionDuration > 180) this.battler.clearAction();
+        if (this.action.isGuard() && this.behaviorTree.actionDuration > 60) this.battler.clearAction();
         return STATUSES.RUNNING;
     }
 }
