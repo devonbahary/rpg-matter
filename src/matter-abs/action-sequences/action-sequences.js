@@ -125,19 +125,18 @@ const ACTION_SEQUENCES = {
         60: []
     },
     SPINNING_SLASH: {
-        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD), animationSelf(5), ROUTE_DIR_FIX_ON ],
-        // turn 1
-        40: [ STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND) ],
-        45: [ MOVEMENT_RESTRICT_OFF, ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, playSe('Wind2', 90, 150), animationWeapon(21) ],
-        48: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, APPLY_EFFECT ],
-        51: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, animationWeapon(21) ],
-        54: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON ],
+        // // turn 1
+        1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND) ],
+        6: [ MOVEMENT_RESTRICT_OFF, ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, playSe('Wind2', 90, 150), animationWeapon(21, true) ],
+        9: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, APPLY_EFFECT ],
+        12: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, animationWeapon(21, true) ],
+        15: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON ],
         // turn 2
-        57: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, APPLY_EFFECT, animationWeapon(21) ],
-        60: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON ],
-        63: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, animationWeapon(21) ],
-        66: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, MOVEMENT_RESTRICT_ON ],
-        90: [],
+        18: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, APPLY_EFFECT, animationWeapon(21, true) ],
+        21: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON ],
+        24: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, animationWeapon(21, true) ],
+        27: [ ROUTE_DIR_FIX_OFF, ROUTE_TURN_90D_R, ROUTE_DIR_FIX_ON, MOVEMENT_RESTRICT_ON ],
+        45: [],
     },
 };
 
