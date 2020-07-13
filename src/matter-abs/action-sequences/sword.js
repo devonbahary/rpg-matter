@@ -1,5 +1,13 @@
-import { stepLock, weaponPose, animationWeapon, animationSelf, playSe, n,adjustFrames, } from "./utils";
 import { WEAPON_POSES } from "../weapon-poses";
+import { 
+    adjustFrames,
+    animationSelf,
+    animationWeapon,
+    stepLock, 
+    n,
+    playSe,
+    weaponPose,
+} from "./utils";
 
 const { 
     APPLY_EFFECT,
