@@ -211,6 +211,12 @@ Game_Battler.prototype.updateActionSeq = function() {
     if (!this._action) return;
     this._lastActionFrame = Math.floor(this._actionFrame);
     this._actionFrame += this.actionFrameProgressRate(); 
+    if (this.isChanneling()) {
+        if (this._actionFrame % this._action.actionSequenceLength() === 0) {
+            if (!this.canUse(this._action.item())) return this.clearAction();
+            this.useItem(this._action.item());
+        }
+    }
 };
 
 Game_Battler.prototype.actionSequenceProgressRate = function() {
