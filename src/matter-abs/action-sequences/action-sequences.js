@@ -43,6 +43,19 @@ const ACTION_SEQUENCES = {
         25: [ STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         60: [],
     },
+    FORWARD_SWING: {
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), animationSelf(11, true) ],
+        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
+        25: [],
+    },
+    BACK_SWING: {
+        1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), APPLY_EFFECT ],
+        11: animationSelf(26, true),
+        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.UP_SWING) ],
+        25: [],
+    },
     DEFLECT: {
         1: [ stepLock(true), STEP_BACKWARD, ROUTE_MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE), ROUTE_DIR_FIX_ON ],
         60: [],
@@ -72,12 +85,6 @@ const ACTION_SEQUENCES = {
         15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         22: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
         45: [], 
-    },
-    SWING: {
-        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), animationSelf(11, true) ],
-        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
-        25: [],
     },
     TRIPLE_SLASH: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
