@@ -48,7 +48,7 @@ export default {
     FAST_BLADE: {
         1: [ DIR_FIX_ON, stepLock(true), STEP_FORWARD, ...n(MOVE_FORWARD, 30), playSe('Flash2', 90, 150), weaponPose(WEAPON_POSES.DOWN_SWING) ],
         5: APPLY_EFFECT,
-        10: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.SIDE) ],
+        7: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.SIDE) ],
         30: [],
     },
     SPINNING_SLASH: {
