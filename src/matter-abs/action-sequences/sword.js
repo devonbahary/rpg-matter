@@ -16,7 +16,7 @@ const {
     ROUTE_DIR_FIX_ON: DIR_FIX_ON,
     ROUTE_DIR_FIX_OFF: DIR_FIX_OFF,
     ROUTE_MOVE_FORWARD: MOVE_FORWARD,
-    ROUTE_TURN_90D_R: TURN_90D_R,
+    ROUTE_TURN_90D_R: TURN_90_R,
     STEP_BACKWARD,
     STEP_FORWARD, 
     STEP_NEUTRAL, 
@@ -53,15 +53,15 @@ export default {
     SPINNING_SLASH: {
         // turn 1
         1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND) ],
-        6: [ MOVEMENT_RESTRICT_OFF, TURN_90D_R, DIR_FIX_ON, playSe('Wind2', 90, 150), animationWeapon(21, true) ],
-        9: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, APPLY_EFFECT ],
-        12: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, animationWeapon(21, true) ],
-        15: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON ],
+        6: [ MOVEMENT_RESTRICT_OFF, TURN_90_R, DIR_FIX_ON, playSe('Wind2', 90, 150), animationWeapon(21, true) ],
+        9: [ DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON, APPLY_EFFECT ],
+        12: [ DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON, animationWeapon(21, true) ],
+        15: [ DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON ],
         // turn 2
-        18: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, APPLY_EFFECT, animationWeapon(21, true) ],
-        21: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON ],
-        24: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, animationWeapon(21, true) ],
-        27: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, MOVEMENT_RESTRICT_ON ],
+        18: [ DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON, APPLY_EFFECT, animationWeapon(21, true) ],
+        21: [ DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON ],
+        24: [ DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON, animationWeapon(21, true) ],
+        27: [ DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON, MOVEMENT_RESTRICT_ON ],
         45: [],
     },
     TRIPLE_SLASH: {
@@ -73,8 +73,8 @@ export default {
     },
     COUP_DE_GRACE: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.DOWN_SWING), animationSelf(21, true), playSe('Sword4', 90, 150) ],
-        4: [ STEP_NEUTRAL, TURN_90D_R, DIR_FIX_ON ],
-        6: [ STEP_FORWARD, DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, APPLY_EFFECT ],
+        4: [ STEP_NEUTRAL, TURN_90_R, DIR_FIX_ON ],
+        6: [ STEP_FORWARD, DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON, APPLY_EFFECT ],
         7: weaponPose(WEAPON_POSES.SIDE),
         40: [],
     },
