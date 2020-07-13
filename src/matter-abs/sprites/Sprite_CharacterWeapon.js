@@ -104,7 +104,7 @@ Sprite_CharacterWeapon.prototype.updateAnimation = function() {
 Sprite_CharacterWeapon.prototype.setupAnimation = function() {
     if (this._character.weaponAnimationId() > 0) {
         var animation = $dataAnimations[this._character.weaponAnimationId()];
-        this.startAnimation(animation, false, 0);
+        this.startAnimation(animation, false, 0, this._character._weaponRotateAnimationWithCharacter);
         this._character.startWeaponAnimation();
     }
 };

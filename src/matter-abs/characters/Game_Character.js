@@ -167,10 +167,10 @@ Game_Character.prototype.processMoveCommand = function(command) {
             break;
         // ANIMATIONS
         case gc.ANIMATION_SELF:
-            this.requestAnimation(params[0]);
+            this.requestAnimation(params[0], params[1]);
             break;
         case gc.ANIMATION_WEAPON:
-            this.requestWeaponAnimation(params[0]);
+            this.requestWeaponAnimation(params[0], params[1]);
             break;
         // BATTLE EFFECTS
         case gc.APPLY_EFFECT:

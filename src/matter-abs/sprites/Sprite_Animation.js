@@ -1,7 +1,25 @@
 //-----------------------------------------------------------------------------
+// Sprite_Base
+//
+// The sprite class with a feature which displays animations.
+
+Sprite_Base.prototype.startAnimation = function(animation, mirror, delay, rotateWithCharacter = false) { // overwrite
+    var sprite = new Sprite_Animation();
+    sprite.setup(this._effectTarget, animation, mirror, delay, rotateWithCharacter); // overwrite
+    this.parent.addChild(sprite);
+    this._animationSprites.push(sprite);
+};
+
+//-----------------------------------------------------------------------------
 // Sprite_Animation
 //
 // The sprite for displaying an animation.
+
+const _Sprite_Animation_setup = Sprite_Animation.prototype.setup;
+Sprite_Animation.prototype.setup = function(target, animation, mirror, delay, rotateWithCharacter) {
+    _Sprite_Animation_setup.call(this, target, animation, mirror, delay);
+    this._rotateAnimationWithCharacter = rotateWithCharacter;
+};
 
 const _Sprite_Animation_setupDuration = Sprite_Animation.prototype.setupDuration;
 Sprite_Animation.prototype.setupDuration = function() {
@@ -35,7 +53,7 @@ Sprite_Animation.prototype.updateCellSprite = function(sprite, cell) {
 Sprite_Animation.prototype.updateCellWeaponSpriteAnimation = function(sprite, cell) {
     const pattern = cell[0];
 
-    if (pattern >= 0 && this._target instanceof Sprite_CharacterWeapon) {
+    if (pattern >= 0 && this._rotateAnimationWithCharacter) {
         let mirror = this._mirror;
 
         const aliasedMirrorAndRotation = () => {

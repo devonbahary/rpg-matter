@@ -29,8 +29,8 @@ const {
 
 const command = (code, ...parameters) => ({ code, parameters });
 const playSe = (name, volume = 90, pitch = 100) => command(ROUTE_PLAY_SE, { name, volume, pitch });
-const animationSelf = animationId => command(ANIMATION_SELF, animationId);
-const animationWeapon = animationId => command(ANIMATION_WEAPON, animationId);
+const animationSelf = (animationId, rotateWithCharacter) => command(ANIMATION_SELF, animationId, rotateWithCharacter);
+const animationWeapon = (animationId, rotateWithCharacter) => command(ANIMATION_WEAPON, animationId, rotateWithCharacter);
 const animationMagic = animationSelf(20);
 const stepLock = lock => command(STEP_LOCK, lock); 
 const weaponPose = pose => command(WEAPON_POSE, pose);
@@ -75,7 +75,7 @@ const ACTION_SEQUENCES = {
     },
     SWING: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), animationWeapon(11) ],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), animationWeapon(11, true) ],
         12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
         25: [],
     },

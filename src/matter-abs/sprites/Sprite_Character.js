@@ -126,6 +126,14 @@ Sprite_Character.prototype.updateIconRotation = function() {
     this.rotation += this._iconRotationSpeed * Math.PI / 180;
 };
 
+Sprite_Character.prototype.setupAnimation = function() {
+    if (this._character.animationId() > 0) {
+        var animation = $dataAnimations[this._character.animationId()];
+        this.startAnimation(animation, false, 0, this._character._rotateAnimationWithCharacter); // overwrite
+        this._character.startAnimation();
+    }
+};
+
 // borrowed from Sprite_Enemy.setupEffect()
 Sprite_Character.prototype.setupEffect = function() {
     if (this._appeared && this._battler.isEffectRequested()) {

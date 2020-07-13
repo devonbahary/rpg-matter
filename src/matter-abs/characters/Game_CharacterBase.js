@@ -27,8 +27,21 @@ Game_CharacterBase.prototype.initMembers = function() {
     this._weaponAnimationPlaying = false;
 };
 
-Game_CharacterBase.prototype.requestWeaponAnimation = function(animationId) {
+const _Game_CharacterBase_requestAnimation = Game_CharacterBase.prototype.requestAnimation;
+Game_CharacterBase.prototype.requestAnimation = function(animationId, rotateWithCharacter = false) {
+    _Game_CharacterBase_requestAnimation.call(this, animationId);
+    this._rotateAnimationWithCharacter = rotateWithCharacter;
+};
+
+Game_CharacterBase.prototype.requestWeaponAnimation = function(animationId, rotateWithCharacter = false) {
     this._weaponAnimationId = animationId;
+    this._weaponRotateAnimationWithCharacter = rotateWithCharacter;
+};
+
+const _Game_CharacterBase_startAnimation = Game_CharacterBase.prototype.startAnimation;
+Game_CharacterBase.prototype.startAnimation = function() {
+    _Game_CharacterBase_startAnimation.call(this);
+    this._rotateAnimationWithCharacter = false;
 };
 
 Game_CharacterBase.prototype.weaponAnimationId = function() {
@@ -47,6 +60,7 @@ Game_CharacterBase.prototype.isAnimationPlaying = function() {
 Game_CharacterBase.prototype.startWeaponAnimation = function() {
     this._weaponAnimationId = 0;
     this._weaponAnimationPlaying = true;
+    this._weaponRotateAnimationWithCharacter = false;
 };
 
 Game_CharacterBase.prototype.endWeaponAnimation = function() {
