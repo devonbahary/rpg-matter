@@ -1,6 +1,6 @@
 import { times } from "lodash";
 import { WEAPON_POSES } from "../weapon-poses";
-import { convertActionSequencesToCommands } from "./utils";
+import { adjustFrames, convertActionSequencesToCommands } from "./utils";
 import "../characters/Game_Character";
 
 const { 
@@ -37,24 +37,32 @@ const weaponPose = pose => command(WEAPON_POSE, pose);
 const n = (command, n) => times(n, () => command);
 const setBlendMode = blendMode => command(ROUTE_CHANGE_BLEND_MODE, blendMode);
 
+const FORWARD_SWING = {
+    1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+    7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), animationSelf(11, true) ],
+    12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
+    25: [],
+};
+
+const BACK_SWING = {
+    1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
+    7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), APPLY_EFFECT, animationSelf(26, true) ],
+    12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.UP_SWING) ],
+    25: [],
+};
+
 const ACTION_SEQUENCES = {
     DEFAULT: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
         25: [ STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         60: [],
     },
-    FORWARD_SWING: {
-        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), animationSelf(11, true) ],
-        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
-        25: [],
-    },
-    BACK_SWING: {
-        1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
-        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), APPLY_EFFECT ],
-        11: animationSelf(26, true),
-        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.UP_SWING) ],
-        25: [],
+    FORWARD_SWING,
+    BACK_SWING,
+    TRIPLE_SLASH: {
+        ...FORWARD_SWING,
+        ...adjustFrames(BACK_SWING, 15),
+        ...adjustFrames(FORWARD_SWING, 35),
     },
     DEFLECT: {
         1: [ stepLock(true), STEP_BACKWARD, ROUTE_MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE), ROUTE_DIR_FIX_ON ],
@@ -85,17 +93,6 @@ const ACTION_SEQUENCES = {
         15: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         22: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
         45: [], 
-    },
-    TRIPLE_SLASH: {
-        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), animationWeapon(11) ],
-        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), APPLY_EFFECT ],
-        23: [ animationWeapon(22) ],
-        27: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
-        34: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
-        42: [ ...n(ROUTE_MOVE_FORWARD, 5), STEP_NEUTRAL, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
-        47: [ STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING), animationWeapon(11) ],
-        90: [],
     },
     DASH_ATTACK: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],

@@ -1,3 +1,10 @@
+export const adjustFrames = (actionSequence, byFrames) => {
+    return Object.entries(actionSequence).reduce((acc, [ frame, commands ]) => {
+        acc[parseInt(frame) + byFrames] = commands;
+        return acc;
+    }, {});
+};
+
 export const convertActionSequencesToCommands = actionSequences => {
     return Object.entries(actionSequences).reduce((acc, [ ACTION_SEQ_KEY, SEQUENCE ]) => {
         acc[ACTION_SEQ_KEY] = Object.entries(SEQUENCE).reduce((acc, [ frame, commands ]) => {
