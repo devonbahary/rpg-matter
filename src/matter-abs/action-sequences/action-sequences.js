@@ -144,7 +144,7 @@ const ACTION_SEQUENCES = {
     SPINNING_SLASH: {
         // turn 1
         1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND) ],
-        6: [ MOVEMENT_RESTRICT_OFF, DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, playSe('Wind2', 90, 150), animationWeapon(21, true) ],
+        6: [ MOVEMENT_RESTRICT_OFF, TURN_90D_R, DIR_FIX_ON, playSe('Wind2', 90, 150), animationWeapon(21, true) ],
         9: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, APPLY_EFFECT ],
         12: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, animationWeapon(21, true) ],
         15: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON ],
