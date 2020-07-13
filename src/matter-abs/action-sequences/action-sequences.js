@@ -1,12 +1,14 @@
 import "../characters/Game_Character";
 import { WEAPON_POSES } from "../weapon-poses";
-import { convertActionSequencesToCommands, playSe, animationSelf, animationWeapon, n, stepLock, weaponPose } from "./utils";
+import { convertActionSequencesToCommands, jump, playSe, animationSelf, animationWeapon, n, stepLock, weaponPose } from "./utils";
 import AXE from "./axe";
 import SWORD from "./sword";
 
 const { 
     APPLY_EFFECT,
     CREATE_PROJECTILE,
+    MOVEMENT_RESTRICT_OFF,
+    MOVEMENT_RESTRICT_ON,
     ROUTE_DIR_FIX_ON: DIR_FIX_ON,
     ROUTE_MOVE_BACKWARD: MOVE_BACKWARD,
     ROUTE_MOVE_FORWARD: MOVE_FORWARD,
@@ -90,6 +92,18 @@ const ACTION_SEQUENCES = {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE), animationMagic ],
         10: [ STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
         60: []
+    },
+    STOMP: {
+        1: [ stepLock(true), STEP_BACKWARD, jump(5), weaponPose(WEAPON_POSES.EXTEND), MOVEMENT_RESTRICT_OFF ],
+        3: [ STEP_NEUTRAL, jump(10), weaponPose(WEAPON_POSES.RAISE) ],
+        5: jump(10),
+        7: [ STEP_BACKWARD ],
+        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.GUARD) ],
+        13: jump(-5),
+        14: jump(-7),
+        15: [ jump(-9), animationSelf(35), APPLY_EFFECT ],
+        16: [ jump(-4), MOVEMENT_RESTRICT_ON ],
+        60: [],
     },
 };
 
