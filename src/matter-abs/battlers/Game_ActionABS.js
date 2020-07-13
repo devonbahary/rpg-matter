@@ -132,7 +132,7 @@ Game_ActionABS.prototype.subjectEffectCallbacks = function(target, damage) {
 };
 
 Game_ActionABS.prototype.shouldApplyGuardedEffects = function(target, damage) {
-    return this.isForOpponent() && target.isGuard() && damage >= 0 && !this.isUnguardable();
+    return this.isForOpponent() && target.isGuard() && damage >= 0 && !this.isGuardBreaking();
 };
 
 Game_ActionABS.prototype.shouldApplyGuardedEffectsToUser = function(target, damage) {
@@ -210,8 +210,8 @@ Game_ActionABS.prototype.range = function() {
     return this._item.range();
 };
 
-Game_ActionABS.prototype.isUnguardable = function() {
-    return this._item.isUnguardable();
+Game_ActionABS.prototype.isGuardBreaking = function() {
+    return this._item.isGuardBreaking();
 };
 
 Game_ActionABS.prototype.hitStun = function(target) {

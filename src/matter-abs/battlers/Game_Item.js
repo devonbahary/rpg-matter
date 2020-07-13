@@ -116,8 +116,8 @@ Game_Item.prototype.aggro = function() {
     return 0;
 };
 
-Game_Item.prototype.isUnguardable = function() {
-    const unguardable = this.meta.unguardable;
-    if (unguardable) return JSON.parse(unguardable);
+Game_Item.prototype.isGuardBreaking = function() {
+    const guardBreak = this.meta.guardBreak;
+    if (guardBreak) return JSON.parse(guardBreak);
     return false;
 };
