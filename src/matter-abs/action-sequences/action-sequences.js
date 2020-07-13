@@ -105,6 +105,24 @@ const ACTION_SEQUENCES = {
         16: [ jump(-4), MOVEMENT_RESTRICT_ON ],
         60: [],
     },
+    BULLRUSH: {
+        0: weaponPose(WEAPON_POSES.GUARD),
+        1: [ DIR_FIX_ON, MOVE_FORWARD, APPLY_EFFECT ],
+        2: [ MOVE_FORWARD, animationSelf(34) ],
+        3: MOVE_FORWARD,
+        4: MOVE_FORWARD,
+        5: MOVE_FORWARD,
+        6: MOVE_FORWARD,
+        7: MOVE_FORWARD,
+        8: MOVE_FORWARD,
+        9: MOVE_FORWARD,
+        10: MOVE_FORWARD,
+        10: MOVE_FORWARD,
+        12: MOVE_FORWARD,
+        13: MOVE_FORWARD,
+        14: MOVE_FORWARD,
+        15: MOVE_FORWARD,
+    },
 };
 
 export default convertActionSequencesToCommands(ACTION_SEQUENCES);
