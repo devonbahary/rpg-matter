@@ -17,6 +17,7 @@ const {
     ROUTE_DIR_FIX_OFF: DIR_FIX_OFF,
     ROUTE_MOVE_FORWARD: MOVE_FORWARD,
     ROUTE_TURN_90D_R: TURN_90_R,
+    ROUTE_TURN_180D: TURN_180,
     STEP_BACKWARD,
     STEP_FORWARD, 
     STEP_NEUTRAL, 
@@ -74,8 +75,8 @@ export default {
     COUP_DE_GRACE: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.DOWN_SWING), animationSelf(21, true), playSe('Sword4', 90, 150) ],
         4: [ STEP_NEUTRAL, TURN_90_R, DIR_FIX_ON ],
-        6: [ STEP_FORWARD, DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON, APPLY_EFFECT ],
-        7: weaponPose(WEAPON_POSES.SIDE),
+        6: [ STEP_FORWARD, DIR_FIX_OFF, TURN_90_R, DIR_FIX_ON, APPLY_EFFECT, weaponPose(WEAPON_POSES.SIDE) ],
+        35: [ DIR_FIX_OFF, TURN_180, weaponPose(WEAPON_POSES.IDLE) ],
         40: [],
     },
 };
