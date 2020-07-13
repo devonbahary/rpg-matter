@@ -44,7 +44,7 @@ const ACTION_SEQUENCES = {
     },
     DODGE: {
         1: [ TURN_180D, DIR_FIX_ON, stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.IDLE), ...n(MOVE_BACKWARD, 15), playSe('Absorb1', 90, 150) ],
-        30: [],
+        15: [],
     },
     BOOST: {
         0: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.GUARD), playSe('Powerup', 90, 150) ],
