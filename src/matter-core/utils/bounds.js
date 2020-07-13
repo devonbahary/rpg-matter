@@ -13,8 +13,8 @@ export function squareInFrontOf(range = 1) {
     switch (this._direction) {
         case 2:
             return createBounds(
-                this.x - (this.width / 2),
-                this.x + (this.width / 2),
+                this.x - (range / 2),
+                this.x + (range / 2),
                 this.y,
                 this.y + range,
             );
@@ -22,20 +22,20 @@ export function squareInFrontOf(range = 1) {
             return createBounds(
                 this.x - range,
                 this.x,
-                this.y - (this.height / 2),
-                this.y + (this.height / 2),
+                this.y - (range / 2),
+                this.y + (range / 2),
             );
         case 6:
             return createBounds(
                 this.x,
                 this.x + range,
-                this.y - (this.height / 2),
-                this.y + (this.height / 2),
+                this.y - (range / 2),
+                this.y + (range / 2),
             );
         case 8:
             return createBounds(
-                this.x - (this.width / 2),
-                this.x + (this.width / 2),
+                this.x - (range / 2),
+                this.x + (range / 2),
                 this.y - range,
                 this.y,
             );
@@ -47,8 +47,8 @@ export function squareBehind(range = 1) {
     switch (this._direction) {
         case 2:
             return createBounds(
-                this.x - (this.width / 2),
-                this.x + (this.width / 2),
+                this.x - (range / 2),
+                this.x + (range / 2),
                 this.y - range,
                 this.y,
             );
@@ -56,20 +56,20 @@ export function squareBehind(range = 1) {
             return createBounds(
                 this.x,
                 this.x + range,
-                this.y - (this.height / 2),
-                this.y + (this.height / 2),
+                this.y - (range / 2),
+                this.y + (range / 2),
             );
         case 6:
             return createBounds(
                 this.x - range,
                 this.x,
-                this.y - (this.height / 2),
-                this.y + (this.height / 2),
+                this.y - (range / 2),
+                this.y + (range / 2),
             );
         case 8:
             return createBounds(
-                this.x - (this.width / 2),
-                this.x + (this.width / 2),
+                this.x - (range / 2),
+                this.x + (range / 2),
                 this.y,
                 this.y + range,
             );
