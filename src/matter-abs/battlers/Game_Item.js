@@ -121,3 +121,9 @@ Game_Item.prototype.isGuardBreaking = function() {
     if (guardBreak) return JSON.parse(guardBreak);
     return false;
 };
+
+Game_Item.prototype.isIgnoreGuard = function() {
+    const ignoreGuard = this.meta.ignoreGuard;
+    if (ignoreGuard) return JSON.parse(ignoreGuard);
+    return false;
+};
