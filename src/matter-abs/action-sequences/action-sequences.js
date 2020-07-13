@@ -61,8 +61,9 @@ const ACTION_SEQUENCES = {
     BACK_SWING,
     TRIPLE_SLASH: {
         ...FORWARD_SWING,
-        ...adjustFrames(BACK_SWING, 15),
-        ...adjustFrames(FORWARD_SWING, 35),
+        ...adjustFrames(BACK_SWING, 12),
+        ...adjustFrames(FORWARD_SWING, 25),
+        65: [],
     },
     DEFLECT: {
         1: [ stepLock(true), STEP_BACKWARD, ROUTE_MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE), ROUTE_DIR_FIX_ON ],
