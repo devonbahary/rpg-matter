@@ -77,6 +77,12 @@ const ACTION_SEQUENCES = {
         12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.UP_SWING) ],
         25: [],
     },
+    FAST_BLADE: {
+        1: [ DIR_FIX_ON, stepLock(true), STEP_FORWARD, ...n(MOVE_FORWARD, 30), playSe('Flash2', 90, 150), weaponPose(WEAPON_POSES.DOWN_SWING) ],
+        5: APPLY_EFFECT,
+        10: [ STEP_BACKWARD, weaponPose(WEAPON_POSES.SIDE) ],
+        30: [],
+    },
     DEFLECT: {
         1: [ stepLock(true), STEP_BACKWARD, MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE), DIR_FIX_ON ],
         60: [],
