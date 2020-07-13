@@ -160,6 +160,12 @@ Game_ActionABS.prototype.onTargetDeath = function(target) {
     const onDeathSkill = this._item.onDeathSkill();
     if (onDeathSkill) {
         const onDeathAction = new Game_ActionABS(this.subject(), onDeathSkill);
+        
+        for (const target of onDeathAction.determineTargets()) {
+            for (const effect of onDeathAction.item().effects) {
+                onDeathAction.applyItemEffect(target, effect);
+            };
+        };
         onDeathAction.applyItemUserEffect(target);
     }
     const onDeathHitStop = this._item.onDeathHitStop();
