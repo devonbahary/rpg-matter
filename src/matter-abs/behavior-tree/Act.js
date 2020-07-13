@@ -70,6 +70,10 @@ class MoveInRangeForAction extends Selector {
 
 class IsTargetInRange extends Leaf {
     tick() {
+        if (this.action.isGuard()) {
+            if (this.battler.distanceFrom(this.target) <= 2) return STATUSES.SUCCESS;
+            return STATUSES.FAILURE;
+        }
         if (this.target === this.battler) return STATUSES.SUCCESS;
         if (this.battler.distanceBetween(this.target) <= this.action.range()) {
             const battlers = this.action.determineTargets();

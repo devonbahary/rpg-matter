@@ -68,6 +68,7 @@ export class Leaf {
 
     get target() {
         if (!this.action) return null;
+        if (this.action.isGuard()) return this.battler.topAggroBattler();
         if (this.action.isForUser()) return this.battler;
         if (this.action.isForOpponent()) return this.battler.topAggroBattler();
         if (this.action.isForFriend()) {
