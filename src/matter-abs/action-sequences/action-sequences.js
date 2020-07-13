@@ -155,6 +155,13 @@ const ACTION_SEQUENCES = {
         27: [ DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, MOVEMENT_RESTRICT_ON ],
         45: [],
     },
+    COUP_DE_GRACE: {
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.DOWN_SWING), animationSelf(21, true), playSe('Sword4', 90, 150) ],
+        4: [ STEP_NEUTRAL, TURN_90D_R, DIR_FIX_ON ],
+        6: [ STEP_FORWARD, DIR_FIX_OFF, TURN_90D_R, DIR_FIX_ON, APPLY_EFFECT ],
+        7: weaponPose(WEAPON_POSES.SIDE),
+        40: [],
+    },
 };
 
 export default convertActionSequencesToCommands(ACTION_SEQUENCES);
