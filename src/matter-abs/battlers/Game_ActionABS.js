@@ -153,6 +153,15 @@ Game_ActionABS.prototype.targetEffectCallbacks = function(target, damage) {
 };
 
 Game_ActionABS.prototype.onTargetDeath = function(target) {
+    const onDeathSkill = this._item.onDeathSkill();
+    if (onDeathSkill) {
+        const onDeathAction = new Game_ActionABS(this.subject(), onDeathSkill);
+        onDeathAction.applyItemUserEffect(target);
+    }
+    const onDeathHitStop = this._item.onDeathHitStop();
+    if (onDeathHitStop) {
+        this.subject().applyHitStop(onDeathHitStop);
+    }
 };
 
 Game_ActionABS.prototype.aggroForTarget = function(damage, target) {

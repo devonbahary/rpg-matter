@@ -127,3 +127,15 @@ Game_Item.prototype.isIgnoreGuard = function() {
     if (ignoreGuard) return JSON.parse(ignoreGuard);
     return false;
 };
+
+Game_Item.prototype.onDeathSkill = function() {
+    const onDeathSkillId = this.meta.onDeathSkillId;
+    if (parseInt(onDeathSkillId)) return $dataSkills[onDeathSkillId];
+    return null;
+};
+
+Game_Item.prototype.onDeathHitStop = function() {
+    const onDeathHitstop = this.meta.onDeathHitstop;
+    if (parseInt(onDeathHitstop)) return onDeathHitstop;
+    return 0;
+};
