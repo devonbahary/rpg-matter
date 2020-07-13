@@ -125,3 +125,13 @@ Game_Actor.prototype.die = function() {
     }
     $gamePlayer.refresh();
 };
+
+const _Game_Actor_attackSkillId = Game_Actor.prototype.attackSkillId;
+Game_Actor.prototype.attackSkillId = function() {
+    if (this.weapon) {
+        const equippedWeaponWtypeId = $dataWeapons[this.weapon._itemId].wtypeId;
+        const weaponSkillId = MATTER_ABS.WEAPONS_WEAPON_TYPE_ID_TO_SKILL_ID[equippedWeaponWtypeId];
+        if (weaponSkillId) return weaponSkillId;
+    }
+    return _Game_Actor_attackSkillId.call(this);
+};

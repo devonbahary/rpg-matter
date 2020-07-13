@@ -139,6 +139,13 @@
  * @type boolean
  * @default true
  * 
+ * @param Weapons
+ * 
+ * @param Weapon Type Skills
+ * @parent Weapons
+ * @desc The skill enacted when a normal attack is performed for each weapon type.
+ * @type skill[]
+ * 
  * @param Actors
  * 
  * @param Default Actor Hit Stun Resist
@@ -393,6 +400,10 @@ export default {
             return acc;
         },
     ),
+    WEAPONS_WEAPON_TYPE_ID_TO_SKILL_ID: JSON.parse(PluginManager.parameters('MatterActionBattleSystem')["Weapon Type Skills"]).reduce((acc, skillId, index) => {
+        acc[index + 1] = parseInt(skillId);
+        return acc;
+    }, {}),
     WINDOW_GOLD_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Gold Icon Index"]),
     WINDOW_EXP_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["EXP Icon Index"]),
     WINDOW_LEVEL_UP_ICON_INDEX: parseInt(PluginManager.parameters('MatterActionBattleSystem')["Level Up Icon Index"]),
