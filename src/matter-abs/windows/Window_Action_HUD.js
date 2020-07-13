@@ -160,7 +160,14 @@ Window_Action_HUD.prototype.shouldRefresh = function() {
 };
 
 Window_Action_HUD.prototype.playerCanUse = function(dataItem) {
-    return dataItem && !this.battler.hasAction() && this.battler.canUse(dataItem);
+    return (
+        dataItem && 
+        this.battler.canUse(dataItem) && 
+        (
+            !this.battler.hasAction() || 
+            this.battler.currentAction().item() !== dataItem
+        )
+    );
 };
 
 Window_Action_HUD.prototype.isTpAction = function(dataItem) {
