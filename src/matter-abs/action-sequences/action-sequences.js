@@ -65,6 +65,12 @@ const ACTION_SEQUENCES = {
         ...adjustFrames(FORWARD_SWING, 25),
         65: [],
     },
+    FLAT_BLADE: {
+        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
+        20: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING) ],
+        22: [ STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+        40: [],
+    },
     DEFLECT: {
         1: [ stepLock(true), STEP_BACKWARD, ROUTE_MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE), ROUTE_DIR_FIX_ON ],
         60: [],
