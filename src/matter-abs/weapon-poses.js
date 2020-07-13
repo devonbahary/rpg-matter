@@ -2,6 +2,7 @@ export const WEAPON_POSES = {
     IDLE: 'idle',
     DOWN_SWING: 'down-swing',
     MID_SWING: 'mid-swing',
+    UP_SWING: 'up-swing',
     EXTEND: 'extend',
     RAISE: 'raise',
     GUARD: 'guard',
@@ -196,6 +197,32 @@ const WEAPON_POSE_TO_POSITION = {
             y: -14,
             z: -1,
             rotation: Math.PI / 4,
+        },
+    },
+    [WEAPON_POSES.UP_SWING]: {
+        2: {
+            x: -25,
+            y: -4,
+            rotation: Math.PI / 6 - Math.PI / 12,
+        },
+        4: {
+            x: -12,
+            y: -20,
+            rotation: Math.PI / 2 - Math.PI / 6,
+            z: -1,
+        },
+        6: {
+            x: 8,
+            y: -14,
+            scaleX: -1,
+            rotation: -(Math.PI / 2 - Math.PI / 6),
+        },
+        8: {
+            x: 22,
+            y: 1,
+            rotation: -(Math.PI / 6 - Math.PI / 4),
+            scaleX: -1,
+            z: -1,
         },
     },
 };
