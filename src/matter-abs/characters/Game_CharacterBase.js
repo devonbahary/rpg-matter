@@ -25,6 +25,16 @@ Game_CharacterBase.prototype.initMembers = function() {
     _Game_CharacterBase_initMembers.call(this);
     this._weaponAnimationId = 0;
     this._weaponAnimationPlaying = false;
+    this._jumpHeight = 0;
+};
+
+Game_CharacterBase.prototype.addJump = function(height) {
+    this._jumpHeight = Math.max(0, this._jumpHeight + height);
+};
+
+// overwrite
+Game_CharacterBase.prototype.jumpHeight = function() {
+    return this._jumpHeight;
 };
 
 const _Game_CharacterBase_requestAnimation = Game_CharacterBase.prototype.requestAnimation;

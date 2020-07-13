@@ -17,6 +17,7 @@ Game_Character.STEP_NEUTRAL            = 402;
 Game_Character.STEP_BACKWARD           = 403;
 Game_Character.MOVEMENT_RESTRICT_ON    = 404;
 Game_Character.MOVEMENT_RESTRICT_OFF   = 405;
+Game_Character.ADD_JUMP                = 406;
 
 // WEAPON POSE
 Game_Character.WEAPON_POSE             = 501;
@@ -134,6 +135,7 @@ Game_Character.prototype.onActionSequenceEnd = function() {
     this.weaponPose = this._originalWeaponPose;
     this._directionFix = this._originalDirectionFix;
     this.stepLock(this._stepLockMem);
+    this._jumpHeight = 0;
 };
 
 const _Game_Character_processMoveCommand = Game_Character.prototype.processMoveCommand;
@@ -160,6 +162,9 @@ Game_Character.prototype.processMoveCommand = function(command) {
             break;
         case gc.MOVEMENT_RESTRICT_OFF:
             this.battler.isMovementRestricted = false;
+            break;
+        case gc.ADD_JUMP:
+            this.addJump(params[0]);
             break;
         // WEAPON POSE
         case gc.WEAPON_POSE:

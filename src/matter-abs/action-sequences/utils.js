@@ -30,6 +30,7 @@ export const convertActionSequencesToCommands = actionSequences => {
 };
 
 const { 
+    ADD_JUMP,
     ANIMATION_SELF,
     ANIMATION_WEAPON,
     ROUTE_PLAY_SE, 
@@ -44,3 +45,4 @@ export const animationWeapon = (animationId, rotateWithCharacter) => command(ANI
 export const stepLock = lock => command(STEP_LOCK, lock); 
 export const weaponPose = pose => command(WEAPON_POSE, pose);
 export const n = (command, n) => times(n, () => command);
+export const jump = addHeight => command(ADD_JUMP, addHeight);
