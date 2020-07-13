@@ -110,6 +110,7 @@ class ShouldExecuteAction extends Leaf {
         if (this.action.isForOpponent()) {
             // only 1 enemy should attack a single battler at any one time
             if ($gameMap.blackboard.isBattlerBeingAttacked(this.target)) return STATUSES.FAILURE;
+            if (this.target.isHitStopped()) return STATUSES.FAILURE;
         }
 
         // prevent spamming
