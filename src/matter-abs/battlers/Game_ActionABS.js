@@ -87,6 +87,8 @@ Game_ActionABS.prototype.apply = function() {
     if (!targets.length) return;
 
     for (const target of targets) {
+        const wasDead = target.isDead();
+
         let isCritical, damage = 0;
         if (this.item().damage.type > 0) {
             isCritical = Math.random() < this.itemCri(target);
@@ -121,6 +123,8 @@ Game_ActionABS.prototype.apply = function() {
             this.applyItemEffect(target, effect);
         }
         this.applyItemUserEffect(target); // TODO: do we want to apply item user effect for EACH target affected?
+
+        if (!wasDead && target.isDead()) this.onTargetDeath(target);
     }
 };
 
@@ -146,6 +150,9 @@ Game_ActionABS.prototype.targetEffectCallbacks = function(target, damage) {
         () => this.applyForce(target, damage), 
         () => target.applyHitStun(this.hitStun(target)),
     ];
+};
+
+Game_ActionABS.prototype.onTargetDeath = function(target) {
 };
 
 Game_ActionABS.prototype.aggroForTarget = function(damage, target) {
