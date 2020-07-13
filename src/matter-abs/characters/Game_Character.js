@@ -18,6 +18,8 @@ Game_Character.STEP_BACKWARD           = 403;
 Game_Character.MOVEMENT_RESTRICT_ON    = 404;
 Game_Character.MOVEMENT_RESTRICT_OFF   = 405;
 Game_Character.ADD_JUMP                = 406;
+Game_Character.ROUTE_MOVE_CHAR_L       = 407;
+Game_Character.ROUTE_MOVE_CHAR_R       = 408;
 
 // WEAPON POSE
 Game_Character.WEAPON_POSE             = 501;
@@ -165,6 +167,38 @@ Game_Character.prototype.processMoveCommand = function(command) {
             break;
         case gc.ADD_JUMP:
             this.addJump(params[0]);
+            break;
+        case gc.ROUTE_MOVE_CHAR_L:
+            switch (this.direction()) {
+                case 2:
+                    this.moveStraight(6);
+                    break;
+                case 4:
+                    this.moveStraight(2);
+                    break;
+                case 6:
+                    this.moveStraight(8);
+                    break;
+                case 8:
+                    this.moveStraight(4);
+                    break;
+            }
+            break;
+        case gc.ROUTE_MOVE_CHAR_R:
+            switch (this.direction()) {
+                case 2:
+                    this.moveStraight(4);
+                    break;
+                case 4:
+                    this.moveStraight(8);
+                    break;
+                case 6:
+                    this.moveStraight(2);
+                    break;
+                case 8:
+                    this.moveStraight(6);
+                    break;
+            }
             break;
         // WEAPON POSE
         case gc.WEAPON_POSE:
