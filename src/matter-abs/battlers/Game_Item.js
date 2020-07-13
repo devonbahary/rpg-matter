@@ -75,7 +75,7 @@ Game_Item.prototype.isChanneled = function() {
 
 Game_Item.prototype.aoe = function() {
     const aoe = this.meta.aoe || '';
-    const regex = new RegExp(`${Object.values(AOE_TYPES).join('|')}`, 'i');
+    const regex = new RegExp(`${Object.values(AOE_TYPES).sort((a, b) => b.length - a.length).join('|')}`, 'i');
     const aoeMatch = aoe.match(regex);
     if (aoeMatch) return aoeMatch[0].toLowerCase();
     return AOE_TYPES.SQUARE;

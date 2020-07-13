@@ -13,7 +13,7 @@ import {
     get8DirFromHorzVert, 
     get8DirFromVector, 
 } from "../utils/direction";
-import { squareAround, squareInFrontOf } from "../utils/bounds";
+import { squareAround, squareBehind, squareInFrontOf } from "../utils/bounds";
 import { toWorldVectorCentered, vectorFromAToB, vectorLengthFromAToB, vectorResize } from "../utils/vector";
 import { BODY_LABELS } from "../constants";
 import MATTER_CORE from "../pluginParams";
@@ -420,6 +420,10 @@ Game_CharacterBase.prototype.overlapsWith = function(character) {
 Game_CharacterBase.prototype.squareInFrontOf = function(range) {
     return squareInFrontOf.call(this, range);
 };
+
+Game_CharacterBase.prototype.squareBehind = function(range) {
+    return squareBehind.call(this, range);
+}
 
 Game_CharacterBase.prototype.squareAround = function(range) {
     return squareAround.call(this, range);

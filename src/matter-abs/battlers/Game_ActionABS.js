@@ -262,6 +262,9 @@ Game_ActionABS.prototype.battlersInRange = function() {
             return battlers.filter(b => {
                 return b.character.distanceBetween(this._subjectCharacter) <= this.range();
             });
+        case AOE_TYPES.SQUARE_BEHIND:
+            bounds = this._subjectCharacter.squareBehind(this.range());
+            return $gameMap.battlersInBoundingBox(bounds);
         case AOE_TYPES.SQUARE: 
         default:
             bounds = this._subjectCharacter.squareInFrontOf(this.range());
