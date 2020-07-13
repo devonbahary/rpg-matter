@@ -65,11 +65,17 @@ const ACTION_SEQUENCES = {
         ...adjustFrames(FORWARD_SWING, 25),
         65: [],
     },
+    // FLAT_BLADE: {
+    //     1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE), animationSelf(29) ],
+    //     25: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), playSe('Wind7', 90, 70) ],
+    //     27: [ STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
+    //     45: [],
+    // },
     FLAT_BLADE: {
-        1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE), animationSelf(29) ],
-        25: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), playSe('Wind7', 90, 70) ],
-        27: [ STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
-        45: [],
+        1: [ stepLock(true), STEP_FORWARD, weaponPose(WEAPON_POSES.DOWN_SWING) ],
+        7: [ STEP_NEUTRAL, weaponPose(WEAPON_POSES.MID_SWING), APPLY_EFFECT, playSe('Wind7', 90, 60) ],
+        12: [ STEP_FORWARD, weaponPose(WEAPON_POSES.UP_SWING) ],
+        25: [],
     },
     DEFLECT: {
         1: [ stepLock(true), STEP_BACKWARD, MOVE_BACKWARD, weaponPose(WEAPON_POSES.RAISE), DIR_FIX_ON ],
