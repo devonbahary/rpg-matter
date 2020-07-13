@@ -135,7 +135,7 @@ Game_Item.prototype.onDeathSkill = function() {
 };
 
 Game_Item.prototype.onDeathHitStop = function() {
-    const onDeathHitstop = this.meta.onDeathHitstop;
-    if (parseInt(onDeathHitstop)) return onDeathHitstop;
+    const onDeathHitStop = this.meta.onDeathHitStop;
+    if (parseInt(onDeathHitStop)) return onDeathHitStop;
     return 0;
 };

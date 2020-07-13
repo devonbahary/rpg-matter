@@ -111,9 +111,7 @@ Game_ActionABS.prototype.apply = function() {
         const hitStop = this.hitStop(isCritical);
 
         if (hitStop) {
-            this._subject.applyHitStop(hitStop, subjectEffectCallbacks);
-            target.applyHitStop(hitStop, targetEffectCallbacks, true);
-            $gameMap.setHitStopZoomTarget(target.character, this.hitStopZoomScale());
+            this.applyHitStop(target, hitStop, subjectEffectCallbacks, targetEffectCallbacks);
         } else {
             for (const cb of subjectEffectCallbacks) cb();
             for (const cb of targetEffectCallbacks) cb();
@@ -126,6 +124,12 @@ Game_ActionABS.prototype.apply = function() {
 
         if (!wasDead && target.isDead()) this.onTargetDeath(target);
     }
+};
+
+Game_ActionABS.prototype.applyHitStop = function(target, hitStop, subjectEffectCallbacks = [], targetEffectCallbacks = []) {
+    this._subject.applyHitStop(hitStop, subjectEffectCallbacks);
+    target.applyHitStop(hitStop, targetEffectCallbacks, true);
+    $gameMap.setHitStopZoomTarget(target.character, this.hitStopZoomScale());
 };
 
 Game_ActionABS.prototype.subjectEffectCallbacks = function(target, damage) {
@@ -160,7 +164,7 @@ Game_ActionABS.prototype.onTargetDeath = function(target) {
     }
     const onDeathHitStop = this._item.onDeathHitStop();
     if (onDeathHitStop) {
-        this.subject().applyHitStop(onDeathHitStop);
+        this.applyHitStop(target, onDeathHitStop);
     }
 };
 
