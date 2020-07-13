@@ -255,7 +255,7 @@ const WEAPON_POSE_TO_POSITION = {
 };
 
 const ICON_INDEX_TO_ANCHOR = {
-    96: {
+    416: { // DAGGER
         anchorX: 0.3,
         anchorY: 0.9,
     },
