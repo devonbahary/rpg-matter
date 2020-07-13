@@ -63,6 +63,7 @@ const ACTION_SEQUENCES = {
         ...FORWARD_SWING,
         ...adjustFrames(BACK_SWING, 12),
         ...adjustFrames(FORWARD_SWING, 25),
+        31: n(MOVE_FORWARD, 10),
         65: [],
     },
     // FLAT_BLADE: {
