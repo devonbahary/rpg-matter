@@ -2,6 +2,7 @@ import "../characters/Game_Character";
 import { WEAPON_POSES } from "../weapon-poses";
 import { convertActionSequencesToCommands, jump, playSe, animationSelf, animationWeapon, n, stepLock, weaponPose } from "./utils";
 import AXE from "./axe";
+import DAGGER from "./dagger";
 import SWORD from "./sword";
 
 const { 
@@ -23,8 +24,9 @@ const {
 const animationMagic = animationSelf(20);
 
 const ACTION_SEQUENCES = {
-    ...SWORD,
     ...AXE,
+    ...DAGGER,
+    ...SWORD,
     DEFAULT: {
         1: [ stepLock(true), STEP_BACKWARD, weaponPose(WEAPON_POSES.RAISE) ],
         25: [ STEP_FORWARD, weaponPose(WEAPON_POSES.EXTEND), APPLY_EFFECT ],
